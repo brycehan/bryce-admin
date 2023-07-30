@@ -7,7 +7,7 @@ const request = axios.create({
 })
 
 request.interceptors.request.use((config) => {
-  config.headers.token = '123'
+  config.headers.token = ''
   return config
 })
 
