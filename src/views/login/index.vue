@@ -27,7 +27,7 @@ import stores from "@/stores";
 import { reactive, ref } from 'vue'
 import { useRouter, useRoute } from "vue-router";
 import { ElNotification } from "element-plus";
-import router from "@/router";
+import { router } from "@/router";
 
 
 let loginForm = ref()
@@ -44,11 +44,11 @@ const login = async () => {
     loading.value = true
     stores.authStore.login(loginDto)
         .then(() => {
-            router.push({ path: '/home' })
+            router.push({ path: '/' })
         })
         .catch((e: any) => {
             console.error(e)
-            
+
         })
 }
 const rules = {

@@ -1,0 +1,52 @@
+// 覆盖element-plus样式
+
+.el-menu {
+  border-right: none !important;
+}
+
+.el-menu-item,
+.el-sub-menu__title {
+  height: 50px !important;
+  overflow: hidden;
+  &:hover {
+    background-color: unset;
+    color: var(--theme-menu-hover-text-color) !important;
+  }
+}
+
+.el-menu-item {
+  height: 45px !important;
+  line-height: 45px !important;
+}
+
+.el-menu-item .svg-icon,
+.el-sub-menu .svg-icon {
+  font-size: 16px !important;
+  display: inline-block;
+  width: 24px;
+  margin-right: 5px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.el-sub-menu.is-active > :first-child {
+  overflow: hidden;
+  color: var(--theme-menu-hover-text-color) !important;
+}
+
+.el-menu-item.is-active {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--el-color-primary);
+}
+.el-sub-menu.is-active.is-opened {
+  .el-sub-menu__title {
+    background-color: unset !important;
+  }
+}
+
+.el-menu {
+  --el-menu-bg-color: transparent;
+  --el-menu-text-color: var(--theme-menu-text-color);
+  --el-menu-active-color: var(--theme-menu-hover-text-color);
+}

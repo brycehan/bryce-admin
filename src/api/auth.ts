@@ -47,7 +47,12 @@ export async function currentUser() {
   return request.get('/auth/currentUser')
 }
 
-/** 退出登录 POST /auth/logout */
+/** 获取菜单列表 GET /auth/navigation */
+export async function navigation() {
+  return request.get('/auth/navigation')
+}
+
+/** 退出登录 GET /auth/logout */
 export async function logout() {
-  return request<API.ResponseResultVoid>(`/auth/logout`)
+  return request.get(`/auth/logout`)
 }
