@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { login, currentUser, logout } from '@/api/auth'
-import { getToken, setToken, removeToken } from '@/utils/storage'
+import storage from '@/utils/storage'
 import type { Auth } from '@/api/auth'
 export const authStore = defineStore('authStore', {
   state: () => ({
@@ -9,15 +9,19 @@ export const authStore = defineStore('authStore', {
       username: '',
       avatar: ''
     },
-    token: getToken()
+    token: storage.getToken()
   }),
   actions: {
+    removeToken() {
+      this.token = null
+      storage.removeToken()
+    },
     /** 登录 */
     async login(loginDto: Auth.LoginDto) {
       const { code, data, message } = await login(loginDto)
       if (code == 200) {
         this.token = (data as Auth.LoginVo).token as string
-        setToken(this.token)
+        storage.setToken(this.token)
       } else {
         return Promise.reject(message)
       }
@@ -25,13 +29,12 @@ export const authStore = defineStore('authStore', {
     /** 当前登录用户信息 */
     async currentUser() {
       const { data } = await currentUser()
-      debugger
       this.user = data
     },
-    /** 退出 */
+    /** 用户退出 */
     async logout() {
       await logout()
-      removeToken()
+      storage.removeToken()
     }
   }
 })

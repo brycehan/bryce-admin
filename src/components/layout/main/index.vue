@@ -1,27 +1,44 @@
 <template>
-    <div>
-        <RouterView v-slot="{ Component }">
-            <Transition name="fade">
-                <component :is="Component" />
-            </Transition>
-        </RouterView>
-    </div>
+  <el-container class="main-container">
+    <Tabs />
+    <el-main class="main-content">
+      <el-scrollbar>
+        <el-container class="main-card-container">
+            <router-view v-slot="{ Component, route }">
+              <keep-alive :include="[...stores.tabsStore.cachedViews]">
+                <component :is="Component" :key="route.name"/>
+              </keep-alive>
+            </router-view>
+        </el-container>
+      </el-scrollbar>
+    </el-main>
+  </el-container>
 </template>
 
 <script setup lang="ts">
-
+import Tabs from '@/components/layout/main/Tabs.vue'
+import stores from "@/stores";
 </script>
 
-<style scoped lang="scss">
-.fade-enter-from {
-    opacity: 0;
+<style lang="scss">
+.main-container {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 100%;
 }
 
-.fade-enter-active {
-    transition: all .3s;
+.main-content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0 !important;
+
+  .main-card-container {
+    display: flex;
+    flex-direction: column;
+    padding: 15px !important;
+  }
 }
 
-.fade-enter-to {
-    opacity: 1;
-}
 </style>

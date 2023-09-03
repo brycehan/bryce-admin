@@ -1,38 +1,38 @@
 <template>
-    <div v-if="stores.appStore.sidebarOpened" class="sidebar-logo">
-        <el-avatar src="/favicon.ico"></el-avatar>
-        <span class="logo-title">Bryce Admin</span>
-    </div>
-    <div v-else class="sidebar-logo sidebar-logo-expend">
-        <el-avatar src="/favicon.ico"></el-avatar>
-    </div>
+  <div v-if="stores.appStore.sidebarOpened" class="sidebar-logo">
+    <el-avatar src="/favicon.ico"></el-avatar>
+    <span class="logo-title">Bryce Admin</span>
+  </div>
+  <div v-else class="sidebar-logo sidebar-logo-expend">
+    <el-avatar src="/favicon.ico"></el-avatar>
+  </div>
 </template>
 
 <script setup lang="ts">
-import stores from '@/stores';
+import stores from '@/stores'
 </script>
 <style scoped lang="scss">
 .sidebar-logo {
-    width: var(--theme-menu-width) !important;
-    height: var(--theme-header-height);
-    line-height: var(--theme-header-height);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--theme-logo-text-color);
+  width: var(--theme-menu-width) !important;
+  height: var(--theme-header-height);
+  line-height: var(--theme-header-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--theme-logo-text-color);
 
-    .el-avatar {
-        width: 25px;
-        height: 25px;
-    }
+  .el-avatar {
+    width: 25px;
+    height: 25px;
+  }
 
-    .logo-title {
-        font-size: var(--theme-logo-text-fontsize);
-        margin-left: 10px;
-    }
+  .logo-title {
+    font-size: var(--theme-logo-text-fontsize);
+    margin-left: 10px;
+  }
 }
 
 .sidebar-logo-expend {
-    width: 100% !important;
+  width: 100% !important;
 }
 </style>

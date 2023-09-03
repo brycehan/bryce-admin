@@ -14,11 +14,6 @@ export declare namespace Auth {
     type?: string
   }
 
-  type JwtTokenDto = {
-    /** jwt令牌 */
-    token: string
-  }
-
   type LoginVo = {
     /** jwt令牌 */
     token?: string
@@ -37,22 +32,22 @@ export declare namespace Auth {
   }
 }
 
-/** 登录 POST /auth/login */
+/** 登录 */
 export async function login(data: Auth.LoginDto) {
   return request.post<any, Auth.ResponseResultLoginVo>('/auth/login', data)
 }
 
-/** 查询系统登录用户详情 GET /auth/currentUser */
+/** 查询系统登录用户详情 */
 export async function currentUser() {
   return request.get('/auth/currentUser')
 }
 
-/** 获取菜单列表 GET /auth/navigation */
-export async function navigation() {
-  return request.get('/auth/navigation')
+/** 获取菜单列表 */
+export async function nav() {
+  return request.get('/auth/nav')
 }
 
-/** 退出登录 GET /auth/logout */
+/** 退出登录 */
 export async function logout() {
   return request.get(`/auth/logout`)
 }

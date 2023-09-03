@@ -1,31 +1,26 @@
 :root {
-  // 左侧菜单的宽度
+  // 左侧菜单
   --theme-menu-width: 230px;
   --theme-menu-min-width: 64px;
+  --theme-menu-bg-color: #263238;
+  --theme-menu-text-color: #bbb;
+  --theme-menu-hover-color: #eee;
+  --theme-menu-hover-bg-color: var(--el-color-primary-light-9);
 
-  // 顶部区域高度
+  // logo
+  --theme-logo-text-color: #e7e3e3;
+  --theme-logo-text-fontsize: 18px;
+
+  // 顶部区域
   --theme-header-height: 50px;
   --theme-header-bg-color: white;
   --theme-header-text-color: #444444;
   --theme-header-hover-color: rgba(0, 0, 0, 0.1);
 
-  --theme-logo-text-color: #e3e3e3;
-  --theme-logo-text-fontsize: 18px;
+  // 主区域
+  --theme-main-bg-color: #f0f2f5;
+  --theme-main-tabs-height: 40px;
 
-  // 左侧菜单背景颜色
-  --theme-menu-bg-color: #263238;
-  --theme-menu-text-color: #bbb;
-  --theme-menu-hover-text-color: #f1f1f1;
-  --theme-menu-hover-bg-color: var(--el-color-primary-light-9);
-
-  --theme-border-color-light: #f1f1f1;
+  // 边框
+  --theme-border-color-light: #f1f2f3;
 }
-
-// .el-menu {
-//   --el-menu-bg-color: #263238;
-//   --el-menu-text-color: #bbb;
-//   --el-menu-active-color: var(theme-menu-hover-text-color);
-// --el-menu-bg-color: var(--theme-menu-bg-color);
-// --el-menu-text-color: var(--theme-menu-text-color);
-// --el-menu-active-color: var(theme-menu-hover-text-color);
-// }

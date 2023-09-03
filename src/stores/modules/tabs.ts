@@ -7,23 +7,56 @@ export const tabsStore = defineStore('tabsStore', {
     cachedViews: [] as any[]
   }),
   actions: {
-    addView(view: RouteLocationNormalizedLoaded){
-
+    addView(view: RouteLocationNormalizedLoaded) {
+      if (this.visitedViews.some((value) => value.path === view.path)) {
+        return
+      }
+      this.visitedViews.push(
+        Object.assign({}, view, {
+          title: view.meta?.title || 'unknown'
+        })
+      )
     },
-    addCachedView(view:RouteLocationNormalizedLoaded){
-
+    addCachedView(view: RouteLocationNormalizedLoaded) {
+      if (this.cachedViews.includes(view.name)) {
+        return
+      }
+      if (view.meta.cache) {
+        this.cachedViews.push(view.name)
+      }
     },
-    deleteView(view: RouteLocationNormalizedLoaded){
-
+    deleteView(view: RouteLocationNormalizedLoaded) {
+      for (const [i, v] of this.visitedViews.entries()) {
+        if (v.path === view.path) {
+          this.visitedViews.splice(i, 1)
+          break
+        }
+      }
+      this.deleteCachedView(view).then()
     },
-    deleteCachedView(view: RouteLocationNormalizedLoaded){
-
+    deleteCachedView(view: RouteLocationNormalizedLoaded) {
+      return new Promise((resolve) => {
+        const index = this.cachedViews.indexOf(view.name)
+        if (index > -1) {
+          this.cachedViews.splice(index, 1)
+        }
+        resolve([...this.cachedViews])
+      })
     },
-    deleteOthersViews(){
-
+    deleteOthersViews(view: RouteLocationNormalizedLoaded) {
+      this.visitedViews = this.visitedViews.filter((v) => {
+        return v.meta.affix || v.path === view.path
+      })
+      const index = this.cachedViews.indexOf(view.name)
+      if (index > -1) {
+        this.cachedViews = this.cachedViews.slice(index, index + 1)
+      } else {
+        this.cachedViews = []
+      }
     },
-    deleteAllViews(){
-        
+    deleteAllViews() {
+      this.visitedViews = this.visitedViews.filter((tab) => tab.meta.affix)
+      this.cachedViews = []
     }
   }
 })

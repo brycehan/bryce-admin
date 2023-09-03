@@ -4,9 +4,7 @@
     "env.d.ts",
     "src/**/*",
     "src/**/*.vue",
-    "src/components/**/*.vue",
-    "src/components/**/**/*.vue",
-    "src/components/**/**/**/*.vue"
+    "src/**/*.ts"
   ],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {

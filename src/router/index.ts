@@ -5,7 +5,6 @@ import {
   type RouteRecordRaw
 } from 'vue-router'
 import stores from '@/stores'
-import { removeToken } from '@/utils/storage'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
@@ -14,25 +13,24 @@ NProgress.configure({ showSpinner: false })
 const constantRoutes: RouteRecordRaw[] = [
   {
     path: '/login',
-    name: 'login',
     component: () => import('@/views/login/index.vue')
   },
   {
-    path: '/',
-    name: 'home',
-    component: () => import('@/components/layout/index.vue')
+    path: '/redirect',
+    component: () => import('@/components/layout/index.vue'),
+    children: [
+      {
+        path: '/redirect/:path(.*)',
+        component: () => import('@/components/layout/router/Redirect.vue')
+      }
+    ]
   },
   {
     path: '/404',
-    name: '404',
     // route level code-splitting
     // this generates a separate chunk (About.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import('@/views/404/index.vue')
-  },
-  {
-    path: '/:pathMatch(.*)',
-    redirect: '/404'
   }
 ]
 
@@ -46,7 +44,8 @@ const asyncRoute: RouteRecordRaw = {
       name: 'Home',
       component: () => import('@/views/home/index.vue'),
       meta: {
-        title: '首页'
+        title: '首页',
+        affix: true
       }
     }
   ]
@@ -59,17 +58,21 @@ export const constantMenu = [
     name: 'Demo',
     url: null,
     icon: 'icon-windows',
-    menuName: 'Demo',
     children: [
       {
         id: -11,
-        menuName: 'Icon 图标',
+        name: 'Icon 图标',
         url: 'demo/icons/index',
         icon: 'icon-unorderedlist'
       }
     ]
   }
 ]
+/** 错误路由 */
+export const errorRoute: RouteRecordRaw = {
+  path: '/:pathMatch(.*)',
+  redirect: '/404'
+}
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -87,24 +90,35 @@ router.beforeEach(async (to, from, next) => {
   // token存在的情况
   if (stores.authStore.token) {
     if (to.path === '/login') {
-      next('/')
+      next('/home')
     } else {
       // 用户信息不存在，则重新拉取
       if (!stores.authStore.user.id) {
         try {
           await stores.authStore.currentUser()
         } catch (error) {
-          // 请求异常，则跳转到登录页
-          removeToken()
-          next('/login')
-          return Promise.reject(error)
-        }
-        const menuRoutes = await stores.routerStore.getMenuRoutes()
-        const flatRoutes = getFlatRoutes(menuRoutes, [])
-        asyncRoute.children.push(...flatRoutes)
-        router.addRoute(asyncRoute)
+          console.log('出错：', error)
 
-        stores.routerStore.setRoutes(constantRoutes.concat(menuRoutes))
+          // 请求异常，则跳转到登录页
+          stores.authStore.removeToken()
+          next('/login')
+          return
+        }
+        // 动态菜单
+        const menuRoutes = await stores.routerStore.getMenuRoutes()
+
+        // 获取扁平化路由，将多级路由转换成一组路由
+        const flatRoutes = getFlatRoutes(menuRoutes, [])
+
+        // 添加菜单路由
+        asyncRoute.children.push(...flatRoutes)
+
+        router.addRoute(asyncRoute)
+        router.addRoute(errorRoute)
+
+        // 保存路由数据
+        stores.routerStore.setRoutes(constantRoutes.concat(asyncRoute))
+
         next({ ...to, replace: true })
       } else {
         next()
@@ -167,7 +181,7 @@ export const generateRoutes = (menuList: any): RouteRecordRaw[] => {
     let component, path
     if (menu.children && menu.children.length > 0) {
       component = () => import('@/components/layout/index.vue')
-      path = '/' + menu.id
+      path = '/p/' + menu.id
     } else {
       component = getDynamicComponent(menu.url)
       path = '/' + menu.url
@@ -179,12 +193,12 @@ export const generateRoutes = (menuList: any): RouteRecordRaw[] => {
       component: component,
       children: [],
       meta: {
-        title: menu.menuName,
+        title: menu.name,
         icon: menu.icon,
         id: menu.id,
         url: menu.url,
-        breadcrumb: []
-        // cache: true,
+        breadcrumb: [],
+        cache: true
         // open: 0,
       }
     }

@@ -1,30 +1,43 @@
 const Cache = {
   tokenKey: 'token',
-  sidebarOpenedKey: 'sidebarOpened'
+  sidebarOpenedKey: 'sidebarOpened',
+  componentSizeKey: 'componentSize'
 }
 
-export const setToken = (token: any) => {
-  localStorage.setItem(Cache.tokenKey, token)
-}
-
-export const getToken = () => {
-  return localStorage.getItem(Cache.tokenKey)
-}
-
-export const removeToken = () => {
-  return localStorage.removeItem(Cache.tokenKey)
-}
-
-export const getSidebarOpened = (): boolean => {
-  return Storage.getItem(Cache.sidebarOpenedKey) || false
-}
-
-export const setSidebarOpened = (status: boolean) => {
-    return Storage.setItem(Cache.sidebarOpenedKey, status)
+class Storage {
+  setToken = (token: any) => {
+    localStorage.setItem(Cache.tokenKey, token)
   }
 
+  getToken = () => {
+    return localStorage.getItem(Cache.tokenKey)
+  }
 
-const Storage = {
+  removeToken = () => {
+    return localStorage.removeItem(Cache.tokenKey)
+  }
+
+  setSidebarOpened = (status: boolean) => {
+    return Tool.setItem(Cache.sidebarOpenedKey, status)
+  }
+
+  getSidebarOpened = (): boolean => {
+    const sidebarOpened = Tool.getItem(Cache.sidebarOpenedKey);
+    if(sidebarOpened === null) {
+      return true
+    }
+    return sidebarOpened
+  }
+
+  setComponentSize = (fontSize: string) => {
+    Tool.setItem(Cache.componentSizeKey, fontSize)
+  }
+
+  getComponentSize = (): string => {
+    return Tool.getItem(Cache.componentSizeKey) || ''
+  }
+}
+const Tool = {
   setItem(key: string, value: any) {
     if (value === undefined) {
       return
@@ -42,3 +55,5 @@ const Storage = {
     localStorage.clear()
   }
 }
+
+export default new Storage()

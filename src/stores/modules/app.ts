@@ -1,13 +1,20 @@
 import { defineStore } from 'pinia'
-import { getSidebarOpened, setSidebarOpened } from '@/utils/storage'
+import storage from '@/utils/storage'
 export const appStore = defineStore('appStore', {
   state: () => ({
-    sidebarOpened: getSidebarOpened()
+    // sidebar 是否展开
+    sidebarOpened: storage.getSidebarOpened(),
+    // 组件大小
+    componentSize: storage.getComponentSize()
   }),
   actions: {
     toggleSidebarOpened() {
       this.sidebarOpened = !this.sidebarOpened
-      setSidebarOpened(this.sidebarOpened)
+      storage.setSidebarOpened(this.sidebarOpened)
+    },
+    setComponentSize(size: string) {
+      this.componentSize = size
+      storage.setComponentSize(size)
     }
   }
 })
