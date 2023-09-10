@@ -35,9 +35,13 @@ import stores from "@/stores";
   padding: 0 !important;
 
   .main-card-container {
-    display: flex;
-    flex-direction: column;
     padding: 15px !important;
+    flex-direction: column;
+
+    .el-pagination {
+      margin-top: 15px;
+      justify-content: flex-end;
+    }
   }
 }
 

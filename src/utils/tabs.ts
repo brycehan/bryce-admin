@@ -29,7 +29,6 @@ export const toLastView = (router: any, visitedViews: any[], view: any) => {
     router.push(latestView.fullPath)
   } else {
     if (view.name === 'Home') {
-      debugger
       router.replace({ path: '/redirect' + view.fullPath })
     } else {
       console.log('toLastView:', view)

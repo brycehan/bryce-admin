@@ -14,7 +14,7 @@ const request = axios.create({
 request.interceptors.request.use(
     (config) => {
         const authStore = stores.authStore
-        if (authStore.token) {
+        if (authStore && authStore.token) {
             config.headers.Authorization = authStore.token
         }
 
@@ -32,7 +32,6 @@ request.interceptors.request.use(
 /** 响应拦截器 */
 request.interceptors.response.use(
     (response) => {
-        debugger
         if (response.status !== 200) {
             return Promise.reject(new Error(response.statusText) || 'Error')
         }

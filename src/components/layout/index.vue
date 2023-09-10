@@ -85,10 +85,6 @@ const sidebarClass = computed(() => {
     padding: 0 !important;
     transition: all 0.3s;
     border-top: 1px solid var(--theme-border-color-light);
-
-    //::v-deep(.el-main) {
-    //  min-height: calc(100vh - var(--theme-header-height) - var(--theme-main-tabs-height));
-    //}
   }
 }
 </style>

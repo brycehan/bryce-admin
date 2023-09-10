@@ -5,7 +5,7 @@
         <el-input v-model="state.queryForm.name" placeholder="请输入机构名称" clearable />
       </el-form-item>
       <el-form-item>
-        <el-select v-model="state.queryForm.status" clearable placeholder="机构状态" style="width: 100%">
+        <el-select v-model="state.queryForm.status" placeholder="机构状态" clearable style="width: 100%">
           <el-option label="正常" :value="true" />
           <el-option label="停用" :value="false" />
         </el-select>
@@ -68,7 +68,7 @@ onMounted(() => {
 const getList = () => {
     state.loading = true
 
-    list(state.queryForm).then((response: any) => {debugger
+    list(state.queryForm).then((response: any) => {
         state.data = response.data
     })
     state.loading = false
