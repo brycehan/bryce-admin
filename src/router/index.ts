@@ -96,8 +96,9 @@ router.beforeEach(async (to, from, next) => {
       if (!stores.authStore.user.id) {
         try {
           await stores.authStore.currentUser()
+          await stores.appStore.getDictList()
         } catch (error) {
-          console.log('出错：', error)
+          console.warn('出错：', error)
 
           // 请求异常，则跳转到登录页
           stores.authStore.removeToken()

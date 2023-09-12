@@ -1,11 +1,10 @@
 <template>
   <div @click="handleClick">
-    <SvgIcon :icon="icon"></SvgIcon>
+    <svg-icon :icon="icon" />
   </div>
 </template>
 
 <script setup lang="ts">
-import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 import stores from '@/stores'
 import { computed } from 'vue'
 

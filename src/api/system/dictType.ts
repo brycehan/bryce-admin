@@ -19,3 +19,8 @@ export const getById = (id: bigint) => {
 export const page = (data: any) => {
     return request.post('/system/dictType/page', data)
 }
+
+/** 全部字典数据 */
+export const dictList = () => {
+    return request.get('/system/dictType/dictList')
+}

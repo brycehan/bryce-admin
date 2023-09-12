@@ -11,7 +11,10 @@ import { router } from './router'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
-import SvgIcon from '@/components/svg-icon/index'
+import SvgIcon from "@/components/svg-icon";
+import DictSelect from "@/components/dict-select";
+import DictRadioGroup from "@/components/dict-radio-group";
+import DictTableColumn from "@/components/dict-table-column";
 
 const app = createApp(App)
 
@@ -24,6 +27,9 @@ registerStore()
 app.use(SvgIcon)
 
 app.use(router)
+app.use(DictSelect)
+app.use(DictRadioGroup)
+app.use(DictTableColumn)
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)

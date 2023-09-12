@@ -1,23 +1,3 @@
-import type {App, Plugin} from "vue";
-
-/**
- * 全局组件安装
- * 
- * @param component 组件
- * @param alias 别名
- */
-export const install = <T>(component: T, alias?: string) => {
-    const comp = component as any
-
-    comp.install = (app: App) => {
-        app.component(comp.name || comp.displayName, comp)
-        if(alias) {
-            app.config.globalProperties[alias] = component
-        }
-    }
-    return component as T & Plugin
-}
-
 /**
  * 给表单添加日期范围参数
  *
@@ -38,6 +18,12 @@ export const addDateRange = (queryForm: any, rangeItem: string[], propName: stri
     return queryParams
 }
 
+/**
+ * 合并对象的默认参数
+ *
+ * @param defaultOptions 默认参数对象
+ * @param options 目标对象
+ */
 export const mergeDefaultOptions = (defaultOptions: any, options: any) => {
     for (const key in defaultOptions) {
         if(!Object.getOwnPropertyDescriptor(options, key)) {
@@ -45,4 +31,43 @@ export const mergeDefaultOptions = (defaultOptions: any, options: any) => {
         }
     }
     return options
+}
+
+/**
+ * 获取字典数据列表
+ *
+ * @param dictList 全部字典列表
+ * @param dictType 字典类型
+ */
+export const dictDataList = (dictList: any[], dictType: string) => {
+    const dict = dictList.find((element: any) => element.dictType === dictType)
+    if(dict) {
+        return dict.datalist
+    } else {
+        return []
+    }
+}
+
+/** 获取字典Label */
+export const getDictLabel = (dictList: any[], dictType: string, dictValue: string) => {
+  const dict = dictList.find((element: any) => element.dictType === dictType)
+    if(dict) {
+        const dictData = dict.datalist.find((element: any) => element.dictValue === dictValue + '')
+        if(dictData) {
+            return dictData.dictLabel
+        }
+    }
+    return dictValue
+}
+
+/** 获取字典Label样式 */
+export const getDictLabelClass = (dictList: any[], dictType: string, dictValue: string) => {
+    const dict = dictList.find((element: any) => element.dictType === dictType)
+    if(dict) {
+        const dictData = dict.datalist.find((element: any) => element.dictValue === dictValue + '')
+        if(dictData) {
+            return dictData.labelClass
+        }
+    }
+    return ''
 }

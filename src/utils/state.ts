@@ -58,7 +58,7 @@ export const crud = (options: StateOptions) => {
     const state = mergeDefaultOptions(defaultOptions, options)
 
     /** 分页查询 */
-    const getPage = (current: number = 1, size?: number) => {
+    const getPage = (current: number = 1, size?: number) => {debugger
         state.current = current
 
         if(size !== undefined){
