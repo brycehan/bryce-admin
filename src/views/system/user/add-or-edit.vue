@@ -10,7 +10,7 @@
       :rules="rules"
       label-width="100px"
       @keyup.enter="handleSubmit()"
-      class="mr-5"
+      class="mr-4"
     >
       <el-row>
         <el-col :span="12">
@@ -70,16 +70,16 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="所属角色" prop="status">
-            <el-select v-model="state.dataForm.status" placeholder="请选择">
-              <el-option label="请选择" value="0" />
+          <el-form-item label="角色" prop="roleIds">
+            <el-select v-model="state.dataForm.roleIds" multiple placeholder="请选择角色" class="w-100" clearable>
+              <el-option v-for="role in roleList" :key="role.id" :label="role.name" :value="role.id" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="所属岗位" prop="status">
-            <el-select v-model="state.dataForm.status" placeholder="请选择">
-              <el-option label="请选择" value="0" />
+          <el-form-item label="岗位" prop="postIds">
+            <el-select v-model="state.dataForm.postIds" multiple placeholder="请选择岗位" class="w-100" clearable>
+              <el-option v-for="post in postList" :key="post.id" :label="post.name" :value="post.id" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -101,6 +101,7 @@
 import { reactive, ref } from 'vue'
 import { getById, saveOrUpdate } from '@/api/system/user'
 import { list as orgListApi } from '@/api/system/org'
+import { list as roleListApi } from '@/api/system/role'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
 
@@ -118,18 +119,21 @@ const state: StateOptions  = reactive({
     password: '', 
     fullName: '',
     gender: 'M',
-    type: '', 
     phone: '', 
     email: '', 
     sort: '', 
     orgId: '',
     status: true,
-    remark: ''
+    remark: '',
+    roleIds: [],
+    postIds: []
   }
 })
 
 const dataFormRef = ref()
 const orgList = ref([])
+const roleList = ref([])
+const postList = ref([])
 
 const rules = reactive({
     username: [{ min: 0, max: 50, message: '账号长度不能超过50个字符', trigger: 'blur' }],
@@ -158,12 +162,20 @@ const init = (id?: bigint) => {
     getData(id)
   }
   getOrgList()
+  getRoleList()
 }
 
 /** 获取机构列表 */
 const getOrgList = () => {
   orgListApi({}).then( response => {
     orgList.value = response.data
+  })
+}
+
+/** 获取角色列表 */
+const getRoleList = () => {
+  roleListApi().then( response => {
+    roleList.value = response.data
   })
 }
 

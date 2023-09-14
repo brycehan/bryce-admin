@@ -11,6 +11,7 @@
           :rules="rules"
           label-width="100px"
           @keyup.enter="handleSubmit()"
+          class="mr-4"
       >
         <el-form-item label="字典名称" prop="dictName">
           <el-input v-model="state.dataForm.dictName" placeholder="请输入字典名称" />

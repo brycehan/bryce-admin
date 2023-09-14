@@ -1,5 +1,5 @@
 <template>
-  <el-card shadow="hover">
+  <el-card shadow="never">
     <div class="layout-home">
       <h2>介绍</h2>
       <p>基于Vue3、TypeScript、Element Plus、Vue Router、Pinia、Axios、Vite等开发的后台管理系统</p>

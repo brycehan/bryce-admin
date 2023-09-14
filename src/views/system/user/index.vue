@@ -1,5 +1,5 @@
 <template>
-  <el-card shadow="hover">
+  <el-card shadow="never">
     <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" label-width="68px" @keyup.enter="getPage()" @submit.prevent>
       <el-form-item label="账号" label-width="40px" prop="username">
         <el-input v-model="state.queryForm.username" placeholder="账号" />
@@ -45,7 +45,7 @@
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
         <template #default="scope">
-          <el-button type="primary" link @click="handleAddOrEdit(scope.row.id)">编辑</el-button>
+          <el-button type="primary" link @click="handleAddOrEdit(scope.row.id)">修改</el-button>
           <el-button type="danger" link @click="handleDeleteBatch(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>

@@ -10,6 +10,7 @@
       :rules="rules"
       label-width="100px"
       @keyup.enter="handleSubmit()"
+      class="mr-4"
     >
       <el-form-item label="字典标签" prop="dictLabel">
         <el-input v-model="state.dataForm.dictLabel" placeholder="请输入字典标签" />

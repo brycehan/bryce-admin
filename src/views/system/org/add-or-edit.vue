@@ -10,6 +10,7 @@
         :rules="rules"
         label-width="100px"
         @keyup.enter="handleSubmit()"
+      class="mr-4"
     >
       <el-form-item label="上级机构" prop="parentName" class="org-list">
         <el-popover ref="orgListPopoverRef" placement="bottom-start" trigger="click" :width="400" popper-class="popover-pop">

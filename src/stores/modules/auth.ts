@@ -4,11 +4,15 @@ import storage from '@/utils/storage'
 import type { Auth } from '@/api/auth'
 export const authStore = defineStore('authStore', {
   state: () => ({
+    // 用户信息
     user: {
       id: '',
       username: '',
       avatar: ''
     },
+    // 权限集合
+    authoritySet: [],
+    // 访问token
     token: storage.getToken()
   }),
   actions: {
@@ -16,7 +20,7 @@ export const authStore = defineStore('authStore', {
       this.token = null
       storage.removeToken()
     },
-    /** 登录 */
+    /** 账号登录 */
     async login(loginDto: Auth.LoginDto) {
       const { code, data, message } = await login(loginDto)
       if (code == 200) {
@@ -26,10 +30,14 @@ export const authStore = defineStore('authStore', {
         return Promise.reject(message)
       }
     },
-    /** 当前登录用户信息 */
+    /** 获取登录用户信息 */
     async currentUser() {
       const { data } = await currentUser()
       this.user = data
+    },
+    /** 获取权限 */
+    async getAuthoritySet() {
+
     },
     /** 用户退出 */
     async logout() {
