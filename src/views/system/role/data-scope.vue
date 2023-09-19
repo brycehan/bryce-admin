@@ -18,9 +18,9 @@
         <el-input v-model="state.dataForm.name" disabled />
       </el-form-item>
       <el-form-item label="数据范围" prop="dataScope">
-        <dict-select v-model="state.dataForm.dataScope" dict-type="sys_data_scope" />
+        <dict-select v-model="state.dataForm.dataScope" dict-type="sys_data_scope" class="w-100"/>
       </el-form-item>
-      <el-form-item v-show="state.dataForm.dataScope === 5" label="数据权限">
+      <el-form-item v-show="state.dataForm.dataScope == 5" label="数据权限">
         <el-tree
           ref="orgListRef"
           :data="orgList"
@@ -28,6 +28,7 @@
           node-key="id"
           accordion
           show-checkbox
+          class="w-100"
         />
       </el-form-item>
     </el-form>
@@ -50,13 +51,12 @@ const emit = defineEmits(['refreshPage'])
 const state: StateOptions  = reactive({
   api: {
     saveOrUpdate,
-    getById,
     emit
   },
   dataForm: {
     id: undefined,
     name: '', 
-    dataScope: '',
+    dataScope: 1,
     orgIds: [],
     remark: ''
   }
@@ -68,7 +68,7 @@ const orgList = ref([])
 
 const rules = reactive({})
 
-const { getData, handleSaveOrUpdate } = crud(state)
+const { handleSaveOrUpdate } = crud(state)
 
 /** 初始化详情数据 */
 const init = (id?: bigint) => {
@@ -93,10 +93,21 @@ const init = (id?: bigint) => {
   getOrgList()
 }
 
+/** 获取详情数据 */
+const getData = (id: bigint) => {
+
+  getById(id).then((res: any) => {
+    Object.assign(state.dataForm, res.data)
+
+    // 初始化机构树
+    orgListRef.value.setCheckedKeys(state.dataForm.orgIds)
+  })
+}
+
 /** 获取机构列表 */
 const getOrgList = () => {
   orgListApi({}).then( response => {
-    orgList.value = response.data
+    orgList.value = response.data || []
   })
 }
 

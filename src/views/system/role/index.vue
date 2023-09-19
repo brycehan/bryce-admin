@@ -27,8 +27,8 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button type="primary" icon="Plus" @click="handleAddOrEdit()">新增</el-button>
-      <el-button type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
+      <el-button v-auth="'system:role:save'" type="primary" icon="Plus" @click="handleAddOrEdit()">新增</el-button>
+      <el-button v-auth="'system:role:delete'" type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -45,13 +45,17 @@
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="300">
         <template #default="scope">
-          <el-button type="primary" link @click="handleAddOrEdit(scope.row.id)">修改</el-button>
-          <el-button type="danger" link @click="handleDeleteBatch(scope.row.id)">删除</el-button>
-          <el-dropdown>
-
+          <el-button v-auth="'system:role:update'" type="primary" link @click="handleAddOrEdit(scope.row.id)">修改</el-button>
+          <el-button v-auth="'system:role:delete'" type="danger" link @click="handleDeleteBatch(scope.row.id)">删除</el-button>
+          <el-dropdown v-auth="'system:role:update'" @command="(command: string) => handleCommand(command, scope.row)">
+            <el-button type="success" class="btn-more-link" link>更多</el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="dataScope">数据权限</el-dropdown-item>
+                <el-dropdown-item command="user">分配用户</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
           </el-dropdown>
-          <el-button type="warning" link @click="handleDeleteBatch(scope.row.id)">数据权限</el-button>
-          <el-button type="success" link @click="handleDeleteBatch(scope.row.id)">分配用户</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -69,7 +73,15 @@
     <AddOrEdit ref="addOrEditRef" @refresh-page="getPage" />
     <!-- 数据权限 -->
     <DataScope ref="dataScopeRef"/>
-
+    <!-- 分配用户 -->
+    <el-drawer
+        v-if="userVisible"
+        v-model="userVisible"
+        :title="userTitle"
+        :size="1000"
+    >
+      <User :role-id="roleId"/>
+    </el-drawer>
   </el-card>
 </template>
 
@@ -80,6 +92,7 @@ import { page, deleteByIds } from '@/api/system/role'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
 import DataScope from "@/views/system/role/data-scope.vue";
+import User from "@/views/system/role/user.vue";
 
 const state: StateOptions = reactive({
   api: {
@@ -100,6 +113,11 @@ const state: StateOptions = reactive({
 
 const queryFormRef = ref()
 const addOrEditRef = ref()
+const dataScopeRef = ref()
+
+const userVisible = ref(false)
+const userTitle = ref()
+const roleId = ref()
 
 onMounted(() => {
   getPage()
@@ -130,4 +148,22 @@ const handleResetQuery = () => {
 const handleAddOrEdit = (id?: bigint) => {
   addOrEditRef.value.init(id)
 }
+
+const handleCommand = (command: string, row: any) => {
+  if(command === 'dataScope') {
+    dataScopeRef.value.init(row.id)
+  } else if(command === 'user') {
+    roleId.value = row.id
+    userTitle.value = '分配用户 - ' + row.name
+    userVisible.value = true
+  }
+}
 </script>
+
+<style scoped lang="scss">
+.btn-more-link {
+  display: flex;
+  line-height: normal;
+  margin-left: 12px;
+}
+</style>

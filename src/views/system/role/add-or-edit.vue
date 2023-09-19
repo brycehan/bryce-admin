@@ -27,7 +27,7 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="显示顺序" prop="sort">
-            <el-input-number v-model="state.dataForm.sort" min="0" />
+            <el-input-number v-model="state.dataForm.sort" :min="0" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -37,9 +37,21 @@
         </el-col>
       </el-row>
       <el-row>
-          <el-form-item label="备注" prop="remark" class="w-100">
-            <el-input v-model="state.dataForm.remark" type="textarea" placeholder="请输入备注" clearable />
-          </el-form-item>
+        <el-form-item label="备注" prop="remark" class="w-100">
+          <el-input v-model="state.dataForm.remark" type="textarea" placeholder="请输入备注" clearable />
+        </el-form-item>
+      </el-row>
+      <el-row>
+        <el-form-item label="菜单权限" >
+          <el-tree
+            ref="menuTreeRef"
+            :data="menuTree"
+            :props="{ label: 'name', children: 'children'}"
+            node-key="id"
+            accordion
+            show-checkbox
+          />
+        </el-form-item>
       </el-row>
     </el-form>
     <template #footer>
@@ -51,7 +63,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { getById, saveOrUpdate } from '@/api/system/role'
+import { getById, saveOrUpdate, menu } from '@/api/system/role'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
 
@@ -75,6 +87,8 @@ const state: StateOptions  = reactive({
 })
 
 const dataFormRef = ref()
+const menuTreeRef = ref()
+const menuTree = ref([])
 
 const rules = reactive({
     name: [
@@ -89,7 +103,7 @@ const rules = reactive({
     remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
 })
 
-const { getData, handleSaveOrUpdate } = crud(state)
+const { handleSaveOrUpdate } = crud(state)
 
 /** 初始化详情数据 */
 const init = (id?: bigint) => {
@@ -100,19 +114,40 @@ const init = (id?: bigint) => {
   if (dataFormRef.value) {
     dataFormRef.value.resetFields()
   }
+  if(menuTreeRef.value) {
+    menuTreeRef.value.setCheckedKeys([])
+  }
 
   // id 存在则为修改
   if (id) {
     getData(id)
   }
+
+  // 菜单列表
+  getMenuTree()
 }
 
+/** 获取详情数据 */
+const getData = (id: bigint) => {
+
+  getById(id).then((res: any) => {
+    Object.assign(state.dataForm, res.data)
+    state.dataForm.menuIds.forEach((menuId: bigint) => menuTreeRef.value.setChecked(menuId, true))
+  })
+}
+
+const getMenuTree = () => {
+  return menu().then((res: any) => {
+    menuTree.value = res.data
+  })
+}
 /** 表单提交 */
 const handleSubmit = () => {
   dataFormRef.value.validate((valid: boolean) => {
     if (!valid) {
       return false
     }
+    state.dataForm.menuIds = [...menuTreeRef.value.getHalfCheckedKeys(), ...menuTreeRef.value.getCheckedKeys()]
 
     handleSaveOrUpdate()
   })

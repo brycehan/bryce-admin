@@ -2,21 +2,20 @@ import request from '@/utils/request'
 
 export const saveOrUpdate = (data: any) => {
     if (data.id) {
-        return request.put('/system/user', data)
+        return request.put('/system/menu', data)
     } else {
-        return request.post('/system/user', data)
+        return request.post('/system/menu', data)
     }
 }
 
 export const deleteByIds = (ids: bigint[]) => {
-    return request.delete('/system/user', { data: { ids } })
+    return request.delete('/system/menu', { data: { ids } })
 }
 
 export const getById = (id: bigint) => {
-    return request.get(`/system/user/${id}`)
+    return request.get(`/system/menu/${id}`)
 }
 
 export const page = (data: any) => {
-    return request.post('/system/user/page', data)
+    return request.post('/system/menu/page', data)
 }
-

@@ -37,7 +37,12 @@ export async function login(data: Auth.LoginDto) {
   return request.post<any, Auth.ResponseResultLoginVo>('/auth/login', data)
 }
 
-/** 查询系统登录用户详情 */
+/** 登录用户的权限集合 */
+export async function authority() {
+  return request.get('/auth/authority')
+}
+
+/** 系统登录用户详情 */
 export async function currentUser() {
   return request.get('/auth/currentUser')
 }

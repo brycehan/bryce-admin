@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { login, currentUser, logout } from '@/api/auth'
+import { login, currentUser, authority, logout } from '@/api/auth'
 import storage from '@/utils/storage'
 import type { Auth } from '@/api/auth'
 export const authStore = defineStore('authStore', {
@@ -31,13 +31,14 @@ export const authStore = defineStore('authStore', {
       }
     },
     /** 获取登录用户信息 */
-    async currentUser() {
+    async getCurrentUser() {
       const { data } = await currentUser()
       this.user = data
     },
     /** 获取权限 */
     async getAuthoritySet() {
-
+      const { data } = await authority()
+      this.authoritySet = data || []
     },
     /** 用户退出 */
     async logout() {

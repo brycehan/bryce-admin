@@ -36,21 +36,20 @@ request.interceptors.response.use(
             return Promise.reject(new Error(response.statusText) || 'Error')
         }
 
-        if (response.headers['content-type'] === 'application/json') {
+        if (response.headers['content-type'].startsWith('application/json')) {
             const responseData = response.data
             // 响应成功
             if (responseData.code === 200) {
                 return responseData
             }
 
-            // 错误提示
-            ElMessage.error(responseData.message || 'Error')
-
             // 没有权限，如：未登录、登录过期等，需要跳转到登录页
             if (responseData.code === 401) {
                 console.log('401:ok:')
 
-                stores.authStore.removeToken()
+                if(stores.authStore) {
+                    stores.authStore.removeToken()
+                }
             }
 
             return Promise.reject(new Error(responseData.message || 'Error'))
@@ -60,6 +59,7 @@ request.interceptors.response.use(
 
     },
     (error) => {
+        // 错误提示
         ElMessage.error(error.message || 'Error')
         return Promise.reject(error)
     }

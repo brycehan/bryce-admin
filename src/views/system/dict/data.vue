@@ -2,8 +2,8 @@
   <el-card shadow="never">
     <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" @keyup.enter="getPage()" @submit.prevent>
       <el-form-item>
-        <el-button type="primary" icon="Plus" @click="handleAddOrEdit()">新增</el-button>
-        <el-button type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
+        <el-button v-auth="'system:dictData:save'" type="primary" icon="Plus" @click="handleAddOrEdit()">新增</el-button>
+        <el-button v-auth="'system:dictData:delete'" type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -33,8 +33,8 @@
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
         <template #default="scope">
-          <el-button type="primary" link @click="handleAddOrEdit(scope.row.id)">修改</el-button>
-          <el-button type="danger" link @click="handleDeleteBatch(scope.row.id)">删除</el-button>
+          <el-button v-auth="'system:dictData:update'" type="primary" link @click="handleAddOrEdit(scope.row.id)">修改</el-button>
+          <el-button v-auth="'system:dictData:delete'" type="danger" link @click="handleDeleteBatch(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

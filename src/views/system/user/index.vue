@@ -2,10 +2,10 @@
   <el-card shadow="never">
     <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" label-width="68px" @keyup.enter="getPage()" @submit.prevent>
       <el-form-item label="账号" label-width="40px" prop="username">
-        <el-input v-model="state.queryForm.username" placeholder="账号" />
+        <el-input v-model="state.queryForm.username" placeholder="请输入账号" />
       </el-form-item>
       <el-form-item label="手机号码" prop="phone">
-        <el-input v-model="state.queryForm.phone" placeholder="手机号码" />
+        <el-input v-model="state.queryForm.phone" placeholder="请输入手机号码" />
       </el-form-item>
       <el-form-item label="状态" prop="status">
         <dict-select v-model="state.queryForm.status" dict-type="sys_status" placeholder="用户状态" clearable />
@@ -26,8 +26,8 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button type="primary" icon="Plus" @click="handleAddOrEdit()">新增</el-button>
-      <el-button type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
+      <el-button v-auth="'system:user:save'" type="primary" icon="Plus" @click="handleAddOrEdit()">新增</el-button>
+      <el-button v-auth="'system:user:delete'" type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -45,8 +45,8 @@
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
         <template #default="scope">
-          <el-button type="primary" link @click="handleAddOrEdit(scope.row.id)">修改</el-button>
-          <el-button type="danger" link @click="handleDeleteBatch(scope.row.id)">删除</el-button>
+          <el-button v-auth="'system:user:update'" type="primary" link @click="handleAddOrEdit(scope.row.id)">修改</el-button>
+          <el-button v-auth="'system:user:delete'" type="danger" link @click="handleDeleteBatch(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

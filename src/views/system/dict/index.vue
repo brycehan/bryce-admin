@@ -7,11 +7,8 @@
       <el-form-item label="字典类型" prop="dictType">
         <el-input v-model="state.queryForm.dictType" placeholder="请输入字典类型" clearable />
       </el-form-item>
-      <el-form-item label="状态" label-width="40px" prop="status">
-        <el-select v-model="state.queryForm.status" placeholder="字典状态" clearable >
-          <el-option label="正常" :value="true"/>
-          <el-option label="停用" :value="false"/>
-        </el-select>
+      <el-form-item label="状态" prop="status">
+        <dict-select v-model="state.queryForm.status" dict-type="sys_status" placeholder="字典状态" clearable />
       </el-form-item>
       <el-form-item label="创建时间" prop="createdTime">
         <el-date-picker
@@ -29,8 +26,8 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-        <el-button type="primary" icon="Plus" @click="handleAddOrEdit()">新增</el-button>
-        <el-button type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
+        <el-button v-auth="'system:dictType:save'" type="primary" icon="Plus" @click="handleAddOrEdit()">新增</el-button>
+        <el-button v-auth="'system:dictType:delete'" type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -53,9 +50,9 @@
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="200">
         <template #default="scope">
-          <el-button type="primary" link @click="handleShowDictData(scope.row)">字典配置</el-button>
-          <el-button type="primary" link @click="handleAddOrEdit(scope.row.id)">修改</el-button>
-          <el-button type="danger" link @click="handleDeleteBatch(scope.row.id)">删除</el-button>
+          <el-button v-auth="'system:dictData:page'" type="primary" link @click="handleShowDictData(scope.row)">字典配置</el-button>
+          <el-button v-auth="'system:dictType:update'" type="primary" link @click="handleAddOrEdit(scope.row.id)">修改</el-button>
+          <el-button v-auth="'system:dictType:delete'" type="danger" link @click="handleDeleteBatch(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

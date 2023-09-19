@@ -1,20 +1,20 @@
 <template>
   <el-card shadow="never">
-    <el-form :inline="true" :model="state.queryForm" @keyup.enter="getList()" @submit.prevent>
-      <el-form-item>
+    <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" @keyup.enter="getList()" @submit.prevent>
+      <el-form-item label="机构名称" prop="name">
         <el-input v-model="state.queryForm.name" placeholder="请输入机构名称" clearable />
       </el-form-item>
-      <el-form-item>
-        <el-select v-model="state.queryForm.status" placeholder="机构状态" clearable style="width: 100%">
-          <el-option label="正常" :value="true" />
-          <el-option label="停用" :value="false" />
-        </el-select>
+      <el-form-item label="状态" prop="status">
+        <dict-select v-model="state.queryForm.status" dict-type="sys_status" placeholder="机构状态" clearable />
       </el-form-item>
       <el-form-item>
-        <el-button @click="getList()">查询</el-button>
-        <el-button type="primary" @click="handleAddOrEdit()">新增</el-button>
+        <el-button type="primary" icon="Search" @click="getList()">搜索</el-button>
+        <el-button icon="RefreshLeft" @click="handleResetQuery()">重置</el-button>
       </el-form-item>
     </el-form>
+    <el-row class="mb-2">
+      <el-button v-auth="'system:org:save'" type="primary" icon="Plus" @click="handleAddOrEdit()">新增</el-button>
+    </el-row>
     <el-table
       v-loading="state.loading"
       :data="state.data"
@@ -33,8 +33,8 @@
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
         <template #default="scope">
-          <el-button type="primary" link @click="handleAddOrEdit(scope.row.id)">修改</el-button>
-          <el-button type="danger" link @click="handleDeleteBatch(scope.row.id)">删除</el-button>
+          <el-button v-auth="'system:org:update'" type="primary" link @click="handleAddOrEdit(scope.row.id)">修改</el-button>
+          <el-button v-auth="'system:org:delete'" type="danger" link @click="handleDeleteBatch(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -44,12 +44,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import {onMounted, reactive, ref} from 'vue'
 import AddOrEdit from './add-or-edit.vue'
-import { list, deleteByIds } from '@/api/system/org'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import {deleteByIds, list} from '@/api/system/org'
+import {ElMessage, ElMessageBox} from 'element-plus'
 
-const state = reactive({
+const state= reactive({
     queryForm: {
           status: '',
           tenantId: '',
@@ -59,6 +59,7 @@ const state = reactive({
     loading: false,
 })
 
+const queryFormRef = ref()
 const addOrEditRef = ref()
 
 onMounted(() => {
@@ -72,6 +73,15 @@ const getList = () => {
         state.data = response.data
     })
     state.loading = false
+}
+
+/** 重置按钮操作 */
+const handleResetQuery = () => {
+  if(queryFormRef.value) {
+    queryFormRef.value.resetFields()
+  }
+
+  getList()
 }
 
 const handleAddOrEdit = (id?: string) => {

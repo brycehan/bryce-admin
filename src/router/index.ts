@@ -1,7 +1,6 @@
 import {
   createRouter,
   createWebHistory,
-  createWebHashHistory,
   type RouteRecordRaw
 } from 'vue-router'
 import stores from '@/stores'
@@ -95,7 +94,8 @@ router.beforeEach(async (to, from, next) => {
       // 用户信息不存在，则重新拉取
       if (!stores.authStore.user.id) {
         try {
-          await stores.authStore.currentUser()
+          await stores.authStore.getCurrentUser()
+          await stores.authStore.getAuthoritySet()
           await stores.appStore.getDictList()
         } catch (error) {
           console.warn('出错：', error)
