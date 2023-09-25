@@ -15,19 +15,12 @@
 import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 import {useClipboard} from "@vueuse/core";
 import {ElMessage} from "element-plus";
-import {computed} from "vue";
+import {getIconList} from "@/utils/tool";
 
 const { copy } = useClipboard()
 
 /** 获取svg图标（id）列表 */
-const iconList = computed(() => {
-  const list: string[] = []
-  const icons = document.querySelectorAll('svg symbol[id^="icon-"]')
-  for(let i = 0; i < icons.length; i++){
-    list.push(icons[i].id)
-  }
-  return list
-})
+const iconList = getIconList()
 
 const handleCopy = (icon: string) => {
   copy(icon)

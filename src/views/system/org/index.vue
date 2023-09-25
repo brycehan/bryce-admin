@@ -48,8 +48,13 @@ import {onMounted, reactive, ref} from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import {deleteByIds, list} from '@/api/system/org'
 import {ElMessage, ElMessageBox} from 'element-plus'
+import type {StateOptions} from "@/utils/state";
+import {crud} from "@/utils/state";
 
-const state= reactive({
+const state: StateOptions = reactive({
+  api: {
+    list
+  },
     queryForm: {
           status: '',
           tenantId: '',
@@ -66,14 +71,7 @@ onMounted(() => {
     getList()
 })
 
-const getList = () => {
-    state.loading = true
-
-    list(state.queryForm).then((response: any) => {
-        state.data = response.data
-    })
-    state.loading = false
-}
+const { getList } = crud(state)
 
 /** 重置按钮操作 */
 const handleResetQuery = () => {

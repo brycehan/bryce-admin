@@ -19,3 +19,7 @@ export const getById = (id: bigint) => {
 export const page = (data: any) => {
     return request.post('/system/menu/page', data)
 }
+
+export const list = (data: any) => {
+    return request.post('/system/menu/list', data)
+}

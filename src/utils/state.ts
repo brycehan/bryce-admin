@@ -1,5 +1,6 @@
 import {addDateRange, mergeDefaultOptions} from "@/utils/tool";
 import {ElMessage, ElMessageBox} from "element-plus";
+import {list} from "@/api/system/org";
 
 export type StateOptions = {
     api: {
@@ -7,6 +8,7 @@ export type StateOptions = {
         getById?: Function
         emit?: Function
         page?: Function
+        list?: Function
         deleteByIds?: Function
     }
     /** 查询条件 */
@@ -87,6 +89,16 @@ export const crud = (options: StateOptions) => {
         state.loading = false
     }
 
+    /** 列表查询 */
+    const getList = () => {
+        state.loading = true
+
+        state.api.list(state.queryForm).then((response: any) => {
+            state.data = response.data
+        })
+        state.loading = false
+    }
+
     /** 调整当前显示条数 */
     const handleSizeChange = (size: number) => {
         getPage(1, size)
@@ -153,6 +165,7 @@ export const crud = (options: StateOptions) => {
 
     return {
         getPage,
+        getList,
         handleSizeChange,
         handleCurrentChange,
         handleDeleteBatch,
