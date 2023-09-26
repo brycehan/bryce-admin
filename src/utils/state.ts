@@ -1,6 +1,5 @@
 import {addDateRange, mergeDefaultOptions} from "@/utils/tool";
 import {ElMessage, ElMessageBox} from "element-plus";
-import {list} from "@/api/system/org";
 
 export type StateOptions = {
     api: {
@@ -9,7 +8,8 @@ export type StateOptions = {
         emit?: Function
         page?: Function
         list?: Function
-        deleteByIds?: Function
+        deleteByIds?: Function,
+        downloadExcel?: Function
     }
     /** 查询条件 */
     queryForm?: any
@@ -160,7 +160,24 @@ export const crud = (options: StateOptions) => {
                 }
             })
         })
+    }
 
+    /** 导出 */
+    const handleDownloadExcel = () => {
+        // 添加范围查询条件
+        let queryParams = state.queryForm
+        for(const key in state.range) {
+            queryParams = addDateRange(state.queryForm, state.range[key], key)
+        }
+
+        const body = {
+            current: state.current,
+            size: state.size,
+            orderItems: state.orderItems,
+            ...queryParams
+        }
+        state.api.downloadExcel(body)
+        return
     }
 
     return {
@@ -171,6 +188,7 @@ export const crud = (options: StateOptions) => {
         handleDeleteBatch,
         handleSelectionChange,
         getData,
-        handleSaveOrUpdate
+        handleSaveOrUpdate,
+        handleDownloadExcel
     }
 }
