@@ -12,7 +12,7 @@
       @keyup.enter="handleSubmit()"
       class="mr-4"
     >
-      <el-row>
+      <el-row v-if="!state.dataForm.id">
         <el-col :span="12">
           <el-form-item label="账号" prop="username">
             <el-input v-model="state.dataForm.username" placeholder="请输入账号" clearable />
@@ -136,11 +136,20 @@ const roleList = ref([])
 const postList = ref([])
 
 const rules = reactive({
-    username: [{ min: 0, max: 50, message: '账号长度不能超过50个字符', trigger: 'blur' }],
-    password: [{ min: 0, max: 255, message: '密码长度不能超过255个字符', trigger: 'blur' }],
+    username: [
+      { required: true, message: '必填项不能为空', trigger: 'blur' },
+      { min: 0, max: 50, message: '账号长度不能超过50个字符', trigger: 'blur' }
+    ],
+    password: [
+      { required: true, message: '必填项不能为空', trigger: 'blur' },
+      { min: 0, max: 255, message: '密码长度不能超过255个字符', trigger: 'blur' }
+    ],
     fullName: [{ min: 0, max: 50, message: '姓名长度不能超过50个字符', trigger: 'blur' }],
     gender: [{ min: 0, max: 1, message: '性别（M：男, F：女）长度不能超过1个字符', trigger: 'blur' }],
-    phone: [{ min: 0, max: 20, message: '手机号码长度不能超过20个字符', trigger: 'blur' }],
+    phone: [
+      { required: true, message: '必填项不能为空', trigger: 'blur' },
+      { min: 0, max: 20, message: '手机号码长度不能超过20个字符', trigger: 'blur' }
+    ],
     email: [{ min: 0, max: 50, message: '邮箱长度不能超过50个字符', trigger: 'blur' }],
     remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
 })

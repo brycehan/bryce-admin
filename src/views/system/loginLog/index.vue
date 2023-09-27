@@ -56,15 +56,11 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
     />
-
-    <!-- 弹窗，新增 / 修改 -->
-    <AddOrEdit ref="addOrEditRef" @refresh-page="getPage" />
   </el-card>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import AddOrEdit from './add-or-edit.vue'
 import { page, deleteByIds, downloadExcel } from '@/api/system/loginLog'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
@@ -87,7 +83,6 @@ const state: StateOptions = reactive({
 })
 
 const queryFormRef = ref()
-const addOrEditRef = ref()
 
 onMounted(() => {
   getPage()
