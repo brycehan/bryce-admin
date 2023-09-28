@@ -157,7 +157,7 @@ const rules = reactive({
     remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
 })
 
-const { getData, handleSaveOrUpdate } = crud(state)
+const { handleSaveOrUpdate } = crud(state)
 
 /** 初始化详情数据 */
 const init = (id?: bigint) => {
@@ -181,6 +181,20 @@ const init = (id?: bigint) => {
 
   // icon 列表
   iconList.value = getIconList()
+}
+
+/** 获取详情数据 */
+const getData = (id: bigint) => {
+
+  getById(id).then((res: any) => {
+    Object.assign(state.dataForm, res.data)
+
+    if(state.dataForm.parentId === 0) {
+      return handleTreeDefault()
+    }
+
+    menuTreeRef.value.setCurrentKey(state.dataForm.parentId)
+  })
 }
 
 /** 菜单类型改变 */
