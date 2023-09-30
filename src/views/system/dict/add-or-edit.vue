@@ -20,7 +20,7 @@
           <el-input v-model="state.dataForm.dictType" placeholder="请输入字典类型" />
         </el-form-item>
         <el-form-item label="显示顺序" prop="sort">
-          <el-input-number v-model="state.dataForm.sort" :min="0" :max="10000" placeholder="显示顺序" />
+          <el-input-number v-model="state.dataForm.sort" :min="0" />
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="state.dataForm.status" >

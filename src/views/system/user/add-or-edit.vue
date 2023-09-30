@@ -102,6 +102,7 @@ import { reactive, ref } from 'vue'
 import { getById, saveOrUpdate } from '@/api/system/user'
 import { list as orgListApi } from '@/api/system/org'
 import { list as roleListApi } from '@/api/system/role'
+import { list as postListApi } from '@/api/system/post'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
 
@@ -145,7 +146,7 @@ const rules = reactive({
       { min: 0, max: 255, message: '密码长度不能超过255个字符', trigger: 'blur' }
     ],
     fullName: [{ min: 0, max: 50, message: '姓名长度不能超过50个字符', trigger: 'blur' }],
-    gender: [{ min: 0, max: 1, message: '性别（M：男, F：女）长度不能超过1个字符', trigger: 'blur' }],
+    gender: [{ min: 0, max: 1, message: '性别长度不能超过1个字符', trigger: 'blur' }],
     phone: [
       { required: true, message: '必填项不能为空', trigger: 'blur' },
       { min: 0, max: 20, message: '手机号码长度不能超过20个字符', trigger: 'blur' }
@@ -160,6 +161,7 @@ const { getData, handleSaveOrUpdate } = crud(state)
 const init = (id?: bigint) => {
   state.visible = true
   state.dataForm.id = undefined
+  state.dataForm.username = ''
 
   // 重置表单数据
   if (dataFormRef.value) {
@@ -172,6 +174,7 @@ const init = (id?: bigint) => {
   }
   getOrgList()
   getRoleList()
+  getPostList()
 }
 
 /** 获取机构列表 */
@@ -185,6 +188,13 @@ const getOrgList = () => {
 const getRoleList = () => {
   roleListApi().then( response => {
     roleList.value = response.data
+  })
+}
+
+/** 获取岗位列表 */
+const getPostList = () => {
+  postListApi().then( response => {
+    postList.value = response.data
   })
 }
 

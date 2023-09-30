@@ -87,7 +87,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="显示顺序" prop="sort">
-            <el-input-number v-model="state.dataForm.sort" />
+            <el-input-number v-model="state.dataForm.sort" :min="0" />
           </el-form-item>
         </el-col>
       </el-row>

@@ -38,7 +38,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="显示顺序" prop="sort">
-        <el-input-number v-model="state.dataForm.sort" />
+        <el-input-number v-model="state.dataForm.sort" :min="0" />
       </el-form-item>
       <el-form-item label="状态" prop="status">
         <el-radio-group v-model="state.dataForm.status" >

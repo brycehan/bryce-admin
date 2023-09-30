@@ -41,7 +41,7 @@
         </el-col>
         <el-col :span="12">
         <el-form-item label="显示顺序" prop="sort">
-          <el-input-number v-model="dataForm.sort" :min="0" :max="10000" placeholder="显示顺序" />
+          <el-input-number v-model="dataForm.sort" :min="0" />
         </el-form-item>
         </el-col>
       </el-row>
