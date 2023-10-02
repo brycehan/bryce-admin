@@ -33,6 +33,18 @@ export const mergeDefaultOptions = (defaultOptions: any, options: any) => {
     return options
 }
 
+/**
+ * 转换文件大小样式
+ * @param size 文件大小字节数
+ */
+export const convertSizeFormat = (size: number): string => {
+    const unit = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB']
+    const index = Math.floor(Math.log(size) / Math.log(1024))
+    const normalSize = size / Math.pow(1024, index)
+    // 保留2位小数位数
+    return normalSize.toFixed(2) + ' ' + unit[index]
+}
+
 /** 获取svg图标（id）列表 */
 export const getIconList = (): string[] => {
     const list: string[] = []

@@ -17,9 +17,9 @@ const download = (config?: any) => {
             reader.readAsDataURL(blob);
             reader.onload = function (e: any) {
                 // 转换完成，创建一个a标签用于下载
-                const a = document.createElement('a');
+                const a = document.createElement('a');debugger
                 const filename = decodeURI(response.headers['content-disposition']);
-                a.download = filename.split("''")[1];
+                a.download = filename.split("''")[1] || config.filename;
                 a.href = e.target.result;
                 // 在body中插入a元素
                 document.body.insertAdjacentElement('afterend', a);
@@ -53,4 +53,4 @@ const post = (url: string, data?: any, config?: any) => {
     })
 }
 
-export default {get, post}
+export default { get, post }
