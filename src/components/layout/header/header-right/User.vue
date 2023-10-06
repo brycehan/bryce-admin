@@ -1,7 +1,7 @@
 <template>
   <el-dropdown class="avatar-container">
     <div class="avatar-wrapper">
-      <el-avatar shape="circle" :size="30" :src="stores.authStore.user.avatar"></el-avatar>
+      <el-avatar shape="circle" :size="30" src="./images/user2-128x128.jpg"></el-avatar>
       <span>{{ stores.authStore.user.username }}</span>
       <el-icon class="el-icon--right">
         <arrow-down />
@@ -9,7 +9,9 @@
     </div>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item>修改密码</el-dropdown-item>
+        <router-link to="/profile/password">
+          <el-dropdown-item>修改密码</el-dropdown-item>
+        </router-link>
         <el-dropdown-item divided @click="logout">退出</el-dropdown-item>
       </el-dropdown-menu>
     </template>

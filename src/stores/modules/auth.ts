@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { login, currentUser, authority, logout } from '@/api/auth'
+import { loginByAccount, currentUser, authority, logout } from '@/api/auth'
 import storage from '@/utils/storage'
 import type { Auth } from '@/api/auth'
 export const authStore = defineStore('authStore', {
@@ -8,7 +8,7 @@ export const authStore = defineStore('authStore', {
     user: {
       id: '',
       username: '',
-      avatar: ''
+      avatar: '@/assets/images/user1-128x128.jpg'
     },
     // 权限集合
     authoritySet: [],
@@ -21,8 +21,8 @@ export const authStore = defineStore('authStore', {
       storage.removeToken()
     },
     /** 账号登录 */
-    async login(loginDto: Auth.LoginDto) {
-      const { code, data, message } = await login(loginDto)
+    async loginByAccount(loginDto: Auth.LoginDto) {
+      const { code, data, message } = await loginByAccount(loginDto)
       if (code == 200) {
         this.token = (data as Auth.LoginVo).token as string
         storage.setToken(this.token)

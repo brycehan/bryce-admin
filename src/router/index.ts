@@ -46,7 +46,16 @@ const asyncRoute: RouteRecordRaw = {
         title: '首页',
         affix: true
       }
-    }
+    },
+    {
+      path: '/profile/password',
+      name: 'ProfilePassword',
+      component: () => import('@/views/profile/password.vue'),
+      meta: {
+        title: '修改密码',
+        cache: true
+      }
+    },
   ]
 }
 

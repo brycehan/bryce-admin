@@ -33,8 +33,8 @@ export declare namespace Auth {
 }
 
 /** 登录 */
-export async function login(data: Auth.LoginDto) {
-  return request.post<any, Auth.ResponseResultLoginVo>('/auth/login', data)
+export async function loginByAccount(data: Auth.LoginDto) {
+  return request.post<any, Auth.ResponseResultLoginVo>('/auth/loginByAccount', data)
 }
 
 /** 登录用户的权限集合 */

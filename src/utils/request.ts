@@ -14,14 +14,21 @@ const request = axios.create({
 request.interceptors.request.use(
     (config) => {
         const authStore = stores.authStore
-        if (authStore && authStore.token) {
+        if (authStore?.token) {
             config.headers.Authorization = authStore.token
         }
 
         config.headers['Accept-Language'] = 'zh-CN'
+
+        // 追加时间戳，防止GET请求缓存
+        if(config.method?.toUpperCase() === 'GET') {
+            config.params = {...config.params, t: new Date().getTime() }
+        }
+
         if (Object.values(config.headers).includes('application/x-www-form-urlencoded')) {
             config.data = qs.stringify(config.data)
         }
+
         return config
     },
     (error) => {
@@ -51,6 +58,8 @@ request.interceptors.response.use(
                     stores.authStore.removeToken()
                 }
             }
+            // 错误提示
+            ElMessage.error(responseData.message || 'Error')
 
             return Promise.reject(new Error(responseData.message || 'Error'))
         } else {
