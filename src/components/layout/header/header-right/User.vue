@@ -1,8 +1,8 @@
 <template>
   <el-dropdown class="avatar-container">
     <div class="avatar-wrapper">
-      <el-avatar shape="circle" :size="30" src="./images/user2-128x128.jpg"></el-avatar>
-      <span>{{ stores.authStore.user.username }}</span>
+      <el-avatar shape="circle" :size="30" :src="avatarImg"></el-avatar>
+      <span>{{ username }}</span>
       <el-icon class="el-icon--right">
         <arrow-down />
       </el-icon>
@@ -21,6 +21,11 @@
 <script setup lang="ts">
 import stores from '@/stores'
 import {ArrowDown} from "@element-plus/icons-vue";
+import avatarImg from '@/assets/images/user2-128x128.jpg'
+import {computed} from "vue";
+
+const username = computed(() => stores.authStore.user.username)
+
 const logout = () => {
   stores.authStore.logout().then(() => {
     // 刷新页面

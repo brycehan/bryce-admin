@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { loginByAccount, currentUser, authority, logout } from '@/api/auth'
 import storage from '@/utils/storage'
 import type { Auth } from '@/api/auth'
+import stores from "@/stores";
 export const authStore = defineStore('authStore', {
   state: () => ({
     // 用户信息
@@ -16,6 +17,13 @@ export const authStore = defineStore('authStore', {
     token: storage.getToken()
   }),
   actions: {
+    setUser(user: any) {
+      this.user = user
+    },
+    setToken(token: any) {
+      this.token = token
+      storage.setToken(token)
+    },
     removeToken() {
       this.token = null
       storage.removeToken()
@@ -33,7 +41,8 @@ export const authStore = defineStore('authStore', {
     /** 获取登录用户信息 */
     async getCurrentUser() {
       const { data } = await currentUser()
-      this.user = data
+      // this.user = data
+      Object.assign(this.user, data)
     },
     /** 获取权限 */
     async getAuthoritySet() {

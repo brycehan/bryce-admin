@@ -43,6 +43,11 @@ request.interceptors.response.use(
             return Promise.reject(new Error(response.statusText) || 'Error')
         }
 
+        // 处理自动刷新令牌
+        if(response.headers.authorization) {
+            stores.authStore.setToken(response.headers.authorization)
+        }
+
         if (response.headers['content-type'].startsWith('application/json')) {
             const responseData = response.data
             // 响应成功
