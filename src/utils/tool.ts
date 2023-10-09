@@ -93,3 +93,6 @@ export const getDictLabelClass = (dictList: any[], dictType: string, dictValue: 
     }
     return ''
 }
+
+/** 手机号正则表达式 */
+export const phoneRegExp = /^1[3456789]\d{9}$/

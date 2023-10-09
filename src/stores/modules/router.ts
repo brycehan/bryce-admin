@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { nav } from '@/api/auth'
+import { nav } from '@/api/system/auth'
 import { generateRoutes, constantMenu } from '@/router'
 import type { RouteRecordRaw } from 'vue-router'
 

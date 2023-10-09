@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import { loginByAccount, currentUser, authority, logout } from '@/api/auth'
+import { loginByAccount, loginByPhone, currentUser, authority, logout } from '@/api/system/auth'
 import storage from '@/utils/storage'
-import type { Auth } from '@/api/auth'
-import stores from "@/stores";
+import type { Auth } from '@/api/system/auth'
+
 export const authStore = defineStore('authStore', {
   state: () => ({
     // 用户信息
@@ -31,6 +31,15 @@ export const authStore = defineStore('authStore', {
     /** 账号登录 */
     async loginByAccount(loginDto: Auth.LoginDto) {
       const { code, data, message } = await loginByAccount(loginDto)
+      if (code == 200) {
+        this.token = (data as Auth.LoginVo).token as string
+        storage.setToken(this.token)
+      } else {
+        return Promise.reject(message)
+      }
+    },
+    async loginByPhone(loginDto: any) {
+      const { code, data, message } = await loginByPhone(loginDto)
       if (code == 200) {
         this.token = (data as Auth.LoginVo).token as string
         storage.setToken(this.token)

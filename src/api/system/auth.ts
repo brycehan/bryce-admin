@@ -32,9 +32,14 @@ export declare namespace Auth {
   }
 }
 
-/** 登录 */
+/** 账号登录 */
 export async function loginByAccount(data: Auth.LoginDto) {
   return request.post<any, Auth.ResponseResultLoginVo>('/auth/loginByAccount', data)
+}
+
+/** 手机号登录 */
+export async function loginByPhone(data: Auth.LoginDto) {
+  return request.post<any, Auth.ResponseResultLoginVo>('/auth/loginByPhone', data)
 }
 
 /** 登录用户的权限集合 */
