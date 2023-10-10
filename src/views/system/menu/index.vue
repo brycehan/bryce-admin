@@ -14,13 +14,17 @@
     </el-form>
     <el-row class="mb-2">
       <el-button v-auth="'system:menu:save'" type="primary" icon="Plus" @click="handleAddOrEdit()">新增</el-button>
+      <el-button type="info" icon="Sort" @click="toggleExpandAll()">展开/折叠</el-button>
+
     </el-row>
     <el-table
+      v-if="refreshTable"
       v-loading="state.loading"
+      :default-expand-all="isExpandAll"
       :data="state.data"
       row-key="id"
       :border="true"
-      style="width: 100%"
+      class="w-100"
     >
       <el-table-column label="菜单名称" prop="name" header-align="center" align="center" width="150"/>
       <el-table-column label="图标" prop="icon" header-align="center" align="center">
@@ -54,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import {nextTick, onMounted, reactive, ref} from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import { list, deleteByIds } from '@/api/system/menu'
 import type { StateOptions } from "@/utils/state";
@@ -75,6 +79,11 @@ const state: StateOptions = reactive({
 
 const queryFormRef = ref()
 const addOrEditRef = ref()
+
+// 是否展开，默认全部折叠
+const isExpandAll = ref(false)
+// 是否重新渲染表格状态
+const refreshTable = ref(true)
 
 onMounted(() => {
   getList()
@@ -124,5 +133,16 @@ const handleDeleteBatch = (id?: bigint) => {
 /** 新增/修改 弹窗 */
 const handleAddOrEdit = (id?: bigint) => {
   addOrEditRef.value.init(id)
+}
+
+/**
+ * 切换 展开/折叠
+ */
+const toggleExpandAll = () => {
+  refreshTable.value = false
+  isExpandAll.value = !isExpandAll.value
+  nextTick(() => {
+    refreshTable.value = true
+  })
 }
 </script>
