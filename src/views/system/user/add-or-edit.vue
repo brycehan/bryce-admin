@@ -7,7 +7,7 @@
     <el-form
       ref="dataFormRef"
       :model="state.dataForm"
-      :rules="rules"
+      :rules="dataRules"
       label-width="100px"
       @keyup.enter="handleSubmit()"
       class="mr-4"
@@ -136,7 +136,7 @@ const orgList = ref([])
 const roleList = ref([])
 const postList = ref([])
 
-const rules = reactive({
+const dataRules = reactive({
     username: [
       { required: true, message: '必填项不能为空', trigger: 'blur' },
       { min: 0, max: 50, message: '账号长度不能超过50个字符', trigger: 'blur' }

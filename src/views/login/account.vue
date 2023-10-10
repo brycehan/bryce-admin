@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="loginFormRef" :model="loginDto" :rules="rules" @keyup.enter="loginByAccount">
+  <el-form ref="loginFormRef" :model="loginDto" :rules="loginRules" @keyup.enter="loginByAccount">
     <h1>Bryce Admin</h1>
     <h2>欢迎使用本系统</h2>
     <el-form-item prop="username">
@@ -90,7 +90,7 @@ const loginByAccount = async () => {
         })
   })
 }
-const rules = {
+const loginRules = {
   username: [
     { required: true, message: '必填项不能为空', trigger: 'blur' }
   ],

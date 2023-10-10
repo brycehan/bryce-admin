@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="loginFormRef" :model="loginForm" :rules="rules" @keyup.enter="loginByPhone">
+  <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" @keyup.enter="loginByPhone">
     <h1>Bryce Admin</h1>
     <h2>欢迎使用本系统</h2>
     <el-form-item prop="phone">
@@ -100,7 +100,7 @@ const loginByPhone = async () => {
         })
   })
 }
-const rules = {
+const loginRules = {
   phone: [
     { required: true, message: '必填项不能为空', trigger: 'blur' }
   ],

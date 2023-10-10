@@ -9,7 +9,7 @@
     <el-form
       ref="dataFormRef"
       :model="state.dataForm"
-      :rules="rules"
+      :rules="dataRules"
       label-width="100px"
       @keyup.enter="handleSubmit()"
       class="mr-4"
@@ -66,7 +66,7 @@ const dataFormRef = ref()
 const orgListRef = ref()
 const orgList = ref([])
 
-const rules = reactive({})
+const dataRules = reactive({})
 
 const { handleSaveOrUpdate } = crud(state)
 

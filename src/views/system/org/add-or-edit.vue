@@ -7,7 +7,7 @@
     <el-form
         ref="dataFormRef"
         :model="dataForm"
-        :rules="rules"
+        :rules="dataRules"
         label-width="100px"
         @keyup.enter="handleSubmit()"
       class="mr-4"
@@ -111,7 +111,7 @@ const dataForm = reactive({
   status: true,
 })
 
-const rules = reactive({
+const dataRules = reactive({
   name: [{required: true, message: '必填项不能为空', trigger: 'blur'}],
   parentName: [{required: true, message: '必填项不能为空', trigger: 'blur'}],
   sort: [{required: true, message: '必填项不能为空', trigger: 'blur'}],

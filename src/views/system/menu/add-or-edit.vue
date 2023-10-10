@@ -7,7 +7,7 @@
     <el-form
       ref="dataFormRef"
       :model="state.dataForm"
-      :rules="rules"
+      :rules="dataRules"
       label-width="100px"
       @keyup.enter="handleSubmit()"
       class="mr-4"
@@ -142,7 +142,7 @@ const iconPopoverRef = ref()
 
 const dataFormRef = ref()
 
-const rules = reactive({
+const dataRules = reactive({
     name: [
       { required: true, message: '必填项不能为空', trigger: 'blur' },
       { min: 0, max: 50, message: '菜单名称长度不能超过50个字符', trigger: 'blur' }

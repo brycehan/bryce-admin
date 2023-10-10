@@ -7,7 +7,7 @@
     <el-form
       ref="dataFormRef"
       :model="state.dataForm"
-      :rules="rules"
+      :rules="dataRules"
       label-width="100px"
       @keyup.enter="handleSubmit()"
       class="mr-4"
@@ -61,7 +61,7 @@ const state: StateOptions  = reactive({
 
 const dataFormRef = ref()
 
-const rules = reactive({
+const dataRules = reactive({
     paramName: [
       { required: true, message: '必填项不能为空', trigger: 'blur' },
       { min: 0, max: 100, message: '参数名称长度不能超过100个字符', trigger: 'blur' }
