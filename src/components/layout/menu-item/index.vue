@@ -31,6 +31,11 @@ import { computed, type PropType } from 'vue'
 import { useRouter } from 'vue-router'
 import stores from '@/stores'
 import SvgIcon from '@/components/svg-icon/svg-icon.vue'
+import {isExternalLink, replaceLinkParam} from "@/utils/tool";
+
+defineOptions({
+  name: 'MenuItem'
+})
 
 defineProps({
   menu: {
@@ -51,16 +56,29 @@ const titleSpanClass = computed(() => {
  * @param menu 菜单
  */
 const handleClick = (menu: any) => {
-  router.push(menu.path)
-  return
+  // 不是新开页面，则直接切换路由
+  if (!menu.meta.openStyle) {
+    router.push(menu.path)
+    return
+  }
+
+  // 新开页面逻辑
+  if (isExternalLink(menu.meta.url)) {
+    // 外链
+    window.open(replaceLinkParam(menu.meta.url), '_blank')
+  } else {
+    // 内部组件
+    window.open('/' + menu.meta.url, '_blank')
+  }
 }
 </script>
 
-<script lang="ts">
-export default {
-  name: 'MenuItem'
-}
-</script>
+<!--<script lang="ts">-->
+<!--export default {-->
+<!--  name: 'MenuItem'-->
+<!--}-->
+<!--</script>-->
+
 <style scoped lang="scss">
 /** 修复折叠样式问题 */
 .title-hide {

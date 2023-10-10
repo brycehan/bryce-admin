@@ -6,6 +6,7 @@ import {
 import stores from '@/stores'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import {isExternalLink} from "@/utils/tool";
 
 NProgress.configure({ showSpinner: false })
 
@@ -193,8 +194,14 @@ export const generateRoutes = (menuList: any): RouteRecordRaw[] => {
       component = () => import('@/components/layout/index.vue')
       path = '/p/' + menu.id
     } else {
-      component = getDynamicComponent(menu.url)
-      path = '/' + menu.url
+      // 判断是否iframe
+      if (isIframeUrl(menu)) {
+        component = () => import('@/components/layout/router/Iframe.vue')
+        path = '/iframe/' + menu.id
+      } else {
+        component = getDynamicComponent(menu.url)
+        path = '/' + menu.url
+      }
     }
 
     const route: RouteRecordRaw = {
@@ -205,21 +212,35 @@ export const generateRoutes = (menuList: any): RouteRecordRaw[] => {
       meta: {
         title: menu.name,
         icon: menu.icon,
-        id: menu.id,
+        id: '' + menu.id,
         url: menu.url,
+        cache: true,
+        openStyle: menu.openStyle,
         breadcrumb: [],
-        cache: true
-        // open: 0,
       }
     }
 
     // 有子菜单的情况
     if (menu.children && menu.children.length > 0) {
-      route.children.push(...generateRoutes(menu.children))
+      route.children?.push(...generateRoutes(menu.children))
     }
 
     routes.push(route)
   })
 
   return routes
+}
+
+/**
+ * 判断是否iframe
+ * @param menu 菜单
+ */
+const isIframeUrl = (menu: any): boolean => {
+  // 如果是新页面打开，则不用iframe
+  if(menu.openStyle === 1) {
+    return false
+  }
+
+  // 是否外部链接
+  return  isExternalLink(menu.url)
 }

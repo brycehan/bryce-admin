@@ -1,3 +1,17 @@
+import constant from "@/utils/constant";
+
+/**
+ * 是否外链
+ *
+ * @param url 资源地址
+ */
+export const isExternalLink = (url: string): boolean => {
+    return /^(https?:\/\/|^{{\s?apiUrl\s?}})/.test(url)
+}
+
+export const replaceLinkParam = (url: string): string => {debugger
+    return url.replace('{{apiUrl}}', constant.apiUrl)
+}
 /**
  * 给表单添加日期范围参数
  *

@@ -7,8 +7,8 @@
           <account v-if="loginType === 'account'"/>
           <phone v-if="loginType === 'phone'"/>
           <div class="login-more">
-            <el-button link @click="loginSwitch('account')">账号密码登录</el-button>
-            <el-button link @click="loginSwitch('phone')">手机短信登录</el-button>
+            <el-button type="info" link :class="loginType === 'account'? 'text-white' : ''" @click="loginSwitch('account')">账号密码登录</el-button>
+            <el-button type="info" link :class="loginType === 'phone'? 'text-white' : ''" @click="loginSwitch('phone')">手机短信登录</el-button>
           </div>
         </div>
       </el-col>
@@ -59,8 +59,10 @@ const loginSwitch = (type: string) => {
   justify-content: space-evenly;
   padding-top: 25px;
 
-  .el-button :deep(span) {
-      color: white !important;
-  }
+
+}
+
+.text-white :deep(span) {
+  color: white !important;
 }
 </style>
