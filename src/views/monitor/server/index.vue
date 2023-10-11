@@ -93,7 +93,7 @@
 
 <script setup lang="ts">
 import {onMounted, reactive} from "vue";
-import {server} from "@/api/monitor/server";
+import { info } from "@/api/monitor/server";
 import {CoffeeCup, Cpu, MessageBox, Monitor, Tickets} from "@element-plus/icons-vue";
 
 const data = reactive({
@@ -140,7 +140,7 @@ onMounted(() => {
 })
 
 const getServerInfo = () => {
-  server().then((res: any) => {
+  info().then((res: any) => {
     Object.assign(data, res.data)
   })
 }
