@@ -9,7 +9,7 @@ export const isExternalLink = (url: string): boolean => {
     return /^(https?:\/\/|^{{\s?apiUrl\s?}})/.test(url)
 }
 
-export const replaceLinkParam = (url: string): string => {debugger
+export const replaceLinkParam = (url: string): string => {
     return url.replace('{{apiUrl}}', constant.apiUrl)
 }
 /**
