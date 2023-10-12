@@ -111,9 +111,10 @@ router.beforeEach(async (to, from, next) => {
           console.warn('出错：', error)
 
           // 请求异常，则跳转到登录页
-          stores.authStore.removeToken()
+          stores.authStore?.removeToken()
           next('/login')
-          return
+          // return
+          return Promise.reject(error)
         }
         // 动态菜单
         const menuRoutes = await stores.routerStore.getMenuRoutes()
@@ -190,7 +191,7 @@ export const generateRoutes = (menuList: any): RouteRecordRaw[] => {
   const routes: RouteRecordRaw[] = []
   menuList.forEach((menu: any) => {
     let component, path
-    if (menu.children && menu.children.length > 0) {
+    if (menu.children?.length > 0) {
       component = () => import('@/components/layout/index.vue')
       path = '/p/' + menu.id
     } else {
@@ -221,7 +222,7 @@ export const generateRoutes = (menuList: any): RouteRecordRaw[] => {
     }
 
     // 有子菜单的情况
-    if (menu.children && menu.children.length > 0) {
+    if (menu.children?.length > 0) {
       route.children?.push(...generateRoutes(menu.children))
     }
 

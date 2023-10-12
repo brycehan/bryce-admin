@@ -116,7 +116,6 @@ const handleUser = (userIds: string[]) => {
   saveUsers(props.roleId, userIds).then(() => {
     ElMessage.success({
       message: '操作成功',
-      duration: 500,
       onClose: () => {
         getPage()
       }

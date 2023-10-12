@@ -178,7 +178,6 @@ const handleSubmit = () => {
     saveOrUpdate(dataForm).then(() => {
       ElMessage.success({
         message: '操作成功',
-        duration: 500,
         onClose: () => {
           visible.value = false
           emit('refreshPage')

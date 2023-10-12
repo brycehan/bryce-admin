@@ -142,7 +142,6 @@ const handleOnSuccess: UploadProps['onSuccess'] = (res) => {
   saveOrUpdate(state.dataForm).then(() => {
     ElMessage.success({
       message: '上传成功',
-      duration: 500,
       onClose: () => {
         getPage()
       }

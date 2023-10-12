@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {ElMessage} from 'element-plus'
+import {ElMessage, ElMessageBox} from 'element-plus'
 import stores from '@/stores'
 import qs from 'qs'
 
@@ -57,11 +57,8 @@ request.interceptors.response.use(
 
             // 没有权限，如：未登录、登录过期等，需要跳转到登录页
             if (responseData.code === 401) {
-                console.log('401:ok:')
-
-                if(stores.authStore) {
-                    stores.authStore.removeToken()
-                }
+                stores.authStore?.removeToken()
+                return handleAuthorized()
             }
             // 错误提示
             ElMessage.error(responseData.message || 'Error')
@@ -79,4 +76,18 @@ request.interceptors.response.use(
     }
 )
 
+/**
+ * 处理登录超时
+ */
+const handleAuthorized = () => {
+    ElMessageBox.confirm('登录超时，请重新登录', '提示', {
+        type: 'warning',
+        confirmButtonText: '重新登录'
+    }).then(() => {
+        stores.authStore?.removeToken()
+        location.reload()
+
+        return Promise.reject('登录超时，请重新登录')
+    })
+}
 export default request

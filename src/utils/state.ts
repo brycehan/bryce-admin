@@ -153,7 +153,6 @@ export const crud = (options: StateOptions) => {
         state.api.saveOrUpdate(state.dataForm).then(() => {
             ElMessage.success({
                 message: '操作成功',
-                duration: 500,
                 onClose: () => {
                     state.visible = false
                     state.api.emit('refreshPage')
