@@ -17,6 +17,7 @@ import DictSelect from "@/components/dict-select";
 import DictRadioGroup from "@/components/dict-radio-group";
 import DictTableColumn from "@/components/dict-table-column";
 import SelectUser from "@/components/select-user";
+import WangEditor from "@/components/wang-editor";
 
 const app = createApp(App)
 
@@ -37,6 +38,7 @@ app.use(DictSelect)
 app.use(DictRadioGroup)
 app.use(DictTableColumn)
 app.use(SelectUser)
+app.use(WangEditor)
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
