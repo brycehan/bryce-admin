@@ -52,12 +52,12 @@
       <el-table-column label="操作时间" prop="operatedTime" header-align="center" align="center" width="160"/>
       <el-table-column label="执行时长" prop="duration" header-align="center" align="center">
         <template #default="scope">
-          {{ scope.row.duration }}ms
+          {{ scope.row.duration }}毫秒
         </template>
       </el-table-column>
       <el-table-column v-auth="'system:operateLog:info'" label="操作" fixed="right" header-align="center" align="center" width="80">
         <template #default="scope">
-          <el-button type="primary" link @click="handleInfo(scope.row.id)">详情</el-button>
+          <el-button type="info" link @click="handleInfo(scope.row.id)">详情</el-button>
         </template>
       </el-table-column>
     </el-table>

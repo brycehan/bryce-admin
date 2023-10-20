@@ -1,7 +1,7 @@
 <template>
   <el-dialog
       v-model="state.visible"
-      title="操作日志详情"
+      title="定时任务日志详情"
       :close-on-click-modal="false"
   >
     <el-form
@@ -12,72 +12,61 @@
     >
       <el-row>
         <el-col :span="12">
-          <el-form-item label="操作模块">
-            {{ state.dataForm.moduleName }} / {{ state.dataForm.operatedTypeName }}
+          <el-form-item label="任务ID">
+            {{ state.dataForm.id }}
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="操作状态">
-            {{state.dataForm.status ? '成功': '失败'}}
+          <el-form-item label="任务名称">
+
+            {{ state.dataForm.jobName }}
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="任务组名">
+            {{ state.dataForm.jobGroup }}
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="bean名称">
+            {{ state.dataForm.beanName }}
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="请求URI">
-            {{ state.dataForm.requestUri }}
+          <el-form-item label="方法名称">
+            {{ state.dataForm.method }}
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="请求方法">
-            {{ state.dataForm.requestMethod }}
+          <el-form-item label="方法参数">
+            {{ state.dataForm.params }}
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-form-item label="请求参数">
-          <span class="param-content" v-html="state.dataForm.requestParam"></span>
-        </el-form-item>
-      </el-row>
-      <el-row>
         <el-col :span="12">
-          <el-form-item label="操作时间">
-            {{ state.dataForm.operatedTime }}
+          <el-form-item label="执行时间">
+            {{ state.dataForm.createdTime }}
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="6">
           <el-form-item label="执行时长">
             {{ state.dataForm.duration }}毫秒
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="操作IP">
-            {{ state.dataForm.ip }}
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="操作地点">
-            {{ state.dataForm.location }}
+        <el-col :span="6">
+          <el-form-item label="执行状态">
+            {{ state.dataForm.executeStatus ? '成功': '失败'}}
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="12">
-          <el-form-item label="操作账号">
-            {{ state.dataForm.username }}
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="机构名称">
-            {{ state.dataForm.orgName }}
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-form-item label="User Agent">
-          {{ state.dataForm.userAgent }}
+        <el-form-item label="错误信息">
+          {{ state.dataForm.errorInfo == '' ? '无': state.dataForm.errorInfo }}
         </el-form-item>
       </el-row>
     </el-form>
@@ -89,7 +78,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { getById } from '@/api/system/operateLog'
+import { getById } from '@/api/quartz/jobLog'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
 
@@ -99,22 +88,14 @@ const state: StateOptions  = reactive({
   },
   dataForm: {
     id: '',
-    name: '',
-    moduleName: '',
-    requestUri: '',
-    requestMethod: '',
-    requestParam: '',
-    resultMessage: '',
-    operatedTypeName: '',
-    operatedTime: '',
+    jobId: '',
+    jobName: '',
+    jobGroup: '',
+    beanName: '',
+    method: '',
+    params: '',
+    errorInfo: '',
     duration: '',
-    status: '',
-    userAgent: '',
-    ip: '',
-    location: '',
-    userId: '',
-    username: '',
-    orgName: '',
     createdTime: ''
   }
 })

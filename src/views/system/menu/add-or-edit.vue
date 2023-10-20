@@ -47,7 +47,7 @@
       <el-form-item v-if="state.dataForm.type === 'M'" label="菜单图标" prop="icon" class="popover-container icon-list">
         <el-popover ref="iconPopoverRef" placement="top-start" trigger="click" width="40%" popper-class="icon-popover">
           <template #reference>
-            <el-input v-model="state.dataForm.icon" :readonly="true" placeholder="请选择图标"/>
+            <el-input v-model="state.dataForm.icon" placeholder="请选择图标"/>
           </template>
           <div class="icon-popover-icon-inner">
             <el-scrollbar class="icon-popover-icon-list" height="250">
@@ -120,16 +120,16 @@ const state: StateOptions  = reactive({
   },
   dataForm: {
     id: undefined,
-    name: '', 
+    name: '',
     type: 'M',
     parentId: '',
     parentName: '',
     url: '',
-    authority: '', 
-    icon: '', 
+    authority: '',
+    icon: '',
     openStyle: false,
-    sort: '', 
-    remark: '', 
+    sort: '',
+    remark: '',
     status: true
   }
 })

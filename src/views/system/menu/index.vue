@@ -26,7 +26,7 @@
       :border="true"
       class="w-100"
     >
-      <el-table-column label="菜单名称" prop="name" header-align="center" align="center" width="150"/>
+      <el-table-column label="菜单名称" prop="name" show-overflow-tooltip header-align="center" align="center" width="150"/>
       <el-table-column label="图标" prop="icon" header-align="center" align="center">
         <template #default="scope">
           <svg-icon :icon="scope.row.icon"/>
