@@ -114,12 +114,8 @@ const handleResetQuery = () => {
 /** 新增用户 */
 const handleUser = (userIds: string[]) => {
   saveUsers(props.roleId, userIds).then(() => {
-    ElMessage.success({
-      message: '操作成功',
-      onClose: () => {
-        getPage()
-      }
-    })
+    getPage()
+    ElMessage.success('操作成功')
   })
 }
 

@@ -111,14 +111,9 @@ const handleSubmit = () => {
 /** 表单提交 */
 const handleSaveOrUpdate = () => {
   saveOrUpdate(state.dataForm).then(() => {
-    ElMessage.success({
-      message: '操作成功',
-      duration: 1000,
-      onClose: () => {
-        emit('update:modelValue', false)
-        emit('refreshPage')
-      }
-    })
+    emit('update:modelValue', false)
+    emit('refreshPage')
+    ElMessage.success('操作成功')
   })
 }
 </script>

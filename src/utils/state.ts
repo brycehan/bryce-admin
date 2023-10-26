@@ -151,13 +151,9 @@ export const crud = (options: StateOptions) => {
     /** 表单提交 */
     const handleSaveOrUpdate = () => {
         state.api.saveOrUpdate(state.dataForm).then(() => {
-            ElMessage.success({
-                message: '操作成功',
-                onClose: () => {
-                    state.visible = false
-                    state.api.emit('refreshPage')
-                }
-            })
+            state.visible = false
+            state.api.emit('refreshPage')
+            ElMessage.success('操作成功')
         })
     }
 
