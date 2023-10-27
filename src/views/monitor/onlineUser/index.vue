@@ -1,17 +1,5 @@
 <template>
   <el-card shadow="never">
-    <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" label-width="68px" @keyup.enter="getPage()" @submit.prevent>
-      <el-form-item label="账号" label-width="40px" prop="username">
-        <el-input v-model="state.queryForm.username" placeholder="请输入账号" />
-      </el-form-item>
-      <el-form-item label="手机号码" prop="phone">
-        <el-input v-model="state.queryForm.phone" placeholder="请输入手机号码" />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="Search" @click="getPage()">搜索</el-button>
-        <el-button icon="RefreshLeft" @click="handleResetQuery()">重置</el-button>
-      </el-form-item>
-    </el-form>
     <el-table
       v-loading="state.loading"
       :data="state.data"
@@ -44,12 +32,11 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
-
   </el-card>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { page, deleteByTokenKey } from '@/api/monitor/onlineUser'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
@@ -72,8 +59,6 @@ const state: StateOptions = reactive({
   },
 })
 
-const queryFormRef = ref()
-
 onMounted(() => {
   getPage()
 })
@@ -85,18 +70,6 @@ const {
   handleSelectionChange,
 } = crud(state)
 
-/** 重置按钮操作 */
-const handleResetQuery = () => {
-  for (const key in state.range) {
-    state.range[key] = []
-  }
-
-  if(queryFormRef.value) {
-    queryFormRef.value.resetFields()
-  }
-
-  getPage()
-}
 
 const handleForceQuit = (tokenKey: string) => {
   ElMessageBox.confirm('确定踢出该用户？', '提示', {
