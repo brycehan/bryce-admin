@@ -159,7 +159,7 @@ const getOrgList = () => {
 /** 上级机构树，设置默认值 */
 const handleTreeDefault = () => {
   dataForm.parentId = 0
-  dataForm.parentName = '顶级机构'
+  dataForm.parentName = '主类目'
 }
 
 const handleTreeCurrentChange = (data: any) => {

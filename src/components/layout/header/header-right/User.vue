@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import stores from '@/stores'
 import {ArrowDown} from "@element-plus/icons-vue";
-import avatarImg from '@/assets/images/user2-128x128.jpg'
+import avatarImg from '@/assets/images/user1-128x128.jpg'
 import {computed} from "vue";
 
 const username = computed(() => stores.authStore.user.username)

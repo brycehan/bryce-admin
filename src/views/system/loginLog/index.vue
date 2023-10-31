@@ -10,9 +10,9 @@
       <el-form-item label="状态" prop="status">
         <dict-select v-model="state.queryForm.status" dict-type="sys_operate_status" placeholder="登录状态" clearable />
       </el-form-item>
-      <el-form-item label="创建时间" prop="createdTime">
+      <el-form-item label="访问时间" prop="accessTime">
         <el-date-picker
-            v-model="state.range.createdTime"
+            v-model="state.range.accessTime"
             type="daterange"
             unlink-panels
             range-separator="-"
@@ -45,7 +45,6 @@
       <el-table-column label="User Agent" prop="userAgent" show-overflow-tooltip header-align="center" align="center" />
       <dict-table-column label="状态" prop="status" dict-type="sys_operate_status" />
       <el-table-column label="访问时间" prop="accessTime" header-align="center" align="center" width="165" />
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="165" />
     </el-table>
     <el-pagination
         :current-page="state.current"
@@ -74,11 +73,10 @@ const state: StateOptions = reactive({
   queryForm: {
     username: '',
     ip: '',
-    status: '',
-    createdTime: ''
+    status: ''
   },
   range: {
-    createdTime: ''
+    accessTime: ''
   },
 })
 

@@ -30,7 +30,7 @@ const constantRoutes: RouteRecordRaw[] = [
     // route level code-splitting
     // this generates a separate chunk (About.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import('@/views/404/index.vue')
+    component: () => import('@/views/404.vue')
   }
 ]
 
@@ -42,7 +42,7 @@ const asyncRoute: RouteRecordRaw = {
     {
       path: '/home',
       name: 'Home',
-      component: () => import('@/views/home/index.vue'),
+      component: () => import('@/views/home.vue'),
       meta: {
         title: '首页',
         affix: true
