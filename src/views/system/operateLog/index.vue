@@ -46,7 +46,7 @@
       <el-table-column label="请求方法" prop="requestMethod" header-align="center" align="center" />
       <dict-table-column label="操作类型" prop="operatedType" dict-type="sys_operate_type" header-align="center" align="center" />
       <dict-table-column label="操作状态" prop="status" dict-type="sys_status" />
-      <el-table-column label="操作IP" prop="ip" header-align="center" align="center" />
+      <el-table-column label="操作IP" prop="ip" show-overflow-tooltip header-align="center" align="center" />
       <el-table-column label="操作地点" prop="location" header-align="center" align="center" />
       <el-table-column label="操作账号" prop="username" header-align="center" align="center" />
       <el-table-column label="操作时间" prop="operatedTime" header-align="center" align="center" width="160"/>
