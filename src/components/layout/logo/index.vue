@@ -1,5 +1,5 @@
 <template>
-  <div v-if="stores.appStore.sidebarOpened" class="sidebar-logo">
+  <div v-if="appStore.sidebarOpened" class="sidebar-logo">
     <el-avatar src="/favicon.ico"></el-avatar>
     <span class="logo-title">Bryce Admin</span>
   </div>
@@ -9,7 +9,9 @@
 </template>
 
 <script setup lang="ts">
-import stores from '@/stores'
+import {useAppStore} from "@/stores/app";
+
+const appStore = useAppStore()
 </script>
 <style scoped lang="scss">
 .sidebar-logo {

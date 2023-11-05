@@ -6,16 +6,16 @@
     :align="align"
     :width="width">
     <template #default="scope">
-      <el-tag v-if="getDictLabelClass(stores.appStore.dictList, props.dictType, scope.row[props.prop])"
+      <el-tag v-if="getDictLabelClass(appStore.dictList, props.dictType, scope.row[props.prop])"
               :type="
-                getDictLabelClass(stores.appStore.dictList, props.dictType, scope.row[props.prop]) === 'primary'
+                getDictLabelClass(appStore.dictList, props.dictType, scope.row[props.prop]) === 'primary'
                 ? ''
-                : getDictLabelClass(stores.appStore.dictList, props.dictType, scope.row[props.prop])
+                : getDictLabelClass(appStore.dictList, props.dictType, scope.row[props.prop])
       ">
-        {{ getDictLabel(stores.appStore.dictList, props.dictType, scope.row[props.prop]) }}
+        {{ getDictLabel(appStore.dictList, props.dictType, scope.row[props.prop]) }}
       </el-tag>
       <span v-else>
-        {{ getDictLabel(stores.appStore.dictList, props.dictType, scope.row[props.prop]) }}
+        {{ getDictLabel(appStore.dictList, props.dictType, scope.row[props.prop]) }}
       </span>
     </template>
   </el-table-column>
@@ -23,7 +23,9 @@
 
 <script setup lang="ts">
 import {getDictLabel, getDictLabelClass} from "@/utils/tool";
-import stores from "@/stores";
+import {useAppStore} from "@/stores/app";
+
+const appStore = useAppStore()
 
 const props = defineProps({
   label: {

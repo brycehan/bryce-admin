@@ -5,12 +5,14 @@
 </template>
 
 <script setup lang="ts">
-import stores from '@/stores'
+import {useAppStore} from "@/stores/app";
 import { computed } from 'vue'
 
+const appStore = useAppStore()
+
 const handleClick = () => {
-  stores.appStore.toggleSidebarOpened()
+  appStore.toggleSidebarOpened()
 }
 
-const icon = computed(() => (stores.appStore.sidebarOpened ? 'icon-outdent' : 'icon-indent'))
+const icon = computed(() => (appStore.sidebarOpened ? 'icon-outdent' : 'icon-indent'))
 </script>

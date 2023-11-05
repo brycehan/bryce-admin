@@ -1,12 +1,13 @@
 import {
-  createRouter, createWebHashHistory,
-  createWebHistory,
+  createRouter, createWebHistory,
   type RouteRecordRaw
 } from 'vue-router'
-import stores from '@/stores'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import {isExternalLink} from "@/utils/tool";
+import {useAuthStore} from "@/stores/auth";
+import {useAppStore} from "@/stores/app";
+import {useRouterStore} from "@/stores/router";
 
 NProgress.configure({ showSpinner: false })
 
@@ -85,7 +86,6 @@ export const errorRoute: RouteRecordRaw = {
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  // history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: constantRoutes
 })
 
@@ -96,28 +96,32 @@ const whiteList = ['/login']
 router.beforeEach(async (to, from, next) => {
   NProgress.start()
 
+  const authStore = useAuthStore()
+  const appStore = useAppStore();
+  const routerStore = useRouterStore();
+
   // token存在的情况
-  if (stores.authStore.token) {
+  if (authStore.token) {
     if (to.path === '/login') {
       next('/home')
     } else {
       // 用户信息不存在，则重新拉取
-      if (!stores.authStore.user.id) {
+      if (!authStore.user?.id) {
         try {
-          await stores.authStore.getCurrentUser()
-          await stores.authStore.getAuthoritySet()
-          await stores.appStore.getDictList()
+          await authStore.getCurrentUser()
+          await authStore.getAuthoritySet()
+          await appStore.getDictList()
         } catch (error) {
           console.warn('出错：', error)
 
           // 请求异常，则跳转到登录页
-          stores.authStore?.removeToken()
+          authStore?.removeToken()
           next('/login')
           // return
           return Promise.reject(error)
         }
         // 动态菜单
-        const menuRoutes = await stores.routerStore.getMenuRoutes()
+        const menuRoutes = await routerStore.getMenuRoutes()
 
         // 获取扁平化路由，将多级路由转换成一组路由
         const flatRoutes = getFlatRoutes(menuRoutes, [])
@@ -129,7 +133,7 @@ router.beforeEach(async (to, from, next) => {
         router.addRoute(errorRoute)
 
         // 保存路由数据
-        stores.routerStore.setRoutes(constantRoutes.concat(asyncRoute))
+        routerStore.setRoutes(constantRoutes.concat(asyncRoute))
 
         next({ ...to, replace: true })
       } else {

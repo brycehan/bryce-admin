@@ -5,7 +5,7 @@
       <el-scrollbar>
         <el-container class="main-card-container">
             <router-view v-slot="{ Component, route }">
-              <keep-alive :include="[...stores.tabsStore.cachedViews]">
+              <keep-alive :include="[...tabsStore.cachedViews]">
                 <component :is="Component" :key="route.name"/>
               </keep-alive>
             </router-view>
@@ -17,7 +17,9 @@
 
 <script setup lang="ts">
 import Tabs from '@/components/layout/main/Tabs.vue'
-import stores from "@/stores";
+import {useTabsStore} from "@/stores/tabs";
+
+const tabsStore = useTabsStore()
 </script>
 
 <style lang="scss">

@@ -19,15 +19,17 @@
 </template>
 
 <script setup lang="ts">
-import stores from '@/stores'
+import {useAuthStore} from "@/stores/auth";
 import {ArrowDown} from "@element-plus/icons-vue";
 import avatarImg from '@/assets/images/user1-128x128.jpg'
 import {computed} from "vue";
 
-const username = computed(() => stores.authStore.user.username)
+const authStore = useAuthStore()
+
+const username = computed(() => authStore.user.username)
 
 const logout = () => {
-  stores.authStore.logout().then(() => {
+  authStore.logout().then(() => {
     // 刷新页面
     location.reload()
   })

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { type RouteLocationNormalizedLoaded } from 'vue-router'
 
-export const tabsStore = defineStore('tabsStore', {
+export const useTabsStore = defineStore('tabsStore', {
   state: () => ({
     visitedViews: [] as any[],
     cachedViews: [] as any[]

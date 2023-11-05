@@ -1,25 +1,31 @@
-import stores from '@/stores'
+import {useTabsStore} from "@/stores/tabs";
 
 /** 关闭标签页 */
 export const closeTab = (router: any, tab: any) => {
+  const tabsStore = useTabsStore()
+
   if (tab.meta && tab.meta.affix) {
     return
   }
 
-  stores.tabsStore.deleteView(tab)
-  toLastView(router, stores.tabsStore.visitedViews, tab)
+  tabsStore.deleteView(tab)
+  toLastView(router, tabsStore.visitedViews, tab)
 }
 
 /** 关闭其它标签页 */
 export const closeOthersTabs = (router: any, tab: any) => {
+  const  tabsStore = useTabsStore()
+
   router.push(tab)
-  stores.tabsStore.deleteOthersViews(tab)
+  tabsStore.deleteOthersViews(tab)
 }
 
 /** 关闭全部标签页 */
 export const closeAllTabs = (router: any, tab: any) => {
-  stores.tabsStore.deleteAllViews()
-  toLastView(router, stores.tabsStore.visitedViews, tab)
+  const tabsStore = useTabsStore()
+
+  tabsStore.deleteAllViews()
+  toLastView(router, tabsStore.visitedViews, tab)
 }
 
 /** 跳转到最后一个标签页 */

@@ -8,7 +8,7 @@
     >
       <template #title>
         <SvgIcon :icon="menu.meta.icon" />
-        <span v-if="stores.appStore.sidebarOpened">{{ menu.meta.title }}</span>
+        <span v-if="appStore.sidebarOpened">{{ menu.meta.title }}</span>
       </template>
       <MenuItem v-for="item in menu.children" :key="item.path" :menu="item" />
     </el-sub-menu>
@@ -29,9 +29,9 @@
 <script setup lang="ts">
 import { computed, type PropType } from 'vue'
 import { useRouter } from 'vue-router'
-import stores from '@/stores'
 import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 import {isExternalLink, replaceLinkParam} from "@/utils/tool";
+import {useAppStore} from "@/stores/app";
 
 defineOptions({
   name: 'MenuItem'
@@ -45,9 +45,10 @@ defineProps({
 })
 
 const router = useRouter()
+const appStore = useAppStore()
 
 const titleSpanClass = computed(() => {
-  return stores.appStore.sidebarOpened ? '' : 'title-hide'
+  return appStore.sidebarOpened ? '' : 'title-hide'
 })
 
 /**

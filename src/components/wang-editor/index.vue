@@ -26,7 +26,9 @@ import  {Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import {onBeforeUnmount, shallowRef} from "vue";
 import type {IDomEditor, IEditorConfig} from "@wangeditor/editor";
 import constant from "@/utils/constant";
-import stores from "@/stores";
+import {useAuthStore} from "@/stores/auth";
+
+const authStore = useAuthStore()
 
 const props = defineProps({
   modelValue: {
@@ -71,7 +73,7 @@ const editorConfig: Partial<IEditorConfig> = {
       timeout: 20 * 1000, // 20s
       // form-data fieldName
       fieldName: 'file',
-      headers: { Authorization: stores.authStore.token },
+      headers: { Authorization: authStore.token },
       // 单个文件的最大体积限制，默认为 2M
       maxFileSize: 10 * 1024 * 1024, // 10M
       // 自定义插入图片

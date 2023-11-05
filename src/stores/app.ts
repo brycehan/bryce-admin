@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import storage from '@/utils/storage'
 import {dictList} from "@/api/system/dictType";
-export const appStore = defineStore('appStore', {
+export const useAppStore = defineStore('appStore', {
   state: () => ({
     // sidebar 是否展开
     sidebarOpened: storage.getSidebarOpened(),

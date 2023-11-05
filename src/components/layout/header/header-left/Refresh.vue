@@ -4,15 +4,16 @@
 
 <script setup lang="ts">
 import SvgIcon from '@/components/svg-icon/svg-icon.vue'
-import stores from '@/stores'
+import {useTabsStore} from "@/stores/tabs";
 import { useRoute, useRouter } from 'vue-router'
 import { nextTick } from 'vue'
 
 const router = useRouter()
 const route = useRoute()
+const tabsStore = useTabsStore()
 
 const refresh = () => {
-  stores.tabsStore.deleteCachedView(route).then(() => {
+  tabsStore.deleteCachedView(route).then(() => {
     nextTick(() => {
       router.replace({ path: '/redirect' + route.path }).catch((error) => {
         console.warn(error)

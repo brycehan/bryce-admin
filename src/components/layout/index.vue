@@ -6,12 +6,12 @@
       <el-scrollbar>
         <el-menu
           :default-active="route.path"
-          :collapse="!stores.appStore.sidebarOpened"
+          :collapse="!appStore.sidebarOpened"
           :unique-opened="true"
           :collapse-transition="false"
           mode="vertical"
         >
-          <MenuItem v-for="menu in stores.routerStore.menuRoutes" :key="menu.path" :menu="menu" />
+          <MenuItem v-for="menu in routerStore.menuRoutes" :key="menu.path" :menu="menu" />
         </el-menu>
       </el-scrollbar>
     </el-aside>
@@ -28,7 +28,7 @@
   </el-container>
 </template>
 <script setup lang="ts">
-import stores from '@/stores'
+import {useAppStore} from "@/stores/app";
 import Logo from '@/components/layout/logo/index.vue'
 import MenuItem from '@/components/layout/menu-item/index.vue'
 import Header from '@/components/layout/header/index.vue'
@@ -36,10 +36,14 @@ import Header from '@/components/layout/header/index.vue'
 import Main from '@/components/layout/main/index.vue'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
+import {useRouterStore} from "@/stores/router";
 
 const route = useRoute()
+const appStore = useAppStore()
+const routerStore = useRouterStore()
+
 const sidebarClass = computed(() => {
-  return stores.appStore.sidebarOpened ? 'aside-expend' : 'aside-compress'
+  return appStore.sidebarOpened ? 'aside-expend' : 'aside-compress'
 })
 </script>
 

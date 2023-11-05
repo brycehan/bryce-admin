@@ -18,12 +18,14 @@
 </template>
 
 <script setup lang="ts">
-import stores from '@/stores'
+import {useAppStore} from "@/stores/app";
 import { computed } from 'vue'
 import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 
-const componentSize = computed(() => stores.appStore.componentSize)
+const appStore = useAppStore()
+
+const componentSize = computed(() => appStore.componentSize)
 const fontSizeChange = (componentSize: string) => {
-  stores.appStore.setComponentSize(componentSize)
+  appStore.setComponentSize(componentSize)
 }
 </script>

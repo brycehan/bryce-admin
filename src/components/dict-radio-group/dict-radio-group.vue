@@ -8,7 +8,9 @@
 
 <script setup lang="ts">
 import { dictDataList } from "@/utils/tool";
-import stores from "@/stores";
+import {useAppStore} from "@/stores/app";
+
+const appStore = useAppStore()
 
 const props = defineProps({
   modelValue: {
@@ -21,7 +23,7 @@ const props = defineProps({
   }
 })
 
-const dataList = dictDataList(stores.appStore.dictList, props.dictType)
+const dataList = dictDataList(appStore.dictList, props.dictType)
 </script>
 
 <style scoped>

@@ -3,7 +3,7 @@ import { loginByAccount, loginByPhone, currentUser, authority, logout } from '@/
 import storage from '@/utils/storage'
 import type { Auth } from '@/api/system/auth'
 
-export const authStore = defineStore('authStore', {
+export const useAuthStore = defineStore('authStore', {
   state: () => ({
     // 用户信息
     user: {

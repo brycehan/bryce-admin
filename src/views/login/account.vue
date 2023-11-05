@@ -28,10 +28,12 @@
 
 <script setup lang="ts">
 import {User, Lock, Key} from '@element-plus/icons-vue'
-import stores from '@/stores'
 import {onMounted, reactive, ref} from 'vue'
 import { router } from '@/router'
+import {useAuthStore} from "@/stores/auth";
 import { generate, enabled} from "@/api/system/captcha";
+
+const authStore = useAuthStore()
 
 let loginFormRef = ref()
 let loading = ref(false)
@@ -77,7 +79,7 @@ const loginByAccount = async () => {
 
     loading.value = true
     // 用户登录
-    stores.authStore
+    authStore
         .loginByAccount(loginDto)
         .then(() => {
           router.push({ path: '/' })

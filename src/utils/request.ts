@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {ElMessage, ElMessageBox} from 'element-plus'
-import stores from '@/stores'
+import {useAuthStore} from "@/stores/auth";
 import qs from 'qs'
 
 /** axios实例 */
@@ -13,7 +13,7 @@ const request = axios.create({
 /** 请求拦截器 */
 request.interceptors.request.use(
     (config) => {
-        const authStore = stores.authStore
+        const authStore = useAuthStore()
         if (authStore?.token) {
             config.headers.Authorization = authStore.token
         }
@@ -38,14 +38,16 @@ request.interceptors.request.use(
 
 /** 响应拦截器 */
 request.interceptors.response.use(
-    (response) => {
+    async (response) => {
+        const authStore = useAuthStore()
+
         if (response.status !== 200) {
             return Promise.reject(new Error(response.statusText) || 'Error')
         }
 
         // 处理自动刷新令牌
         if(response.headers.authorization) {
-            stores.authStore.setToken(response.headers.authorization)
+            authStore.setToken(response.headers.authorization)
         }
 
         if (response.headers['content-type'].startsWith('application/json')) {
@@ -57,7 +59,7 @@ request.interceptors.response.use(
 
             // 没有权限，如：未登录、登录过期等，需要跳转到登录页
             if (responseData.code === 401) {
-                stores.authStore?.removeToken()
+                authStore?.removeToken()
                 return handleAuthorized()
             }
             // 错误提示
@@ -84,7 +86,9 @@ const handleAuthorized = () => {
         type: 'warning',
         confirmButtonText: '重新登录'
     }).then(() => {
-        stores.authStore?.removeToken()
+        const authStore = useAuthStore()
+
+        authStore?.removeToken()
         location.reload()
 
         return Promise.reject('登录超时，请重新登录')

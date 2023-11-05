@@ -116,13 +116,13 @@ const state: StateOptions  = reactive({
   },
   dataForm: {
     id: undefined,
-    username: '', 
-    password: '', 
+    username: '',
+    password: '',
     fullName: '',
     gender: 'M',
-    phone: '', 
-    email: '', 
-    sort: '', 
+    phone: '',
+    email: '',
+    sort: '',
     orgId: '',
     status: true,
     remark: '',
@@ -133,8 +133,8 @@ const state: StateOptions  = reactive({
 
 const dataFormRef = ref()
 const orgList = ref([])
-const roleList = ref([])
-const postList = ref([])
+const roleList = ref<any[]>([])
+const postList = ref<any[]>([])
 
 const dataRules = reactive({
     username: [

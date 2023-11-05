@@ -8,7 +8,7 @@
         @tab-remove="tabRemove"
       >
         <el-tab-pane
-          v-for="tab in stores.tabsStore.visitedViews"
+          v-for="tab in tabsStore.visitedViews"
           :key="tab"
           :label="tab.title"
           :name="tab.path"
@@ -34,12 +34,15 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import stores from '@/stores'
 import { ArrowDown, Close, CircleClose, CircleCloseFilled } from '@element-plus/icons-vue'
 import { closeTab, closeOthersTabs, closeAllTabs } from '@/utils/tabs'
+import {useTabsStore} from "@/stores/tabs";
+import {useRouterStore} from "@/stores/router";
 
 const route = useRoute()
 const router = useRouter()
+const tabsStore = useTabsStore()
+const routerStore = useRouterStore()
 
 const activeTabName = ref(route.path)
 
@@ -58,11 +61,11 @@ onMounted(() => {
 
 /** 初始化固定标签页 */
 const initTabs = () => {
-  const affixTabs = getAffixTabs(stores.routerStore.routes)
+  const affixTabs = getAffixTabs(routerStore.routes)
   for (const tab of affixTabs) {
     // 需要有标签名称
     if (tab.name) {
-      stores.tabsStore.addView(tab)
+      tabsStore.addView(tab)
     }
   }
 }
@@ -91,8 +94,8 @@ const getAffixTabs = (routes: any) => {
 
 /** 添加标签页 */
 const addTab = () => {
-  stores.tabsStore.addView(route)
-  stores.tabsStore.addCachedView(route)
+  tabsStore.addView(route)
+  tabsStore.addCachedView(route)
   activeTabName.value = route.path
 }
 /** 标签页是否固定 */
@@ -107,7 +110,7 @@ const tabClick = (tab: any) => {
 
 /** 点击关闭标签页回调 */
 const tabRemove = (path: string) => {
-  const tab = stores.tabsStore.visitedViews.filter((tab: any) => tab.path === path)
+  const tab = tabsStore.visitedViews.filter((tab: any) => tab.path === path)
   closeTab(router, tab[0])
 }
 
@@ -142,7 +145,7 @@ const onClose = (type: string) => {
     transition: left 3s;
     flex-grow: 1;
     overflow: hidden;
-    border-bottom: 0px solid red;
+    border-bottom: 0 solid red;
 
     // 往前图标样式
     ::v-deep(.el-tabs__nav-prev) {
@@ -162,7 +165,7 @@ const onClose = (type: string) => {
 
     // 当前标签页样式
     ::v-deep(.el-tabs__active-bar) {
-      height: 0px;
+      height: 0;
     }
 
     // 关闭图标样式

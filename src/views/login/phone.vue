@@ -17,13 +17,15 @@
 </template>
 
 <script setup lang="ts">
-import stores from '@/stores'
+import {useAuthStore} from "@/stores/auth";
 import {onMounted, reactive, ref} from 'vue'
 import { router } from '@/router'
 import { enabled} from "@/api/system/captcha";
 import { sendLoginCode} from "@/api/system/sms";
 import {phoneRegExp} from "@/utils/tool";
 import {ElMessage} from "element-plus";
+
+const authStore = useAuthStore()
 
 let loginFormRef = ref()
 let loading = ref(false)
@@ -90,7 +92,7 @@ const loginByPhone = async () => {
 
     loading.value = true
     // 用户登录
-    stores.authStore
+    authStore
         .loginByPhone(loginForm)
         .then(() => {
           router.push({ path: '/' })
