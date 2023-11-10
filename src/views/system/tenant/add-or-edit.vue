@@ -39,7 +39,7 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="过期时间" prop="expiresTime">
-            <el-date-picker type="date" v-model="state.dataForm.expiresTime" placeholder="过期时间" class="w-100" />
+            <el-date-picker type="date" v-model="state.dataForm.expiresTime" placeholder="过期时间" value-format="YYYY-MM-DD" class="w-100" />
           </el-form-item>
         </el-col>
         <el-col :span="12">

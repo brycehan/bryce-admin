@@ -55,13 +55,13 @@ const state: StateOptions = reactive({
   api: {
     list
   },
-    queryForm: {
-          status: '',
-          tenantId: '',
-          name: ''
-    },
-    data: [],
-    loading: false,
+  queryForm: {
+        status: '',
+        tenantId: '',
+        name: ''
+  },
+  data: [],
+  loading: false,
 })
 
 const queryFormRef = ref()

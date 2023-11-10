@@ -38,6 +38,18 @@
       </el-row>
       <el-row>
         <el-col :span="12">
+          <el-form-item label="手机号码" prop="phone">
+            <el-input v-model="state.dataForm.phone" placeholder="手机号码" clearable />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="邮箱" prop="email">
+            <el-input v-model="state.dataForm.email" placeholder="邮箱" clearable />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
           <el-form-item label="所属机构" prop="orgId">
             <el-tree-select
               v-model="state.dataForm.orgId"
@@ -51,20 +63,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="状态" prop="status">
-            <dict-radio-group v-model="state.dataForm.status" dict-type="sys_status"/>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="手机号码" prop="phone">
-            <el-input v-model="state.dataForm.phone" placeholder="手机号码" clearable />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="邮箱" prop="email">
-            <el-input v-model="state.dataForm.email" placeholder="邮箱" clearable />
+          <el-form-item label="岗位" prop="postIds">
+            <el-select v-model="state.dataForm.postIds" multiple placeholder="请选择岗位" class="w-100" clearable>
+              <el-option v-for="post in postList" :key="post.id" :label="post.name" :value="post.id" />
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -77,10 +79,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="岗位" prop="postIds">
-            <el-select v-model="state.dataForm.postIds" multiple placeholder="请选择岗位" class="w-100" clearable>
-              <el-option v-for="post in postList" :key="post.id" :label="post.name" :value="post.id" />
-            </el-select>
+          <el-form-item label="状态" prop="status">
+            <dict-radio-group v-model="state.dataForm.status" dict-type="sys_status"/>
           </el-form-item>
         </el-col>
       </el-row>
