@@ -30,7 +30,6 @@
       <el-table-column label="AppSecret" prop="appSecret" show-overflow-tooltip header-align="center" align="center" />
       <el-table-column label="类型" prop="type" header-align="center" align="center" />
       <el-table-column label="token" prop="token" show-overflow-tooltip header-align="center" align="center" />
-      <el-table-column label="重定向地址" prop="redirectUrl" show-overflow-tooltip header-align="center" align="center" />
       <dict-table-column label="状态" prop="status" dict-type="sys_status" />
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="160" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">

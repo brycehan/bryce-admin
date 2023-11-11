@@ -15,6 +15,12 @@
       <el-form-item label="名称" prop="name">
         <el-input v-model="state.dataForm.name" placeholder="请输入名称" />
       </el-form-item>
+      <el-form-item label="类型" prop="type">
+        <el-radio-group v-model="state.dataForm.type" >
+          <el-radio label="mp">公众号</el-radio>
+          <el-radio label="ma">小程序</el-radio>
+        </el-radio-group>
+      </el-form-item>
       <el-form-item prop="appId">
         <template #label>
           <el-tooltip content="在微信公众平台（mp.weixin.qq.com）的菜单 [设置与开发 - 基本设置] 中能找到「开发者ID(AppID)」" placement="top">
@@ -33,11 +39,8 @@
         </template>
         <el-input v-model="state.dataForm.appSecret" placeholder="请输入appSecret" />
       </el-form-item>
-      <el-form-item label="token" prop="token">
+      <el-form-item v-if="state.dataForm.type === 'mp'" label="token" prop="token">
         <el-input v-model="state.dataForm.token" placeholder="请输入令牌" />
-      </el-form-item>
-      <el-form-item label="重定向地址" prop="redirectUrl">
-        <el-input v-model="state.dataForm.redirectUrl" placeholder="请输入重定向地址" />
       </el-form-item>
       <el-form-item label="状态" prop="status">
         <dict-radio-group v-model="state.dataForm.status" dict-type="sys_status" />
