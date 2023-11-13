@@ -74,6 +74,36 @@ export const constantMenu = [
         name: 'Icon 图标',
         url: 'demo/icons/index',
         icon: 'icon-unorderedlist'
+      },
+      {
+        id: -12,
+        name: '二维码生成',
+        url: 'demo/qrcode/index',
+        icon: 'icon-unorderedlist'
+      },
+      {
+        id: -13,
+        name: '页面打印',
+        url: 'demo/printJs/index',
+        icon: 'icon-unorderedlist'
+      },
+      {
+        id: -14,
+        name: '图片裁剪',
+        url: 'demo/cropper/index',
+        icon: 'icon-unorderedlist'
+      },
+      {
+        id: -15,
+        name: 'Markdown',
+        url: 'demo/markdown/index',
+        icon: 'icon-unorderedlist'
+      },
+      {
+        id: -16,
+        name: 'ECharts图表',
+        url: 'demo/echarts/index',
+        icon: 'icon-unorderedlist'
       }
     ]
   }
