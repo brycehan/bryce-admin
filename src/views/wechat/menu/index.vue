@@ -6,9 +6,6 @@
           <el-option v-for="item in state.data" :key="item.appId" :label="item.name" :value="item.appId" />
         </el-select>
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="Search" @click="getList()">搜索</el-button>
-      </el-form-item>
       <el-form-item class="data-btn-row">
         <el-button v-auth="'wechat:app:delete'" type="danger" icon="Delete" @click="handleDeleteMenu()">清除线上菜单</el-button>
         <el-button v-auth="'wechat:app:save'" type="success" icon="Select" @click="handleSubmit()">应用</el-button>
@@ -40,6 +37,7 @@ const state: StateOptions = reactive({
   },
   queryForm: {
     appId: '',
+    type: 'mp'
   },
   dataForm: {
     list: []

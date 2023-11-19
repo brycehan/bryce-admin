@@ -27,9 +27,27 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="AppID" prop="appId" show-overflow-tooltip header-align="center" align="center"  />
-      <el-table-column label="AppSecret" prop="appSecret" show-overflow-tooltip header-align="center" align="center" />
-      <el-table-column label="类型" prop="type" header-align="center" align="center" />
+      <el-table-column prop="appId" show-overflow-tooltip header-align="center" align="center" >
+        <template #header="">
+          <el-tooltip content="AppID" placement="top">
+            <el-icon><QuestionFilled /></el-icon>
+          </el-tooltip>
+          应用ID
+        </template>
+      </el-table-column>
+      <el-table-column prop="appSecret" show-overflow-tooltip header-align="center" align="center">
+        <template #header>
+          <el-tooltip content="AppSecret" placement="top">
+            <el-icon><QuestionFilled /></el-icon>
+          </el-tooltip>
+          应用密钥
+        </template>
+      </el-table-column>
+      <el-table-column label="类型" prop="type" header-align="center" align="center">
+        <template #default="scope">
+          {{scope.row.type === 'mp' ? '公众号' : '小程序'}}
+        </template>
+      </el-table-column>
       <el-table-column label="token" prop="token" show-overflow-tooltip header-align="center" align="center" />
       <dict-table-column label="状态" prop="status" dict-type="sys_status" />
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="160" />
@@ -61,6 +79,7 @@ import AddOrEdit from './add-or-edit.vue'
 import { page, deleteByIds } from '@/api/wechat/app'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
+import {QuestionFilled} from "@element-plus/icons-vue";
 
 const state: StateOptions = reactive({
   api: {
