@@ -3,7 +3,8 @@
     <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" label-width="68px" @keyup.enter="getPage()" @submit.prevent>
       <el-form-item label="类型" label-width="40px" prop="type">
         <el-select v-model="state.queryForm.type" placeholder="类型" clearable>
-          <el-option label="选择" value="0"/>
+          <el-option label="公众号" value="mp"/>
+          <el-option label="小程序" value="ma"/>
         </el-select>
       </el-form-item>
       <el-form-item label="状态" label-width="40px" prop="status">
