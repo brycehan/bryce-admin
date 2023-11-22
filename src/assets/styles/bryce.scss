@@ -471,4 +471,6 @@
   margin-bottom: auto !important;
 }
 
-
+.el-button+.el-upload-container, .el-upload-container+.el-button {
+  margin-left: 12px;
+}

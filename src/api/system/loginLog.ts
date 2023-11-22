@@ -21,7 +21,9 @@ export const page = (data: any) => {
     return request.post('/system/loginLog/page', data)
 }
 
-/** 导出）*/
+/**
+ * 导出
+ */
 export const downloadExcel = (data: any) => {
     download.post('/system/loginLog/export', data)
 }

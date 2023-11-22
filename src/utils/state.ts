@@ -1,5 +1,6 @@
 import {addDateRange, mergeDefaultOptions} from "@/utils/tool";
 import {ElMessage, ElMessageBox} from "element-plus";
+import type {UploadProps, UploadRawFile} from "element-plus";
 
 export type StateOptions = {
     api: {
@@ -175,6 +176,15 @@ export const crud = (options: StateOptions) => {
         return
     }
 
+    /** 上传文件前处理 */
+    const handleBeforeUpload: UploadProps['beforeUpload'] = (file: UploadRawFile) => {
+        if(file.size / 1024 / 1024 / 1024 > 1) {
+            ElMessage.error('文件大小不能超过1GB')
+            return false
+        }
+        return true
+    }
+
     return {
         getPage,
         getList,
@@ -184,6 +194,7 @@ export const crud = (options: StateOptions) => {
         handleSelectionChange,
         getData,
         handleSaveOrUpdate,
-        handleDownloadExcel
+        handleDownloadExcel,
+        handleBeforeUpload
     }
 }

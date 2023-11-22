@@ -28,6 +28,11 @@
     <el-row class="mb-2">
       <el-button v-auth="'system:user:save'" type="primary" icon="Plus" @click="handleAddOrEdit()">新增</el-button>
       <el-button v-auth="'system:user:delete'" type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
+      <el-upload v-auth="'system:user:import'" :action="importUrl" :headers="headers" :before-upload="handleBeforeUpload" :on-success="handleOnSuccess" :show-file-list="false" class="el-upload-container">
+        <el-button type="info" icon="Upload">导入</el-button>
+      </el-upload>
+<!--      <el-button v-auth="'system:user:import'" type="info" icon="Upload" @click="handleDeleteBatch()">导入</el-button>-->
+      <el-button v-auth="'system:user:export'" type="success" icon="Download" @click="handleDownloadExcel()">导出</el-button>
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -68,14 +73,19 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
-import { page, deleteByIds } from '@/api/system/user'
+import { page, deleteByIds, downloadExcel, importUrl } from '@/api/system/user'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
+import constant from "@/utils/constant";
+import {useAuthStore} from "@/stores/auth";
+import type {UploadProps} from "element-plus";
+import {ElMessage} from "element-plus";
 
 const state: StateOptions = reactive({
   api: {
     page,
-    deleteByIds
+    deleteByIds,
+    downloadExcel
   },
   queryForm: {
     username: '',
@@ -103,6 +113,8 @@ const {
   handleCurrentChange,
   handleDeleteBatch,
   handleSelectionChange,
+  handleDownloadExcel,
+  handleBeforeUpload
 } = crud(state)
 
 /** 重置按钮操作 */
@@ -122,4 +134,22 @@ const handleResetQuery = () => {
 const handleAddOrEdit = (id?: bigint) => {
   addOrEditRef.value.init(id)
 }
+
+const authStore = useAuthStore()
+
+/** 上传文件请求头 */
+const headers = {
+  Authorization: authStore.token
+}
+
+const handleOnSuccess: UploadProps['onSuccess'] = (res) => {
+  if(res.code !== 200) {
+    ElMessage.error('导入失败' + res.message)
+    return false
+  }
+  getPage()
+  ElMessage.success('导入成功')
+
+}
 </script>
+

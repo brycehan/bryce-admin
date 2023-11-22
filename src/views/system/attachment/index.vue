@@ -13,8 +13,8 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-upload v-auth="'system:attachment:save'" :action="constant.uploadUrl" :headers="headers" :before-upload="handleBeforeUpload" :on-success="handleOnSuccess" :show-file-list="false" class="mr-3">
-        <el-button type="primary" icon="Plus">上传</el-button>
+      <el-upload v-auth="'system:attachment:save'" :action="constant.uploadUrl" :headers="headers" :before-upload="handleBeforeUpload" :on-success="handleOnSuccess" :show-file-list="false" class="el-upload-container">
+        <el-button type="primary" icon="Upload">上传</el-button>
       </el-upload>
       <el-button v-auth="'system:attachment:delete'" type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
     </el-row>
@@ -66,8 +66,8 @@ import { crud } from "@/utils/state";
 import type { UploadProps, UploadRawFile } from "element-plus";
 import {ElMessage} from "element-plus";
 import download from "@/utils/download";
-import storage from "@/utils/storage";
 import { convertSizeFormat } from '@/utils/tool'
+import {useAuthStore} from "@/stores/auth";
 
 const state: StateOptions = reactive({
   api: {
@@ -117,9 +117,11 @@ const handleResetQuery = () => {
   getPage()
 }
 
+const authStore = useAuthStore()
+
 /** 上传文件请求头 */
 const headers = {
-  Authorization: storage.getToken()
+  Authorization: authStore.token
 }
 
 /** 上传文件前处理 */

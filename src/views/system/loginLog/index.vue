@@ -28,7 +28,7 @@
     </el-form>
     <el-row class="mb-2">
       <el-button v-auth="'system:loginLog:delete'" type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
-      <el-button v-auth="'system:loginLog:export'" type="warning" icon="Download" @click="handleDownloadExcel()">导出</el-button>
+      <el-button v-auth="'system:loginLog:export'" type="success" icon="Download" @click="handleDownloadExcel()">导出</el-button>
     </el-row>
     <el-table
         v-loading="state.loading"

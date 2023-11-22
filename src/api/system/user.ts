@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import download from "@/utils/download";
 
 export const saveOrUpdate = (data: any) => {
     if (data.id) {
@@ -19,4 +20,13 @@ export const getById = (id: bigint) => {
 export const page = (data: any) => {
     return request.post('/system/user/page', data)
 }
+
+export const downloadExcel = (data: any) => {
+    download.post('/system/user/export', data)
+}
+
+/**
+ * 导入地址
+ */
+export const importUrl = import.meta.env.VITE_API_URL + '/system/user/import'
 
