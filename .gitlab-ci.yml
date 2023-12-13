@@ -4,11 +4,11 @@ stages:
   - deploy
 
 variables:
-  NAMESPACE: bryce-boot
+  HARBOR_HOST: core.harbor.brycehan.com
+  APP_HOST: admin.cloud.brycehan.com
+  NAMESPACE: bryce-cloud
   WORKLOAD: bryce-admin
-  HARBOR_URL: core.harbor.brycehan.com
-  IMAGE_NAME: $HARBOR_URL/bryce/bryce-admin:latest
-  HOST: admin.boot.brycehan.com
+  IMAGE_NAME: $HARBOR_HOST/bryce/bryce-admin:latest
 
 build:
   stage: build
@@ -30,7 +30,7 @@ build:
 
 package:
   stage: package
-  image: $HARBOR_URL/bryce-docker/buildah:latest
+  image: $HARBOR_HOST/bryce-docker/buildah:latest
   when: on_success
   only:
     - main
@@ -41,11 +41,11 @@ package:
 
 deploy:
   stage: deploy
-  image: $HARBOR_URL/bryce-docker/kubectl:latest
+  image: $HARBOR_HOST/bryce-docker/kubectl:latest
   when: on_success
   only:
     - main
   script:
-    - /deploy.sh -n=$NAMESPACE -w=$WORKLOAD -i=$IMAGE_NAME -h=$HOST
+    - /deploy.sh -n=$NAMESPACE -w=$WORKLOAD -i=$IMAGE_NAME -h=$APP_HOST
   tags:
     - bryce-runner
