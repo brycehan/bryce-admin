@@ -39,7 +39,9 @@
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="160"/>
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
         <template #default="scope">
-          <el-button v-auth="'system:attachment:info'" type="primary" link @click="handleDownload(scope.row.url, scope.row.name)">下载</el-button>
+          <a :href="scope.row.url" download>
+            <el-button v-auth="'system:attachment:info'" type="primary" link>下载</el-button>
+          </a>
           <el-button v-auth="'system:attachment:delete'" type="danger" link @click="handleDeleteBatch(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
@@ -65,7 +67,6 @@ import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
 import type { UploadProps, UploadRawFile } from "element-plus";
 import {ElMessage} from "element-plus";
-import download from "@/utils/download";
 import { convertSizeFormat } from '@/utils/tool'
 import {useAuthStore} from "@/stores/auth";
 
@@ -145,9 +146,5 @@ const handleOnSuccess: UploadProps['onSuccess'] = (res) => {
     getPage()
     ElMessage.success('上传成功')
   })
-}
-
-const handleDownload = (url: string, filename: string) => {
-  download.get(url, { filename })
 }
 </script>
