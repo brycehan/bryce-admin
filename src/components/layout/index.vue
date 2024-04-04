@@ -36,7 +36,7 @@ import Header from '@/components/layout/header/index.vue'
 import Main from '@/components/layout/main/index.vue'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
-import { useRouterStore } from '@/stores/router'
+import { useRouterStore } from '@/stores/modules/router'
 
 const route = useRoute()
 const appStore = useAppStore()

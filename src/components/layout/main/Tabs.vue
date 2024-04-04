@@ -37,7 +37,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { ArrowDown, Close, CircleClose, CircleCloseFilled } from '@element-plus/icons-vue'
 import { closeTab, closeOthersTabs, closeAllTabs } from '@/utils/tabs'
 import {useTabsStore} from "@/stores/tabs";
-import { useRouterStore } from '@/stores/router'
+import { useRouterStore } from '@/stores/modules/router'
 
 const route = useRoute()
 const router = useRouter()

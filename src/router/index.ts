@@ -7,7 +7,7 @@ import 'nprogress/nprogress.css'
 import {isExternalLink} from "@/utils/tool";
 import {useAuthStore} from "@/stores/auth";
 import {useAppStore} from "@/stores/app";
-import { useRouterStore } from '@/stores/router'
+import { useRouterStore } from '@/stores/modules/router'
 import { getMenuRoutes } from '@/api/system/router'
 
 NProgress.configure({ showSpinner: false })
