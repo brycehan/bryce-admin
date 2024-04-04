@@ -8,7 +8,6 @@ export const useRouterStore = defineStore(
   () => {
     const menuRoutes: Ref<RouteRecordRaw[]> = ref<RouteRecordRaw[]>([])
     const routes = ref<RouteRecordRaw[]>([])
-    const asyncRoute = ref<RouteRecordRaw>()
 
     const getMenuRoutes = () => {
       return menuRoutes.value
@@ -24,19 +23,13 @@ export const useRouterStore = defineStore(
       routes.value = routesParam
     }
 
-    const setAsyncRoute = (routeParam: RouteRecordRaw) => {
-      asyncRoute.value = routeParam
-    }
-
     return {
       menuRoutes,
       routes,
-      asyncRoute,
       getMenuRoutes,
+      setMenuRoutes,
       getRoutes,
       setRoutes,
-      setMenuRoutes,
-      setAsyncRoute,
     }
   },
   {
