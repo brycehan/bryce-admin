@@ -5,7 +5,7 @@ import '@/assets/styles/index.scss'
 import '@/assets/js/iconfont.js'
 
 import App from './App.vue'
-import { createPinia } from 'pinia'
+import pinia from '@/stores'
 import { router } from '@/router'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
@@ -23,7 +23,8 @@ const app = createApp(App)
 app.use(ElementPlus, {
   locale: zhCn
 })
-app.use(createPinia())
+
+app.use(pinia)
 
 // 自定义指令
 app.use(directives)
