@@ -1,24 +1,45 @@
 import { defineStore } from 'pinia'
-import { nav } from '@/api/system/auth'
-import { generateRoutes, constantMenu } from '@/router'
 import type { RouteRecordRaw } from 'vue-router'
+import type { Ref } from 'vue'
+import { ref } from 'vue'
 
-export const useRouterStore = defineStore('routerStore', {
-  state: () => ({
-    menuRoutes: [] as RouteRecordRaw[],
-    routes: [] as RouteRecordRaw[]
-  }),
-  actions: {
-    async getMenuRoutes() {
-      const { data } = await nav()
-      this.menuRoutes = []
-      this.menuRoutes.push(...generateRoutes(data))
-      this.menuRoutes.push(...generateRoutes(constantMenu))
+export const useRouterStore = defineStore(
+  'routerStore',
+  () => {
+    const menuRoutes: Ref<RouteRecordRaw[]> = ref<RouteRecordRaw[]>([])
+    const routes = ref<RouteRecordRaw[]>([])
+    const asyncRoute = ref<RouteRecordRaw>()
 
-      return this.menuRoutes
-    },
-    setRoutes(routes: RouteRecordRaw[]) {
-      this.routes = routes
+    const getMenuRoutes = () => {
+      return menuRoutes.value
     }
-  }
-})
+    const getRoutes = () => {
+      return routes.value
+    }
+
+    const setMenuRoutes = (routesParam: RouteRecordRaw[]) => {
+      menuRoutes.value = routesParam
+    }
+    const setRoutes = (routesParam: RouteRecordRaw[]) => {
+      routes.value = routesParam
+    }
+
+    const setAsyncRoute = (routeParam: RouteRecordRaw) => {
+      asyncRoute.value = routeParam
+    }
+
+    return {
+      menuRoutes,
+      routes,
+      asyncRoute,
+      getMenuRoutes,
+      getRoutes,
+      setRoutes,
+      setMenuRoutes,
+      setAsyncRoute,
+    }
+  },
+  {
+    persist: true,
+  },
+)
