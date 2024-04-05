@@ -68,7 +68,7 @@ import { crud } from "@/utils/state";
 import type { UploadProps, UploadRawFile } from "element-plus";
 import {ElMessage} from "element-plus";
 import { convertSizeFormat } from '@/utils/tool'
-import {useAuthStore} from "@/stores/auth";
+import {useAuthStore} from "@/stores/modules/auth";
 
 const state: StateOptions = reactive({
   api: {

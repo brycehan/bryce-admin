@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {ElMessage, ElMessageBox} from 'element-plus'
-import {useAuthStore} from "@/stores/auth";
+import {useAuthStore} from "@/stores/modules/auth";
 import qs from 'qs'
 
 /** axios实例 */

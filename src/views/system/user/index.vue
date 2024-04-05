@@ -77,7 +77,7 @@ import { page, deleteByIds, downloadExcel, importUrl } from '@/api/system/user'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
 import constant from "@/utils/constant";
-import {useAuthStore} from "@/stores/auth";
+import {useAuthStore} from "@/stores/modules/auth";
 import type {UploadProps} from "element-plus";
 import {ElMessage} from "element-plus";
 

@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import {useAuthStore} from "@/stores/auth";
+import {useAuthStore} from "@/stores/modules/auth";
 import {onMounted, reactive, ref} from 'vue'
 import { router } from '@/router'
 import { enabled} from "@/api/system/captcha";

@@ -26,7 +26,7 @@ import  {Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import {onBeforeUnmount, shallowRef} from "vue";
 import type {IDomEditor, IEditorConfig} from "@wangeditor/editor";
 import constant from "@/utils/constant";
-import {useAuthStore} from "@/stores/auth";
+import {useAuthStore} from "@/stores/modules/auth";
 
 const authStore = useAuthStore()
 

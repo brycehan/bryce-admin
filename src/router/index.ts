@@ -5,7 +5,7 @@ import {
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import {isExternalLink} from "@/utils/tool";
-import {useAuthStore} from "@/stores/auth";
+import {useAuthStore} from "@/stores/modules/auth";
 import { useAppStore } from '@/stores/modules/app'
 import { useRouterStore } from '@/stores/modules/router'
 import { getMenuRoutes } from '@/api/system/router'

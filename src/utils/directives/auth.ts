@@ -1,5 +1,5 @@
 import type {DirectiveBinding} from "vue";
-import {useAuthStore} from "@/stores/auth";
+import {useAuthStore} from "@/stores/modules/auth";
 
 /**
  * 自定义权限指令
