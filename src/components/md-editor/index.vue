@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import VueMarkdownEditor from '@kangc/v-md-editor';
+import VueMarkdownEditor from '@kangc/v-md-editor'
 import githubTheme from '@kangc/v-md-editor/lib/theme/github.js'
 import '@kangc/v-md-editor/lib/style/base-editor.css'
 import '@kangc/v-md-editor/lib/theme/style/github.css'
@@ -32,4 +32,3 @@ const handleChange = (text: string, html: string) => {
   emit('update:modelValue', text)
 }
 </script>
-

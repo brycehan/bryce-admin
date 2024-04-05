@@ -6,7 +6,7 @@
     </a>
     <Fullscreen />
     <User />
-<!-- <SvgIcon icon="icon-ellipsis-v"></SvgIcon> -->
+    <!-- <SvgIcon icon="icon-ellipsis-v"></SvgIcon> -->
   </div>
 </template>
 

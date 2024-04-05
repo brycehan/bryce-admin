@@ -12,18 +12,18 @@
       @keyup.enter="handleSubmit()"
       class="mr-4"
     >
-        <el-form-item label="openid" prop="openId">
-          <el-input v-model="state.dataForm.openId" placeholder="请输入openid" />
-        </el-form-item>
-        <el-form-item label="消息方向" prop="inOut">
-          <el-input v-model="state.dataForm.inOut" placeholder="请输入消息方向" />
-        </el-form-item>
-        <el-form-item label="消息类型" prop="messageType">
-          <el-input v-model="state.dataForm.messageType" placeholder="请输入消息类型" />
-        </el-form-item>
-        <el-form-item label="消息内容" prop="content">
-          <el-input v-model="state.dataForm.content" placeholder="请输入消息内容" />
-        </el-form-item>
+      <el-form-item label="openid" prop="openId">
+        <el-input v-model="state.dataForm.openId" placeholder="请输入openid" />
+      </el-form-item>
+      <el-form-item label="消息方向" prop="inOut">
+        <el-input v-model="state.dataForm.inOut" placeholder="请输入消息方向" />
+      </el-form-item>
+      <el-form-item label="消息类型" prop="messageType">
+        <el-input v-model="state.dataForm.messageType" placeholder="请输入消息类型" />
+      </el-form-item>
+      <el-form-item label="消息内容" prop="content">
+        <el-input v-model="state.dataForm.content" placeholder="请输入消息内容" />
+      </el-form-item>
     </el-form>
     <template #footer>
       <el-button @click="state.visible = false">取消</el-button>
@@ -35,24 +35,24 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { getById, saveOrUpdate } from '@/api/mp/message'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
 const emit = defineEmits(['refreshPage'])
 
-const state: StateOptions  = reactive({
+const state: StateOptions = reactive({
   api: {
     saveOrUpdate,
     getById,
     emit
   },
   dataForm: {
-    id: '', 
-    openId: '', 
-    inOut: '', 
-    messageType: '', 
-    content: '', 
-    createdTime: '', 
+    id: '',
+    openId: '',
+    inOut: '',
+    messageType: '',
+    content: '',
+    createdTime: '',
     updatedTime: ''
   }
 })
@@ -60,8 +60,8 @@ const state: StateOptions  = reactive({
 const dataFormRef = ref()
 
 const dataRules = reactive({
-    openId: [{ min: 0, max: 50, message: 'openid长度不能超过50个字符', trigger: 'blur' }],
-    messageType: [{ min: 0, max: 25, message: '消息类型长度不能超过25个字符', trigger: 'blur' }]
+  openId: [{ min: 0, max: 50, message: 'openid长度不能超过50个字符', trigger: 'blur' }],
+  messageType: [{ min: 0, max: 25, message: '消息类型长度不能超过25个字符', trigger: 'blur' }]
 })
 
 const { getData, handleSaveOrUpdate } = crud(state)
@@ -94,6 +94,6 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-    init
+  init
 })
 </script>

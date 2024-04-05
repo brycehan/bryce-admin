@@ -11,19 +11,21 @@
       <el-button v-else disabled>{{ sms.count }} 秒后重新发送</el-button>
     </el-form-item>
     <el-form-item>
-      <el-button class="w-100" type="primary" size="default" @click="loginByPhone()">登录</el-button>
+      <el-button class="w-100" type="primary" size="default" @click="loginByPhone()"
+        >登录</el-button
+      >
     </el-form-item>
   </el-form>
 </template>
 
 <script setup lang="ts">
-import {useAuthStore} from "@/stores/modules/auth";
-import {onMounted, reactive, ref} from 'vue'
+import { useAuthStore } from '@/stores/modules/auth'
+import { onMounted, reactive, ref } from 'vue'
 import { router } from '@/router'
-import { enabled} from "@/api/system/captcha";
-import { sendLoginCode} from "@/api/system/sms";
-import {phoneRegExp} from "@/utils/tool";
-import {ElMessage} from "element-plus";
+import { enabled } from '@/api/system/captcha'
+import { sendLoginCode } from '@/api/system/sms'
+import { phoneRegExp } from '@/utils/tool'
+import { ElMessage } from 'element-plus'
 
 const authStore = useAuthStore()
 
@@ -32,7 +34,7 @@ let loading = ref(false)
 
 const loginForm = reactive({
   phone: '15853155402',
-  code: '',
+  code: ''
 })
 
 /** 短信计时器 */
@@ -44,7 +46,7 @@ const sms = reactive({
 
 /** 发送验证码 */
 const sendCode = () => {
-  if(!phoneRegExp.test(loginForm.phone)) {
+  if (!phoneRegExp.test(loginForm.phone)) {
     ElMessage.error('请输入正确的手机号')
     return
   }
@@ -58,7 +60,7 @@ const handleCounter = () => {
   sms.count = sms.total
   sms.disabled = true
   const timer = setInterval(() => {
-    if(sms.count > 1 && sms.count <= sms.total) {
+    if (sms.count > 1 && sms.count <= sms.total) {
       sms.count--
     } else {
       sms.disabled = false
@@ -78,7 +80,7 @@ onMounted(() => {
 const handleCaptchaEnabled = async () => {
   const { data } = await enabled()
   captchaEnabled.value = data
-  if(captchaEnabled.value) {
+  if (captchaEnabled.value) {
     // await handleCaptcha()
   }
 }
@@ -86,29 +88,25 @@ const handleCaptchaEnabled = async () => {
 /** 登录 */
 const loginByPhone = async () => {
   loginFormRef.value.validate((valid: boolean) => {
-    if(!valid) {
+    if (!valid) {
       return false
     }
 
     loading.value = true
     // 用户登录
     authStore
-        .loginByPhone(loginForm)
-        .then(() => {
-          router.push({ path: '/' })
-        })
-        .catch((e: any) => {
-          console.error(e)
-        })
+      .loginByPhone(loginForm)
+      .then(() => {
+        router.push({ path: '/' })
+      })
+      .catch((e: any) => {
+        console.error(e)
+      })
   })
 }
 const loginRules = {
-  phone: [
-    { required: true, message: '必填项不能为空', trigger: 'blur' }
-  ],
-  code: [
-    { required: true, message: '必填项不能为空', trigger: 'blur' }
-  ],
+  phone: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
+  code: [{ required: true, message: '必填项不能为空', trigger: 'blur' }]
 }
 </script>
 
@@ -125,7 +123,6 @@ h2 {
 }
 
 .login-code {
-
   :deep(.el-input) {
     width: 240px;
   }

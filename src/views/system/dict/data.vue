@@ -1,9 +1,27 @@
 <template>
   <el-card shadow="never">
-    <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" @keyup.enter="getPage()" @submit.prevent>
+    <el-form
+      ref="queryFormRef"
+      :model="state.queryForm"
+      :inline="true"
+      @keyup.enter="getPage()"
+      @submit.prevent
+    >
       <el-form-item>
-        <el-button v-auth="'system:dictData:save'" type="primary" icon="Plus" @click="handleAddOrEdit()">新增</el-button>
-        <el-button v-auth="'system:dictData:delete'" type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
+        <el-button
+          v-auth="'system:dictData:save'"
+          type="primary"
+          icon="Plus"
+          @click="handleAddOrEdit()"
+          >新增</el-button
+        >
+        <el-button
+          v-auth="'system:dictData:delete'"
+          type="danger"
+          icon="Delete"
+          @click="handleDeleteBatch()"
+          >删除</el-button
+        >
       </el-form-item>
     </el-form>
     <el-table
@@ -19,11 +37,18 @@
           <el-tag v-if="scope.row.labelClass" :type="scope.row.labelClass">
             {{ scope.row.dictLabel }}
           </el-tag>
-          <el-tag v-else>{{ scope.row.dictLabel}}</el-tag>
+          <el-tag v-else>{{ scope.row.dictLabel }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="字典值" prop="dictValue" header-align="center" align="center" />
-      <el-table-column label="显示顺序" prop="sort" sortable="custom" header-align="center" align="center" width="120"/>
+      <el-table-column
+        label="显示顺序"
+        prop="sort"
+        sortable="custom"
+        header-align="center"
+        align="center"
+        width="120"
+      />
       <el-table-column label="状态" prop="status" header-align="center" align="center" width="120">
         <template #default="scope">
           <el-tag v-if="scope.row.status === true" type="success">正常</el-tag>
@@ -33,8 +58,20 @@
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
         <template #default="scope">
-          <el-button v-auth="'system:dictData:update'" type="primary" link @click="handleAddOrEdit(scope.row.id)">修改</el-button>
-          <el-button v-auth="'system:dictData:delete'" type="danger" link @click="handleDeleteBatch(scope.row.id)">删除</el-button>
+          <el-button
+            v-auth="'system:dictData:update'"
+            type="primary"
+            link
+            @click="handleAddOrEdit(scope.row.id)"
+            >修改</el-button
+          >
+          <el-button
+            v-auth="'system:dictData:delete'"
+            type="danger"
+            link
+            @click="handleDeleteBatch(scope.row.id)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -57,8 +94,8 @@
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './data-add-or-edit.vue'
 import { page, deleteByIds } from '@/api/system/dictData'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
 const props = defineProps({
   dictTypeId: {
@@ -74,10 +111,12 @@ const state: StateOptions = reactive({
   queryForm: {
     dictTypeId: props.dictTypeId
   },
-  orderItems: [{
-    column: 'sort',
-    asc: true
-  }]
+  orderItems: [
+    {
+      column: 'sort',
+      asc: true
+    }
+  ]
 })
 
 const addOrEditRef = ref()
@@ -86,13 +125,8 @@ onMounted(() => {
   getPage()
 })
 
-const {
-  getPage,
-  handleSizeChange,
-  handleCurrentChange,
-  handleDeleteBatch,
-  handleSelectionChange,
-} = crud(state)
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } =
+  crud(state)
 
 /** 新增/修改 弹窗 */
 const handleAddOrEdit = (id?: bigint) => {

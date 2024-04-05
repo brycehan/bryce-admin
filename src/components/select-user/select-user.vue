@@ -1,8 +1,21 @@
 <template>
   <div class="select-user">
     <el-button :type="props.type" :icon="props.icon" @click="state.visible = true">新增</el-button>
-    <el-dialog v-model="state.visible" title="选择用户" :close-on-click-modal="false" :width="900" draggable>
-      <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" label-width="68px" @keyup.enter="getPage()" @submit.prevent>
+    <el-dialog
+      v-model="state.visible"
+      title="选择用户"
+      :close-on-click-modal="false"
+      :width="900"
+      draggable
+    >
+      <el-form
+        ref="queryFormRef"
+        :model="state.queryForm"
+        :inline="true"
+        label-width="68px"
+        @keyup.enter="getPage()"
+        @submit.prevent
+      >
         <el-form-item label="账号" label-width="40px" prop="username">
           <el-input v-model="state.queryForm.username" placeholder="账号" />
         </el-form-item>
@@ -15,11 +28,11 @@
         </el-form-item>
       </el-form>
       <el-table
-          v-loading="state.loading"
-          :data="state.data"
-          :border="true"
-          style="width: 100%"
-          @selection-change="handleSelectionChange"
+        v-loading="state.loading"
+        :data="state.data"
+        :border="true"
+        style="width: 100%"
+        @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" header-align="center" align="center" width="50" />
         <el-table-column label="账号" prop="username" header-align="center" align="center" />
@@ -30,13 +43,13 @@
         <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
       </el-table>
       <el-pagination
-          :current-page="state.current"
-          :page-size="state.size"
-          :total="state.total"
-          :page-sizes="state.pageSizes"
-          :layout="state.layout"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
+        :current-page="state.current"
+        :page-size="state.size"
+        :total="state.total"
+        :page-sizes="state.pageSizes"
+        :layout="state.layout"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
       />
       <template #footer>
         <el-button @click="state.visible = false">取消</el-button>
@@ -49,9 +62,9 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import { page } from '@/api/system/user'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
-import {ElMessage} from "element-plus";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
+import { ElMessage } from 'element-plus'
 
 const props = defineProps({
   type: {
@@ -73,7 +86,7 @@ const state: StateOptions = reactive({
   queryForm: {
     username: '',
     gender: '',
-    phone: '',
+    phone: ''
   }
 })
 
@@ -83,12 +96,7 @@ onMounted(() => {
   getPage()
 })
 
-const {
-  getPage,
-  handleSizeChange,
-  handleCurrentChange,
-  handleSelectionChange,
-} = crud(state)
+const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange } = crud(state)
 
 /** 重置按钮操作 */
 const handleResetQuery = () => {
@@ -96,7 +104,7 @@ const handleResetQuery = () => {
     state.range[key] = []
   }
 
-  if(queryFormRef.value) {
+  if (queryFormRef.value) {
     queryFormRef.value.resetFields()
   }
 
@@ -106,7 +114,7 @@ const handleResetQuery = () => {
 /** 表单提交 */
 const handleSubmit = () => {
   const dataSelected = state.dataSelections ? state.dataSelections : []
-  if(dataSelected.length === 0) {
+  if (dataSelected.length === 0) {
     ElMessage.warning('请选择用户记录')
     return
   }

@@ -19,15 +19,25 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="任务组名" prop="jobGroup">
-              <dict-select v-model="state.dataForm.jobGroup" dict-type="quartz_job_group" placeholder="请选择任务组名" class="w-100" clearable />
-            </el-form-item>
+          <el-form-item label="任务组名" prop="jobGroup">
+            <dict-select
+              v-model="state.dataForm.jobGroup"
+              dict-type="quartz_job_group"
+              placeholder="请选择任务组名"
+              class="w-100"
+              clearable
+            />
+          </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="12">
           <el-form-item label="Bean 名称" prop="beanName">
-            <el-input v-model="state.dataForm.beanName" placeholder="请输入Spring Bean 名称" clearable />
+            <el-input
+              v-model="state.dataForm.beanName"
+              placeholder="请输入Spring Bean 名称"
+              clearable
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -44,7 +54,11 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="cron 表达式" prop="cronExpression">
-            <el-input v-model="state.dataForm.cronExpression" placeholder="请输入cron 表达式" clearable />
+            <el-input
+              v-model="state.dataForm.cronExpression"
+              placeholder="请输入cron 表达式"
+              clearable
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -58,9 +72,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-            <el-form-item label="状态" prop="status">
-              <dict-radio-group v-model="state.dataForm.status" dict-type="quartz_job_status" />
-            </el-form-item>
+          <el-form-item label="状态" prop="status">
+            <dict-radio-group v-model="state.dataForm.status" dict-type="quartz_job_status" />
+          </el-form-item>
         </el-col>
       </el-row>
     </el-form>
@@ -74,12 +88,12 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { getById, saveOrUpdate } from '@/api/quartz/job'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
 const emit = defineEmits(['refreshPage'])
 
-const state: StateOptions  = reactive({
+const state: StateOptions = reactive({
   api: {
     saveOrUpdate,
     getById,
@@ -158,6 +172,6 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-    init
+  init
 })
 </script>

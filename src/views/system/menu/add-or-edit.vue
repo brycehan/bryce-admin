@@ -16,14 +16,24 @@
         <el-input v-model="state.dataForm.name" placeholder="请输入菜单名称" />
       </el-form-item>
       <el-form-item label="类型" prop="type">
-        <el-radio-group v-model="state.dataForm.type" :disabled="!!state.dataForm.id" @change="handleMenuTypeChange">
+        <el-radio-group
+          v-model="state.dataForm.type"
+          :disabled="!!state.dataForm.id"
+          @change="handleMenuTypeChange"
+        >
           <el-radio label="M">菜单</el-radio>
           <el-radio label="B">按钮</el-radio>
           <el-radio label="I">接口</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="上级菜单" prop="parentName" class="popover-container menu-list">
-        <el-popover ref="menuPopoverRef" placement="bottom-start" trigger="click" :width="400" popper-class="popover-pop">
+        <el-popover
+          ref="menuPopoverRef"
+          placement="bottom-start"
+          trigger="click"
+          :width="400"
+          popper-class="popover-pop"
+        >
           <template #reference>
             <el-input v-model="state.dataForm.parentName" :readonly="true" placeholder="上级菜单">
               <template #suffix>
@@ -32,32 +42,43 @@
             </el-input>
           </template>
           <el-tree
-              ref="menuTreeRef"
-              :data="menuList"
-              :props="{ label: 'name', children: 'children'}"
-              node-key="id"
-              :highlight-current="true"
-              :expand-on-click-node="false"
-              accordion
-              @current-change="handleTreeCurrentChange"
+            ref="menuTreeRef"
+            :data="menuList"
+            :props="{ label: 'name', children: 'children' }"
+            node-key="id"
+            :highlight-current="true"
+            :expand-on-click-node="false"
+            accordion
+            @current-change="handleTreeCurrentChange"
           ></el-tree>
         </el-popover>
       </el-form-item>
 
-      <el-form-item v-if="state.dataForm.type === 'M'" label="菜单图标" prop="icon" class="popover-container icon-list">
-        <el-popover ref="iconPopoverRef" placement="top-start" trigger="click" width="40%" popper-class="icon-popover">
+      <el-form-item
+        v-if="state.dataForm.type === 'M'"
+        label="菜单图标"
+        prop="icon"
+        class="popover-container icon-list"
+      >
+        <el-popover
+          ref="iconPopoverRef"
+          placement="top-start"
+          trigger="click"
+          width="40%"
+          popper-class="icon-popover"
+        >
           <template #reference>
-            <el-input v-model="state.dataForm.icon" placeholder="请选择图标"/>
+            <el-input v-model="state.dataForm.icon" placeholder="请选择图标" />
           </template>
           <div class="icon-popover-icon-inner">
             <el-scrollbar class="icon-popover-icon-list" height="250">
               <el-button
                 v-for="(item, index) in iconList"
                 :key="index"
-                :class="{ 'is-active': state.dataForm.icon === item}"
+                :class="{ 'is-active': state.dataForm.icon === item }"
                 @click="handleIcon(item)"
               >
-                <svg-icon :icon="item" size="20px"/>
+                <svg-icon :icon="item" size="20px" />
               </el-button>
             </el-scrollbar>
           </div>
@@ -65,21 +86,21 @@
       </el-form-item>
       <el-row>
         <el-col :span="12">
-      <el-form-item label="地址" prop="url">
-        <el-input v-model="state.dataForm.url" placeholder="请输入地址" />
-      </el-form-item>
+          <el-form-item label="地址" prop="url">
+            <el-input v-model="state.dataForm.url" placeholder="请输入地址" />
+          </el-form-item>
         </el-col>
 
-            <el-col :span="12">
-      <el-form-item label="权限标识" prop="authority">
-        <el-input v-model="state.dataForm.authority" placeholder="请输入权限标识" />
-      </el-form-item>
-            </el-col>
+        <el-col :span="12">
+          <el-form-item label="权限标识" prop="authority">
+            <el-input v-model="state.dataForm.authority" placeholder="请输入权限标识" />
+          </el-form-item>
+        </el-col>
       </el-row>
       <el-row>
         <el-col :span="12">
           <el-form-item label="打开方式" prop="openStyle">
-            <el-radio-group v-model="state.dataForm.openStyle" >
+            <el-radio-group v-model="state.dataForm.openStyle">
               <el-radio :label="false">内部</el-radio>
               <el-radio :label="true">外部</el-radio>
             </el-radio-group>
@@ -105,14 +126,14 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { getById, saveOrUpdate, list } from '@/api/system/menu'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
-import SvgIcon from "@/components/svg-icon/svg-icon.vue";
-import {getIconList} from "@/utils/tool";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
+import SvgIcon from '@/components/svg-icon/svg-icon.vue'
+import { getIconList } from '@/utils/tool'
 
 const emit = defineEmits(['refreshPage'])
 
-const state: StateOptions  = reactive({
+const state: StateOptions = reactive({
   api: {
     saveOrUpdate,
     getById,
@@ -143,18 +164,16 @@ const iconPopoverRef = ref()
 const dataFormRef = ref()
 
 const dataRules = reactive({
-    name: [
-      { required: true, message: '必填项不能为空', trigger: 'blur' },
-      { min: 0, max: 50, message: '菜单名称长度不能超过50个字符', trigger: 'blur' }
-    ],
-  parentName: [
+  name: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
+    { min: 0, max: 50, message: '菜单名称长度不能超过50个字符', trigger: 'blur' }
   ],
-    url: [{ min: 0, max: 255, message: '组件路径长度不能超过255个字符', trigger: 'blur' }],
-    authority: [{ min: 0, max: 100, message: '权限标识长度不能超过100个字符', trigger: 'blur' }],
-    icon: [{ min: 0, max: 100, message: '菜单图标长度不能超过100个字符', trigger: 'blur' }],
-    sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-    remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
+  parentName: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
+  url: [{ min: 0, max: 255, message: '组件路径长度不能超过255个字符', trigger: 'blur' }],
+  authority: [{ min: 0, max: 100, message: '权限标识长度不能超过100个字符', trigger: 'blur' }],
+  icon: [{ min: 0, max: 100, message: '菜单图标长度不能超过100个字符', trigger: 'blur' }],
+  sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
+  remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
 })
 
 const { handleSaveOrUpdate } = crud(state)
@@ -185,11 +204,10 @@ const init = (id?: bigint) => {
 
 /** 获取详情数据 */
 const getData = (id: bigint) => {
-
   getById(id).then((res: any) => {
     Object.assign(state.dataForm, res.data)
 
-    if(state.dataForm.parentId === 0) {
+    if (state.dataForm.parentId === 0) {
       return handleTreeDefault()
     }
 
@@ -200,12 +218,11 @@ const getData = (id: bigint) => {
 /** 菜单类型改变 */
 const handleMenuTypeChange = () => {
   getMenuList()
-
 }
 
 /** 获取菜单列表 */
 const getMenuList = () => {
-  list({}).then(res => {
+  list({}).then((res) => {
     menuList.value = res.data
   })
 }
@@ -240,7 +257,7 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-    init
+  init
 })
 </script>
 
@@ -260,6 +277,5 @@ defineExpose({
     height: 30px;
     width: 30px;
   }
-
 }
 </style>

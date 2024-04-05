@@ -8,18 +8,49 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="会话编号" prop="tokenKey" show-overflow-tooltip header-align="center" align="center" />
+      <el-table-column
+        label="会话编号"
+        prop="tokenKey"
+        show-overflow-tooltip
+        header-align="center"
+        align="center"
+      />
       <el-table-column label="账号" prop="username" header-align="center" align="center" />
-      <el-table-column label="姓名" prop="fullName" show-overflow-tooltip header-align="center" align="center" />
+      <el-table-column
+        label="姓名"
+        prop="fullName"
+        show-overflow-tooltip
+        header-align="center"
+        align="center"
+      />
       <el-table-column label="机构名称" prop="orgName" header-align="center" align="center" />
-      <el-table-column label="登录IP" prop="loginIp" show-overflow-tooltip header-align="center" align="center" />
+      <el-table-column
+        label="登录IP"
+        prop="loginIp"
+        show-overflow-tooltip
+        header-align="center"
+        align="center"
+      />
       <el-table-column label="登录位置" prop="loginLocation" header-align="center" align="center" />
       <el-table-column label="浏览器" prop="browser" header-align="center" align="center" />
       <el-table-column label="操作系统" prop="os" header-align="center" align="center" />
-      <el-table-column label="登录时间" prop="loginTime" show-overflow-tooltip header-align="center" align="center" width="160" />
+      <el-table-column
+        label="登录时间"
+        prop="loginTime"
+        show-overflow-tooltip
+        header-align="center"
+        align="center"
+        width="160"
+      />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="100">
         <template #default="scope">
-          <el-button v-auth="'monitor:onlineUser:delete'" type="primary" link @click="handleForceQuit(scope.row.tokenKey)">强退</el-button>
+          <el-button
+            v-auth="'monitor:onlineUser:delete'"
+            type="primary"
+            link
+            @click="handleForceQuit(scope.row.tokenKey)"
+            >强退</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -38,9 +69,9 @@
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue'
 import { page, deleteByTokenKey } from '@/api/monitor/onlineUser'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
-import {ElMessage, ElMessageBox} from "element-plus";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 const state: StateOptions = reactive({
   api: {
@@ -56,29 +87,25 @@ const state: StateOptions = reactive({
   },
   range: {
     createdTime: ''
-  },
+  }
 })
 
 onMounted(() => {
   getPage()
 })
 
-const {
-  getPage,
-  handleSizeChange,
-  handleCurrentChange,
-  handleSelectionChange,
-} = crud(state)
-
+const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange } = crud(state)
 
 const handleForceQuit = (tokenKey: string) => {
   ElMessageBox.confirm('确定踢出该用户？', '提示', {
     type: 'warning'
-  }).then(() => {
-    deleteByTokenKey(tokenKey).then(() => {
-      ElMessage.success( '操作成功')
-      getPage()
+  })
+    .then(() => {
+      deleteByTokenKey(tokenKey).then(() => {
+        ElMessage.success('操作成功')
+        getPage()
+      })
     })
-  }).catch(() => {})
+    .catch(() => {})
 }
 </script>

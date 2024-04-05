@@ -4,11 +4,23 @@
       <el-col :span="12" :xs="0"></el-col>
       <el-col :span="12" :xs="24">
         <div class="login-form">
-          <account v-if="loginType === 'account'"/>
-          <phone v-if="loginType === 'phone'"/>
+          <account v-if="loginType === 'account'" />
+          <phone v-if="loginType === 'phone'" />
           <div class="login-more">
-            <el-button type="info" link :class="loginType === 'account'? 'text-white' : ''" @click="loginSwitch('account')">账号密码登录</el-button>
-            <el-button type="info" link :class="loginType === 'phone'? 'text-white' : ''" @click="loginSwitch('phone')">手机短信登录</el-button>
+            <el-button
+              type="info"
+              link
+              :class="loginType === 'account' ? 'text-white' : ''"
+              @click="loginSwitch('account')"
+              >账号密码登录</el-button
+            >
+            <el-button
+              type="info"
+              link
+              :class="loginType === 'phone' ? 'text-white' : ''"
+              @click="loginSwitch('phone')"
+              >手机短信登录</el-button
+            >
           </div>
         </div>
       </el-col>
@@ -17,9 +29,9 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue'
-import Account from "@/views/login/account.vue";
-import Phone from "@/views/login/phone.vue";
+import { ref } from 'vue'
+import Account from '@/views/login/account.vue'
+import Phone from '@/views/login/phone.vue'
 
 // 登录类型
 const loginType = ref('account')
@@ -27,7 +39,6 @@ const loginType = ref('account')
 const loginSwitch = (type: string) => {
   loginType.value = type
 }
-
 </script>
 
 <style scoped lang="scss">
@@ -58,8 +69,6 @@ const loginSwitch = (type: string) => {
   display: flex;
   justify-content: space-evenly;
   padding-top: 25px;
-
-
 }
 
 .text-white :deep(span) {

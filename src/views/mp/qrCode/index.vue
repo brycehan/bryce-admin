@@ -1,6 +1,13 @@
 <template>
   <el-card shadow="never">
-    <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" label-width="68px" @keyup.enter="getPage()" @submit.prevent>
+    <el-form
+      ref="queryFormRef"
+      :model="state.queryForm"
+      :inline="true"
+      label-width="68px"
+      @keyup.enter="getPage()"
+      @submit.prevent
+    >
       <el-form-item label="场景值ID" prop="sceneStr">
         <el-input v-model="state.queryForm.sceneStr" placeholder="请输入场景值ID" clearable />
       </el-form-item>
@@ -10,8 +17,16 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'mp:qrCode:save'" type="primary" icon="Plus" @click="handleAddOrEdit()">新增</el-button>
-      <el-button v-auth="'mp:qrCode:delete'" type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
+      <el-button v-auth="'mp:qrCode:save'" type="primary" icon="Plus" @click="handleAddOrEdit()"
+        >新增</el-button
+      >
+      <el-button
+        v-auth="'mp:qrCode:delete'"
+        type="danger"
+        icon="Delete"
+        @click="handleDeleteBatch()"
+        >删除</el-button
+      >
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -21,16 +36,48 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="是否为临时二维码" prop="isTemporary" header-align="center" align="center" />
+      <el-table-column
+        label="是否为临时二维码"
+        prop="isTemporary"
+        header-align="center"
+        align="center"
+      />
       <el-table-column label="场景值ID" prop="sceneStr" header-align="center" align="center" />
       <el-table-column label="二维码ticket" prop="ticket" header-align="center" align="center" />
-      <el-table-column label="二维码图片解析后的地址" prop="url" header-align="center" align="center" />
-      <el-table-column label="该二维码失效时间" prop="expireTime" header-align="center" align="center" />
-      <el-table-column label="该二维码创建时间" prop="createTime" header-align="center" align="center" />
+      <el-table-column
+        label="二维码图片解析后的地址"
+        prop="url"
+        header-align="center"
+        align="center"
+      />
+      <el-table-column
+        label="该二维码失效时间"
+        prop="expireTime"
+        header-align="center"
+        align="center"
+      />
+      <el-table-column
+        label="该二维码创建时间"
+        prop="createTime"
+        header-align="center"
+        align="center"
+      />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
         <template #default="scope">
-          <el-button v-auth="'mp:qrCode:update'" type="primary" link @click="handleAddOrEdit(scope.row.id)">编辑</el-button>
-          <el-button v-auth="'mp:qrCode:delete'" type="danger" link @click="handleDeleteBatch(scope.row.id)">删除</el-button>
+          <el-button
+            v-auth="'mp:qrCode:update'"
+            type="primary"
+            link
+            @click="handleAddOrEdit(scope.row.id)"
+            >编辑</el-button
+          >
+          <el-button
+            v-auth="'mp:qrCode:delete'"
+            type="danger"
+            link
+            @click="handleDeleteBatch(scope.row.id)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -53,8 +100,8 @@
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import { page, deleteByIds } from '@/api/mp/qrCode'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
 const state: StateOptions = reactive({
   api: {
@@ -63,7 +110,7 @@ const state: StateOptions = reactive({
   },
   queryForm: {
     sceneStr: ''
-  },
+  }
 })
 
 const queryFormRef = ref()
@@ -73,13 +120,8 @@ onMounted(() => {
   getPage()
 })
 
-const {
-  getPage,
-  handleSizeChange,
-  handleCurrentChange,
-  handleDeleteBatch,
-  handleSelectionChange,
-} = crud(state)
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } =
+  crud(state)
 
 /** 重置按钮操作 */
 const handleResetQuery = () => {
@@ -87,7 +129,7 @@ const handleResetQuery = () => {
     state.range[key] = []
   }
 
-  if(queryFormRef.value) {
+  if (queryFormRef.value) {
     queryFormRef.value.resetFields()
   }
 

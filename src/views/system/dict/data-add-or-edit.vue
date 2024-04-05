@@ -22,11 +22,11 @@
         <el-select v-model="state.dataForm.labelClass" class="w-100" clearable>
           <el-option
             v-for="item in [
-                {label: 'primary', value: 'primary'},
-                {label: 'success', value: 'success'},
-                {label: 'info', value: 'info'},
-                {label: 'warning', value: 'warning'},
-                {label: 'danger', value: 'danger'},
+              { label: 'primary', value: 'primary' },
+              { label: 'success', value: 'success' },
+              { label: 'info', value: 'info' },
+              { label: 'warning', value: 'warning' },
+              { label: 'danger', value: 'danger' }
             ]"
             :key="item.value"
             :label="item.label"
@@ -41,7 +41,7 @@
         <el-input-number v-model="state.dataForm.sort" :min="0" />
       </el-form-item>
       <el-form-item label="状态" prop="status">
-        <el-radio-group v-model="state.dataForm.status" >
+        <el-radio-group v-model="state.dataForm.status">
           <el-radio :label="true">正常</el-radio>
           <el-radio :label="false">停用</el-radio>
         </el-radio-group>
@@ -60,12 +60,12 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { getById, saveOrUpdate } from '@/api/system/dictData'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
 const emit = defineEmits(['refreshPage'])
 
-const state: StateOptions  = reactive({
+const state: StateOptions = reactive({
   api: {
     saveOrUpdate,
     getById,
@@ -73,11 +73,11 @@ const state: StateOptions  = reactive({
   },
   dataForm: {
     id: undefined,
-    dictLabel: '', 
-    dictValue: '', 
-    dictTypeId: '', 
-    labelClass: '', 
-    sort: '', 
+    dictLabel: '',
+    dictValue: '',
+    dictTypeId: '',
+    labelClass: '',
+    sort: '',
     status: true,
     remark: ''
   }
@@ -86,18 +86,16 @@ const state: StateOptions  = reactive({
 const dataFormRef = ref()
 
 const dataRules = reactive({
-    dictLabel: [
-      { required: true, message: '必填项不能为空', trigger: 'blur' },
-        { min: 0, max: 100, message: '字典标签长度不能超过100个字符', trigger: 'blur' }
-    ],
-    dictValue: [
-      { required: true, message: '必填项不能为空', trigger: 'blur' },
-      { min: 0, max: 100, message: '字典值长度不能超过100个字符', trigger: 'blur' }
-    ],
-    labelClass: [{ min: 0, max: 100, message: '标签属性长度不能超过100个字符', trigger: 'blur' }],
-  sort: [
+  dictLabel: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
+    { min: 0, max: 100, message: '字典标签长度不能超过100个字符', trigger: 'blur' }
   ],
+  dictValue: [
+    { required: true, message: '必填项不能为空', trigger: 'blur' },
+    { min: 0, max: 100, message: '字典值长度不能超过100个字符', trigger: 'blur' }
+  ],
+  labelClass: [{ min: 0, max: 100, message: '标签属性长度不能超过100个字符', trigger: 'blur' }],
+  sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
 })
 

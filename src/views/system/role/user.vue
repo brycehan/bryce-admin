@@ -1,6 +1,13 @@
 <template>
   <el-card shadow="never">
-    <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" label-width="68px" @keyup.enter="getPage()" @submit.prevent>
+    <el-form
+      ref="queryFormRef"
+      :model="state.queryForm"
+      :inline="true"
+      label-width="68px"
+      @keyup.enter="getPage()"
+      @submit.prevent
+    >
       <el-form-item label="账号" label-width="40px" prop="username">
         <el-input v-model="state.queryForm.username" placeholder="账号" />
       </el-form-item>
@@ -17,17 +24,17 @@
       <el-button type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
     </el-row>
     <el-table
-        v-loading="state.loading"
-        :data="state.data"
-        :border="true"
-        style="width: 100%"
-        @selection-change="handleSelectionChange"
+      v-loading="state.loading"
+      :data="state.data"
+      :border="true"
+      style="width: 100%"
+      @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
       <el-table-column label="账号" prop="username" header-align="center" align="center" />
       <el-table-column label="姓名" prop="fullName" header-align="center" align="center" />
       <el-table-column label="手机号码" prop="phone" header-align="center" align="center" />
-      <dict-table-column label="状态" prop="status" dict-type="sys_status" width="100"/>
+      <dict-table-column label="状态" prop="status" dict-type="sys_status" width="100" />
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="100">
         <template #default="scope">
@@ -36,13 +43,13 @@
       </el-table-column>
     </el-table>
     <el-pagination
-        :current-page="state.current"
-        :page-size="state.size"
-        :total="state.total"
-        :page-sizes="state.pageSizes"
-        :layout="state.layout"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
+      :current-page="state.current"
+      :page-size="state.size"
+      :total="state.total"
+      :page-sizes="state.pageSizes"
+      :layout="state.layout"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
     />
 
     <!-- 弹窗，新增 / 修改 -->
@@ -51,12 +58,12 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, reactive, ref} from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import { userPage as page, saveUsers, deleteUsers as deleteByIds } from '@/api/system/role'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
-import {ElMessage, ElMessageBox} from "element-plus";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 const props = defineProps({
   roleId: {
@@ -81,7 +88,7 @@ const state: StateOptions = reactive({
   },
   range: {
     createdTime: ''
-  },
+  }
 })
 
 const queryFormRef = ref()
@@ -91,12 +98,7 @@ onMounted(() => {
   getPage()
 })
 
-const {
-  getPage,
-  handleSizeChange,
-  handleCurrentChange,
-  handleSelectionChange,
-} = crud(state)
+const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange } = crud(state)
 
 /** 重置按钮操作 */
 const handleResetQuery = () => {
@@ -104,7 +106,7 @@ const handleResetQuery = () => {
     state.range[key] = []
   }
 
-  if(queryFormRef.value) {
+  if (queryFormRef.value) {
     queryFormRef.value.resetFields()
   }
 
@@ -134,14 +136,14 @@ const handleDeleteBatch = (id?: bigint) => {
   ElMessageBox.confirm('确定进行删除操作？', '提示', {
     type: 'warning'
   })
-      .then(() => {
-        deleteByIds(props.roleId, data).then(() => {
-          ElMessage.success('删除成功')
-          getPage()
-        })
+    .then(() => {
+      deleteByIds(props.roleId, data).then(() => {
+        ElMessage.success('删除成功')
+        getPage()
       })
-      .catch((error) => {
-        console.error(error)
-      })
+    })
+    .catch((error) => {
+      console.error(error)
+    })
 }
 </script>

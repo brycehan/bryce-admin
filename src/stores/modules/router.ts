@@ -29,10 +29,10 @@ export const useRouterStore = defineStore(
       getMenuRoutes,
       setMenuRoutes,
       getRoutes,
-      setRoutes,
+      setRoutes
     }
   },
   {
-    persist: true,
-  },
+    persist: true
+  }
 )

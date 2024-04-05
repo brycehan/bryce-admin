@@ -1,8 +1,8 @@
-import type {App} from "vue";
-import DictTableColumn from "./dict-table-column.vue";
+import type { App } from 'vue'
+import DictTableColumn from './dict-table-column.vue'
 
 export default {
-    install(Vue: App) {
-        Vue.component('DictTableColumn', DictTableColumn)
-    }
+  install(Vue: App) {
+    Vue.component('DictTableColumn', DictTableColumn)
+  }
 }

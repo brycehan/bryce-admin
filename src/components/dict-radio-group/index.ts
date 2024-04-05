@@ -1,8 +1,8 @@
-import type {App} from "vue";
-import DictRadioGroup from "./dict-radio-group.vue";
+import type { App } from 'vue'
+import DictRadioGroup from './dict-radio-group.vue'
 
 export default {
-    install(Vue: App) {
-        Vue.component('DictRadioGroup', DictRadioGroup)
-    }
+  install(Vue: App) {
+    Vue.component('DictRadioGroup', DictRadioGroup)
+  }
 }

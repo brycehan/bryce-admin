@@ -22,8 +22,8 @@ class Storage {
   }
 
   getSidebarOpened = (): boolean => {
-    const sidebarOpened = Tool.getItem(Cache.sidebarOpenedKey);
-    if(sidebarOpened === null) {
+    const sidebarOpened = Tool.getItem(Cache.sidebarOpenedKey)
+    if (sidebarOpened === null) {
       return true
     }
     return sidebarOpened

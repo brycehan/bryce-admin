@@ -1,6 +1,13 @@
 <template>
   <el-card shadow="never">
-    <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" label-width="68px" @keyup.enter="getPage()" @submit.prevent>
+    <el-form
+      ref="queryFormRef"
+      :model="state.queryForm"
+      :inline="true"
+      label-width="68px"
+      @keyup.enter="getPage()"
+      @submit.prevent
+    >
       <el-form-item label="字典名称" prop="dictName">
         <el-input v-model="state.queryForm.dictName" placeholder="请输入字典名称" clearable />
       </el-form-item>
@@ -8,17 +15,23 @@
         <el-input v-model="state.queryForm.dictType" placeholder="请输入字典类型" clearable />
       </el-form-item>
       <el-form-item label="状态" prop="status">
-        <dict-select v-model="state.queryForm.status" dict-type="sys_status" placeholder="字典状态" clearable />
+        <dict-select
+          v-model="state.queryForm.status"
+          dict-type="sys_status"
+          placeholder="字典状态"
+          clearable
+        />
       </el-form-item>
       <el-form-item label="创建时间" prop="createdTime">
         <el-date-picker
-            v-model="state.range.createdTime"
-            type="daterange"
-            unlink-panels
-            range-separator="-"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            value-format="YYYY-MM-DD"/>
+          v-model="state.range.createdTime"
+          type="daterange"
+          unlink-panels
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          value-format="YYYY-MM-DD"
+        />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="getPage()">搜索</el-button>
@@ -26,8 +39,20 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-        <el-button v-auth="'system:dictType:save'" type="primary" icon="Plus" @click="handleAddOrEdit()">新增</el-button>
-        <el-button v-auth="'system:dictType:delete'" type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
+      <el-button
+        v-auth="'system:dictType:save'"
+        type="primary"
+        icon="Plus"
+        @click="handleAddOrEdit()"
+        >新增</el-button
+      >
+      <el-button
+        v-auth="'system:dictType:delete'"
+        type="danger"
+        icon="Delete"
+        @click="handleDeleteBatch()"
+        >删除</el-button
+      >
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -39,7 +64,14 @@
       <el-table-column type="selection" header-align="center" align="center" width="50" />
       <el-table-column label="字典名称" prop="dictName" header-align="center" align="center" />
       <el-table-column label="字典类型" prop="dictType" header-align="center" align="center" />
-      <el-table-column label="显示顺序" prop="sort" sortable="custom" header-align="center" align="center" width="120"/>
+      <el-table-column
+        label="显示顺序"
+        prop="sort"
+        sortable="custom"
+        header-align="center"
+        align="center"
+        width="120"
+      />
       <el-table-column label="状态" prop="status" header-align="center" align="center" width="120">
         <template #default="scope">
           <el-tag v-if="scope.row.status === true" type="success">正常</el-tag>
@@ -50,9 +82,27 @@
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="200">
         <template #default="scope">
-          <el-button v-auth="'system:dictData:page'" type="primary" link @click="handleShowDictData(scope.row)">字典配置</el-button>
-          <el-button v-auth="'system:dictType:update'" type="primary" link @click="handleAddOrEdit(scope.row.id)">修改</el-button>
-          <el-button v-auth="'system:dictType:delete'" type="danger" link @click="handleDeleteBatch(scope.row.id)">删除</el-button>
+          <el-button
+            v-auth="'system:dictData:page'"
+            type="primary"
+            link
+            @click="handleShowDictData(scope.row)"
+            >字典配置</el-button
+          >
+          <el-button
+            v-auth="'system:dictType:update'"
+            type="primary"
+            link
+            @click="handleAddOrEdit(scope.row.id)"
+            >修改</el-button
+          >
+          <el-button
+            v-auth="'system:dictType:delete'"
+            type="danger"
+            link
+            @click="handleDeleteBatch(scope.row.id)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -69,20 +119,20 @@
     <!-- 弹窗，新增 / 修改 -->
     <AddOrEdit ref="addOrEditRef" @refresh-page="getPage" />
 
-  <!-- 字典配置 -->
-  <el-drawer v-if="dataVisible" v-model="dataVisible" :title="dataTitle" :size="1000">
-    <Data :dict-type-id="dictTypeId"></Data>
-  </el-drawer>
+    <!-- 字典配置 -->
+    <el-drawer v-if="dataVisible" v-model="dataVisible" :title="dataTitle" :size="1000">
+      <Data :dict-type-id="dictTypeId"></Data>
+    </el-drawer>
   </el-card>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
-import Data from "@/views/system/dict/data.vue";
+import Data from '@/views/system/dict/data.vue'
 import { page, deleteByIds } from '@/api/system/dictType'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
 const state: StateOptions = reactive({
   api: {
@@ -90,9 +140,9 @@ const state: StateOptions = reactive({
     deleteByIds
   },
   queryForm: {
-        dictName: '',
-        dictType: '',
-        status: ''
+    dictName: '',
+    dictType: '',
+    status: ''
   },
   range: {
     createdTime: []
@@ -107,16 +157,11 @@ const dataTitle = ref()
 const dictTypeId = ref()
 
 onMounted(() => {
-    getPage()
+  getPage()
 })
 
-const {
-  getPage,
-  handleSizeChange,
-  handleCurrentChange,
-  handleDeleteBatch,
-  handleSelectionChange,
-} = crud(state)
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } =
+  crud(state)
 
 /** 重置按钮操作 */
 const handleResetQuery = () => {
@@ -124,7 +169,7 @@ const handleResetQuery = () => {
     state.range[key] = []
   }
 
-  if(queryFormRef.value) {
+  if (queryFormRef.value) {
     queryFormRef.value.resetFields()
   }
 

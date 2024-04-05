@@ -1,16 +1,16 @@
 <template>
   <el-dialog
-      v-model="state.visible"
-      :title="!state.dataForm.id ? '新增租户' : '修改租户'"
-      :close-on-click-modal="false"
+    v-model="state.visible"
+    :title="!state.dataForm.id ? '新增租户' : '修改租户'"
+    :close-on-click-modal="false"
   >
     <el-form
-        ref="dataFormRef"
-        :model="state.dataForm"
-        :rules="dataRules"
-        label-width="100px"
-        @keyup.enter="handleSubmit()"
-        class="mr-4"
+      ref="dataFormRef"
+      :model="state.dataForm"
+      :rules="dataRules"
+      label-width="100px"
+      @keyup.enter="handleSubmit()"
+      class="mr-4"
     >
       <el-row>
         <el-col :span="12">
@@ -39,7 +39,13 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="过期时间" prop="expiresTime">
-            <el-date-picker type="date" v-model="state.dataForm.expiresTime" placeholder="过期时间" value-format="YYYY-MM-DD" class="w-100" />
+            <el-date-picker
+              type="date"
+              v-model="state.dataForm.expiresTime"
+              placeholder="过期时间"
+              value-format="YYYY-MM-DD"
+              class="w-100"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -66,12 +72,12 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { getById, saveOrUpdate } from '@/api/system/tenant'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
 const emit = defineEmits(['refreshPage'])
 
-const state: StateOptions  = reactive({
+const state: StateOptions = reactive({
   api: {
     saveOrUpdate,
     getById,

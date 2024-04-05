@@ -3,7 +3,7 @@
     <h1>Bryce Admin</h1>
     <h2>欢迎使用本系统</h2>
     <el-form-item prop="username">
-      <el-input v-model="loginDto.username" :prefix-icon="User" placeholder="请输入账号"/>
+      <el-input v-model="loginDto.username" :prefix-icon="User" placeholder="请输入账号" />
     </el-form-item>
     <el-form-item prop="password">
       <el-input
@@ -16,7 +16,7 @@
     </el-form-item>
     <el-form-item v-if="captchaEnabled" prop="code" class="login-captcha">
       <el-input v-model="loginDto.code" placeholder="请输入验证码" :prefix-icon="Key" />
-      <img :src="captchaBase64" alt="验证码" @click="handleCaptcha">
+      <img :src="captchaBase64" alt="验证码" @click="handleCaptcha" />
     </el-form-item>
     <el-form-item>
       <el-button class="w-100" type="primary" size="default" @click="loginByAccount()"
@@ -27,11 +27,11 @@
 </template>
 
 <script setup lang="ts">
-import {User, Lock, Key} from '@element-plus/icons-vue'
-import {onMounted, reactive, ref} from 'vue'
+import { User, Lock, Key } from '@element-plus/icons-vue'
+import { onMounted, reactive, ref } from 'vue'
 import { router } from '@/router'
-import {useAuthStore} from "@/stores/modules/auth";
-import { generate, enabled} from "@/api/system/captcha";
+import { useAuthStore } from '@/stores/modules/auth'
+import { generate, enabled } from '@/api/system/captcha'
 
 const authStore = useAuthStore()
 
@@ -57,7 +57,7 @@ onMounted(() => {
 const handleCaptchaEnabled = async () => {
   const { data } = await enabled()
   captchaEnabled.value = data
-  if(captchaEnabled.value) {
+  if (captchaEnabled.value) {
     await handleCaptcha()
   }
 }
@@ -67,39 +67,34 @@ const handleCaptcha = async () => {
   const { data } = await generate()
   loginDto.key = data.key
   captchaBase64.value = data.image
-
 }
 
 /** 登录 */
 const loginByAccount = async () => {
   loginFormRef.value.validate((valid: boolean) => {
-    if(!valid) {
+    if (!valid) {
       return false
     }
 
     loading.value = true
     // 用户登录
     authStore
-        .loginByAccount(loginDto)
-        .then(() => {
-          router.push({ path: '/' })
-        })
-        .catch((e: any) => {
-          if(captchaEnabled.value) {
-            handleCaptcha()
-          }
-          console.error(e)
-        })
+      .loginByAccount(loginDto)
+      .then(() => {
+        router.push({ path: '/' })
+      })
+      .catch((e: any) => {
+        if (captchaEnabled.value) {
+          handleCaptcha()
+        }
+        console.error(e)
+      })
   })
 }
 const loginRules = {
-  username: [
-    { required: true, message: '必填项不能为空', trigger: 'blur' }
-  ],
+  username: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   password: [{ required: true, min: 6, max: 50, message: '密码长度在6到50之间', trigger: 'blur' }],
-  code: [
-    { required: true, message: '必填项不能为空', trigger: 'blur' }
-  ],
+  code: [{ required: true, message: '必填项不能为空', trigger: 'blur' }]
 }
 </script>
 

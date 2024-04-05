@@ -38,12 +38,12 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { getById, saveOrUpdate } from '@/api/system/post'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
 const emit = defineEmits(['refreshPage'])
 
-const state: StateOptions  = reactive({
+const state: StateOptions = reactive({
   api: {
     saveOrUpdate,
     getById,
@@ -51,9 +51,9 @@ const state: StateOptions  = reactive({
   },
   dataForm: {
     id: undefined,
-    name: '', 
-    code: '', 
-    sort: '', 
+    name: '',
+    code: '',
+    sort: '',
     status: true,
     remark: ''
   }
@@ -62,16 +62,16 @@ const state: StateOptions  = reactive({
 const dataFormRef = ref()
 
 const dataRules = reactive({
-    name: [
-      { required: true, message: '必填项不能为空', trigger: 'blur' },
-      { min: 0, max: 50, message: '岗位名称长度不能超过50个字符', trigger: 'blur' }
-    ],
-    code: [
-      { required: true, message: '必填项不能为空', trigger: 'blur' },
-      { min: 0, max: 30, message: '岗位编码长度不能超过30个字符', trigger: 'blur' }
-    ],
-    sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-    remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
+  name: [
+    { required: true, message: '必填项不能为空', trigger: 'blur' },
+    { min: 0, max: 50, message: '岗位名称长度不能超过50个字符', trigger: 'blur' }
+  ],
+  code: [
+    { required: true, message: '必填项不能为空', trigger: 'blur' },
+    { min: 0, max: 30, message: '岗位编码长度不能超过30个字符', trigger: 'blur' }
+  ],
+  sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
+  remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
 })
 
 const { getData, handleSaveOrUpdate } = crud(state)
@@ -104,6 +104,6 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-    init
+  init
 })
 </script>

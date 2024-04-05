@@ -18,8 +18,8 @@
 </template>
 
 <script setup lang="ts">
-import QrcodeVue from "qrcode.vue";
-import {ref} from "vue";
+import QrcodeVue from 'qrcode.vue'
+import { ref } from 'vue'
 
 const value = ref('https://brycehan.com')
 const size = ref(200)

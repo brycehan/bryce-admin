@@ -68,19 +68,31 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="关注时间" prop="subscribeTime">
-            <el-input v-model="state.dataForm.subscribeTime" placeholder="请输入关注时间" clearable />
+            <el-input
+              v-model="state.dataForm.subscribeTime"
+              placeholder="请输入关注时间"
+              clearable
+            />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="12">
           <el-form-item label="关注场景" prop="subscribeScene">
-            <el-input v-model="state.dataForm.subscribeScene" placeholder="请输入关注场景" clearable />
+            <el-input
+              v-model="state.dataForm.subscribeScene"
+              placeholder="请输入关注场景"
+              clearable
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="扫码场景值" prop="qrSceneStr">
-            <el-input v-model="state.dataForm.qrSceneStr" placeholder="请输入扫码场景值" clearable />
+            <el-input
+              v-model="state.dataForm.qrSceneStr"
+              placeholder="请输入扫码场景值"
+              clearable
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -114,12 +126,12 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { getById, saveOrUpdate } from '@/api/mp/user'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
 const emit = defineEmits(['refreshPage'])
 
-const state: StateOptions  = reactive({
+const state: StateOptions = reactive({
   api: {
     saveOrUpdate,
     getById,
@@ -149,17 +161,17 @@ const state: StateOptions  = reactive({
 const dataFormRef = ref()
 
 const dataRules = reactive({
-    openId: [{ min: 0, max: 50, message: 'openid长度不能超过50个字符', trigger: 'blur' }],
-    phone: [{ min: 0, max: 20, message: '手机号长度不能超过20个字符', trigger: 'blur' }],
-    nickname: [{ min: 0, max: 50, message: '昵称长度不能超过50个字符', trigger: 'blur' }],
-    headImgUrl: [{ min: 0, max: 255, message: '头像长度不能超过255个字符', trigger: 'blur' }],
-    province: [{ min: 0, max: 20, message: '省份长度不能超过20个字符', trigger: 'blur' }],
-    city: [{ min: 0, max: 20, message: '城市长度不能超过20个字符', trigger: 'blur' }],
-    subscribeScene: [{ min: 0, max: 50, message: '关注场景长度不能超过50个字符', trigger: 'blur' }],
-    qrSceneStr: [{ min: 0, max: 64, message: '扫码场景值长度不能超过64个字符', trigger: 'blur' }],
-    unionId: [{ min: 0, max: 50, message: 'unionid长度不能超过50个字符', trigger: 'blur' }],
-    language: [{ min: 0, max: 10, message: '语言长度不能超过10个字符', trigger: 'blur' }],
-    remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
+  openId: [{ min: 0, max: 50, message: 'openid长度不能超过50个字符', trigger: 'blur' }],
+  phone: [{ min: 0, max: 20, message: '手机号长度不能超过20个字符', trigger: 'blur' }],
+  nickname: [{ min: 0, max: 50, message: '昵称长度不能超过50个字符', trigger: 'blur' }],
+  headImgUrl: [{ min: 0, max: 255, message: '头像长度不能超过255个字符', trigger: 'blur' }],
+  province: [{ min: 0, max: 20, message: '省份长度不能超过20个字符', trigger: 'blur' }],
+  city: [{ min: 0, max: 20, message: '城市长度不能超过20个字符', trigger: 'blur' }],
+  subscribeScene: [{ min: 0, max: 50, message: '关注场景长度不能超过50个字符', trigger: 'blur' }],
+  qrSceneStr: [{ min: 0, max: 64, message: '扫码场景值长度不能超过64个字符', trigger: 'blur' }],
+  unionId: [{ min: 0, max: 50, message: 'unionid长度不能超过50个字符', trigger: 'blur' }],
+  language: [{ min: 0, max: 10, message: '语言长度不能超过10个字符', trigger: 'blur' }],
+  remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
 })
 
 const { getData, handleSaveOrUpdate } = crud(state)
@@ -192,6 +204,6 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-    init
+  init
 })
 </script>

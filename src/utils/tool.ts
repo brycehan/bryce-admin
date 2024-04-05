@@ -1,4 +1,4 @@
-import constant from "@/utils/constant";
+import constant from '@/utils/constant'
 
 /**
  * 是否外链
@@ -6,11 +6,11 @@ import constant from "@/utils/constant";
  * @param url 资源地址
  */
 export const isExternalLink = (url: string): boolean => {
-    return /^(https?:\/\/|^{{\s?apiUrl\s?}})/.test(url)
+  return /^(https?:\/\/|^{{\s?apiUrl\s?}})/.test(url)
 }
 
 export const replaceLinkParam = (url: string): string => {
-    return url.replace('{{apiUrl}}', constant.apiUrl)
+  return url.replace('{{apiUrl}}', constant.apiUrl)
 }
 /**
  * 给表单添加日期范围参数
@@ -20,16 +20,16 @@ export const replaceLinkParam = (url: string): string => {
  * @param propName 属性名
  */
 export const addDateRange = (queryForm: any, rangeItem: string[], propName: string) => {
-    const queryParams = queryForm
-    // 封装日期时间参数
-    if(rangeItem.length === 2) {
-        queryParams[propName + 'Start'] = rangeItem[0] + ' 00:00:00'
-        queryParams[propName + 'End'] = rangeItem[1] + ' 23:59:59.999999'
-    } else {
-        delete queryParams[propName + 'Start']
-        delete queryParams[propName + 'End']
-    }
-    return queryParams
+  const queryParams = queryForm
+  // 封装日期时间参数
+  if (rangeItem.length === 2) {
+    queryParams[propName + 'Start'] = rangeItem[0] + ' 00:00:00'
+    queryParams[propName + 'End'] = rangeItem[1] + ' 23:59:59.999999'
+  } else {
+    delete queryParams[propName + 'Start']
+    delete queryParams[propName + 'End']
+  }
+  return queryParams
 }
 
 /**
@@ -39,12 +39,12 @@ export const addDateRange = (queryForm: any, rangeItem: string[], propName: stri
  * @param options 目标对象
  */
 export const mergeDefaultOptions = (defaultOptions: any, options: any) => {
-    for (const key in defaultOptions) {
-        if(!Object.getOwnPropertyDescriptor(options, key)) {
-            options[key] = defaultOptions[key]
-        }
+  for (const key in defaultOptions) {
+    if (!Object.getOwnPropertyDescriptor(options, key)) {
+      options[key] = defaultOptions[key]
     }
-    return options
+  }
+  return options
 }
 
 /**
@@ -52,21 +52,21 @@ export const mergeDefaultOptions = (defaultOptions: any, options: any) => {
  * @param size 文件大小字节数
  */
 export const convertSizeFormat = (size: number): string => {
-    const unit = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB']
-    const index = Math.floor(Math.log(size) / Math.log(1024))
-    const normalSize = size / Math.pow(1024, index)
-    // 保留2位小数位数
-    return normalSize.toFixed(2) + ' ' + unit[index]
+  const unit = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB']
+  const index = Math.floor(Math.log(size) / Math.log(1024))
+  const normalSize = size / Math.pow(1024, index)
+  // 保留2位小数位数
+  return normalSize.toFixed(2) + ' ' + unit[index]
 }
 
 /** 获取svg图标（id）列表 */
 export const getIconList = (): string[] => {
-    const list: string[] = []
-    const icons = document.querySelectorAll('svg symbol[id^="icon-"]')
-    for(let i = 0; i < icons.length; i++){
-        list.push(icons[i].id)
-    }
-    return list
+  const list: string[] = []
+  const icons = document.querySelectorAll('svg symbol[id^="icon-"]')
+  for (let i = 0; i < icons.length; i++) {
+    list.push(icons[i].id)
+  }
+  return list
 }
 
 /**
@@ -76,36 +76,36 @@ export const getIconList = (): string[] => {
  * @param dictType 字典类型
  */
 export const dictDataList = (dictList: any[], dictType: string) => {
-    const dict = dictList.find((element: any) => element.dictType === dictType)
-    if(dict) {
-        return dict.datalist
-    } else {
-        return []
-    }
+  const dict = dictList.find((element: any) => element.dictType === dictType)
+  if (dict) {
+    return dict.datalist
+  } else {
+    return []
+  }
 }
 
 /** 获取字典Label */
 export const getDictLabel = (dictList: any[], dictType: string, dictValue: string) => {
   const dict = dictList.find((element: any) => element.dictType === dictType)
-    if(dict) {
-        const dictData = dict.datalist.find((element: any) => element.dictValue === dictValue + '')
-        if(dictData) {
-            return dictData.dictLabel
-        }
+  if (dict) {
+    const dictData = dict.datalist.find((element: any) => element.dictValue === dictValue + '')
+    if (dictData) {
+      return dictData.dictLabel
     }
-    return dictValue
+  }
+  return dictValue
 }
 
 /** 获取字典Label样式 */
 export const getDictLabelClass = (dictList: any[], dictType: string, dictValue: string) => {
-    const dict = dictList.find((element: any) => element.dictType === dictType)
-    if(dict) {
-        const dictData = dict.datalist.find((element: any) => element.dictValue === dictValue + '')
-        if(dictData) {
-            return dictData.labelClass
-        }
+  const dict = dictList.find((element: any) => element.dictType === dictType)
+  if (dict) {
+    const dictData = dict.datalist.find((element: any) => element.dictValue === dictValue + '')
+    if (dictData) {
+      return dictData.labelClass
     }
-    return ''
+  }
+  return ''
 }
 
 /** 手机号正则表达式 */

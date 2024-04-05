@@ -1,19 +1,25 @@
 <template>
   <el-dialog
-      v-model="visible"
-      :title="!dataForm.id ? '新增' : '修改'"
-      :close-on-click-modal="false"
+    v-model="visible"
+    :title="!dataForm.id ? '新增' : '修改'"
+    :close-on-click-modal="false"
   >
     <el-form
-        ref="dataFormRef"
-        :model="dataForm"
-        :rules="dataRules"
-        label-width="100px"
-        @keyup.enter="handleSubmit()"
+      ref="dataFormRef"
+      :model="dataForm"
+      :rules="dataRules"
+      label-width="100px"
+      @keyup.enter="handleSubmit()"
       class="mr-4"
     >
       <el-form-item label="上级机构" prop="parentName" class="org-list">
-        <el-popover ref="orgListPopoverRef" placement="bottom-start" trigger="click" :width="400" popper-class="popover-pop">
+        <el-popover
+          ref="orgListPopoverRef"
+          placement="bottom-start"
+          trigger="click"
+          :width="400"
+          popper-class="popover-pop"
+        >
           <template #reference>
             <el-input v-model="dataForm.parentName" :readonly="true" placeholder="上级机构">
               <template #suffix>
@@ -24,7 +30,7 @@
           <el-tree
             ref="orgTreeRef"
             :data="orgList"
-            :props="{ label: 'name', children: 'children'}"
+            :props="{ label: 'name', children: 'children' }"
             node-key="id"
             :highlight-current="true"
             :expand-on-click-node="false"
@@ -40,40 +46,38 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-        <el-form-item label="显示顺序" prop="sort">
-          <el-input-number v-model="dataForm.sort" :min="0" />
-        </el-form-item>
+          <el-form-item label="显示顺序" prop="sort">
+            <el-input-number v-model="dataForm.sort" :min="0" />
+          </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="12">
-      <el-form-item label="负责人" prop="leader">
-        <el-input v-model="dataForm.leader" placeholder="负责人" />
-      </el-form-item>
+          <el-form-item label="负责人" prop="leader">
+            <el-input v-model="dataForm.leader" placeholder="负责人" />
+          </el-form-item>
         </el-col>
         <el-col :span="12">
-
-      <el-form-item label="联系电话" prop="contactNumber">
-        <el-input v-model="dataForm.contactNumber" placeholder="联系电话" />
-      </el-form-item>
+          <el-form-item label="联系电话" prop="contactNumber">
+            <el-input v-model="dataForm.contactNumber" placeholder="联系电话" />
+          </el-form-item>
         </el-col>
       </el-row>
-    <el-row>
-      <el-col :span="12">
-      <el-form-item label="邮箱" prop="email">
-        <el-input v-model="dataForm.email" placeholder="邮箱" />
-      </el-form-item>
-      </el-col>
+      <el-row>
         <el-col :span="12">
-      <el-form-item label="状态" prop="status">
-        <el-radio-group v-model="dataForm.status" >
-          <el-radio :label="true">正常</el-radio>
-          <el-radio :label="false">停用</el-radio>
-        </el-radio-group>
-      </el-form-item>
+          <el-form-item label="邮箱" prop="email">
+            <el-input v-model="dataForm.email" placeholder="邮箱" />
+          </el-form-item>
         </el-col>
-    </el-row>
-
+        <el-col :span="12">
+          <el-form-item label="状态" prop="status">
+            <el-radio-group v-model="dataForm.status">
+              <el-radio :label="true">正常</el-radio>
+              <el-radio :label="false">停用</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
     <template #footer>
       <el-button @click="visible = false">取消</el-button>
@@ -86,7 +90,7 @@
 import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { getById, saveOrUpdate, list } from '@/api/system/org'
-import SvgIcon from "@/components/svg-icon/svg-icon.vue";
+import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -95,7 +99,6 @@ const dataFormRef = ref()
 const orgList = ref([])
 const orgTreeRef = ref()
 const orgListPopoverRef = ref()
-
 
 const dataForm = reactive({
   id: '',
@@ -108,13 +111,13 @@ const dataForm = reactive({
   contactNumber: '',
   email: '',
   sort: '',
-  status: true,
+  status: true
 })
 
 const dataRules = reactive({
-  name: [{required: true, message: '必填项不能为空', trigger: 'blur'}],
-  parentName: [{required: true, message: '必填项不能为空', trigger: 'blur'}],
-  sort: [{required: true, message: '必填项不能为空', trigger: 'blur'}],
+  name: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
+  parentName: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
+  sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }]
 })
 
 const init = (id?: bigint) => {
@@ -141,17 +144,16 @@ const getOrg = (id: bigint) => {
   getById(id).then((response) => {
     Object.assign(dataForm, response.data)
 
-    if(dataForm.parentId === 0) {
+    if (dataForm.parentId === 0) {
       return handleTreeDefault()
     }
 
     orgTreeRef.value.setCurrentKey(dataForm.parentId)
-
   })
 }
 
 const getOrgList = () => {
-  list({}).then(response => {
+  list({}).then((response) => {
     orgList.value = response.data
   })
 }

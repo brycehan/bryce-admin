@@ -21,8 +21,8 @@ const state = reactive({
     imageCount: '..',
     videoCount: '..',
     voiceCount: '..',
-    newsCount: '..',
-  },
+    newsCount: '..'
+  }
 })
 
 const queryFormRef = ref()

@@ -1,12 +1,16 @@
 <template>
   <el-card>
-    <div ref="main" class="w-100" style="height: calc(100vh - 110px - var(--theme-header-height))"></div>
+    <div
+      ref="main"
+      class="w-100"
+      style="height: calc(100vh - 110px - var(--theme-header-height))"
+    ></div>
   </el-card>
 </template>
 
 <script setup lang="ts">
 import * as echarts from 'echarts'
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from 'vue'
 
 const main = ref()
 
@@ -14,9 +18,8 @@ onMounted(() => {
   init()
 })
 
-
 const init = () => {
-  const myChart = echarts.init(main.value);
+  const myChart = echarts.init(main.value)
 
   // 绘制图表
   // https://echarts.apache.org/zh/index.html

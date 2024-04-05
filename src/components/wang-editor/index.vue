@@ -2,31 +2,31 @@
   <div class="editor-wrapper">
     <!-- 工具栏 -->
     <Toolbar
-        class="toolbar-container"
-        :editor="editorRef"
-        :default-config="toolbarConfig"
-        :mode="mode"
+      class="toolbar-container"
+      :editor="editorRef"
+      :default-config="toolbarConfig"
+      :mode="mode"
     />
     <!-- 编辑器 -->
     <Editor
-        :style="style"
-        :model-value="modelValue"
-        :default-config="editorConfig"
-        :mode="mode"
-        :readOnly="readOnly"
-        @on-created="handleCreated"
-        @on-change="handleChange"
+      :style="style"
+      :model-value="modelValue"
+      :default-config="editorConfig"
+      :mode="mode"
+      :readOnly="readOnly"
+      @on-created="handleCreated"
+      @on-change="handleChange"
     />
   </div>
 </template>
 
 <script setup lang="ts">
 import '@wangeditor/editor/dist/css/style.css'
-import  {Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import {onBeforeUnmount, shallowRef} from "vue";
-import type {IDomEditor, IEditorConfig} from "@wangeditor/editor";
-import constant from "@/utils/constant";
-import {useAuthStore} from "@/stores/modules/auth";
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import { onBeforeUnmount, shallowRef } from 'vue'
+import type { IDomEditor, IEditorConfig } from '@wangeditor/editor'
+import constant from '@/utils/constant'
+import { useAuthStore } from '@/stores/modules/auth'
 
 const authStore = useAuthStore()
 
@@ -82,14 +82,14 @@ const editorConfig: Partial<IEditorConfig> = {
         // 从 res 中找到 url、alt、href，然后插入图片
         insertFn(res.data.url, res.data.name, '')
       }
-    },
+    }
   }
 }
 
 // 组件销毁时，也及时销毁编辑器
 onBeforeUnmount(() => {
   const editor = editorRef.value
-  if(editor == null) {
+  if (editor == null) {
     return
   }
   editor.destroy()

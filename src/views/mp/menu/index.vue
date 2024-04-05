@@ -6,34 +6,46 @@
         <div class="mp-bg">
           <div class="mp-header">公众号菜单</div>
           <ul class="mp-menu" id="mp-menu">
-            <li v-for="(btn, i) in state.menu.buttons"
-                :key="i"
-                class="menu-item"
-                :class="{'current': state.selectedMenuIndex === i && state.selectedMenuLevel == 1}"
-                @click="selectMenu(i)">
+            <li
+              v-for="(btn, i) in state.menu.buttons"
+              :key="i"
+              class="menu-item"
+              :class="{ current: state.selectedMenuIndex === i && state.selectedMenuLevel == 1 }"
+              @click="selectMenu(i)"
+            >
               <div class="menu-item-title">
                 <span>{{ btn.name }}</span>
               </div>
               <ul class="mp-sub-menu">
-                <li v-for="(subBtn, subI) in btn.subButtons"
-                    :key="subI"
-                    class="menu-sub-item"
-                    :class="{'current': state.selectedMenuIndex === i && state.selectedSubMenuIndex === subI && state.selectedMenuLevel == 2, 'on-drag-over': state.onDragOverMenu=(i + '_' + subI)}"
-                    @click.stop="selectSubMenu(i, subI)"
-                    @dragstart="selectSubMenu(i, subI)"
-                    @dragover.prevent="state.onDragOverMenu=(i + '_' + subI)"
-                    @drop="onDrop(i, subI)"
+                <li
+                  v-for="(subBtn, subI) in btn.subButtons"
+                  :key="subI"
+                  class="menu-sub-item"
+                  :class="{
+                    current:
+                      state.selectedMenuIndex === i &&
+                      state.selectedSubMenuIndex === subI &&
+                      state.selectedMenuLevel == 2,
+                    'on-drag-over': (state.onDragOverMenu = i + '_' + subI)
+                  }"
+                  @click.stop="selectSubMenu(i, subI)"
+                  @dragstart="selectSubMenu(i, subI)"
+                  @dragover.prevent="state.onDragOverMenu = i + '_' + subI"
+                  @drop="onDrop(i, subI)"
                 >
                   <div class="menu-item-title">
                     <span>{{ subBtn.name }}</span>
                   </div>
                 </li>
-                <li v-if="btn.subButtons.length < 5"
-                    class="menu-sub-item"
-                    :class="{'on-drag-over': state.onDragOverMenu=(i + '_' + btn.subButtons.length)}"
-                    @click.stop="addMenu(2, i)"
-                    @dragover.prevent="state.onDragOverMenu=(i + '_' + btn.subButtons.length)"
-                    @drop="onDrop(i, btn.subButtons.length)"
+                <li
+                  v-if="btn.subButtons.length < 5"
+                  class="menu-sub-item"
+                  :class="{
+                    'on-drag-over': (state.onDragOverMenu = i + '_' + btn.subButtons.length)
+                  }"
+                  @click.stop="addMenu(2, i)"
+                  @dragover.prevent="state.onDragOverMenu = i + '_' + btn.subButtons.length"
+                  @drop="onDrop(i, btn.subButtons.length)"
                 >
                   <div class="menu-item-title">
                     <el-icon><Plus /></el-icon>
@@ -43,10 +55,7 @@
                 <i class="menu-arrow arrow_in"></i>
               </ul>
             </li>
-            <li class="menu-item"
-                v-if="state.menu.buttons?.length <3"
-                @click="addMenu(1)"
-            >
+            <li class="menu-item" v-if="state.menu.buttons?.length < 3" @click="addMenu(1)">
               <el-icon><Plus /></el-icon>
             </li>
           </ul>
@@ -71,14 +80,14 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, reactive} from 'vue'
+import { onMounted, reactive } from 'vue'
 import { saveOrUpdate, getMenu, publishByCache } from '@/api/mp/menu'
-import {ElMessage, ElMessageBox} from "element-plus";
-import MpMenuButtonEditor from "@/views/mp/menu/mp-menu-button-editor.vue";
-import {Plus} from "@element-plus/icons-vue";
+import { ElMessage, ElMessageBox } from 'element-plus'
+import MpMenuButtonEditor from '@/views/mp/menu/mp-menu-button-editor.vue'
+import { Plus } from '@element-plus/icons-vue'
 
 const state = reactive({
-  menu: { 'buttons': [] as any[] }, //当前菜单
+  menu: { buttons: [] as any[] }, //当前菜单
   selectedMenuIndex: -1, // 当前选中菜单索引
   selectedSubMenuIndex: -1, // 当前选中子菜单索引
   selectedMenuLevel: 0, // 当前选中菜单级别
@@ -132,8 +141,8 @@ const selectSubMenu = (i: any, subI: any) => {
 const addMenu = (level: number, i: any = '') => {
   if (level == 1 && state.menu.buttons?.length < 3) {
     state.menu.buttons.push({
-      type: "view",
-      name: "菜单名称",
+      type: 'view',
+      name: '菜单名称',
       subButtons: [],
       url: ''
     })
@@ -142,8 +151,8 @@ const addMenu = (level: number, i: any = '') => {
 
   if (level == 2 && state.menu.buttons[i].subButtons.length < 5) {
     state.menu.buttons[i].subButtons.push({
-      type: "view",
-      name: "子菜单名称",
+      type: 'view',
+      name: '子菜单名称',
       url: ''
     })
     selectSubMenu(i, state.menu.buttons[i].subButtons.length - 1)
@@ -157,12 +166,14 @@ const deleteMenu = () => {
   if (state.selectedMenuLevel == 1) {
     ElMessageBox.confirm('删除后菜单下设置的内容将被删除', '提示', {
       type: 'warning'
-    }).then(() => {
-      state.menu.buttons.splice(state.selectedMenuIndex, 1)
-      unselectMenu()
-    }).catch((error) => {
-      console.warn(error)
     })
+      .then(() => {
+        state.menu.buttons.splice(state.selectedMenuIndex, 1)
+        unselectMenu()
+      })
+      .catch((error) => {
+        console.warn(error)
+      })
     return
   } else if (state.selectedMenuLevel == 2) {
     state.menu.buttons[state.selectedMenuIndex].subButtons.splice(state.selectedSubMenuIndex, 1)
@@ -188,7 +199,7 @@ const onDrop = (i: number, subI: number) => {
   }
   if (state.selectedMenuIndex != i && state.menu.buttons[i].subButtons.length >= 5) {
     ElMessage.error('目标组已满')
-    return;
+    return
   }
   state.menu.buttons[i].subButtions.splice(subI, 0, state.selectedButton)
   let deleteSubIndex = state.selectedSubMenuIndex
@@ -217,7 +228,6 @@ const publishMpByCache = () => {
     getMpMenu()
   })
 }
-
 </script>
 
 <style lang="scss">
@@ -262,7 +272,7 @@ const publishMpByCache = () => {
   left: 0px;
 }
 
-.mp-preview .mp-header{
+.mp-preview .mp-header {
   text-align: center;
   padding: 10px 0;
   background-color: #616161;
@@ -318,7 +328,7 @@ const publishMpByCache = () => {
   color: #616161;
 }
 
-.mp-preview .mp-sub-menu .menu-sub-item.on-drag-over{
+.mp-preview .mp-sub-menu .menu-sub-item.on-drag-over {
   border-top: 2px solid #44b549;
 }
 
@@ -348,7 +358,8 @@ const publishMpByCache = () => {
   border-color: #d0d0d0 transparent transparent;
 }
 
-.mp-preview .menu-item .menu-item-title, .mp-preview .menu-sub-item .menu-item-title {
+.mp-preview .menu-item .menu-item-title,
+.mp-preview .menu-sub-item .menu-item-title {
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
@@ -356,8 +367,8 @@ const publishMpByCache = () => {
   box-sizing: border-box;
 }
 
-
-.mp-preview .menu-item.current, .mp-preview .menu-sub-item.current {
+.mp-preview .menu-item.current,
+.mp-preview .menu-sub-item.current {
   border: 1px solid #44b549;
   background: #fff;
   color: #44b549;
@@ -444,7 +455,7 @@ const publishMpByCache = () => {
 
 .mp-menu-editor .menu-input {
   float: left;
-  width: 380px
+  width: 380px;
 }
 
 .mp-menu-editor .menu-input-text {

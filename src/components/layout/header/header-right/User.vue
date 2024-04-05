@@ -19,10 +19,10 @@
 </template>
 
 <script setup lang="ts">
-import {useAuthStore} from "@/stores/modules/auth";
-import {ArrowDown} from "@element-plus/icons-vue";
+import { useAuthStore } from '@/stores/modules/auth'
+import { ArrowDown } from '@element-plus/icons-vue'
 import avatarImg from '@/assets/images/user1-128x128.jpg'
-import {computed} from "vue";
+import { computed } from 'vue'
 
 const authStore = useAuthStore()
 

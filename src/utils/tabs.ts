@@ -1,4 +1,4 @@
-import {useTabsStore} from "@/stores/modules/tabs";
+import { useTabsStore } from '@/stores/modules/tabs'
 
 /** 关闭标签页 */
 export const closeTab = (router: any, tab: any) => {
@@ -14,7 +14,7 @@ export const closeTab = (router: any, tab: any) => {
 
 /** 关闭其它标签页 */
 export const closeOthersTabs = (router: any, tab: any) => {
-  const  tabsStore = useTabsStore()
+  const tabsStore = useTabsStore()
 
   router.push(tab)
   tabsStore.deleteOthersViews(tab)

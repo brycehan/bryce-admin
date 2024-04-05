@@ -32,7 +32,11 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="Spring Bean 名称" prop="beanName">
-            <el-input v-model="state.dataForm.beanName" placeholder="请输入Spring Bean 名称" clearable />
+            <el-input
+              v-model="state.dataForm.beanName"
+              placeholder="请输入Spring Bean 名称"
+              clearable
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -51,7 +55,11 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="执行状态" prop="executeStatus">
-            <el-input v-model="state.dataForm.executeStatus" placeholder="请输入执行状态" clearable />
+            <el-input
+              v-model="state.dataForm.executeStatus"
+              placeholder="请输入执行状态"
+              clearable
+            />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -78,28 +86,28 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { getById, saveOrUpdate } from '@/api/quartz/jobLog'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
 const emit = defineEmits(['refreshPage'])
 
-const state: StateOptions  = reactive({
+const state: StateOptions = reactive({
   api: {
     saveOrUpdate,
     getById,
     emit
   },
   dataForm: {
-    id: '', 
-    jobId: '', 
-    jobName: '', 
-    jobGroup: '', 
-    beanName: '', 
-    method: '', 
-    params: '', 
-    executeStatus: '', 
-    duration: '', 
-    errorInfo: '', 
+    id: '',
+    jobId: '',
+    jobName: '',
+    jobGroup: '',
+    beanName: '',
+    method: '',
+    params: '',
+    executeStatus: '',
+    duration: '',
+    errorInfo: '',
     createdTime: ''
   }
 })
@@ -107,15 +115,17 @@ const state: StateOptions  = reactive({
 const dataFormRef = ref()
 
 const dataRules = reactive({
-    jobName: [{ min: 0, max: 50, message: '任务名称长度不能超过50个字符', trigger: 'blur' }],
-    jobGroup: [
-      { required: true, message: '必填项不能为空', trigger: 'blur' },
-      { min: 0, max: 50, message: '任务组名长度不能超过50个字符', trigger: 'blur' }
-    ],
-    beanName: [{ min: 0, max: 200, message: 'Spring Bean 名称长度不能超过200个字符', trigger: 'blur' }],
-    method: [{ min: 0, max: 100, message: '执行方法长度不能超过100个字符', trigger: 'blur' }],
-    params: [{ min: 0, max: 500, message: '参数长度不能超过500个字符', trigger: 'blur' }],
-    errorInfo: [{ min: 0, max: 2000, message: '异常信息长度不能超过2000个字符', trigger: 'blur' }]
+  jobName: [{ min: 0, max: 50, message: '任务名称长度不能超过50个字符', trigger: 'blur' }],
+  jobGroup: [
+    { required: true, message: '必填项不能为空', trigger: 'blur' },
+    { min: 0, max: 50, message: '任务组名长度不能超过50个字符', trigger: 'blur' }
+  ],
+  beanName: [
+    { min: 0, max: 200, message: 'Spring Bean 名称长度不能超过200个字符', trigger: 'blur' }
+  ],
+  method: [{ min: 0, max: 100, message: '执行方法长度不能超过100个字符', trigger: 'blur' }],
+  params: [{ min: 0, max: 500, message: '参数长度不能超过500个字符', trigger: 'blur' }],
+  errorInfo: [{ min: 0, max: 2000, message: '异常信息长度不能超过2000个字符', trigger: 'blur' }]
 })
 
 const { getData, handleSaveOrUpdate } = crud(state)
@@ -148,6 +158,6 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-    init
+  init
 })
 </script>

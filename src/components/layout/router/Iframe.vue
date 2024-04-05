@@ -5,10 +5,10 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, watch} from "vue";
-import type {RouteLocationNormalizedLoaded} from "vue-router";
-import {replaceLinkParam} from "@/utils/tool";
-import {useRoute} from "vue-router";
+import { onMounted, ref, watch } from 'vue'
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
+import { replaceLinkParam } from '@/utils/tool'
+import { useRoute } from 'vue-router'
 
 const loading = ref(false)
 const url = ref('')
@@ -18,13 +18,15 @@ onMounted(() => {
   initUrl(route)
 })
 
-watch(() => route,
-value => {
-  if(value.path === '/iframe') {
-    initUrl(value)
-  }
-},
-    {deep: true})
+watch(
+  () => route,
+  (value) => {
+    if (value.path === '/iframe') {
+      initUrl(value)
+    }
+  },
+  { deep: true }
+)
 
 /**
  * 初始化URL
@@ -35,7 +37,7 @@ const initUrl = (route: RouteLocationNormalizedLoaded): void => {
   loading.value = true
 
   const { meta, query } = route
-  if(query.url) {
+  if (query.url) {
     url.value = query.url as string
   } else {
     url.value = replaceLinkParam(meta.url as string)

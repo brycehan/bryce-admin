@@ -1,6 +1,13 @@
 <template>
   <el-card shadow="never">
-    <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" label-width="68px" @keyup.enter="getPage()" @submit.prevent>
+    <el-form
+      ref="queryFormRef"
+      :model="state.queryForm"
+      :inline="true"
+      label-width="68px"
+      @keyup.enter="getPage()"
+      @submit.prevent
+    >
       <el-form-item label="模块名称" prop="moduleName">
         <el-input v-model="state.queryForm.moduleName" placeholder="请输入模块名称" clearable />
       </el-form-item>
@@ -8,21 +15,27 @@
         <el-input v-model="state.queryForm.requestUri" placeholder="请输入请求URI" clearable />
       </el-form-item>
       <el-form-item label="操作状态" prop="status">
-        <dict-select v-model="state.queryForm.status" dict-type="sys_status" placeholder="操作状态" clearable />
+        <dict-select
+          v-model="state.queryForm.status"
+          dict-type="sys_status"
+          placeholder="操作状态"
+          clearable
+        />
       </el-form-item>
       <el-form-item label="操作账号" prop="username">
         <el-input v-model="state.queryForm.username" placeholder="请输入操作账号" clearable />
       </el-form-item>
       <el-form-item label="创建时间" prop="createdTime">
         <el-date-picker
-            v-model="state.range.createdTime"
-            type="daterange"
-            unlink-panels
-            range-separator="-"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            value-format="YYYY-MM-DD"
-            clearable />
+          v-model="state.range.createdTime"
+          type="daterange"
+          unlink-panels
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          value-format="YYYY-MM-DD"
+          clearable
+        />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="getPage()">搜索</el-button>
@@ -30,8 +43,16 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'system:operateLog:save'" type="primary" icon="Plus" @click="handleInfo()">新增</el-button>
-      <el-button v-auth="'system:operateLog:delete'" type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
+      <el-button v-auth="'system:operateLog:save'" type="primary" icon="Plus" @click="handleInfo()"
+        >新增</el-button
+      >
+      <el-button
+        v-auth="'system:operateLog:delete'"
+        type="danger"
+        icon="Delete"
+        @click="handleDeleteBatch()"
+        >删除</el-button
+      >
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -41,21 +62,56 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="模块名称" prop="moduleName" show-overflow-tooltip header-align="center" align="center" />
-      <el-table-column label="请求URI" prop="requestUri" show-overflow-tooltip header-align="center" align="center" />
+      <el-table-column
+        label="模块名称"
+        prop="moduleName"
+        show-overflow-tooltip
+        header-align="center"
+        align="center"
+      />
+      <el-table-column
+        label="请求URI"
+        prop="requestUri"
+        show-overflow-tooltip
+        header-align="center"
+        align="center"
+      />
       <el-table-column label="请求方法" prop="requestMethod" header-align="center" align="center" />
-      <dict-table-column label="操作类型" prop="operatedType" dict-type="sys_operate_type" header-align="center" align="center" />
+      <dict-table-column
+        label="操作类型"
+        prop="operatedType"
+        dict-type="sys_operate_type"
+        header-align="center"
+        align="center"
+      />
       <dict-table-column label="操作状态" prop="status" dict-type="sys_status" />
-      <el-table-column label="操作IP" prop="ip" show-overflow-tooltip header-align="center" align="center" />
+      <el-table-column
+        label="操作IP"
+        prop="ip"
+        show-overflow-tooltip
+        header-align="center"
+        align="center"
+      />
       <el-table-column label="操作地点" prop="location" header-align="center" align="center" />
       <el-table-column label="操作账号" prop="username" header-align="center" align="center" />
-      <el-table-column label="操作时间" prop="operatedTime" header-align="center" align="center" width="160"/>
+      <el-table-column
+        label="操作时间"
+        prop="operatedTime"
+        header-align="center"
+        align="center"
+        width="160"
+      />
       <el-table-column label="执行时长" prop="duration" header-align="center" align="center">
-        <template #default="scope">
-          {{ scope.row.duration }}毫秒
-        </template>
+        <template #default="scope"> {{ scope.row.duration }}毫秒 </template>
       </el-table-column>
-      <el-table-column v-auth="'system:operateLog:info'" label="操作" fixed="right" header-align="center" align="center" width="80">
+      <el-table-column
+        v-auth="'system:operateLog:info'"
+        label="操作"
+        fixed="right"
+        header-align="center"
+        align="center"
+        width="80"
+      >
         <template #default="scope">
           <el-button type="info" link @click="handleInfo(scope.row.id)">详情</el-button>
         </template>
@@ -80,8 +136,8 @@
 import { onMounted, reactive, ref } from 'vue'
 import Info from './info.vue'
 import { page, deleteByIds } from '@/api/system/operateLog'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
 const state: StateOptions = reactive({
   api: {
@@ -99,7 +155,7 @@ const state: StateOptions = reactive({
   },
   range: {
     createdTime: ''
-  },
+  }
 })
 
 const queryFormRef = ref()
@@ -109,13 +165,8 @@ onMounted(() => {
   getPage()
 })
 
-const {
-  getPage,
-  handleSizeChange,
-  handleCurrentChange,
-  handleDeleteBatch,
-  handleSelectionChange,
-} = crud(state)
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } =
+  crud(state)
 
 /** 重置按钮操作 */
 const handleResetQuery = () => {
@@ -123,7 +174,7 @@ const handleResetQuery = () => {
     state.range[key] = []
   }
 
-  if(queryFormRef.value) {
+  if (queryFormRef.value) {
     queryFormRef.value.resetFields()
   }
 

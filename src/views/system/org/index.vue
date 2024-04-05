@@ -1,11 +1,22 @@
 <template>
   <el-card shadow="never">
-    <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" @keyup.enter="getList()" @submit.prevent>
+    <el-form
+      ref="queryFormRef"
+      :model="state.queryForm"
+      :inline="true"
+      @keyup.enter="getList()"
+      @submit.prevent
+    >
       <el-form-item label="机构名称" prop="name">
         <el-input v-model="state.queryForm.name" placeholder="请输入机构名称" clearable />
       </el-form-item>
       <el-form-item label="状态" prop="status">
-        <dict-select v-model="state.queryForm.status" dict-type="sys_status" placeholder="机构状态" clearable />
+        <dict-select
+          v-model="state.queryForm.status"
+          dict-type="sys_status"
+          placeholder="机构状态"
+          clearable
+        />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="getList()">搜索</el-button>
@@ -13,7 +24,9 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'system:org:save'" type="primary" icon="Plus" @click="handleAddOrEdit()">新增</el-button>
+      <el-button v-auth="'system:org:save'" type="primary" icon="Plus" @click="handleAddOrEdit()"
+        >新增</el-button
+      >
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -33,8 +46,20 @@
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
         <template #default="scope">
-          <el-button v-auth="'system:org:update'" type="primary" link @click="handleAddOrEdit(scope.row.id)">修改</el-button>
-          <el-button v-auth="'system:org:delete'" type="danger" link @click="handleDeleteBatch(scope.row.id)">删除</el-button>
+          <el-button
+            v-auth="'system:org:update'"
+            type="primary"
+            link
+            @click="handleAddOrEdit(scope.row.id)"
+            >修改</el-button
+          >
+          <el-button
+            v-auth="'system:org:delete'"
+            type="danger"
+            link
+            @click="handleDeleteBatch(scope.row.id)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -44,38 +69,38 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, reactive, ref} from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
-import {deleteByIds, list} from '@/api/system/org'
-import {ElMessage, ElMessageBox} from 'element-plus'
-import type {StateOptions} from "@/utils/state";
-import {crud} from "@/utils/state";
+import { deleteByIds, list } from '@/api/system/org'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
 const state: StateOptions = reactive({
   api: {
     list
   },
   queryForm: {
-        status: '',
-        tenantId: '',
-        name: ''
+    status: '',
+    tenantId: '',
+    name: ''
   },
   data: [],
-  loading: false,
+  loading: false
 })
 
 const queryFormRef = ref()
 const addOrEditRef = ref()
 
 onMounted(() => {
-    getList()
+  getList()
 })
 
 const { getList } = crud(state)
 
 /** 重置按钮操作 */
 const handleResetQuery = () => {
-  if(queryFormRef.value) {
+  if (queryFormRef.value) {
     queryFormRef.value.resetFields()
   }
 
@@ -83,23 +108,22 @@ const handleResetQuery = () => {
 }
 
 const handleAddOrEdit = (id?: string) => {
-    addOrEditRef.value.init(id)
+  addOrEditRef.value.init(id)
 }
 
 const handleDeleteBatch = (id: string) => {
-    let data: any[] = [id]
-    ElMessageBox.confirm('确定进行删除操作？', '提示', {
-        type: 'warning'
+  let data: any[] = [id]
+  ElMessageBox.confirm('确定进行删除操作？', '提示', {
+    type: 'warning'
+  })
+    .then(() => {
+      deleteByIds(data).then(() => {
+        ElMessage.success('删除成功')
+        getList()
+      })
     })
-        .then(() => {
-            deleteByIds(data).then(() => {
-                ElMessage.success('删除成功')
-                getList()
-            })
-        })
-        .catch((error) => {
-            console.error(error)
-        })
+    .catch((error) => {
+      console.error(error)
+    })
 }
-
 </script>

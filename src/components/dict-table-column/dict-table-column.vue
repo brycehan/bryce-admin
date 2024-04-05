@@ -4,14 +4,17 @@
     :prop="prop"
     :header-align="headerAlign"
     :align="align"
-    :width="width">
+    :width="width"
+  >
     <template #default="scope">
-      <el-tag v-if="getDictLabelClass(appStore.dictList, props.dictType, scope.row[props.prop])"
-              :type="
-                getDictLabelClass(appStore.dictList, props.dictType, scope.row[props.prop]) === 'primary'
-                ? ''
-                : getDictLabelClass(appStore.dictList, props.dictType, scope.row[props.prop])
-      ">
+      <el-tag
+        v-if="getDictLabelClass(appStore.dictList, props.dictType, scope.row[props.prop])"
+        :type="
+          getDictLabelClass(appStore.dictList, props.dictType, scope.row[props.prop]) === 'primary'
+            ? ''
+            : getDictLabelClass(appStore.dictList, props.dictType, scope.row[props.prop])
+        "
+      >
         {{ getDictLabel(appStore.dictList, props.dictType, scope.row[props.prop]) }}
       </el-tag>
       <span v-else>
@@ -22,8 +25,8 @@
 </template>
 
 <script setup lang="ts">
-import {getDictLabel, getDictLabelClass} from "@/utils/tool";
-import {useAppStore} from "@/stores/modules/app";
+import { getDictLabel, getDictLabelClass } from '@/utils/tool'
+import { useAppStore } from '@/stores/modules/app'
 
 const appStore = useAppStore()
 
@@ -56,9 +59,6 @@ const props = defineProps({
     default: () => ''
   }
 })
-
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

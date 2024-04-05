@@ -4,11 +4,11 @@
     <el-main class="main-content">
       <el-scrollbar>
         <el-container class="main-card-container">
-            <router-view v-slot="{ Component, route }">
-              <keep-alive :include="[...tabsStore.cachedViews]">
-                <component :is="Component" :key="route.name"/>
-              </keep-alive>
-            </router-view>
+          <router-view v-slot="{ Component, route }">
+            <keep-alive :include="[...tabsStore.cachedViews]">
+              <component :is="Component" :key="route.name" />
+            </keep-alive>
+          </router-view>
         </el-container>
       </el-scrollbar>
     </el-main>
@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import Tabs from '@/components/layout/main/Tabs.vue'
-import {useTabsStore} from "@/stores/modules/tabs";
+import { useTabsStore } from '@/stores/modules/tabs'
 
 const tabsStore = useTabsStore()
 </script>
@@ -46,5 +46,4 @@ const tabsStore = useTabsStore()
     }
   }
 }
-
 </style>

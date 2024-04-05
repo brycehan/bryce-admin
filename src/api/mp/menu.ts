@@ -5,19 +5,19 @@ import request from '@/utils/request'
  * @param data 微信菜单
  */
 export const saveOrUpdate = (data: any) => {
-    return request.post('/mp/menu', data)
+  return request.post('/mp/menu', data)
 }
 
 /**
  * 获取微信公众号菜单
  */
 export const getMenu = () => {
-    return request.get('/mp/menu')
+  return request.get('/mp/menu')
 }
 
 /**
  * 从本地缓存发布微信公众号菜单
  */
 export const publishByCache = () => {
-    return request.get('/mp/menu/publishByCache')
+  return request.get('/mp/menu/publishByCache')
 }

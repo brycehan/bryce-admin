@@ -38,12 +38,12 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { getById, saveOrUpdate } from '@/api/system/param'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
 const emit = defineEmits(['refreshPage'])
 
-const state: StateOptions  = reactive({
+const state: StateOptions = reactive({
   api: {
     saveOrUpdate,
     getById,
@@ -51,9 +51,9 @@ const state: StateOptions  = reactive({
   },
   dataForm: {
     id: undefined,
-    paramName: '', 
-    paramKey: '', 
-    paramValue: '', 
+    paramName: '',
+    paramKey: '',
+    paramValue: '',
     builtIn: 'Y',
     remark: ''
   }
@@ -62,19 +62,19 @@ const state: StateOptions  = reactive({
 const dataFormRef = ref()
 
 const dataRules = reactive({
-    paramName: [
-      { required: true, message: '必填项不能为空', trigger: 'blur' },
-      { min: 0, max: 100, message: '参数名称长度不能超过100个字符', trigger: 'blur' }
-    ],
-    paramKey: [
-      { required: true, message: '必填项不能为空', trigger: 'blur' },
-      { min: 0, max: 100, message: '参数键长度不能超过100个字符', trigger: 'blur' }
-    ],
-    paramValue: [
-      { required: true, message: '必填项不能为空', trigger: 'blur' },
-      { min: 0, max: 65535, message: '参数值长度不能超过65535个字符', trigger: 'blur' }
-    ],
-    remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
+  paramName: [
+    { required: true, message: '必填项不能为空', trigger: 'blur' },
+    { min: 0, max: 100, message: '参数名称长度不能超过100个字符', trigger: 'blur' }
+  ],
+  paramKey: [
+    { required: true, message: '必填项不能为空', trigger: 'blur' },
+    { min: 0, max: 100, message: '参数键长度不能超过100个字符', trigger: 'blur' }
+  ],
+  paramValue: [
+    { required: true, message: '必填项不能为空', trigger: 'blur' },
+    { min: 0, max: 65535, message: '参数值长度不能超过65535个字符', trigger: 'blur' }
+  ],
+  remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
 })
 
 const { getData, handleSaveOrUpdate } = crud(state)
@@ -107,6 +107,6 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-    init
+  init
 })
 </script>

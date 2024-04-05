@@ -1,49 +1,48 @@
 <template>
-
-    <el-dialog
-        v-model="state.visible"
-        :title="!state.dataForm.id ? '新增字典类型' : '修改字典类型'"
-        :close-on-click-modal="false"
+  <el-dialog
+    v-model="state.visible"
+    :title="!state.dataForm.id ? '新增字典类型' : '修改字典类型'"
+    :close-on-click-modal="false"
+  >
+    <el-form
+      ref="dataFormRef"
+      :model="state.dataForm"
+      :rules="dataRules"
+      label-width="100px"
+      @keyup.enter="handleSubmit()"
+      class="mr-4"
     >
-      <el-form
-          ref="dataFormRef"
-          :model="state.dataForm"
-          :rules="dataRules"
-          label-width="100px"
-          @keyup.enter="handleSubmit()"
-          class="mr-4"
-      >
-        <el-form-item label="字典名称" prop="dictName">
-          <el-input v-model="state.dataForm.dictName" placeholder="请输入字典名称" />
-        </el-form-item>
-        <el-form-item label="字典类型" prop="dictType">
-          <el-input v-model="state.dataForm.dictType" placeholder="请输入字典类型" />
-        </el-form-item>
-        <el-form-item label="显示顺序" prop="sort">
-          <el-input-number v-model="state.dataForm.sort" :min="0" />
-        </el-form-item>
-        <el-form-item label="状态" prop="status">
-          <el-radio-group v-model="state.dataForm.status" >
-            <el-radio :label="true">正常</el-radio>
-            <el-radio :label="false">停用</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="state.dataForm.remark" placeholder="请输入内容" />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <el-button @click="state.visible = false">取消</el-button>
-        <el-button type="primary" @click="handleSubmit()">确定</el-button>
-      </template>
-    </el-dialog>
+      <el-form-item label="字典名称" prop="dictName">
+        <el-input v-model="state.dataForm.dictName" placeholder="请输入字典名称" />
+      </el-form-item>
+      <el-form-item label="字典类型" prop="dictType">
+        <el-input v-model="state.dataForm.dictType" placeholder="请输入字典类型" />
+      </el-form-item>
+      <el-form-item label="显示顺序" prop="sort">
+        <el-input-number v-model="state.dataForm.sort" :min="0" />
+      </el-form-item>
+      <el-form-item label="状态" prop="status">
+        <el-radio-group v-model="state.dataForm.status">
+          <el-radio :label="true">正常</el-radio>
+          <el-radio :label="false">停用</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="备注" prop="remark">
+        <el-input v-model="state.dataForm.remark" placeholder="请输入内容" />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <el-button @click="state.visible = false">取消</el-button>
+      <el-button type="primary" @click="handleSubmit()">确定</el-button>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { getById, saveOrUpdate } from '@/api/system/dictType'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -65,7 +64,6 @@ const state: StateOptions = reactive({
 
 const dataFormRef = ref()
 
-
 const dataRules = reactive({
   dictName: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
@@ -75,9 +73,7 @@ const dataRules = reactive({
     { required: true, message: '必填项不能为空', trigger: 'blur' },
     { min: 0, max: 100, message: '字典类型长度不能超过100个字符', trigger: 'blur' }
   ],
-  sort: [
-    { required: true, message: '必填项不能为空', trigger: 'blur' },
-  ],
+  sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
 })
 

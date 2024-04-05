@@ -1,15 +1,6 @@
 <template>
-  <el-dialog
-      v-model="state.visible"
-      title="操作日志详情"
-      :close-on-click-modal="false"
-  >
-    <el-form
-        ref="dataFormRef"
-        :model="state.dataForm"
-        label-width="100px"
-        class="mr-4"
-    >
+  <el-dialog v-model="state.visible" title="操作日志详情" :close-on-click-modal="false">
+    <el-form ref="dataFormRef" :model="state.dataForm" label-width="100px" class="mr-4">
       <el-row>
         <el-col :span="12">
           <el-form-item label="操作模块">
@@ -18,7 +9,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="操作状态">
-            {{state.dataForm.status ? '成功': '失败'}}
+            {{ state.dataForm.status ? '成功' : '失败' }}
           </el-form-item>
         </el-col>
       </el-row>
@@ -46,9 +37,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="执行时长">
-            {{ state.dataForm.duration }}毫秒
-          </el-form-item>
+          <el-form-item label="执行时长"> {{ state.dataForm.duration }}毫秒 </el-form-item>
         </el-col>
       </el-row>
       <el-row>
@@ -90,12 +79,12 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { getById } from '@/api/system/operateLog'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
-const state: StateOptions  = reactive({
+const state: StateOptions = reactive({
   api: {
-    getById,
+    getById
   },
   dataForm: {
     id: '',

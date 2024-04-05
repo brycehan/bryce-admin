@@ -30,8 +30,8 @@
 import { computed, type PropType } from 'vue'
 import { useRouter } from 'vue-router'
 import SvgIcon from '@/components/svg-icon/svg-icon.vue'
-import {isExternalLink, replaceLinkParam} from "@/utils/tool";
-import {useAppStore} from "@/stores/modules/app";
+import { isExternalLink, replaceLinkParam } from '@/utils/tool'
+import { useAppStore } from '@/stores/modules/app'
 
 defineOptions({
   name: 'MenuItem'

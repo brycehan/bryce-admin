@@ -10,4 +10,4 @@ declare module '*.vue' {
   export default component
 }
 
-declare module '@kangc/v-md-editor';
+declare module '@kangc/v-md-editor'

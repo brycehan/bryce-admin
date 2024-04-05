@@ -1,15 +1,6 @@
 <template>
-  <el-dialog
-      v-model="state.visible"
-      title="定时任务日志详情"
-      :close-on-click-modal="false"
-  >
-    <el-form
-        ref="dataFormRef"
-        :model="state.dataForm"
-        label-width="100px"
-        class="mr-4"
-    >
+  <el-dialog v-model="state.visible" title="定时任务日志详情" :close-on-click-modal="false">
+    <el-form ref="dataFormRef" :model="state.dataForm" label-width="100px" class="mr-4">
       <el-row>
         <el-col :span="12">
           <el-form-item label="任务ID">
@@ -18,7 +9,6 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="任务名称">
-
             {{ state.dataForm.jobName }}
           </el-form-item>
         </el-col>
@@ -54,19 +44,17 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="执行时长">
-            {{ state.dataForm.duration }}毫秒
-          </el-form-item>
+          <el-form-item label="执行时长"> {{ state.dataForm.duration }}毫秒 </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="执行状态">
-            {{ state.dataForm.executeStatus ? '成功': '失败'}}
+            {{ state.dataForm.executeStatus ? '成功' : '失败' }}
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-form-item label="错误信息">
-          {{ state.dataForm.errorInfo == '' ? '无': state.dataForm.errorInfo }}
+          {{ state.dataForm.errorInfo == '' ? '无' : state.dataForm.errorInfo }}
         </el-form-item>
       </el-row>
     </el-form>
@@ -79,12 +67,12 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { getById } from '@/api/quartz/jobLog'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
-const state: StateOptions  = reactive({
+const state: StateOptions = reactive({
   api: {
-    getById,
+    getById
   },
   dataForm: {
     id: '',

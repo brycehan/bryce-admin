@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import {useAppStore} from "@/stores/modules/app";
+import { useAppStore } from '@/stores/modules/app'
 import { computed } from 'vue'
 import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 

@@ -1,11 +1,8 @@
-import {
-  createRouter, createWebHistory,
-  type RouteRecordRaw
-} from 'vue-router'
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import {isExternalLink} from "@/utils/tool";
-import {useAuthStore} from "@/stores/modules/auth";
+import { isExternalLink } from '@/utils/tool'
+import { useAuthStore } from '@/stores/modules/auth'
 import { useAppStore } from '@/stores/modules/app'
 import { useRouterStore } from '@/stores/modules/router'
 import { getMenuRoutes } from '@/api/system/router'
@@ -59,7 +56,7 @@ const asyncRoute: RouteRecordRaw = {
         title: '修改密码',
         cache: true
       }
-    },
+    }
   ]
 }
 
@@ -129,8 +126,8 @@ router.beforeEach(async (to, from, next) => {
   NProgress.start()
 
   const authStore = useAuthStore()
-  const appStore = useAppStore();
-  const routerStore = useRouterStore();
+  const appStore = useAppStore()
+  const routerStore = useRouterStore()
 
   // token存在的情况
   if (authStore.token) {
@@ -256,7 +253,7 @@ export const generateRoutes = (menuList: any): RouteRecordRaw[] => {
         url: menu.url,
         cache: true,
         openStyle: menu.openStyle,
-        breadcrumb: [],
+        breadcrumb: []
       }
     }
 
@@ -277,10 +274,10 @@ export const generateRoutes = (menuList: any): RouteRecordRaw[] => {
  */
 const isIframeUrl = (menu: any): boolean => {
   // 如果是新页面打开，则不用iframe
-  if(menu.openStyle === 1) {
+  if (menu.openStyle === 1) {
     return false
   }
 
   // 是否外部链接
-  return  isExternalLink(menu.url)
+  return isExternalLink(menu.url)
 }

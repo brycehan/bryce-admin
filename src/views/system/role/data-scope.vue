@@ -18,13 +18,13 @@
         <el-input v-model="state.dataForm.name" disabled />
       </el-form-item>
       <el-form-item label="数据范围" prop="dataScope">
-        <dict-select v-model="state.dataForm.dataScope" dict-type="sys_data_scope" class="w-100"/>
+        <dict-select v-model="state.dataForm.dataScope" dict-type="sys_data_scope" class="w-100" />
       </el-form-item>
       <el-form-item v-show="state.dataForm.dataScope == 5" label="数据权限">
         <el-tree
           ref="orgListRef"
           :data="orgList"
-          :props="{ label: 'name', children: 'children'}"
+          :props="{ label: 'name', children: 'children' }"
           node-key="id"
           accordion
           show-checkbox
@@ -43,19 +43,19 @@
 import { reactive, ref } from 'vue'
 import { getById, saveOrUpdate } from '@/api/system/role'
 import { list as orgListApi } from '@/api/system/org'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
 const emit = defineEmits(['refreshPage'])
 
-const state: StateOptions  = reactive({
+const state: StateOptions = reactive({
   api: {
     saveOrUpdate,
     emit
   },
   dataForm: {
     id: undefined,
-    name: '', 
+    name: '',
     dataScope: 1,
     orgIds: [],
     remark: ''
@@ -80,7 +80,7 @@ const init = (id?: bigint) => {
     dataFormRef.value.resetFields()
   }
 
-  if(orgListRef.value) {
+  if (orgListRef.value) {
     orgListRef.value.setCheckedKeys([])
   }
 
@@ -95,7 +95,6 @@ const init = (id?: bigint) => {
 
 /** 获取详情数据 */
 const getData = (id: bigint) => {
-
   getById(id).then((res: any) => {
     Object.assign(state.dataForm, res.data)
 
@@ -106,7 +105,7 @@ const getData = (id: bigint) => {
 
 /** 获取机构列表 */
 const getOrgList = () => {
-  orgListApi({}).then( response => {
+  orgListApi({}).then((response) => {
     orgList.value = response.data || []
   })
 }
@@ -123,6 +122,6 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-    init
+  init
 })
 </script>
