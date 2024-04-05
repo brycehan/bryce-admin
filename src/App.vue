@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import {useAppStore} from "@/stores/app";
+import {useAppStore} from "@/stores/modules/app";
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 const appStore = useAppStore()

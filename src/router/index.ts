@@ -6,9 +6,10 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import {isExternalLink} from "@/utils/tool";
 import {useAuthStore} from "@/stores/auth";
-import {useAppStore} from "@/stores/app";
+import { useAppStore } from '@/stores/modules/app'
 import { useRouterStore } from '@/stores/modules/router'
 import { getMenuRoutes } from '@/api/system/router'
+import { dictList } from '@/api/system/dictType'
 
 NProgress.configure({ showSpinner: false })
 
@@ -141,7 +142,9 @@ router.beforeEach(async (to, from, next) => {
         try {
           await authStore.getCurrentUser()
           await authStore.getAuthoritySet()
-          await appStore.getDictList()
+
+          const { data } = await dictList()
+          appStore.setDictList(data)
         } catch (error) {
           console.warn('出错：', error)
 

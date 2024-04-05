@@ -28,7 +28,7 @@
   </el-container>
 </template>
 <script setup lang="ts">
-import {useAppStore} from "@/stores/app";
+import {useAppStore} from "@/stores/modules/app";
 import Logo from '@/components/layout/logo/index.vue'
 import MenuItem from '@/components/layout/menu-item/index.vue'
 import Header from '@/components/layout/header/index.vue'

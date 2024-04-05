@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { dictDataList } from "@/utils/tool";
-import {useAppStore} from "@/stores/app"
+import { useAppStore } from '@/stores/modules/app'
 
 const appStore = useAppStore()
 

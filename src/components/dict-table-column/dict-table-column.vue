@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import {getDictLabel, getDictLabelClass} from "@/utils/tool";
-import {useAppStore} from "@/stores/app";
+import {useAppStore} from "@/stores/modules/app";
 
 const appStore = useAppStore()
 
