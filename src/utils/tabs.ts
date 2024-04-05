@@ -1,4 +1,4 @@
-import {useTabsStore} from "@/stores/tabs";
+import {useTabsStore} from "@/stores/modules/tabs";
 
 /** 关闭标签页 */
 export const closeTab = (router: any, tab: any) => {

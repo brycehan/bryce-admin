@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import Tabs from '@/components/layout/main/Tabs.vue'
-import {useTabsStore} from "@/stores/tabs";
+import {useTabsStore} from "@/stores/modules/tabs";
 
 const tabsStore = useTabsStore()
 </script>

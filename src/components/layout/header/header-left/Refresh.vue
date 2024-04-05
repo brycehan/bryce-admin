@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import SvgIcon from '@/components/svg-icon/svg-icon.vue'
-import {useTabsStore} from "@/stores/tabs";
+import {useTabsStore} from "@/stores/modules/tabs";
 import { useRoute, useRouter } from 'vue-router'
 import { nextTick } from 'vue'
 
