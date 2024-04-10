@@ -19,6 +19,7 @@ request.interceptors.request.use(
     }
 
     config.headers['Accept-Language'] = 'zh-CN'
+    config.headers['source-client'] = 'pc'
 
     // 追加时间戳，防止GET请求缓存
     if (config.method?.toUpperCase() === 'GET') {

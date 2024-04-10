@@ -27,6 +27,9 @@
         :before-upload="handleBeforeUpload"
         :on-success="handleOnSuccess"
         :show-file-list="false"
+        :limit="9"
+        :on-exceed="handleExceed"
+        multiple
         class="el-upload-container"
       >
         <el-button type="primary" icon="Upload">上传</el-button>
@@ -111,12 +114,11 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { page, deleteByIds, saveOrUpdate } from '@/api/system/attachment'
+import { deleteByIds, page, saveOrUpdate } from '@/api/system/attachment'
 import constant from '@/utils/constant'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import type { UploadProps, UploadRawFile } from 'element-plus'
-import { ElMessage } from 'element-plus'
+import { ElMessage, type UploadProps, type UploadRawFile } from 'element-plus'
 import { convertSizeFormat } from '@/utils/tool'
 import { useAuthStore } from '@/stores/modules/auth'
 
@@ -167,7 +169,8 @@ const authStore = useAuthStore()
 
 /** 上传文件请求头 */
 const headers = {
-  Authorization: authStore.token
+  Authorization: authStore.token,
+  'source-client': 'pc'
 }
 
 /** 上传文件前处理 */
@@ -185,11 +188,19 @@ const handleOnSuccess: UploadProps['onSuccess'] = (res) => {
     return false
   }
 
-  Object.assign(state.dataForm, res.data)
+  Object.assign(state.dataForm, res.data[0])
 
   saveOrUpdate(state.dataForm).then(() => {
     getPage()
     ElMessage.success('上传成功')
   })
+}
+
+const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
+  ElMessage.warning(
+    `限制为9个，您这次选择了 ${files.length} 个文件, 总共 ${
+      files.length + uploadFiles.length
+    } 个文件`
+  )
 }
 </script>
