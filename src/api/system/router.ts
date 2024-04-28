@@ -1,4 +1,4 @@
-import { nav } from '@/api/system/auth'
+import { nav } from '@/api/auth/auth'
 import { constantMenu, generateRoutes } from '@/router'
 import type { RouteRecordRaw } from 'vue-router'
 

@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { updatePassword } from '@/api/system/profile'
+import { updatePassword } from '@/api/auth/profile'
 import { ElMessage } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
 import { closeTab } from '@/utils/tabs'

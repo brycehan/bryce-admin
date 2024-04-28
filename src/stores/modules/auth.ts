@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import { loginByAccount, loginByPhone, currentUser, authority, logout } from '@/api/system/auth'
+import { loginByAccount, loginByPhone, currentUser, authority, logout } from '@/api/auth/auth'
 import storage from '@/utils/storage'
-import type { Auth } from '@/api/system/auth'
+import type { Auth } from '@/api/auth/auth'
 
 export const useAuthStore = defineStore('authStore', {
   state: () => ({
