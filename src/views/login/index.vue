@@ -1,30 +1,34 @@
 <template>
   <div class="login-container">
-    <el-row>
-      <el-col :span="12" :xs="0"></el-col>
-      <el-col :span="12" :xs="24">
-        <div class="login-form">
-          <account v-if="loginType === 'account'" />
-          <phone v-if="loginType === 'phone'" />
-          <div class="login-more">
-            <el-button
-              type="info"
-              link
-              :class="loginType === 'account' ? 'text-white' : ''"
-              @click="loginSwitch('account')"
-              >账号密码登录</el-button
-            >
-            <el-button
-              type="info"
-              link
-              :class="loginType === 'phone' ? 'text-white' : ''"
-              @click="loginSwitch('phone')"
-              >手机短信登录</el-button
-            >
-          </div>
-        </div>
-      </el-col>
-    </el-row>
+    <div class="login-info">
+      <h1>布鲁斯后台管理系统</h1>
+      <div class="login-tips">
+        基于Vue3、TypeScript、Element Plus、Vue
+        Router、Pinia、Axios、Vite等开发的后台管理，使用门槛极低，采用MIT开源协议，完全免费开源且终生免费，可免费用于商业项目等场景！
+      </div>
+      <div class="login-bg">
+        <img src="@/assets/images/admin-ui.png" alt="" />
+      </div>
+    </div>
+    <div class="login-form">
+      <div class="login-title">
+        <el-button
+          link
+          :class="loginType === 'account' ? 'text-account' : ''"
+          @click="loginSwitch('account')"
+          >账号密码登录</el-button
+        >
+        <el-button
+          link
+          :class="loginType === 'phone' ? 'text-account' : ''"
+          @click="loginSwitch('phone')"
+          >手机短信登录</el-button
+        >
+      </div>
+      <account v-if="loginType === 'account'" />
+      <phone v-if="loginType === 'phone'" />
+      <third />
+    </div>
   </div>
 </template>
 
@@ -32,6 +36,7 @@
 import { ref } from 'vue'
 import Account from '@/views/login/account.vue'
 import Phone from '@/views/login/phone.vue'
+import Third from '@/views/login/third.vue'
 
 // 登录类型
 const loginType = ref('account')
@@ -43,35 +48,92 @@ const loginSwitch = (type: string) => {
 
 <style scoped lang="scss">
 .login-container {
-  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
   height: 100vh;
-  background: url('@/assets/images/background.jpg') no-repeat;
-  background-size: cover;
-}
 
-.login-form {
-  position: relative;
-  width: 400px;
-  top: 30vh;
-  background: url('@/assets/images/login_form.png') no-repeat;
-  background-size: cover;
-  padding: 40px;
-  margin-left: 100px;
-}
+  .login-info {
+    display: flex;
+    flex-direction: column;
+    width: 520px;
+    flex: 0 1 auto;
 
-@media only screen and (max-width: 992px) {
+    h1 {
+      color: var(--el-color-primary);
+    }
+
+    .login-tips {
+      color: #777;
+      line-height: 32px;
+      padding: 15px 0;
+    }
+
+    .login-bg img {
+      width: 520px;
+    }
+  }
+
+  .login-title {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    :deep(.el-button) {
+      font-size: 20px;
+      color: #333;
+      padding-bottom: 8px;
+    }
+    .text-account {
+      color: var(--el-color-primary);
+      border-bottom: 4px solid var(--el-color-primary) !important;
+    }
+  }
+
   .login-form {
-    margin-left: 0 !important;
+    background: white;
+    flex: 0 1 auto;
+    padding: 40px;
+    border-radius: 6px;
+    box-shadow: 1px 1px 8px #aaa;
+    box-sizing: border-box;
+    width: 450px;
+
+    :deep(.el-input) {
+      //height: 45px;
+      margin-top: 5px;
+      .el-input__inner {
+        //height: 45px;
+        //line-height: 45px;
+        padding: 10px 15px 10px 5px;
+        color: #666;
+        font-size: 16px;
+      }
+    }
   }
 }
 
-.login-more {
-  display: flex;
-  justify-content: space-evenly;
-  padding-top: 25px;
+@media only screen and (max-width: 992px) {
+  .login-info {
+    display: none;
+  }
 }
 
-.text-white :deep(span) {
-  color: white !important;
+@media only screen and (max-width: 768px) {
+  .login-container {
+    background-color: white;
+  }
+  .login-info {
+    display: none;
+  }
+  .login-form {
+    flex: 0 1 auto;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .login-captcha {
+    :deep(.el-input) {
+      width: 150px;
+    }
+  }
 }
 </style>

@@ -1,7 +1,5 @@
 <template>
   <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" @keyup.enter="loginByPhone">
-    <h1>Bryce Admin</h1>
-    <h2>欢迎使用本系统</h2>
     <el-form-item prop="phone">
       <el-input v-model="loginForm.phone" prefix-icon="Iphone" placeholder="请输入手机号" />
     </el-form-item>
@@ -11,7 +9,7 @@
       <el-button v-else disabled>{{ sms.count }} 秒后重新发送</el-button>
     </el-form-item>
     <el-form-item>
-      <el-button class="w-100" type="primary" size="default" @click="loginByPhone()"
+      <el-button class="login-btn w-100" type="primary" size="default" @click="loginByPhone()"
         >登录</el-button
       >
     </el-form-item>
@@ -111,29 +109,18 @@ const loginRules = {
 </script>
 
 <style scoped lang="scss">
-h1 {
-  color: white;
-  font-size: 40px;
-}
-
-h2 {
-  color: white;
-  font-size: 20px;
-  margin: 20px 0;
-}
-
 .login-code {
   :deep(.el-input) {
-    width: 240px;
+    width: 200px;
   }
 
-  :deep(.el-button) {
+  :deep(.el-button--default) {
     width: 150px;
+    margin: 5px 0 0 10px;
   }
 
-  :deep(.el-form-item__content) {
-    display: flex;
-    justify-content: space-between !important;
+  .login-btn {
+    letter-spacing: 8px;
   }
 }
 </style>

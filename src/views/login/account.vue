@@ -1,14 +1,11 @@
 <template>
   <el-form ref="loginFormRef" :model="loginDto" :rules="loginRules" @keyup.enter="loginByAccount">
-    <h1>Bryce Admin</h1>
-    <h2>欢迎使用本系统</h2>
     <el-form-item prop="username">
       <el-input v-model="loginDto.username" :prefix-icon="User" placeholder="请输入账号" />
     </el-form-item>
     <el-form-item prop="password">
       <el-input
         v-model="loginDto.password"
-        type="password"
         :prefix-icon="Lock"
         placeholder="请输入密码"
         show-password
@@ -19,7 +16,7 @@
       <img :src="captchaBase64" alt="验证码" @click="handleCaptcha" />
     </el-form-item>
     <el-form-item>
-      <el-button class="w-100" type="primary" size="default" @click="loginByAccount()"
+      <el-button class="login-btn w-100" type="primary" size="default" @click="loginByAccount()"
         >登录</el-button
       >
     </el-form-item>
@@ -99,31 +96,20 @@ const loginRules = {
 </script>
 
 <style scoped lang="scss">
-h1 {
-  color: white;
-  font-size: 40px;
-}
-
-h2 {
-  color: white;
-  font-size: 20px;
-  margin: 20px 0;
-}
-
 .login-captcha {
   :deep(.el-input) {
-    width: 55%;
-  }
-
-  :deep(.el-form-item__content) {
-    display: flex;
-    justify-content: space-between !important;
+    width: 200px;
   }
 
   img {
-    width: 40%;
+    width: 150px;
     height: 30px;
+    margin: 5px 0 0 10px;
     cursor: pointer;
+  }
+
+  .login-btn {
+    letter-spacing: 8px;
   }
 }
 </style>
