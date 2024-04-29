@@ -1,9 +1,8 @@
 <template>
   <div class="login-third">
-    <el-divider>其它登录</el-divider>
+    <el-divider>其它方式登录</el-divider>
     <div class="third-btn">
       <el-button link title="微信" @click="thirdLogin('wechat')">
-        <!--        <SvgIcon icon="icon-weixin" size="24" />-->
         <img :src="wechatIcon" width="20" height="20" alt="微信" />
       </el-button>
     </div>
@@ -11,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 import wechatIcon from '@/assets/svgs/wechat.svg'
 
 /** 发送验证码 */

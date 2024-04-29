@@ -2,13 +2,8 @@
   <div class="login-container">
     <div class="login-info">
       <h1>布鲁斯后台管理系统</h1>
-      <div class="login-tips">
-        基于Vue3、TypeScript、Element Plus、Vue
-        Router、Pinia、Axios、Vite等开发的后台管理，使用门槛极低，采用MIT开源协议，完全免费开源且终生免费，可免费用于商业项目等场景！
-      </div>
-      <div class="login-bg">
-        <img src="@/assets/images/admin-ui.png" alt="" />
-      </div>
+      <div class="login-tips"></div>
+      <div class="login-bg"><img src="@/assets/images/admin-ui.png" alt="" /></div>
     </div>
     <div class="login-form">
       <div class="login-title">
@@ -16,13 +11,13 @@
           link
           :class="loginType === 'account' ? 'text-account' : ''"
           @click="loginSwitch('account')"
-          >账号密码登录</el-button
+          >账号登录</el-button
         >
         <el-button
           link
           :class="loginType === 'phone' ? 'text-account' : ''"
           @click="loginSwitch('phone')"
-          >手机短信登录</el-button
+          >手机验证码登录</el-button
         >
       </div>
       <account v-if="loginType === 'account'" />
@@ -34,9 +29,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import Account from '@/views/login/account.vue'
-import Phone from '@/views/login/phone.vue'
-import Third from '@/views/login/third.vue'
+import Account from './account.vue'
+import Phone from './phone.vue'
+import Third from './third.vue'
 
 // 登录类型
 const loginType = ref('account')
@@ -52,62 +47,57 @@ const loginSwitch = (type: string) => {
   justify-content: space-evenly;
   align-items: center;
   height: 100vh;
-
-  .login-info {
-    display: flex;
-    flex-direction: column;
-    width: 520px;
-    flex: 0 1 auto;
-
-    h1 {
-      color: var(--el-color-primary);
-    }
-
-    .login-tips {
-      color: #777;
-      line-height: 32px;
-      padding: 15px 0;
-    }
-
-    .login-bg img {
-      width: 520px;
-    }
+}
+.login-info {
+  display: flex;
+  flex-direction: column;
+  width: 520px;
+  flex: 0 1 auto;
+}
+.login-info h1 {
+  color: var(--el-color-primary);
+}
+.login-info .login-tips {
+  color: #777;
+  line-height: 32px;
+  padding: 15px 0;
+}
+.login-bg img {
+  width: 520px;
+}
+.login-title {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  :deep(.el-button) {
+    font-size: 18px;
+    color: #333;
+    padding-bottom: 8px;
+    border-radius: 0;
   }
-
-  .login-title {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-    :deep(.el-button) {
-      font-size: 20px;
-      color: #333;
-      padding-bottom: 8px;
-    }
-    .text-account {
-      color: var(--el-color-primary);
-      border-bottom: 4px solid var(--el-color-primary) !important;
-    }
+  .text-account {
+    color: var(--el-color-primary);
+    border-bottom: 3px solid var(--el-color-primary) !important;
   }
+}
+.login-form {
+  background-color: white;
+  flex: 0 1 auto;
+  padding: 40px;
+  border-radius: 6px;
+  box-shadow: 1px 1px 8px #aaa;
+  box-sizing: border-box;
+  width: 440px;
 
-  .login-form {
-    background: white;
-    flex: 0 1 auto;
-    padding: 40px;
-    border-radius: 6px;
-    box-shadow: 1px 1px 8px #aaa;
-    box-sizing: border-box;
-    width: 450px;
-
-    :deep(.el-input) {
-      //height: 45px;
-      margin-top: 5px;
-      .el-input__inner {
-        //height: 45px;
-        //line-height: 45px;
-        padding: 10px 15px 10px 5px;
-        color: #666;
-        font-size: 16px;
-      }
+  :deep(.el-input) {
+    height: 40px;
+    margin-top: 5px;
+    .el-input__inner {
+      padding: 10px 15px 10px 5px;
+      height: 40px;
+      line-height: 40px;
+      color: #666;
+      font-size: 16px;
     }
   }
 }
@@ -117,7 +107,6 @@ const loginSwitch = (type: string) => {
     display: none;
   }
 }
-
 @media only screen and (max-width: 768px) {
   .login-container {
     background-color: white;

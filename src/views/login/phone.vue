@@ -8,10 +8,8 @@
       <el-button v-if="!sms.disabled" @click="sendCode">发送验证码</el-button>
       <el-button v-else disabled>{{ sms.count }} 秒后重新发送</el-button>
     </el-form-item>
-    <el-form-item>
-      <el-button class="login-btn w-100" type="primary" size="default" @click="loginByPhone()"
-        >登录</el-button
-      >
+    <el-form-item class="login-btn">
+      <el-button class="w-100" type="primary" @click="loginByPhone()">登录</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -114,12 +112,19 @@ const loginRules = {
     width: 200px;
   }
 
-  :deep(.el-button--default) {
+  :deep(.el-button) {
     width: 150px;
+    height: 40px;
     margin: 5px 0 0 10px;
   }
+}
 
-  .login-btn {
+.login-btn {
+  :deep(.el-button--primary) {
+    margin-top: 10px;
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
     letter-spacing: 8px;
   }
 }

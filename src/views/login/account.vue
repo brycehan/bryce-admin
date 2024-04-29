@@ -15,8 +15,8 @@
       <el-input v-model="loginDto.code" placeholder="请输入验证码" :prefix-icon="Key" />
       <img :src="captchaBase64" alt="验证码" @click="handleCaptcha" />
     </el-form-item>
-    <el-form-item>
-      <el-button class="login-btn w-100" type="primary" size="default" @click="loginByAccount()"
+    <el-form-item class="login-btn">
+      <el-button class="w-100" type="primary" size="default" @click="loginByAccount()"
         >登录</el-button
       >
     </el-form-item>
@@ -100,15 +100,22 @@ const loginRules = {
   :deep(.el-input) {
     width: 200px;
   }
+}
 
-  img {
-    width: 150px;
-    height: 30px;
-    margin: 5px 0 0 10px;
-    cursor: pointer;
-  }
+.login-captcha img {
+  width: 150px;
+  height: 40px;
+  margin: 5px 0 0 10px;
+  cursor: pointer;
+  pointer-events: auto;
+}
 
-  .login-btn {
+.login-btn {
+  :deep(.el-button--primary) {
+    margin-top: 10px;
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
     letter-spacing: 8px;
   }
 }
