@@ -4,10 +4,13 @@
     "env.d.ts",
     "src/**/*",
     "src/**/*.vue",
+    "src/**/*.js",
     "src/**/*.ts"
   ],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
+    "allowJs": true,
+    "strict": true,
     "composite": true,
     "moduleResolution": "Node",
     "baseUrl": ".",

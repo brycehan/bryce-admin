@@ -3,6 +3,7 @@ declare module '*.scss'
 declare module '*.ts'
 declare module '*.js'
 declare module '*.mjs'
+declare module '*'
 
 declare module '*.vue' {
   import type { DefineComponent } from 'vue'

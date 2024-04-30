@@ -3,7 +3,7 @@
     <el-divider>其它方式登录</el-divider>
     <div class="third-btn">
       <el-button link title="微信" @click="thirdLogin('wechat')">
-        <img :src="wechatIcon" width="20" height="20" alt="微信" />
+        <img :src="wechatIcon" width="16" height="16" alt="微信" />
       </el-button>
     </div>
   </div>
@@ -11,12 +11,18 @@
 
 <script setup lang="ts">
 import wechatIcon from '@/assets/svgs/wechat.svg'
+import constant from '@/utils/constant'
+import request from '@/utils/request'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 /** 发送验证码 */
 const thirdLogin = (type: string) => {
-  const url = `${import.meta.env.VITE_APP_BASE_API}/third/login/${type}`
-  // 打开新窗口
-  window.open(url, '第三方登录', 'width=600,height=400,toolbar=no')
+  const url = `${constant.thirdLoginUrl}/${type}/mp`
+  request.get(url).then((res) => {
+    window.open(res.data, '第三方登录', 'width=600,height=400,toolbar=no')
+  })
 
   window.onmessage = (e) => {
     if (!e.data?.type) {
@@ -25,6 +31,7 @@ const thirdLogin = (type: string) => {
 
     // 第三方登录
     console.log('第三方登录', e.data)
+    router.push({ path: constant.loginSuccessPage })
   }
 }
 </script>
