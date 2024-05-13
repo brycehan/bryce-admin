@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="login-info">
-      <h1>布鲁斯后台管理系统</h1>
+      <h1>布莱斯后台管理系统</h1>
       <div class="login-tips"></div>
       <div class="login-bg"><img src="@/assets/images/admin-ui.png" alt="" /></div>
     </div>
