@@ -23,3 +23,13 @@ export const page = (data: any) => {
 export const list = (data: any) => {
   return request.post('/system/menu/list', data)
 }
+
+/** 登录用户的权限集合 */
+export async function authority() {
+  return request.get('/system/menu/authority')
+}
+
+/** 获取菜单列表 */
+export async function nav() {
+  return request.get('/system/menu/nav')
+}

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import { loginByAccount, loginByPhone, currentUser, authority, logout } from '@/api/auth/auth'
+import { loginByAccount, loginByPhone, currentUser, logout } from '@/api/auth/auth'
+import { authority } from '@/api/system/menu'
 import storage from '@/utils/storage'
 import type { Auth } from '@/api/auth/auth'
 
