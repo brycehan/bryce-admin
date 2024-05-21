@@ -183,12 +183,13 @@ const handleBeforeUpload: UploadProps['beforeUpload'] = (file: UploadRawFile) =>
 }
 
 const handleOnSuccess: UploadProps['onSuccess'] = (res) => {
+
   if (res.code !== 200) {
     ElMessage.error('上传失败' + res.message)
     return false
   }
 
-  Object.assign(state.dataForm, res.data[0])
+  Object.assign(state.dataForm, res.data)
 
   saveOrUpdate(state.dataForm).then(() => {
     getPage()
