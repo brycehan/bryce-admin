@@ -28,7 +28,7 @@ import { User, Lock, Key } from '@element-plus/icons-vue'
 import { onMounted, reactive, ref } from 'vue'
 import { router } from '@/router'
 import { useAuthStore } from '@/stores/modules/auth'
-import { generate, enabled } from '@/api/system/captcha'
+import { generate, enabled } from '@/api/auth/captcha'
 
 const authStore = useAuthStore()
 

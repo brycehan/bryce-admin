@@ -18,8 +18,8 @@
 import { useAuthStore } from '@/stores/modules/auth'
 import { onMounted, reactive, ref } from 'vue'
 import { router } from '@/router'
-import { enabled } from '@/api/system/captcha'
-import { sendLoginCode } from '@/api/system/sms'
+import { enabled } from '@/api/auth/captcha'
+import { sendLoginCode } from '@/api/auth/sms'
 import { phoneRegExp } from '@/utils/tool'
 import { ElMessage } from 'element-plus'
 

@@ -87,9 +87,11 @@
       />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
         <template #default="scope">
-          <a :href="scope.row.url" download>
-            <el-button v-auth="'system:attachment:info'" type="primary" link>下载</el-button>
-          </a>
+<!-- 权限无效，但浏览器有下载进度条 -->
+<!--          <a :href="scope.row.url" download>-->
+<!--            <el-button v-auth="'system:attachment:info'" type="primary" link>下载</el-button>-->
+<!--          </a>-->
+          <el-button v-auth="'system:attachment:info'" type="primary" link @click="handleDownload(scope.row.url, scope.row.name)">下载</el-button>
           <el-button
             v-auth="'system:attachment:delete'"
             type="danger"
@@ -121,6 +123,7 @@ import { crud } from '@/utils/state'
 import { ElMessage, type UploadProps, type UploadRawFile } from 'element-plus'
 import { convertSizeFormat } from '@/utils/tool'
 import { useAuthStore } from '@/stores/modules/auth'
+import download from '@/utils/download'
 
 const state: StateOptions = reactive({
   api: {
@@ -203,5 +206,9 @@ const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
       files.length + uploadFiles.length
     } 个文件`
   )
+}
+
+const handleDownload = (url: string, filename: string) => {
+  download.get(url, { filename })
 }
 </script>
