@@ -49,5 +49,5 @@ export async function currentUser() {
 
 /** 退出登录 */
 export async function logout() {
-  return request.get('/auth/quit')
+  return request.get('/auth/logout')
 }

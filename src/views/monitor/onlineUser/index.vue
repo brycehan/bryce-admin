@@ -10,7 +10,7 @@
       <el-table-column type="selection" header-align="center" align="center" width="50" />
       <el-table-column
         label="会话编号"
-        prop="tokenKey"
+        prop="userKey"
         show-overflow-tooltip
         header-align="center"
         align="center"
@@ -48,7 +48,7 @@
             v-auth="'monitor:onlineUser:delete'"
             type="primary"
             link
-            @click="handleForceQuit(scope.row.tokenKey)"
+            @click="handleForceQuit(scope.row.userKey)"
             >强退</el-button
           >
         </template>
@@ -68,7 +68,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue'
-import { page, deleteByTokenKey } from '@/api/monitor/onlineUser'
+import { page, deleteByUserKey } from '@/api/monitor/onlineUser'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -96,12 +96,12 @@ onMounted(() => {
 
 const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange } = crud(state)
 
-const handleForceQuit = (tokenKey: string) => {
+const handleForceQuit = (userKey: string) => {
   ElMessageBox.confirm('确定踢出该用户？', '提示', {
     type: 'warning'
   })
     .then(() => {
-      deleteByTokenKey(tokenKey).then(() => {
+      deleteByUserKey(userKey).then(() => {
         ElMessage.success('操作成功')
         getPage()
       })
