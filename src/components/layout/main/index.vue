@@ -37,7 +37,8 @@ const tabsStore = useTabsStore()
   padding: 0 !important;
 
   .main-card-container {
-    padding: 15px !important;
+    // card 边距
+    padding: 9px 10px 10px;
     flex-direction: column;
 
     .el-pagination {
