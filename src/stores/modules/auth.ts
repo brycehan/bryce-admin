@@ -10,8 +10,8 @@ export const useAuthStore = defineStore('authStore', {
     user: {
       id: '',
       username: '',
-      avatar: '@/assets/images/user1-128x128.jpg'
-    },
+      avatar: ''
+    } as any,
     // 权限集合
     authoritySet: [],
     // 访问token

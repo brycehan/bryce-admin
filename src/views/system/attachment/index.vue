@@ -87,11 +87,17 @@
       />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
         <template #default="scope">
-<!-- 权限无效，但浏览器有下载进度条 -->
-<!--          <a :href="scope.row.url" download>-->
-<!--            <el-button v-auth="'system:attachment:info'" type="primary" link>下载</el-button>-->
-<!--          </a>-->
-          <el-button v-auth="'system:attachment:info'" type="primary" link @click="handleDownload(scope.row.url, scope.row.name)">下载</el-button>
+          <!-- 权限无效，但浏览器有下载进度条 -->
+          <!--          <a :href="scope.row.url" download>-->
+          <!--            <el-button v-auth="'system:attachment:info'" type="primary" link>下载</el-button>-->
+          <!--          </a>-->
+          <el-button
+            v-auth="'system:attachment:info'"
+            type="primary"
+            link
+            @click="handleDownload(scope.row.url, scope.row.name)"
+            >下载</el-button
+          >
           <el-button
             v-auth="'system:attachment:delete'"
             type="danger"
@@ -186,7 +192,6 @@ const handleBeforeUpload: UploadProps['beforeUpload'] = (file: UploadRawFile) =>
 }
 
 const handleOnSuccess: UploadProps['onSuccess'] = (res) => {
-
   if (res.code !== 200) {
     ElMessage.error('上传失败' + res.message)
     return false

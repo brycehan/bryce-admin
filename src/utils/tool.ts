@@ -12,6 +12,21 @@ export const isExternalLink = (url: string): boolean => {
 export const replaceLinkParam = (url: string): string => {
   return url.replace('{{apiUrl}}', constant.apiUrl)
 }
+
+/**
+ * 替换英文逗号
+ *
+ * @param str 需要替换的字符串
+ * @param replaceValue 将英文逗号替换成的字符串
+ */
+export const replaceComma = (str: string, replaceValue: string) => {
+  if (!str) {
+    return str
+  }
+
+  return str.replace(',', replaceValue)
+}
+
 /**
  * 给表单添加日期范围参数
  *

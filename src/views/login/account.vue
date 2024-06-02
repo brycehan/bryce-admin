@@ -52,7 +52,7 @@ onMounted(() => {
 
 /** 获取验证码开关 */
 const handleCaptchaEnabled = async () => {
-  const { data } = await enabled()
+  const { data } = await enabled('login')
   captchaEnabled.value = data
   if (captchaEnabled.value) {
     await handleCaptcha()

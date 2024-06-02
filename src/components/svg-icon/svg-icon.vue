@@ -1,5 +1,5 @@
 <template>
-  <div class="svg-icon">
+  <span class="svg-icon">
     <svg
       :class="`${className}`"
       :style="`color:${color};width: ${size}; height: ${size}`"
@@ -7,7 +7,7 @@
     >
       <use :xlink:href="`${iconName}`" />
     </svg>
-  </div>
+  </span>
 </template>
 
 <script setup lang="ts">

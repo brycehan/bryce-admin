@@ -10,6 +10,9 @@ import { dictList } from '@/api/system/dictType'
 
 NProgress.configure({ showSpinner: false })
 
+/**
+ * 常量路由
+ */
 const constantRoutes: RouteRecordRaw[] = [
   {
     path: '/login',
@@ -34,6 +37,9 @@ const constantRoutes: RouteRecordRaw[] = [
   }
 ]
 
+/**
+ * 异步路由
+ */
 const asyncRoute: RouteRecordRaw = {
   path: '/',
   component: () => import('@/components/layout/index.vue'),
@@ -49,18 +55,20 @@ const asyncRoute: RouteRecordRaw = {
       }
     },
     {
-      path: '/profile/password',
-      name: 'ProfilePassword',
-      component: () => import('@/views/profile/password.vue'),
+      path: '/profile',
+      name: 'Profile',
+      component: () => import('@/views/profile/index.vue'),
       meta: {
-        title: '修改密码',
+        title: '个人中心',
         cache: true
       }
     }
   ]
 }
 
-/** 配置常量菜单 */
+/**
+ * 配置常量菜单
+ */
 export const constantMenu = [
   {
     id: -1,

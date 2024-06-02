@@ -23,7 +23,7 @@
         header-align="center"
         align="center"
       />
-<!--      <el-table-column label="机构名称" prop="orgName" header-align="center" align="center" />-->
+      <!--      <el-table-column label="机构名称" prop="orgName" header-align="center" align="center" />-->
       <el-table-column
         label="登录IP"
         prop="loginIp"

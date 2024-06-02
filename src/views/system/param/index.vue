@@ -73,8 +73,14 @@
         header-align="center"
         align="center"
       />
-      <el-table-column label="参数值" prop="paramValue" header-align="center" align="center" />
-      <dict-table-column label="系统内置" prop="builtIn" dict-type="sys_yes_no" />
+      <el-table-column
+        label="参数值"
+        prop="paramValue"
+        header-align="center"
+        align="center"
+        width="100"
+      />
+      <dict-table-column label="系统内置" prop="builtIn" dict-type="sys_yes_no" width="100" />
       <el-table-column
         label="备注"
         prop="remark"
