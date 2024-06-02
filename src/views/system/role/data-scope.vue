@@ -103,7 +103,9 @@ const getData = (id: bigint) => {
   })
 }
 
-/** 获取机构列表 */
+/**
+ * 获取机构列表
+ */
 const getOrgList = () => {
   orgListApi({}).then((response) => {
     orgList.value = response.data || []
