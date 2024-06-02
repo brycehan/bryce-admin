@@ -2,7 +2,7 @@
   <div class="header-right-container">
     <ComponentSize />
     <a href="https://github.com/brycehan/bryce-admin" target="_blank">
-      <SvgIcon icon="icon-github-fill"></SvgIcon>
+      <SvgIcon icon="icon-github-fill" class="block-icon"></SvgIcon>
     </a>
     <Fullscreen />
     <User />
@@ -20,5 +20,8 @@ import Fullscreen from './Fullscreen.vue'
 <style scoped lang="scss">
 .header-right-container {
   display: flex;
+}
+.block-icon {
+  display: block;
 }
 </style>

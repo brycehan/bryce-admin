@@ -22,8 +22,8 @@
           <el-form-item label="密码" prop="password">
             <el-input
               v-model="state.dataForm.password"
-              type="password"
               placeholder="请输入密码"
+              show-password
               clearable
             />
           </el-form-item>
