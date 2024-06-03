@@ -88,8 +88,8 @@
           <el-table-column label="姓名" prop="fullName" header-align="center" align="center" />
           <el-table-column label="手机号码" prop="phone" header-align="center" align="center" />
           <el-table-column label="机构" prop="orgName" header-align="center" align="center" />
-          <dict-table-column label="状态" prop="status" dict-type="sys_status" />
-          <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
+          <dict-table-column label="状态" prop="status" dict-type="sys_status" width="80"/>
+          <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="160" />
           <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
             <template #default="scope">
               <el-button

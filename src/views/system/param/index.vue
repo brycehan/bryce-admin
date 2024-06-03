@@ -16,7 +16,7 @@
       </el-form-item>
       <el-form-item label="系统内置" prop="builtIn">
         <dict-select
-          v-model="state.queryForm.builtIn"
+          v-model="state.queryForm.paramType"
           dict-type="sys_yes_no"
           placeholder="系统内置"
           clearable
@@ -80,7 +80,7 @@
         align="center"
         width="100"
       />
-      <dict-table-column label="系统内置" prop="builtIn" dict-type="sys_yes_no" width="100" />
+      <dict-table-column label="系统内置" prop="paramType" dict-type="sys_yes_no" width="100" />
       <el-table-column
         label="备注"
         prop="remark"
@@ -138,7 +138,7 @@ const state: StateOptions = reactive({
   queryForm: {
     paramName: '',
     paramKey: '',
-    builtIn: '',
+    paramType: '',
     createdTime: ''
   },
   range: {

@@ -26,8 +26,6 @@
 import { reactive, ref } from 'vue'
 import { updatePassword } from '@/api/auth/profile'
 import { ElMessage } from 'element-plus'
-import { useRoute, useRouter } from 'vue-router'
-import { closeTab } from '@/utils/tabs'
 
 const dataForm = reactive({
   password: '',
@@ -35,8 +33,6 @@ const dataForm = reactive({
   confirmPassword: ''
 })
 
-const router = useRouter()
-const route = useRoute()
 const dataFormRef = ref()
 
 /**
@@ -76,8 +72,6 @@ const handleSubmit = () => {
     // 修改密码
     updatePassword(dataForm).then(() => {
       ElMessage.success('修改成功')
-      // 关闭当前Tab
-      closeTab(router, route)
     })
   })
 }

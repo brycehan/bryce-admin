@@ -64,7 +64,7 @@
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
       <el-table-column label="用户账号" prop="username" header-align="center" align="center" />
-      <dict-table-column label="操作信息" prop="info" dict-type="sys_operate_info" />
+      <dict-table-column label="登录状态" prop="info" dict-type="sys_login_status" />
       <el-table-column label="登录IP" prop="ip" header-align="center" align="center" />
       <el-table-column label="登录地点" prop="location" header-align="center" align="center" />
       <el-table-column
