@@ -45,7 +45,7 @@
         type="danger"
         icon="Delete"
         @click="handleDeleteBatch()"
-        >删除</el-button
+        >批量删除</el-button
       >
       <el-button
         v-auth="'system:loginLog:export'"
