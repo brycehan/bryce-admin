@@ -49,13 +49,7 @@
           <el-button v-auth="'system:user:save'" type="primary" icon="Plus" @click="handleAddOrEdit()"
           >新增</el-button
           >
-          <el-button
-            v-auth="'system:user:delete'"
-            type="danger"
-            icon="Delete"
-            @click="handleDeleteBatch()"
-          >删除</el-button
-          >
+
           <el-upload
             v-auth="'system:user:import'"
             :action="importUrl"
@@ -74,6 +68,13 @@
             icon="Download"
             @click="handleDownloadExcel()"
           >导出</el-button
+          >
+          <el-button
+            v-auth="'system:user:delete'"
+            type="danger"
+            icon="Delete"
+            @click="handleDeleteBatch()"
+          >批量删除</el-button
           >
         </el-row>
         <el-table
