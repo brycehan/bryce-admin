@@ -32,7 +32,7 @@
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
       <el-table-column label="账号" prop="username" header-align="center" align="center" />
-      <el-table-column label="姓名" prop="fullName" header-align="center" align="center" />
+      <el-table-column label="姓名" prop="nickname" header-align="center" align="center" />
       <el-table-column label="手机号码" prop="phone" header-align="center" align="center" />
       <dict-table-column label="状态" prop="status" dict-type="sys_status" width="100" />
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />

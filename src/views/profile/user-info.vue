@@ -7,8 +7,8 @@
     @keyup.enter="handleSubmit()"
     class="mr-4"
   >
-    <el-form-item label="姓名" prop="fullName">
-      <el-input v-model="dataForm.fullName" placeholder="请输入姓名" />
+    <el-form-item label="姓名" prop="nickname">
+      <el-input v-model="dataForm.nickname" placeholder="请输入姓名" />
     </el-form-item>
     <el-form-item label="手机号码" prop="phone">
       <el-input v-model="dataForm.phone" placeholder="请输入手机号码" />
@@ -34,7 +34,7 @@ import { useAuthStore } from '@/stores/modules/auth'
 const authStore = useAuthStore()
 
 const dataForm = reactive({
-  fullName: authStore.user.fullName,
+  nickname: authStore.user.nickname,
   phone: authStore.user.phone,
   email: authStore.user.email,
   gender: authStore.user.gender
@@ -43,7 +43,7 @@ const dataForm = reactive({
 const dataFormRef = ref()
 
 const dataRules = reactive({
-  fullName: [
+  nickname: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
     { min: 2, max: 30, message: '姓名长度在2-30个字符', trigger: 'blur' }
   ],
@@ -60,7 +60,7 @@ const handleSubmit = () => {
     // 修改用户信息
     updateUserInfo(dataForm).then(() => {
       // 更新状态管理
-      authStore.user.fullName = dataForm.fullName
+      authStore.user.nickname = dataForm.nickname
       authStore.user.phone = dataForm.phone
       authStore.user.email = dataForm.email
       authStore.user.gender = dataForm.gender

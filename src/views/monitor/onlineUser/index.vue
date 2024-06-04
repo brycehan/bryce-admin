@@ -18,7 +18,7 @@
       <el-table-column label="账号" prop="username" header-align="center" align="center" />
       <el-table-column
         label="姓名"
-        prop="fullName"
+        prop="nickname"
         show-overflow-tooltip
         header-align="center"
         align="center"

@@ -13,7 +13,7 @@
           </li>
           <li>
             <svg-icon icon="icon-idcard" /> 用户昵称
-            <span class="li-text">{{ authStore.user.fullName }}</span>
+            <span class="li-text">{{ authStore.user.nickname }}</span>
           </li>
           <li>
             <svg-icon icon="icon-phone" /> 手机号码

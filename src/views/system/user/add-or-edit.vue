@@ -31,8 +31,8 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="姓名" prop="fullName">
-            <el-input v-model="state.dataForm.fullName" placeholder="请输入姓名" clearable />
+          <el-form-item label="姓名" prop="nickname">
+            <el-input v-model="state.dataForm.nickname" placeholder="请输入姓名" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -145,7 +145,7 @@ const state: StateOptions = reactive({
     id: undefined,
     username: '',
     password: '',
-    fullName: '',
+    nickname: '',
     gender: 'M',
     phone: '',
     email: '',
@@ -172,7 +172,7 @@ const dataRules = reactive({
     { required: true, message: '必填项不能为空', trigger: 'blur' },
     { min: 0, max: 255, message: '密码长度不能超过255个字符', trigger: 'blur' }
   ],
-  fullName: [{ min: 0, max: 50, message: '姓名长度不能超过50个字符', trigger: 'blur' }],
+  nickname: [{ min: 0, max: 50, message: '姓名长度不能超过50个字符', trigger: 'blur' }],
   gender: [{ min: 0, max: 1, message: '性别长度不能超过1个字符', trigger: 'blur' }],
   phone: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
