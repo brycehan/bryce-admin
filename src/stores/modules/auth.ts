@@ -15,26 +15,26 @@ export const useAuthStore = defineStore('authStore', {
     // 权限集合
     authoritySet: [],
     // 访问token
-    token: storage.getToken()
+    accessToken: storage.getToken()
   }),
   actions: {
     setUser(user: any) {
       this.user = user
     },
-    setToken(token: any) {
-      this.token = token
-      storage.setToken(token)
+    setToken(accessToken: any) {
+      this.accessToken = accessToken
+      storage.setToken(accessToken)
     },
     removeToken() {
-      this.token = null
+      this.accessToken = null
       storage.removeToken()
     },
     /** 账号登录 */
     async loginByAccount(loginDto: Auth.LoginDto) {
       const { code, data, message } = await loginByAccount(loginDto)
       if (code == 200) {
-        this.token = (data as Auth.LoginVo).token as string
-        storage.setToken(this.token)
+        this.accessToken = (data as Auth.LoginVo).accessToken as string
+        storage.setToken(this.accessToken)
       } else {
         return Promise.reject(message)
       }
@@ -42,8 +42,8 @@ export const useAuthStore = defineStore('authStore', {
     async loginByPhone(loginDto: any) {
       const { code, data, message } = await loginByPhone(loginDto)
       if (code == 200) {
-        this.token = (data as Auth.LoginVo).token as string
-        storage.setToken(this.token)
+        this.accessToken = (data as Auth.LoginVo).accessToken as string
+        storage.setToken(this.accessToken)
       } else {
         return Promise.reject(message)
       }

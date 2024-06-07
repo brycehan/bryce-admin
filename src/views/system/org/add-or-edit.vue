@@ -9,7 +9,6 @@
       :model="dataForm"
       :rules="dataRules"
       label-width="100px"
-      @keyup.enter="handleSubmit()"
       class="mr-4"
     >
       <el-form-item label="上级机构" prop="parentName" class="org-list">

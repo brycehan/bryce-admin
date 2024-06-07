@@ -16,9 +16,9 @@ export declare namespace Auth {
 
   type LoginVo = {
     /** jwt令牌 */
-    token?: string
-    /** 登录类型 */
-    type?: string
+    accessToken?: string
+    /** 过期时间间隔 */
+    expiredIn?: number
   }
 
   type ResponseResultLoginVo = {

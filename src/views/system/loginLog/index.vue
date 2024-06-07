@@ -40,7 +40,6 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-
       <el-button
         v-auth="'system:loginLog:export'"
         type="success"
@@ -53,7 +52,7 @@
         type="danger"
         icon="Delete"
         @click="handleDeleteBatch()"
-      >批量删除</el-button
+        >批量删除</el-button
       >
     </el-row>
     <el-table

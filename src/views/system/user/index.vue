@@ -46,8 +46,12 @@
           </el-form-item>
         </el-form>
         <el-row class="mb-2">
-          <el-button v-auth="'system:user:save'" type="primary" icon="Plus" @click="handleAddOrEdit()"
-          >新增</el-button
+          <el-button
+            v-auth="'system:user:save'"
+            type="primary"
+            icon="Plus"
+            @click="handleAddOrEdit()"
+            >新增</el-button
           >
 
           <el-upload
@@ -67,14 +71,14 @@
             type="success"
             icon="Download"
             @click="handleDownloadExcel()"
-          >导出</el-button
+            >导出</el-button
           >
           <el-button
             v-auth="'system:user:delete'"
             type="danger"
             icon="Delete"
             @click="handleDeleteBatch()"
-          >批量删除</el-button
+            >批量删除</el-button
           >
         </el-row>
         <el-table
@@ -89,23 +93,35 @@
           <el-table-column label="姓名" prop="nickname" header-align="center" align="center" />
           <el-table-column label="手机号码" prop="phone" header-align="center" align="center" />
           <el-table-column label="机构" prop="orgName" header-align="center" align="center" />
-          <dict-table-column label="状态" prop="status" dict-type="sys_status" width="80"/>
-          <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="160" />
-          <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
+          <dict-table-column label="状态" prop="status" dict-type="sys_status" width="80" />
+          <el-table-column
+            label="创建时间"
+            prop="createdTime"
+            header-align="center"
+            align="center"
+            width="160"
+          />
+          <el-table-column
+            label="操作"
+            fixed="right"
+            header-align="center"
+            align="center"
+            width="150"
+          >
             <template #default="scope">
               <el-button
                 v-auth="'system:user:update'"
                 type="primary"
                 link
                 @click="handleAddOrEdit(scope.row.id)"
-              >修改</el-button
+                >修改</el-button
               >
               <el-button
                 v-auth="'system:user:delete'"
                 type="danger"
                 link
                 @click="handleDeleteBatch(scope.row.id)"
-              >删除</el-button
+                >删除</el-button
               >
             </template>
           </el-table-column>
@@ -125,7 +141,6 @@
       </el-card>
     </el-col>
   </el-row>
-
 </template>
 
 <script setup lang="ts">

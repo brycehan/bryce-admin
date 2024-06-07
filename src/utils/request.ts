@@ -14,8 +14,8 @@ const request = axios.create({
 request.interceptors.request.use(
   (config) => {
     const authStore = useAuthStore()
-    if (authStore?.token) {
-      config.headers.Authorization = authStore.token
+    if (authStore?.accessToken) {
+      config.headers.Authorization = authStore.accessToken
     }
 
     config.headers['Accept-Language'] = 'zh-CN'

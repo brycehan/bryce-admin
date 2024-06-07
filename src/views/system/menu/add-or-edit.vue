@@ -9,7 +9,6 @@
       :model="state.dataForm"
       :rules="dataRules"
       label-width="100px"
-      @keyup.enter="handleSubmit()"
       class="mr-4"
     >
       <el-form-item label="菜单名称" prop="name">

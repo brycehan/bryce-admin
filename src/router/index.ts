@@ -138,7 +138,7 @@ router.beforeEach(async (to, from, next) => {
   const routerStore = useRouterStore()
 
   // token存在的情况
-  if (authStore.token) {
+  if (authStore.accessToken) {
     if (to.path === '/login') {
       next('/home')
     } else {

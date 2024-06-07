@@ -29,7 +29,7 @@ onMounted(() => {
   getOrgList()
 })
 
-watch(orgName, value => {
+watch(orgName, (value) => {
   orgListRef.value.filter(value)
 })
 
@@ -43,7 +43,7 @@ const getOrgList = () => {
 }
 
 const filterNode = (name: string, data: any) => {
-  if(!name) {
+  if (!name) {
     return true
   }
 
