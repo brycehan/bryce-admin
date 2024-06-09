@@ -28,7 +28,14 @@
       <el-button v-auth="'system:menu:save'" type="primary" icon="Plus" @click="handleAddOrEdit()"
         >新增</el-button
       >
-      <el-button type="info" icon="Sort" @click="toggleExpandAll()">展开/折叠</el-button>
+      <el-button plain @click="toggleExpandAll()">
+        <template v-if="!isExpandAll">
+          全部展开 <el-icon class="ml-1"> <arrow-down /></el-icon>
+        </template>
+        <template v-else>
+          全部收起 <el-icon class="ml-1"> <arrow-up /></el-icon>
+        </template>
+      </el-button>
     </el-row>
     <el-table
       v-if="refreshTable"
@@ -123,6 +130,7 @@ import { list, deleteByIds } from '@/api/system/menu'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 
 const state: StateOptions = reactive({
   api: {
