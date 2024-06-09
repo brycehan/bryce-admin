@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { getById, saveOrUpdate, list } from '@/api/system/org'
 import SvgIcon from '@/components/svg-icon/svg-icon.vue'
@@ -119,36 +119,37 @@ const dataRules = reactive({
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }]
 })
 
-const init = (id?: bigint) => {
+const init = (row: any, isAdd: boolean) => {
   visible.value = true
-  dataForm.id = ''
 
   // 重置表单数据
   if (dataFormRef.value) {
     dataFormRef.value.resetFields()
   }
 
-  // id 存在则为修改
-  if (id) {
-    getOrg(id)
+  // 修改或有父节点添加时
+  if (isAdd) {
+    handleTreeDefault(row)
   } else {
-    handleTreeDefault()
+    getOrg(row)
   }
-
-  // 机构树列表
-  getOrgList()
 }
 
-const getOrg = (id: bigint) => {
-  getById(id).then((response) => {
-    Object.assign(dataForm, response.data)
+/**
+ * 获取机构信息
+ *
+ * @param row
+ */
+const getOrg = (row: any) => {
+    getById(row.id).then((response) => {debugger
+      Object.assign(dataForm, response.data)
 
-    if (dataForm.parentId === 0) {
-      return handleTreeDefault()
-    }
+      if (dataForm.parentId === 0) {
+        return handleTreeDefault(null)
+      }
 
-    orgTreeRef.value.setCurrentKey(dataForm.parentId)
-  })
+      orgTreeRef.value.setCurrentKey(dataForm.parentId)
+    })
 }
 
 const getOrgList = () => {
@@ -157,10 +158,19 @@ const getOrgList = () => {
   })
 }
 
-/** 上级机构树，设置默认值 */
-const handleTreeDefault = () => {
-  dataForm.parentId = 0
-  dataForm.parentName = '主类目'
+/**
+ * 上级机构树，设置默认值
+ *
+ * @param row 机构父数据
+ */
+const handleTreeDefault = (row: any) => {
+  if (row) {
+    dataForm.parentId = row.id
+    dataForm.parentName = row.name
+  } else {
+    dataForm.parentId = 0
+    dataForm.parentName = '主类目'
+  }
 }
 
 const handleTreeCurrentChange = (data: any) => {
@@ -183,6 +193,11 @@ const handleSubmit = () => {
     })
   })
 }
+
+onMounted(() => {
+  // 机构树列表
+  getOrgList()
+})
 
 defineExpose({
   init

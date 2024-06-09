@@ -54,14 +54,21 @@
         </template>
       </el-table-column>
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="180">
         <template #default="scope">
           <el-button
             v-auth="'system:org:update'"
             type="primary"
             link
-            @click="handleAddOrEdit(scope.row.id)"
-            >修改</el-button
+            @click="handleAddOrEdit(scope.row, true)"
+            >新增</el-button
+          >
+          <el-button
+            v-auth="'system:org:update'"
+            type="primary"
+            link
+            @click="handleAddOrEdit(scope.row, false)"
+          >修改</el-button
           >
           <el-button
             v-auth="'system:org:delete'"
@@ -122,8 +129,8 @@ const handleResetQuery = () => {
   getList()
 }
 
-const handleAddOrEdit = (id?: string) => {
-  addOrEditRef.value.init(id)
+const handleAddOrEdit = (row: any = null, isAdd: boolean = true) => {
+  addOrEditRef.value.init(row, isAdd)
 }
 
 const handleDeleteBatch = (id: string) => {
