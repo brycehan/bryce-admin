@@ -25,7 +25,7 @@
       <el-form-item label="操作账号" prop="username">
         <el-input v-model="state.queryForm.username" placeholder="请输入操作账号" clearable />
       </el-form-item>
-      <el-form-item label="创建时间" prop="createdTime">
+      <el-form-item label="操作时间" prop="operatedTime">
         <el-date-picker
           v-model="state.range.createdTime"
           type="daterange"
@@ -151,10 +151,10 @@ const state: StateOptions = reactive({
     status: '',
     username: '',
     orgId: '',
-    createdTime: ''
+    operatedTime: ''
   },
   range: {
-    createdTime: ''
+    operatedTime: ''
   }
 })
 

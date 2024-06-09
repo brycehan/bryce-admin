@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    v-model="state.visible"
+    v-model="visible"
     title="分配数据权限"
     :close-on-click-modal="false"
     width="600"
@@ -8,18 +8,18 @@
   >
     <el-form
       ref="dataFormRef"
-      :model="state.dataForm"
+      :model="dataForm"
       :rules="dataRules"
       label-width="100px"
       class="mr-4"
     >
       <el-form-item label="角色名称" prop="name">
-        <el-input v-model="state.dataForm.name" disabled />
+        <el-input v-model="dataForm.name" disabled />
       </el-form-item>
       <el-form-item label="数据范围" prop="dataScope">
-        <dict-select v-model="state.dataForm.dataScope" dict-type="sys_data_scope" class="w-100" />
+        <dict-select v-model="dataForm.dataScope" dict-type="sys_data_scope" class="w-100" />
       </el-form-item>
-      <el-form-item v-show="state.dataForm.dataScope == 5" label="数据权限">
+      <el-form-item v-show="dataForm.dataScope == 5" label="数据权限">
         <el-tree
           ref="orgListRef"
           :data="orgList"
@@ -32,7 +32,7 @@
       </el-form-item>
     </el-form>
     <template #footer>
-      <el-button @click="state.visible = false">取消</el-button>
+      <el-button @click="visible = false">取消</el-button>
       <el-button type="primary" @click="handleSubmit()">确定</el-button>
     </template>
   </el-dialog>
@@ -40,25 +40,17 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { getById, saveOrUpdate } from '@/api/system/role'
+import { getById, dataScope } from '@/api/system/role'
 import { list as orgListApi } from '@/api/system/org'
-import type { StateOptions } from '@/utils/state'
-import { crud } from '@/utils/state'
+import { ElMessage } from 'element-plus'
 
-const emit = defineEmits(['refreshPage'])
-
-const state: StateOptions = reactive({
-  api: {
-    saveOrUpdate,
-    emit
-  },
-  dataForm: {
-    id: undefined,
-    name: '',
-    dataScope: 1,
-    orgIds: [],
-    remark: ''
-  }
+const visible = ref(false)
+const dataForm = reactive({
+  id: undefined,
+  name: '',
+  dataScope: 1,
+  orgIds: [],
+  remark: ''
 })
 
 const dataFormRef = ref()
@@ -67,12 +59,10 @@ const orgList = ref([])
 
 const dataRules = reactive({})
 
-const { handleSaveOrUpdate } = crud(state)
-
 /** 初始化详情数据 */
 const init = (id?: bigint) => {
-  state.visible = true
-  state.dataForm.id = undefined
+  visible.value = true
+  dataForm.id = undefined
 
   // 重置表单数据
   if (dataFormRef.value) {
@@ -95,10 +85,10 @@ const init = (id?: bigint) => {
 /** 获取详情数据 */
 const getData = (id: bigint) => {
   getById(id).then((res: any) => {
-    Object.assign(state.dataForm, res.data)
+    Object.assign(dataForm, res.data)
 
     // 初始化机构树
-    orgListRef.value.setCheckedKeys(state.dataForm.orgIds)
+    orgListRef.value.setCheckedKeys(dataForm.orgIds)
   })
 }
 
@@ -113,12 +103,17 @@ const getOrgList = () => {
 
 /** 表单提交 */
 const handleSubmit = () => {
+  dataForm.orgIds = orgListRef.value.getCheckedKeys()
+
   dataFormRef.value.validate((valid: boolean) => {
     if (!valid) {
       return false
     }
 
-    handleSaveOrUpdate()
+    dataScope(dataForm).then(() => {
+      visible.value = false
+      ElMessage.success('操作成功')
+    })
   })
 }
 
