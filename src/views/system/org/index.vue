@@ -27,9 +27,19 @@
       <el-button v-auth="'system:org:save'" type="primary" icon="Plus" @click="handleAddOrEdit()"
         >新增</el-button
       >
+      <el-button plain @click="toggleExpandAll()">
+        <template v-if="!isExpandAll">
+          全部展开 <el-icon class="ml-1"> <arrow-down /></el-icon>
+        </template>
+        <template v-else>
+          全部收起 <el-icon class="ml-1"> <arrow-up /></el-icon>
+        </template>
+      </el-button>
     </el-row>
     <el-table
+      v-if="refreshTable"
       v-loading="state.loading"
+      :default-expand-all="isExpandAll"
       :data="state.data"
       row-key="id"
       :border="true"
@@ -69,12 +79,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { nextTick, onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import { deleteByIds, list } from '@/api/system/org'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
+import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 
 const state: StateOptions = reactive({
   api: {
@@ -91,6 +102,10 @@ const state: StateOptions = reactive({
 
 const queryFormRef = ref()
 const addOrEditRef = ref()
+// 是否展开，默认全部折叠
+const isExpandAll = ref(false)
+// 是否重新渲染表格状态
+const refreshTable = ref(true)
 
 onMounted(() => {
   getList()
@@ -126,4 +141,16 @@ const handleDeleteBatch = (id: string) => {
       console.error(error)
     })
 }
+
+/**
+ * 切换全部展开和折叠
+ */
+const toggleExpandAll = () => {
+  refreshTable.value = false
+  isExpandAll.value = !isExpandAll.value
+  nextTick(() => {
+    refreshTable.value = true
+  })
+}
+
 </script>
