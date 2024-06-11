@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { list as orgListApi } from '@/api/system/org'
+import { postListApi as orgListApi } from '@/api/system/org'
 
 const orgName = ref()
 const orgList = ref()

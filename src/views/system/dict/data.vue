@@ -93,7 +93,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './data-add-or-edit.vue'
-import { page, deleteByIds } from '@/api/system/dictData'
+import { postPageApi, deleteByIdsApi } from '@/api/system/dictData'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 
@@ -105,8 +105,8 @@ const props = defineProps({
 })
 const state: StateOptions = reactive({
   api: {
-    page,
-    deleteByIds
+    postPageApi,
+    deleteByIdsApi
   },
   queryForm: {
     dictTypeId: props.dictTypeId

@@ -1,6 +1,11 @@
 import { defineStore } from 'pinia'
-import { loginByAccount, loginByPhone, currentUser, logout } from '@/api/auth/auth'
-import { authority } from '@/api/system/menu'
+import {
+  postLoginByAccountApi,
+  postLoginByPhoneApi,
+  getCurrentUserApi,
+  getLogoutApi
+} from '@/api/auth/auth'
+import { getAuthorityApi } from '@/api/system/menu'
 import storage from '@/utils/storage'
 import type { Auth } from '@/api/auth/auth'
 
@@ -31,7 +36,7 @@ export const useAuthStore = defineStore('authStore', {
     },
     /** 账号登录 */
     async loginByAccount(loginDto: Auth.LoginDto) {
-      const { code, data, message } = await loginByAccount(loginDto)
+      const { code, data, message } = await postLoginByAccountApi(loginDto)
       if (code == 200) {
         this.accessToken = (data as Auth.LoginVo).accessToken as string
         storage.setToken(this.accessToken)
@@ -40,7 +45,7 @@ export const useAuthStore = defineStore('authStore', {
       }
     },
     async loginByPhone(loginDto: any) {
-      const { code, data, message } = await loginByPhone(loginDto)
+      const { code, data, message } = await postLoginByPhoneApi(loginDto)
       if (code == 200) {
         this.accessToken = (data as Auth.LoginVo).accessToken as string
         storage.setToken(this.accessToken)
@@ -50,18 +55,18 @@ export const useAuthStore = defineStore('authStore', {
     },
     /** 获取登录用户信息 */
     async getCurrentUser() {
-      const { data } = await currentUser()
+      const { data } = await getCurrentUserApi()
       // this.user = data
       Object.assign(this.user, data)
     },
     /** 获取权限 */
     async getAuthoritySet() {
-      const { data } = await authority()
+      const { data } = await getAuthorityApi()
       this.authoritySet = data || []
     },
     /** 用户退出 */
     async logout() {
-      await logout()
+      await getLogoutApi()
       storage.removeToken()
     }
   }

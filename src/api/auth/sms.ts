@@ -1,9 +1,19 @@
 import request from '@/utils/request'
 
-export const sendLoginCode = (phone: string) => {
+/**
+ * 生成登录验证码短信
+ *
+ * @param phone 手机号码
+ */
+export const getSendLoginCodeApi = (phone: string) => {
   return request.get('/auth/sms/login/code', { params: { phone } })
 }
 
-export const sendRegisterCode = (phone: string) => {
+/**
+ * 生成注册验证码短信
+ *
+ * @param phone 手机号码
+ */
+export const getSendRegisterCodeApi = (phone: string) => {
   return request.get('/auth/sms/register/code', { params: { phone } })
 }

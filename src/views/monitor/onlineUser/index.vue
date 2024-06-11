@@ -68,14 +68,14 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue'
-import { page, deleteByUserKey } from '@/api/monitor/onlineUser'
+import { postPageApi, deleteOnlineUserApi } from '@/api/monitor/onlineUser'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 const state: StateOptions = reactive({
   api: {
-    page
+    postPageApi: postPageApi
   },
   queryForm: {
     username: '',
@@ -101,7 +101,7 @@ const handleForceQuit = (userKey: string) => {
     type: 'warning'
   })
     .then(() => {
-      deleteByUserKey(userKey).then(() => {
+      deleteOnlineUserApi(userKey).then(() => {
         ElMessage.success('操作成功')
         getPage()
       })

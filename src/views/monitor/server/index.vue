@@ -101,7 +101,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue'
-import { info } from '@/api/monitor/server'
+import { getServerInfoApi } from '@/api/monitor/server'
 import { CoffeeCup, Cpu, MessageBox, Monitor, Tickets } from '@element-plus/icons-vue'
 
 const data = reactive({
@@ -148,7 +148,7 @@ onMounted(() => {
 })
 
 const getServerInfo = () => {
-  info().then((res: any) => {
+  getServerInfoApi().then((res: any) => {
     Object.assign(data, res.data)
   })
 }

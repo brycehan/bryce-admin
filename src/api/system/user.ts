@@ -1,7 +1,12 @@
 import request from '@/utils/request'
 import download from '@/utils/download'
 
-export const saveOrUpdate = (data: any) => {
+/**
+ * 保存系统用户
+ *
+ * @param data 参数
+ */
+export const saveOrUpdateApi = (data: any) => {
   if (data.id) {
     return request.put('/system/user', data)
   } else {
@@ -9,15 +14,30 @@ export const saveOrUpdate = (data: any) => {
   }
 }
 
-export const deleteByIds = (ids: bigint[]) => {
+/**
+ * 删除系统用户
+ *
+ * @param ids ID数组
+ */
+export const deleteByIdsApi = (ids: bigint[]) => {
   return request.delete('/system/user', { data: { ids } })
 }
 
-export const getById = (id: bigint) => {
+/**
+ * 查询系统用户详情
+ *
+ * @param id ID
+ */
+export const getByIdApi = (id: bigint) => {
   return request.get(`/system/user/${id}`)
 }
 
-export const page = (data: any) => {
+/**
+ * 系统用户分页查询
+ *
+ * @param data 分页参数
+ */
+export const postPageApi = (data: any) => {
   return request.post('/system/user/page', data)
 }
 
@@ -50,7 +70,7 @@ export const getCheckEmailUniqueApi = (email: string, id: number) => {
   return request.get('/system/user/checkEmailUnique', { params: { id, email } })
 }
 
-export const downloadExcel = (data: any) => {
+export const postDownloadExcelApi = (data: any) => {
   download.post('/system/user/export', data)
 }
 
@@ -67,13 +87,15 @@ export const importUrl = import.meta.env.VITE_API_URL + '/system/user/import'
  * @param callback 回调
  */
 export const checkUsernameUnique = (rule: any, value: any, callback: any) => {
-  getCheckUsernameUniqueApi(value).then((res) => {
-    if (res.data) {
-      callback()
-    } else {
-      callback(new Error('此用户名太受欢迎，请更换一个'))
-    }
-  }).catch((error) => {
-    console.log(error)
-  })
+  getCheckUsernameUniqueApi(value)
+    .then((res) => {
+      if (res.data) {
+        callback()
+      } else {
+        callback(new Error('此用户名太受欢迎，请更换一个'))
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }

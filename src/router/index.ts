@@ -6,7 +6,7 @@ import { useAuthStore } from '@/stores/modules/auth'
 import { useAppStore } from '@/stores/modules/app'
 import { useRouterStore } from '@/stores/modules/router'
 import { getMenuRoutes } from '@/api/system/router'
-import { dictList } from '@/api/system/dictType'
+import { getDictListApi } from '@/api/system/dictType'
 
 NProgress.configure({ showSpinner: false })
 
@@ -148,7 +148,7 @@ router.beforeEach(async (to, from, next) => {
           await authStore.getCurrentUser()
           await authStore.getAuthoritySet()
 
-          const { data } = await dictList()
+          const { data } = await getDictListApi()
           appStore.setDictList(data)
         } catch (error) {
           console.warn('出错：', error)

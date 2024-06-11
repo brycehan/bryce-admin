@@ -66,13 +66,13 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { getById } from '@/api/quartz/jobLog'
+import { getByIdApi } from '@/api/quartz/jobLog'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 
 const state: StateOptions = reactive({
   api: {
-    getById
+    getByIdApi
   },
   dataForm: {
     id: '',

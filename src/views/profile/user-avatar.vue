@@ -67,7 +67,7 @@ import constant from '@/utils/constant'
 import { ElMessage } from 'element-plus'
 import { useAuthStore } from '@/stores/modules/auth'
 import avatarImg from '@/assets/images/user1-128x128.jpg'
-import { updateAvatar } from '@/api/auth/profile'
+import { putAvatarApi } from '@/api/system/profile'
 
 const cropperRef = ref()
 const authStore = useAuthStore()
@@ -154,7 +154,7 @@ const uploadImg = () => {
         avatar: res.data.url
       }
       // 修改用户信息
-      updateAvatar(dataForm).then(() => {
+      putAvatarApi(dataForm).then(() => {
         // 更新状态管理
         authStore.user.avatar = dataForm.avatar
         ElMessage.success({

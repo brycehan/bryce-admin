@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { getById, saveOrUpdate } from '@/api/system/notice'
+import { getByIdApi, saveOrUpdateApi } from '@/api/system/notice'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import WangEditor from '@/components/wang-editor/index.vue'
@@ -51,8 +51,8 @@ const props = defineProps({
 })
 const state: StateOptions = reactive({
   api: {
-    saveOrUpdate,
-    getById,
+    saveOrUpdateApi,
+    getByIdApi,
     emit
   },
   dataForm: {
@@ -110,7 +110,7 @@ const handleSubmit = () => {
 
 /** 表单提交 */
 const handleSaveOrUpdate = () => {
-  saveOrUpdate(state.dataForm).then(() => {
+  saveOrUpdateApi(state.dataForm).then(() => {
     emit('update:modelValue', false)
     emit('refreshPage')
     ElMessage.success('操作成功')

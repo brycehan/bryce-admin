@@ -32,22 +32,34 @@ export declare namespace Auth {
   }
 }
 
-/** 账号登录 */
-export async function loginByAccount(data: Auth.LoginDto) {
+/**
+ * 账号登录
+ *
+ * @param data 登录参数
+ */
+export async function postLoginByAccountApi(data: Auth.LoginDto) {
   return request.post<any, Auth.ResponseResultLoginVo>('/auth/loginByAccount', data)
 }
 
-/** 手机号登录 */
-export async function loginByPhone(data: Auth.LoginDto) {
+/**
+ * 手机号登录
+ *
+ * @param data 登录参数
+ */
+export async function postLoginByPhoneApi(data: Auth.LoginDto) {
   return request.post<any, Auth.ResponseResultLoginVo>('/auth/loginByPhone', data)
 }
 
-/** 系统登录用户详情 */
-export async function currentUser() {
+/**
+ * 系统登录用户详情
+ */
+export async function getCurrentUserApi() {
   return request.get('/auth/currentUser')
 }
 
-/** 退出登录 */
-export async function logout() {
+/**
+ * 退出登录
+ */
+export async function getLogoutApi() {
   return request.get('/auth/logout')
 }

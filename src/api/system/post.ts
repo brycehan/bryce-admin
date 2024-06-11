@@ -1,6 +1,11 @@
 import request from '@/utils/request'
 
-export const saveOrUpdate = (data: any) => {
+/**
+ * 保存系统岗位
+ *
+ * @param data 参数
+ */
+export const saveOrUpdateApi = (data: any) => {
   if (data.id) {
     return request.put('/system/post', data)
   } else {
@@ -8,19 +13,36 @@ export const saveOrUpdate = (data: any) => {
   }
 }
 
-export const deleteByIds = (ids: bigint[]) => {
+/**
+ * 删除系统岗位
+ *
+ * @param ids ID
+ */
+export const deleteByIdsApi = (ids: bigint[]) => {
   return request.delete('/system/post', { data: { ids } })
 }
 
-export const getById = (id: bigint) => {
+/**
+ * 查询系统岗位详情
+ *
+ * @param id ID
+ */
+export const getByIdApi = (id: bigint) => {
   return request.get(`/system/post/${id}`)
 }
 
-export const page = (data: any) => {
+/**
+ * 系统岗位分页查询
+ *
+ * @param data 分页参数
+ */
+export const postPageApi = (data: any) => {
   return request.post('/system/post/page', data)
 }
-
-export const list = () => {
+/**
+ * 查询系统岗位列表
+ */
+export const getListApi = () => {
   return request.get('/system/post/list')
 }
 

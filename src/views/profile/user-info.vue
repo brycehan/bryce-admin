@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { updateUserInfo } from '@/api/auth/profile'
+import { putUserInfoApi } from '@/api/system/profile'
 import { ElMessage } from 'element-plus'
 import { useAuthStore } from '@/stores/modules/auth'
 
@@ -58,7 +58,7 @@ const handleSubmit = () => {
     }
 
     // 修改用户信息
-    updateUserInfo(dataForm).then(() => {
+    putUserInfoApi(dataForm).then(() => {
       // 更新状态管理
       authStore.user.nickname = dataForm.nickname
       authStore.user.phone = dataForm.phone

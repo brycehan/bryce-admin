@@ -126,15 +126,15 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import {
-  getById,
-  saveOrUpdate,
+  getByIdApi,
+  saveOrUpdateApi,
   checkUsernameUnique,
   getCheckPhoneUniqueApi,
   getCheckEmailUniqueApi
 } from '@/api/system/user'
-import { list as orgListApi } from '@/api/system/org'
-import { list as roleListApi } from '@/api/system/role'
-import { list as postListApi } from '@/api/system/post'
+import { postListApi as orgListApi } from '@/api/system/org'
+import { getRoleListApi as roleListApi } from '@/api/system/role'
+import { getListApi as postListApi } from '@/api/system/post'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import constant from '@/utils/constant'
@@ -144,8 +144,8 @@ const emit = defineEmits(['refreshPage'])
 
 const state: StateOptions = reactive({
   api: {
-    saveOrUpdate,
-    getById,
+    saveOrUpdateApi,
+    getByIdApi,
     emit
   },
   dataForm: {

@@ -4,13 +4,13 @@ import type { UploadProps, UploadRawFile } from 'element-plus'
 
 export type StateOptions = {
   api: {
-    saveOrUpdate?: Function
-    getById?: Function
+    saveOrUpdateApi?: Function
+    getByIdApi?: Function
+    postPageApi?: Function
+    postListApi?: Function
+    deleteByIdsApi?: Function
+    postExportExcelApi?: Function
     emit?: Function
-    page?: Function
-    list?: Function
-    deleteByIds?: Function
-    downloadExcel?: Function
   }
   /** 查询条件 */
   queryForm?: any
@@ -82,7 +82,7 @@ export const crud = (options: StateOptions) => {
       ...queryParams
     }
 
-    state.api.page(body).then((response: any) => {
+    state.api.postPageApi(body).then((response: any) => {
       const { list, total } = response.data
       state.data = list
       state.total = total
@@ -94,7 +94,7 @@ export const crud = (options: StateOptions) => {
   const getList = () => {
     state.loading = true
 
-    state.api.list(state.queryForm).then((response: any) => {
+    state.api.postListApi(state.queryForm).then((response: any) => {
       state.data = response.data
     })
     state.loading = false
@@ -126,7 +126,7 @@ export const crud = (options: StateOptions) => {
       type: 'warning'
     })
       .then(() => {
-        state.api.deleteByIds(data).then(() => {
+        state.api.deleteByIdsApi(data).then(() => {
           ElMessage.success('删除成功')
           getPage()
         })
@@ -143,14 +143,14 @@ export const crud = (options: StateOptions) => {
 
   /** 获取详情数据 */
   const getData = (id: bigint) => {
-    state.api.getById(id).then((res: any) => {
+    state.api.getByIdApi(id).then((res: any) => {
       Object.assign(state.dataForm, res.data)
     })
   }
 
   /** 表单提交 */
   const handleSaveOrUpdate = () => {
-    state.api.saveOrUpdate(state.dataForm).then(() => {
+    state.api.saveOrUpdateApi(state.dataForm).then(() => {
       state.visible = false
       state.api.emit('refreshPage')
       ElMessage.success('操作成功')
@@ -171,7 +171,7 @@ export const crud = (options: StateOptions) => {
       orderItems: state.orderItems,
       ...queryParams
     }
-    state.api.downloadExcel(body)
+    state.api.postExportExcelApi(body)
     return
   }
 

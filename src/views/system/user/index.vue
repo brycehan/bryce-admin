@@ -146,7 +146,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
-import { page, deleteByIds, downloadExcel, importUrl } from '@/api/system/user'
+import { postPageApi, deleteByIdsApi, postDownloadExcelApi, importUrl } from '@/api/system/user'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { useAuthStore } from '@/stores/modules/auth'
@@ -156,9 +156,9 @@ import OrgTree from '@/views/system/user/org-tree.vue'
 
 const state: StateOptions = reactive({
   api: {
-    page,
-    deleteByIds,
-    downloadExcel
+    postPageApi,
+    deleteByIdsApi,
+    postExportExcelApi: postDownloadExcelApi
   },
   queryForm: {
     username: '',
@@ -223,7 +223,7 @@ const authStore = useAuthStore()
  * 上传文件请求头
  */
 const headers = {
-  Authorization: authStore.token
+  Authorization: authStore.accessToken
 }
 
 const handleOnSuccess: UploadProps['onSuccess'] = (res) => {

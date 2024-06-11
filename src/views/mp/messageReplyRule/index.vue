@@ -120,14 +120,14 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
-import { page, deleteByIds } from '@/api/mp/messageReplyRule'
+import { postPageApi, deleteByIdsApi } from '@/api/mp/messageReplyRule'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 
 const state: StateOptions = reactive({
   api: {
-    page,
-    deleteByIds
+    postPageApi: postPageApi,
+    deleteByIdsApi: deleteByIdsApi
   },
   queryForm: {
     name: '',

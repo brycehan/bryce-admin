@@ -104,15 +104,15 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { page, deleteByIds } from '@/api/quartz/jobLog'
+import { postPageApi, deleteByIdsApi } from '@/api/quartz/jobLog'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import Info from '@/views/quartz/jobLog/info.vue'
 
 const state: StateOptions = reactive({
   api: {
-    page,
-    deleteByIds
+    postPageApi,
+    deleteByIdsApi
   },
   queryForm: {
     jobName: '',

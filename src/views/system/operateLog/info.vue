@@ -78,13 +78,13 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { getById } from '@/api/system/operateLog'
+import { getByIdApi } from '@/api/system/operateLog'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 
 const state: StateOptions = reactive({
   api: {
-    getById
+    getByIdApi
   },
   dataForm: {
     id: '',

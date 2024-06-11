@@ -1,6 +1,11 @@
 import request from '@/utils/request'
 
-export const saveOrUpdate = (data: any) => {
+/**
+ * 保存系统参数
+ *
+ * @param data 参数
+ */
+export const saveOrUpdateApi = (data: any) => {
   if (data.id) {
     return request.put('/system/param', data)
   } else {
@@ -8,15 +13,29 @@ export const saveOrUpdate = (data: any) => {
   }
 }
 
-export const deleteByIds = (ids: bigint[]) => {
+/**
+ * 删除系统参数
+ *
+ * @param ids ID数组
+ */
+export const deleteByIdsApi = (ids: bigint[]) => {
   return request.delete('/system/param', { data: { ids } })
 }
 
-export const getById = (id: bigint) => {
+/**
+ * 查询系统参数详情
+ *
+ * @param id ID
+ */
+export const getByIdApi = (id: bigint) => {
   return request.get(`/system/param/${id}`)
 }
 
-export const page = (data: any) => {
+/**
+ * 系统参数分页查询
+ * @param data 分页参数
+ */
+export const postPageApi = (data: any) => {
   return request.post('/system/param/page', data)
 }
 

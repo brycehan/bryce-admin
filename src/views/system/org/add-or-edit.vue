@@ -22,7 +22,7 @@
           <template #reference>
             <el-input v-model="dataForm.parentName" :readonly="true" placeholder="上级机构">
               <template #suffix>
-                <svg-icon icon="icon-close-circle" @click.stop="handleTreeDefault()" />
+                <svg-icon icon="icon-close-circle" @click.stop="handleTreeDefault(null)" />
               </template>
             </el-input>
           </template>
@@ -88,7 +88,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import { getById, saveOrUpdate, list } from '@/api/system/org'
+import { getByIdApi, saveOrUpdateApi, postListApi } from '@/api/system/org'
 import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 
 const emit = defineEmits(['refreshPage'])
@@ -141,7 +141,7 @@ const init = (row: any, isAdd: boolean) => {
  * @param row
  */
 const getOrg = (row: any) => {
-  getById(row.id).then((response) => {
+  getByIdApi(row.id).then((response) => {
     Object.assign(dataForm, response.data)
 
     if (dataForm.parentId === 0) {
@@ -153,7 +153,7 @@ const getOrg = (row: any) => {
 }
 
 const getOrgList = () => {
-  list({}).then((response) => {
+  postListApi({}).then((response) => {
     orgList.value = response.data
   })
 }
@@ -186,7 +186,7 @@ const handleSubmit = () => {
       return false
     }
 
-    saveOrUpdate(dataForm).then(() => {
+    saveOrUpdateApi(dataForm).then(() => {
       visible.value = false
       emit('refreshPage')
       ElMessage.success('操作成功')

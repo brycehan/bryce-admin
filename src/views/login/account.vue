@@ -28,7 +28,7 @@ import { User, Lock, Key } from '@element-plus/icons-vue'
 import { onMounted, reactive, ref } from 'vue'
 import { router } from '@/router'
 import { useAuthStore } from '@/stores/modules/auth'
-import { generate, enabled } from '@/api/auth/captcha'
+import { getGenerateApi, getEnabledApi } from '@/api/auth/captcha'
 
 const authStore = useAuthStore()
 
@@ -52,7 +52,7 @@ onMounted(() => {
 
 /** 获取验证码开关 */
 const handleCaptchaEnabled = async () => {
-  const { data } = await enabled('login')
+  const { data } = await getEnabledApi('login')
   captchaEnabled.value = data
   if (captchaEnabled.value) {
     await handleCaptcha()
@@ -61,7 +61,7 @@ const handleCaptchaEnabled = async () => {
 
 /** 获取验证码 */
 const handleCaptcha = async () => {
-  const { data } = await generate()
+  const { data } = await getGenerateApi()
   loginDto.key = data.key
   captchaBase64.value = data.image
 }

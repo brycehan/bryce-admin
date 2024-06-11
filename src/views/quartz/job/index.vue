@@ -131,15 +131,15 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
-import { page, deleteByIds, run, changeStatus } from '@/api/quartz/job'
+import { postPageApi, deleteByIdsApi, putRunApi, putStatusApi } from '@/api/quartz/job'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 const state: StateOptions = reactive({
   api: {
-    page,
-    deleteByIds
+    postPageApi,
+    deleteByIdsApi: deleteByIdsApi
   },
   queryForm: {
     jobName: '',
@@ -186,7 +186,7 @@ const handleRun = (row: any) => {
     type: 'warning'
   })
     .then(() => {
-      run(row).then(() => {
+      putRunApi(row).then(() => {
         ElMessage.success('操作成功')
       })
     })
@@ -205,7 +205,7 @@ const handleChangeStatus = (row: any, status: boolean) => {
   })
     .then(() => {
       row.status = status
-      changeStatus(row).then(() => {
+      putStatusApi(row).then(() => {
         ElMessage.success('操作成功')
       })
     })

@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { getById, getCheckCodeUniqueApi, saveOrUpdate } from '@/api/system/post'
+import { getByIdApi, getCheckCodeUniqueApi, saveOrUpdateApi } from '@/api/system/post'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 
@@ -44,8 +44,8 @@ const emit = defineEmits(['refreshPage'])
 
 const state: StateOptions = reactive({
   api: {
-    saveOrUpdate,
-    getById,
+    saveOrUpdateApi,
+    getByIdApi,
     emit
   },
   dataForm: {

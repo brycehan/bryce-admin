@@ -1,6 +1,11 @@
 import request from '@/utils/request'
 
-export const saveOrUpdate = (data: any) => {
+/**
+ * 添加或修改微信公众号消息
+ *
+ * @param data 消息参数
+ */
+export const saveOrUpdateApi = (data: any) => {
   if (data.id) {
     return request.put('/mp/message', data)
   } else {
@@ -8,14 +13,29 @@ export const saveOrUpdate = (data: any) => {
   }
 }
 
-export const deleteByIds = (ids: bigint[]) => {
+/**
+ * 删除微信公众号消息
+ *
+ * @param ids ID数组
+ */
+export const deleteMessageApi = (ids: bigint[]) => {
   return request.delete('/mp/message', { data: { ids } })
 }
 
-export const getById = (id: bigint) => {
+/**
+ * 查询微信公众号消息详情
+ *
+ * @param id 消息ID
+ */
+export const getByIdApi = (id: bigint) => {
   return request.get(`/mp/message/${id}`)
 }
 
-export const page = (data: any) => {
+/**
+ * 分页查询
+ *
+ * @param data 分页参数
+ */
+export const postPageApi = (data: any) => {
   return request.post('/mp/message/page', data)
 }

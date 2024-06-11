@@ -73,7 +73,7 @@ const editorConfig: Partial<IEditorConfig> = {
       timeout: 20 * 1000, // 20s
       // form-data fieldName
       fieldName: 'file',
-      headers: { Authorization: authStore.token },
+      headers: { Authorization: authStore.accessToken },
       // 单个文件的最大体积限制，默认为 2M
       maxFileSize: 10 * 1024 * 1024, // 10M
       // 自定义插入图片

@@ -60,7 +60,11 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
-import { userPage as page, saveUsers, deleteUsers as deleteByIds } from '@/api/system/role'
+import {
+  postUserPageApi as postPageApi,
+  postUsersApi,
+  deleteUsersApi as deleteByIdsApi
+} from '@/api/system/role'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -74,8 +78,8 @@ const props = defineProps({
 
 const state: StateOptions = reactive({
   api: {
-    page,
-    deleteByIds
+    postPageApi,
+    deleteByIdsApi
   },
   queryForm: {
     roleId: props.roleId,
@@ -115,7 +119,7 @@ const handleResetQuery = () => {
 
 /** 新增用户 */
 const handleUser = (userIds: string[]) => {
-  saveUsers(props.roleId, userIds).then(() => {
+  postUsersApi(props.roleId, userIds).then(() => {
     getPage()
     ElMessage.success('操作成功')
   })
@@ -137,7 +141,7 @@ const handleDeleteBatch = (id?: bigint) => {
     type: 'warning'
   })
     .then(() => {
-      deleteByIds(props.roleId, data).then(() => {
+      deleteByIdsApi(props.roleId, data).then(() => {
         ElMessage.success('删除成功')
         getPage()
       })

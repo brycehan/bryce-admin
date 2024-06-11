@@ -67,7 +67,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { getById, saveOrUpdate, menu, getCheckCodeUniqueApi } from '@/api/system/role'
+import { getByIdApi, saveOrUpdateApi, getMenuApi, getCheckCodeUniqueApi } from '@/api/system/role'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 
@@ -75,8 +75,8 @@ const emit = defineEmits(['refreshPage'])
 
 const state: StateOptions = reactive({
   api: {
-    saveOrUpdate,
-    getById,
+    saveOrUpdateApi,
+    getByIdApi,
     emit
   },
   dataForm: {
@@ -151,14 +151,14 @@ const init = (id?: bigint) => {
 
 /** 获取详情数据 */
 const getData = (id: bigint) => {
-  getById(id).then((res: any) => {
+  getByIdApi(id).then((res: any) => {
     Object.assign(state.dataForm, res.data)
     state.dataForm.menuIds.forEach((menuId: bigint) => menuTreeRef.value.setChecked(menuId, true))
   })
 }
 
 const getMenuTree = () => {
-  return menu().then((res: any) => {
+  return getMenuApi().then((res: any) => {
     menuTree.value = res.data
   })
 }

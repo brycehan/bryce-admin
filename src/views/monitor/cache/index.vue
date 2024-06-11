@@ -65,7 +65,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue'
-import { info } from '@/api/monitor/cache'
+import { getInfoApi } from '@/api/monitor/cache'
 import { MessageBox, Monitor } from '@element-plus/icons-vue'
 
 const data = reactive({
@@ -92,7 +92,7 @@ onMounted(() => {
 })
 
 const getCacheInfo = () => {
-  info().then((res: any) => {
+  getInfoApi().then((res: any) => {
     Object.assign(data, res.data)
   })
 }

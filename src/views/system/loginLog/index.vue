@@ -97,15 +97,15 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { page, deleteByIds, downloadExcel } from '@/api/system/loginLog'
+import { postPageApi, deleteByIdsApi, postExportExcelApi } from '@/api/system/loginLog'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 
 const state: StateOptions = reactive({
   api: {
-    page,
-    deleteByIds,
-    downloadExcel
+    postPageApi,
+    deleteByIdsApi,
+    postExportExcelApi
   },
   queryForm: {
     username: '',

@@ -122,7 +122,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { deleteByIds, page, saveOrUpdate } from '@/api/system/attachment'
+import { deleteByIdsApi, postPageApi, saveOrUpdateApi } from '@/api/system/attachment'
 import constant from '@/utils/constant'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -133,8 +133,8 @@ import download from '@/utils/download'
 
 const state: StateOptions = reactive({
   api: {
-    page,
-    deleteByIds
+    postPageApi,
+    deleteByIdsApi
   },
   queryForm: {
     name: '',
@@ -178,7 +178,7 @@ const authStore = useAuthStore()
 
 /** 上传文件请求头 */
 const headers = {
-  Authorization: authStore.token,
+  Authorization: authStore.accessToken,
   'source-client': 'pc'
 }
 
@@ -199,7 +199,7 @@ const handleOnSuccess: UploadProps['onSuccess'] = (res) => {
 
   Object.assign(state.dataForm, res.data)
 
-  saveOrUpdate(state.dataForm).then(() => {
+  saveOrUpdateApi(state.dataForm).then(() => {
     getPage()
     ElMessage.success('上传成功')
   })

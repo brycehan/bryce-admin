@@ -88,7 +88,7 @@
 <script setup lang="ts">
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
-import { deleteByIds, list } from '@/api/system/org'
+import { deleteByIdsApi, postListApi } from '@/api/system/org'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -96,7 +96,7 @@ import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 
 const state: StateOptions = reactive({
   api: {
-    list
+    postListApi
   },
   queryForm: {
     status: '',
@@ -139,7 +139,7 @@ const handleDeleteBatch = (id: string) => {
     type: 'warning'
   })
     .then(() => {
-      deleteByIds(data).then(() => {
+      deleteByIdsApi(data).then(() => {
         ElMessage.success('删除成功')
         getList()
       })

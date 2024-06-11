@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { page } from '@/api/system/user'
+import { postPageApi } from '@/api/system/user'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { ElMessage } from 'element-plus'
@@ -81,7 +81,7 @@ const emit = defineEmits(['select'])
 
 const state: StateOptions = reactive({
   api: {
-    page
+    postPageApi
   },
   queryForm: {
     username: '',

@@ -1,6 +1,11 @@
 import request from '@/utils/request'
 
-export const saveOrUpdate = (data: any) => {
+/**
+ * 保存系统机构
+ *
+ * @param data 参数
+ */
+export const saveOrUpdateApi = (data: any) => {
   if (data.id) {
     return request.put('/system/org', data)
   } else {
@@ -8,14 +13,29 @@ export const saveOrUpdate = (data: any) => {
   }
 }
 
-export const deleteByIds = (ids: bigint[]) => {
+/**
+ * 删除系统机构
+ *
+ * @param ids 参数
+ */
+export const deleteByIdsApi = (ids: bigint[]) => {
   return request.delete('/system/org', { data: { ids } })
 }
 
-export const getById = (id: bigint) => {
+/**
+ * 查询系统机构详情
+ *
+ * @param id ID
+ */
+export const getByIdApi = (id: bigint) => {
   return request.get(`/system/org/${id}`)
 }
 
-export const list = (data: any) => {
+/**
+ * 查询系统机构列表
+ *
+ * @param data 参数
+ */
+export const postListApi = (data: any) => {
   return request.post('/system/org/list', data)
 }

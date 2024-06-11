@@ -40,8 +40,8 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { getById, dataScope } from '@/api/system/role'
-import { list as orgListApi } from '@/api/system/org'
+import { getByIdApi, putDataScopeApi } from '@/api/system/role'
+import { postListApi as orgListApi } from '@/api/system/org'
 import { ElMessage } from 'element-plus'
 
 const visible = ref(false)
@@ -84,7 +84,7 @@ const init = (id?: bigint) => {
 
 /** 获取详情数据 */
 const getData = (id: bigint) => {
-  getById(id).then((res: any) => {
+  getByIdApi(id).then((res: any) => {
     Object.assign(dataForm, res.data)
 
     // 初始化机构树
@@ -110,7 +110,7 @@ const handleSubmit = () => {
       return false
     }
 
-    dataScope(dataForm).then(() => {
+    putDataScopeApi(dataForm).then(() => {
       visible.value = false
       ElMessage.success('操作成功')
     })

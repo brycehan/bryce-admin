@@ -18,8 +18,8 @@
 import { useAuthStore } from '@/stores/modules/auth'
 import { onMounted, reactive, ref } from 'vue'
 import { router } from '@/router'
-import { enabled } from '@/api/auth/captcha'
-import { sendLoginCode } from '@/api/auth/sms'
+import { getEnabledApi } from '@/api/auth/captcha'
+import { getSendLoginCodeApi } from '@/api/auth/sms'
 import { phoneRegExp } from '@/utils/tool'
 import { ElMessage } from 'element-plus'
 
@@ -47,7 +47,7 @@ const sendCode = () => {
     return
   }
 
-  sendLoginCode(loginForm.phone).then(() => {
+  getSendLoginCodeApi(loginForm.phone).then(() => {
     handleCounter()
   })
 }
@@ -74,7 +74,7 @@ onMounted(() => {
 
 /** 获取验证码开关 */
 const handleCaptchaEnabled = async () => {
-  const { data } = await enabled()
+  const { data } = await getEnabledApi('login')
   captchaEnabled.value = data
   if (captchaEnabled.value) {
     // await handleCaptcha()

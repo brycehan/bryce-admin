@@ -135,14 +135,14 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import Info from './info.vue'
-import { page, deleteByIds } from '@/api/system/operateLog'
+import { postPageApi, deleteByIdsApi } from '@/api/system/operateLog'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 
 const state: StateOptions = reactive({
   api: {
-    page,
-    deleteByIds
+    postPageApi,
+    deleteByIdsApi
   },
   queryForm: {
     name: '',

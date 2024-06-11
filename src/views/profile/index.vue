@@ -62,21 +62,21 @@ import UserAvatar from '@/views/profile/user-avatar.vue'
 import { useAuthStore } from '@/stores/modules/auth'
 import UserInfo from '@/views/profile/user-info.vue'
 import Password from '@/views/profile/password.vue'
-import { getUserInfo } from '@/api/auth/profile'
+import { getUserInfoApi } from '@/api/system/profile'
 import { replaceComma } from '@/utils/tool'
 
 const authStore = useAuthStore()
 const activeName = ref('info')
 const userInfo = ref({} as any)
 
-const getUserInfoApi = () => {
-  getUserInfo().then((res) => {
+const getUserInfo = () => {
+  getUserInfoApi().then((res) => {
     userInfo.value = res.data
   })
 }
 
 onMounted(() => {
-  getUserInfoApi()
+  getUserInfo()
 })
 </script>
 

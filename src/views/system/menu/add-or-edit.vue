@@ -124,7 +124,12 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { getById, saveOrUpdate, list, getCheckAuthorityUniqueApi } from '@/api/system/menu'
+import {
+  getByIdApi,
+  saveOrUpdateApi,
+  postListApi,
+  getCheckAuthorityUniqueApi
+} from '@/api/system/menu'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import SvgIcon from '@/components/svg-icon/svg-icon.vue'
@@ -134,8 +139,8 @@ const emit = defineEmits(['refreshPage'])
 
 const state: StateOptions = reactive({
   api: {
-    saveOrUpdate,
-    getById,
+    saveOrUpdateApi,
+    getByIdApi,
     emit
   },
   dataForm: {
@@ -192,8 +197,10 @@ const dataRules = reactive({
   ],
   parentName: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   url: [{ min: 0, max: 255, message: '组件路径长度不能超过255个字符', trigger: 'blur' }],
-  authority: [{ min: 0, max: 100, message: '权限标识长度不能超过100个字符', trigger: 'blur' },
-    { validator: checkAuthorityUnique, trigger: 'blur' }],
+  authority: [
+    { min: 0, max: 100, message: '权限标识长度不能超过100个字符', trigger: 'blur' },
+    { validator: checkAuthorityUnique, trigger: 'blur' }
+  ],
   icon: [{ min: 0, max: 100, message: '菜单图标长度不能超过100个字符', trigger: 'blur' }],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
@@ -227,7 +234,7 @@ const init = (id?: bigint) => {
 
 /** 获取详情数据 */
 const getData = (id: bigint) => {
-  getById(id).then((res: any) => {
+  getByIdApi(id).then((res: any) => {
     Object.assign(state.dataForm, res.data)
 
     if (state.dataForm.parentId === 0) {
@@ -245,7 +252,7 @@ const handleMenuTypeChange = () => {
 
 /** 获取菜单列表 */
 const getMenuList = () => {
-  list({}).then((res) => {
+  postListApi({}).then((res) => {
     menuList.value = res.data
   })
 }

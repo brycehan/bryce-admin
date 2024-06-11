@@ -81,7 +81,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue'
-import { saveOrUpdate, getMenu, publishByCache } from '@/api/mp/menu'
+import { postMenuApi, getMenuApi, getPublishByCacheApi } from '@/api/mp/menu'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import MpMenuButtonEditor from '@/views/mp/menu/mp-menu-button-editor.vue'
 import { Plus } from '@element-plus/icons-vue'
@@ -103,7 +103,7 @@ onMounted(() => {
  * 获取公众号菜单
  */
 const getMpMenu = () => {
-  getMenu().then((res: any) => {
+  getMenuApi().then((res: any) => {
     state.menu = res.data.menu
   })
 }
@@ -214,7 +214,7 @@ const onDrop = (i: number, subI: number) => {
  * 更新微信公众号菜单
  */
 const updateMpMenu = () => {
-  saveOrUpdate(state.menu).then(() => {
+  postMenuApi(state.menu).then(() => {
     ElMessage.success('操作成功')
   })
 }
@@ -223,7 +223,7 @@ const updateMpMenu = () => {
  * 从本地缓存发布
  */
 const publishMpByCache = () => {
-  publishByCache().then(() => {
+  getPublishByCacheApi().then(() => {
     ElMessage.success('操作成功')
     getMpMenu()
   })

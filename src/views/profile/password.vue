@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { updatePassword } from '@/api/auth/profile'
+import { putPasswordApi } from '@/api/system/profile'
 import { ElMessage } from 'element-plus'
 
 const dataForm = reactive({
@@ -70,7 +70,7 @@ const handleSubmit = () => {
     }
 
     // 修改密码
-    updatePassword(dataForm).then(() => {
+    putPasswordApi(dataForm).then(() => {
       ElMessage.success('修改成功')
     })
   })
