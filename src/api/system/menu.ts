@@ -33,3 +33,13 @@ export async function authority() {
 export async function nav() {
   return request.get('/system/menu/nav')
 }
+
+/**
+ * 校验权限标识是否唯一
+ *
+ * @param authority 权限标识
+ * @param id 菜单ID
+ */
+export const getCheckAuthorityUniqueApi = (authority: string, id: number) => {
+  return request.get('/system/menu/checkAuthorityUnique', { params: { id, authority } })
+}

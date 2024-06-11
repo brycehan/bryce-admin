@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { getById, saveOrUpdate } from '@/api/system/param'
+import { getById, getCheckParamKeyUniqueApi, saveOrUpdate } from '@/api/system/param'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 
@@ -60,6 +60,23 @@ const state: StateOptions = reactive({
 
 const dataFormRef = ref()
 
+/**
+ * 校验参数键名是否唯一
+ *
+ * @param rule 校验规则
+ * @param value 校验值
+ * @param callback 回调
+ */
+const checkParamKeyUnique = (rule: any, value: any, callback: any) => {
+  getCheckParamKeyUniqueApi(value, state.dataForm.id).then((res) => {
+    if (res.data) {
+      callback()
+    } else {
+      callback(new Error('参数键名已存在'))
+    }
+  })
+}
+
 const dataRules = reactive({
   paramName: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
@@ -67,7 +84,8 @@ const dataRules = reactive({
   ],
   paramKey: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 100, message: '参数键长度不能超过100个字符', trigger: 'blur' }
+    { min: 2, max: 100, message: '参数键名长度在-100个字符', trigger: 'blur' },
+    { validator: checkParamKeyUnique, trigger: 'blur' }
   ],
   paramValue: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },

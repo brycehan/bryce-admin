@@ -125,12 +125,20 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { getById, saveOrUpdate } from '@/api/system/user'
+import {
+  getById,
+  saveOrUpdate,
+  checkUsernameUnique,
+  getCheckPhoneUniqueApi,
+  getCheckEmailUniqueApi
+} from '@/api/system/user'
 import { list as orgListApi } from '@/api/system/org'
 import { list as roleListApi } from '@/api/system/role'
 import { list as postListApi } from '@/api/system/post'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
+import constant from '@/utils/constant'
+import { emailRegExp, phoneRegExp } from '@/utils/tool'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -162,10 +170,61 @@ const orgList = ref([])
 const roleList = ref<any[]>([])
 const postList = ref<any[]>([])
 
+/**
+ * 校验手机号码是否唯一
+ *
+ * @param rule 校验规则
+ * @param value 校验值
+ * @param callback 回调
+ */
+const checkPhoneUnique = (rule: any, value: any, callback: any) => {
+  // 校验手机号码格式
+  if (!phoneRegExp.test(value)) {
+    callback(new Error('手机号码格式错误'))
+    return
+  }
+  // 后端校验唯一
+  getCheckPhoneUniqueApi(value, state.dataForm.id).then((res) => {
+    if (res.data) {
+      callback()
+    } else {
+      callback(new Error('此手机号码已注册'))
+    }
+  })
+}
+
+/**
+ * 校验邮箱
+ *
+ * @param rule 校验规则
+ * @param value 校验值
+ * @param callback 回调
+ */
+const checkEmail = (rule: any, value: any, callback: any) => {
+  // 值为空时，也校验通过
+  if (!value) {
+    return callback()
+  }
+  // 校验邮箱格式
+  if (!emailRegExp.test(value)) {
+    callback(new Error('邮箱格式错误'))
+    return
+  }
+  // 后端校验邮箱唯一
+  getCheckEmailUniqueApi(value, state.dataForm.id).then((res) => {
+    if (res.data) {
+      callback()
+    } else {
+      callback(new Error('此邮箱已注册'))
+    }
+  })
+}
+
 const dataRules = reactive({
   username: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 50, message: '账号长度不能超过50个字符', trigger: 'blur' }
+    { min: 2, max: 50, message: '账号长度不能超过50个字符', trigger: 'blur' },
+    { validator: checkUsernameUnique, trigger: 'blur' }
   ],
   password: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
@@ -175,9 +234,13 @@ const dataRules = reactive({
   gender: [{ min: 0, max: 1, message: '性别长度不能超过1个字符', trigger: 'blur' }],
   phone: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 20, message: '手机号码长度不能超过20个字符', trigger: 'blur' }
+    { min: 7, max: 20, message: '手机号码长度在7-20个字符', trigger: 'blur' },
+    { validator: checkPhoneUnique, trigger: 'blur' }
   ],
-  email: [{ min: 0, max: 50, message: '邮箱长度不能超过50个字符', trigger: 'blur' }],
+  email: [
+    { min: 0, max: 50, message: '邮箱长度不能超过50个字符', trigger: 'blur' },
+    { validator: checkEmail, trigger: 'blur' }
+  ],
   remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
 })
 

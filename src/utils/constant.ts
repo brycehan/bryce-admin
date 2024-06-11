@@ -21,4 +21,5 @@ export default {
    * 文件上传地址
    */
   uploadUrl: import.meta.env.VITE_API_URL + '/storage/uploadFile'
+
 }

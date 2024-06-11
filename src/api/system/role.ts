@@ -68,3 +68,13 @@ export const saveUsers = (roleId: string, data: any) => {
 export const deleteUsers = (roleId: string, data: any) => {
   return request.delete(`/system/role/user/${roleId}`, { data: data })
 }
+
+/**
+ * 校验角色编码是否唯一
+ *
+ * @param code 角色编码
+ * @param id 角色ID
+ */
+export const getCheckCodeUniqueApi = (code: string, id: number) => {
+  return request.get('/system/role/checkCodeUnique', { params: { id, code } })
+}

@@ -23,3 +23,13 @@ export const page = (data: any) => {
 export const list = () => {
   return request.get('/system/post/list')
 }
+
+/**
+ * 校验岗位编码是否唯一
+ *
+ * @param code 岗位编码
+ * @param id 岗位ID
+ */
+export const getCheckCodeUniqueApi = (code: string, id: number) => {
+  return request.get('/system/post/checkCodeUnique', { params: { id, code } })
+}

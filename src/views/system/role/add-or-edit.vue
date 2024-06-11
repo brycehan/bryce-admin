@@ -67,7 +67,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { getById, saveOrUpdate, menu } from '@/api/system/role'
+import { getById, saveOrUpdate, menu, getCheckCodeUniqueApi } from '@/api/system/role'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 
@@ -94,6 +94,23 @@ const dataFormRef = ref()
 const menuTreeRef = ref()
 const menuTree = ref([])
 
+/**
+ * 角色编码是否唯一
+ *
+ * @param rule 校验规则
+ * @param value 校验值
+ * @param callback 回调
+ */
+const checkCodeUnique = (rule: any, value: any, callback: any) => {
+  getCheckCodeUniqueApi(value, state.dataForm.id).then((res) => {
+    if (res.data) {
+      callback()
+    } else {
+      callback(new Error('角色编码已存在'))
+    }
+  })
+}
+
 const dataRules = reactive({
   name: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
@@ -101,7 +118,8 @@ const dataRules = reactive({
   ],
   code: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 50, message: '角色编码长度不能超过50个字符', trigger: 'blur' }
+    { min: 2, max: 50, message: '角色编码长度不能超过50个字符', trigger: 'blur' },
+    { validator: checkCodeUnique, trigger: 'blur' }
   ],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]

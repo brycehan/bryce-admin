@@ -68,7 +68,7 @@
             type="primary"
             link
             @click="handleAddOrEdit(scope.row, false)"
-          >修改</el-button
+            >修改</el-button
           >
           <el-button
             v-auth="'system:org:delete'"
@@ -159,5 +159,4 @@ const toggleExpandAll = () => {
     refreshTable.value = true
   })
 }
-
 </script>

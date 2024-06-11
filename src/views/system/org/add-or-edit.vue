@@ -141,15 +141,15 @@ const init = (row: any, isAdd: boolean) => {
  * @param row
  */
 const getOrg = (row: any) => {
-    getById(row.id).then((response) => {debugger
-      Object.assign(dataForm, response.data)
+  getById(row.id).then((response) => {
+    Object.assign(dataForm, response.data)
 
-      if (dataForm.parentId === 0) {
-        return handleTreeDefault(null)
-      }
+    if (dataForm.parentId === 0) {
+      return handleTreeDefault(null)
+    }
 
-      orgTreeRef.value.setCurrentKey(dataForm.parentId)
-    })
+    orgTreeRef.value.setCurrentKey(dataForm.parentId)
+  })
 }
 
 const getOrgList = () => {

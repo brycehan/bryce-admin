@@ -19,3 +19,13 @@ export const getById = (id: bigint) => {
 export const page = (data: any) => {
   return request.post('/system/param/page', data)
 }
+
+/**
+ * 校验系统参数键名是否唯一
+ *
+ * @param paramKey 参数键名
+ * @param id 系统参数ID
+ */
+export const getCheckParamKeyUniqueApi = (paramKey: string, id: number) => {
+  return request.get('/system/param/checkParamKeyUnique', { params: { id, paramKey } })
+}

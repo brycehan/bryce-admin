@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { getById, saveOrUpdate } from '@/api/system/dictType'
+import { getById, getCheckDictTypeCodeUniqueApi, saveOrUpdate } from '@/api/system/dictType'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 
@@ -63,6 +63,23 @@ const state: StateOptions = reactive({
 
 const dataFormRef = ref()
 
+/**
+ * 字典类型编码是否唯一
+ *
+ * @param rule 校验规则
+ * @param value 校验值
+ * @param callback 回调
+ */
+const checkDictTypeCodeUnique = (rule: any, value: any, callback: any) => {
+  getCheckDictTypeCodeUniqueApi(value, state.dataForm.id).then((res) => {
+    if (res.data) {
+      callback()
+    } else {
+      callback(new Error('字典类型已存在'))
+    }
+  })
+}
+
 const dataRules = reactive({
   dictName: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
@@ -70,7 +87,8 @@ const dataRules = reactive({
   ],
   dictType: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 100, message: '字典类型长度不能超过100个字符', trigger: 'blur' }
+    { min: 2, max: 100, message: '字典类型长度在2-100个字符', trigger: 'blur' },
+    { validator: checkDictTypeCodeUnique, trigger: 'blur' }
   ],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]

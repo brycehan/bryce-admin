@@ -123,5 +123,12 @@ export const getDictLabelClass = (dictList: any[], dictType: string, dictValue: 
   return ''
 }
 
-/** 手机号正则表达式 */
-export const phoneRegExp = /^1[3456789]\d{9}$/
+/**
+ * 手机号正则表达式
+ */
+export const phoneRegExp = /^1[3-9]\d{9}$/
+
+/**
+ * 邮箱正则表达式
+ */
+export const emailRegExp= /^([A-Za-z0-9_\-.\u4e00-\u9fa5])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,8})$/

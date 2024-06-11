@@ -124,7 +124,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { getById, saveOrUpdate, list } from '@/api/system/menu'
+import { getById, saveOrUpdate, list, getCheckAuthorityUniqueApi } from '@/api/system/menu'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import SvgIcon from '@/components/svg-icon/svg-icon.vue'
@@ -162,6 +162,29 @@ const iconPopoverRef = ref()
 
 const dataFormRef = ref()
 
+/**
+ * 校验权限标识是否唯一
+ *
+ * @param rule 校验规则
+ * @param value 校验值
+ * @param callback 回调
+ */
+const checkAuthorityUnique = (rule: any, value: any, callback: any) => {
+  // 值为空时，也校验通过
+  if (!value) {
+    callback()
+    return
+  }
+  // 后端校验唯一
+  getCheckAuthorityUniqueApi(value, state.dataForm.id).then((res) => {
+    if (res.data) {
+      callback()
+    } else {
+      callback(new Error('权限标识已存在'))
+    }
+  })
+}
+
 const dataRules = reactive({
   name: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
@@ -169,7 +192,8 @@ const dataRules = reactive({
   ],
   parentName: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   url: [{ min: 0, max: 255, message: '组件路径长度不能超过255个字符', trigger: 'blur' }],
-  authority: [{ min: 0, max: 100, message: '权限标识长度不能超过100个字符', trigger: 'blur' }],
+  authority: [{ min: 0, max: 100, message: '权限标识长度不能超过100个字符', trigger: 'blur' },
+    { validator: checkAuthorityUnique, trigger: 'blur' }],
   icon: [{ min: 0, max: 100, message: '菜单图标长度不能超过100个字符', trigger: 'blur' }],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
