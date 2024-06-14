@@ -61,7 +61,8 @@ request.interceptors.response.use(
       // 没有权限，如：未登录、登录过期等，需要跳转到登录页
       if (responseData.code === 401) {
         authStore?.removeToken()
-        return handleAuthorized()
+        handleAuthorized()
+        return Promise.reject(new Error(responseData.message || 'Error'))
       }
       // 错误提示
       ElMessage.error(responseData.message || 'Error')
