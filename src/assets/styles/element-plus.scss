@@ -50,3 +50,12 @@
   --el-menu-text-color: var(--theme-menu-text-color);
   --el-menu-active-color: var(--theme-menu-hover-color);
 }
+
+// 2.5.0之后， el-select 的默认宽度更改为 100% 当使用内联形式时，宽度将显示异常bug
+.el-form--inline {
+  .el-form-item {
+    & > .el-input, .el-cascader, .el-select, .el-date-editor, .el-autocomplete {
+      width: 240px;
+    }
+  }
+}

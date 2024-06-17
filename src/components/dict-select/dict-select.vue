@@ -1,9 +1,8 @@
 <template>
   <el-select
-    :model-value="modelValue + ''"
+    v-model="modelValue"
     :placeholder="placeholder"
     :clearable="clearable"
-    @change="$emit('update:modelValue', $event)"
   >
     <el-option
       v-for="data in dataList"
@@ -17,14 +16,10 @@
 <script setup lang="ts">
 import { dictDataList } from '@/utils/tool'
 import { useAppStore } from '@/stores/modules/app'
+import { computed } from 'vue'
 
 const appStore = useAppStore()
-
 const props = defineProps({
-  modelValue: {
-    type: [Number, String],
-    required: true
-  },
   dictType: {
     type: String,
     required: true
@@ -38,6 +33,14 @@ const props = defineProps({
     type: String,
     required: false,
     default: () => ''
+  }
+})
+
+const model = defineModel<number | string>()
+const modelValue = computed({
+  get: () => model.value ? model.value : '',
+  set: (value) => {
+    model.value = value
   }
 })
 

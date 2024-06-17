@@ -1,5 +1,5 @@
 <template>
-  <el-radio-group :model-value="modelValue + ''" @change="$emit('update:modelValue', $event)">
+  <el-radio-group v-model="modelValue" :disabled="props.disabled">
     <el-radio v-for="data in dataList" :key="data.dictValue" :label="data.dictValue">
       {{ data.dictLabel }}
     </el-radio>
@@ -9,21 +9,28 @@
 <script setup lang="ts">
 import { dictDataList } from '@/utils/tool'
 import { useAppStore } from '@/stores/modules/app'
+import { computed } from 'vue'
 
 const appStore = useAppStore()
-
 const props = defineProps({
-  modelValue: {
-    type: [Number, String],
-    required: true
-  },
   dictType: {
     type: String,
     required: true
+  },
+  disabled: {
+    type: Boolean,
+    required: false,
+    default: () => false,
+  }
+})
+
+const model = defineModel<number | string>()
+const modelValue = computed({
+  get: () => model.value ? model.value : '',
+  set: (value) => {
+    model.value = value
   }
 })
 
 const dataList = dictDataList(appStore.dictList, props.dictType)
 </script>
-
-<style scoped></style>
