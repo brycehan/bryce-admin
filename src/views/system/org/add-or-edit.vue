@@ -109,7 +109,7 @@ const dataForm = reactive({
   leader: '',
   contactNumber: '',
   email: '',
-  sort: '',
+  sort: 0,
   status: true
 })
 

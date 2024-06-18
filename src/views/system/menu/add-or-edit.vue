@@ -153,7 +153,7 @@ const state: StateOptions = reactive({
     authority: '',
     icon: '',
     openStyle: false,
-    sort: '',
+    sort: 0,
     remark: '',
     status: true
   }

@@ -156,7 +156,7 @@ const state: StateOptions = reactive({
     gender: 'M',
     phone: '',
     email: '',
-    sort: '',
+    sort: 0,
     orgId: '',
     status: 'true',
     remark: '',
