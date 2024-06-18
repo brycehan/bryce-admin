@@ -113,7 +113,7 @@
         width="80"
       >
         <template #default="scope">
-          <el-button type="info" link @click="handleInfo(scope.row.id)">详情</el-button>
+          <el-button type="info" text @click="handleInfo(scope.row.id)">详情</el-button>
         </template>
       </el-table-column>
     </el-table>

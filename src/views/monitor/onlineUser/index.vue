@@ -47,7 +47,7 @@
           <el-button
             v-auth="'monitor:onlineUser:delete'"
             type="primary"
-            link
+            text
             @click="handleForceQuit(scope.row.userKey)"
             >强退</el-button
           >

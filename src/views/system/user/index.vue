@@ -112,14 +112,14 @@
               <el-button
                 v-auth="'system:user:update'"
                 type="primary"
-                link
+                text
                 @click="handleAddOrEdit(scope.row.id)"
                 >修改</el-button
               >
               <el-button
                 v-auth="'system:user:delete'"
                 type="danger"
-                link
+                text
                 @click="handleDeleteBatch(scope.row.id)"
                 >删除</el-button
               >

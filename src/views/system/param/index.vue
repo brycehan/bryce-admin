@@ -94,14 +94,14 @@
           <el-button
             v-auth="'system:param:update'"
             type="primary"
-            link
+            text
             @click="handleAddOrEdit(scope.row.id)"
             >编辑</el-button
           >
           <el-button
             v-auth="'system:param:delete'"
             type="danger"
-            link
+            text
             @click="handleDeleteBatch(scope.row.id)"
             >删除</el-button
           >

@@ -58,19 +58,19 @@
       />
       <dict-table-column label="状态" prop="status" dict-type="sys_status" />
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="160">
         <template #default="scope">
           <el-button
             v-auth="'system:post:update'"
             type="primary"
-            link
+            text
             @click="handleAddOrEdit(scope.row.id)"
             >编辑</el-button
           >
           <el-button
             v-auth="'system:post:delete'"
             type="danger"
-            link
+            text
             @click="handleDeleteBatch(scope.row.id)"
             >删除</el-button
           >

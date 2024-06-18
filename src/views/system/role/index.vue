@@ -75,14 +75,14 @@
           <el-button
             v-auth="'system:role:update'"
             type="primary"
-            link
+            text
             @click="handleAddOrEdit(scope.row.id)"
             >修改</el-button
           >
           <el-button
             v-auth="'system:role:delete'"
             type="danger"
-            link
+            text
             @click="handleDeleteBatch(scope.row.id)"
             >删除</el-button
           >
@@ -90,7 +90,7 @@
             v-auth="'system:role:update'"
             @command="(command: string) => handleCommand(command, scope.row)"
           >
-            <el-button type="success" class="btn-more-link" link>更多</el-button>
+            <el-button type="success" class="btn-more-link" text>更多</el-button>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item command="dataScope">数据权限</el-dropdown-item>

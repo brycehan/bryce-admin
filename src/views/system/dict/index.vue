@@ -85,21 +85,21 @@
           <el-button
             v-auth="'system:dictData:page'"
             type="primary"
-            link
+            text
             @click="handleShowDictData(scope.row)"
             >字典配置</el-button
           >
           <el-button
             v-auth="'system:dictType:update'"
             type="primary"
-            link
+            text
             @click="handleAddOrEdit(scope.row.id)"
             >修改</el-button
           >
           <el-button
             v-auth="'system:dictType:delete'"
             type="danger"
-            link
+            text
             @click="handleDeleteBatch(scope.row.id)"
             >删除</el-button
           >

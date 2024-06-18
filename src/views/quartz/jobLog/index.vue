@@ -80,7 +80,7 @@
           <el-button
             v-auth="'quartz:jobLog:info'"
             type="info"
-            link
+            text
             @click="handleInfo(scope.row.id)"
             >详情</el-button
           >

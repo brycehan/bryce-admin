@@ -49,14 +49,14 @@
           <el-button
             v-auth="'mp:templateMessageLog:update'"
             type="primary"
-            link
+            text
             @click="handleAddOrEdit(scope.row.id)"
             >编辑</el-button
           >
           <el-button
             v-auth="'mp:templateMessageLog:delete'"
             type="danger"
-            link
+            text
             @click="handleDeleteBatch(scope.row.id)"
             >删除</el-button
           >

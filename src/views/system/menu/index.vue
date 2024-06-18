@@ -61,7 +61,7 @@
       </el-table-column>
       <el-table-column label="类型" prop="type" header-align="center" align="center">
         <template #default="scope">
-          <el-tag v-if="scope.row.type === 'M'" type="">菜单</el-tag>
+          <el-tag v-if="scope.row.type === 'M'" type="primary">菜单</el-tag>
           <el-tag v-if="scope.row.type === 'B'" type="success">按钮</el-tag>
           <el-tag v-if="scope.row.type === 'I'" type="info">接口</el-tag>
         </template>
@@ -103,14 +103,14 @@
           <el-button
             v-auth="'system:menu:update'"
             type="primary"
-            link
+            text
             @click="handleAddOrEdit(scope.row.id)"
             >编辑</el-button
           >
           <el-button
             v-auth="'system:menu:delete'"
             type="danger"
-            link
+            text
             @click="handleDeleteBatch(scope.row.id)"
             >删除</el-button
           >

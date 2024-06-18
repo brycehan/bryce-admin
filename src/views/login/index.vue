@@ -8,13 +8,13 @@
     <div class="login-form">
       <div class="login-title">
         <el-button
-          link
+          text
           :class="loginType === 'account' ? 'text-account' : ''"
           @click="loginSwitch('account')"
           >账号登录</el-button
         >
         <el-button
-          link
+          text
           :class="loginType === 'phone' ? 'text-account' : ''"
           @click="loginSwitch('phone')"
           >手机验证码登录</el-button

@@ -56,7 +56,7 @@ const state: StateOptions = reactive({
     dictName: '',
     dictType: '',
     sort: '',
-    status: true,
+    status: 'true',
     remark: ''
   }
 })

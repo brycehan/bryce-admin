@@ -158,7 +158,7 @@ const state: StateOptions = reactive({
     email: '',
     sort: '',
     orgId: '',
-    status: true,
+    status: 'true',
     remark: '',
     roleIds: [],
     postIds: []

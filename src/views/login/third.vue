@@ -2,7 +2,7 @@
   <div class="login-third">
     <el-divider>其它方式登录</el-divider>
     <div class="third-btn">
-      <el-button link title="微信" @click="thirdLogin('wechat')">
+      <el-button text title="微信" @click="thirdLogin('wechat')">
         <img :src="wechatIcon" width="16" height="16" alt="微信" />
       </el-button>
     </div>

@@ -66,7 +66,7 @@ const state: StateOptions = reactive({
     data: '',
     url: '',
     miniProgram: '',
-    status: true,
+    status: 'true',
     updatedTime: ''
   }
 })

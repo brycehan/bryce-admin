@@ -9,11 +9,7 @@
     <template #default="scope">
       <el-tag
         v-if="getDictLabelClass(appStore.dictList, props.dictType, scope.row[props.prop])"
-        :type="
-          getDictLabelClass(appStore.dictList, props.dictType, scope.row[props.prop]) === 'primary'
-            ? ''
-            : getDictLabelClass(appStore.dictList, props.dictType, scope.row[props.prop])
-        "
+        :type="getDictLabelClass(appStore.dictList, props.dictType, scope.row[props.prop])"
       >
         {{ getDictLabel(appStore.dictList, props.dictType, scope.row[props.prop]) }}
       </el-tag>

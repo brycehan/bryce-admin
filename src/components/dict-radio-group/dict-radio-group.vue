@@ -1,6 +1,6 @@
 <template>
   <el-radio-group v-model="modelValue" :disabled="props.disabled">
-    <el-radio v-for="data in dataList" :key="data.dictValue" :label="data.dictValue">
+    <el-radio v-for="data in dataList" :key="data.dictValue" :value="data.dictValue">
       {{ data.dictLabel }}
     </el-radio>
   </el-radio-group>
@@ -24,9 +24,9 @@ const props = defineProps({
   }
 })
 
-const model = defineModel<number | string>()
+const model = defineModel<string | number | boolean | undefined>()
 const modelValue = computed({
-  get: () => model.value ? model.value : '',
+  get: () => model.value,
   set: (value) => {
     model.value = value
   }

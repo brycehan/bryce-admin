@@ -37,7 +37,7 @@
           <el-tag v-if="scope.row.labelClass" :type="scope.row.labelClass">
             {{ scope.row.dictLabel }}
           </el-tag>
-          <el-tag v-else>{{ scope.row.dictLabel }}</el-tag>
+          <el-tag type="primary" v-else>{{ scope.row.dictLabel }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="字典值" prop="dictValue" header-align="center" align="center" />
@@ -61,14 +61,14 @@
           <el-button
             v-auth="'system:dictData:update'"
             type="primary"
-            link
+            text
             @click="handleAddOrEdit(scope.row.id)"
             >修改</el-button
           >
           <el-button
             v-auth="'system:dictData:delete'"
             type="danger"
-            link
+            text
             @click="handleDeleteBatch(scope.row.id)"
             >删除</el-button
           >

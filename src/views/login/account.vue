@@ -37,7 +37,7 @@ let loading = ref(false)
 
 let loginDto = reactive({
   username: 'admin',
-  password: '123456',
+  password: 'brycehan',
   key: '',
   code: ''
 })
