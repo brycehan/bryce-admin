@@ -67,7 +67,7 @@ import constant from '@/utils/constant'
 import { ElMessage } from 'element-plus'
 import { useAuthStore } from '@/stores/modules/auth'
 import avatarImg from '@/assets/images/user1-128x128.jpg'
-import { putAvatarApi } from '@/api/system/profile'
+import { postAvatarApi } from '@/api/system/profile'
 
 const cropperRef = ref()
 const authStore = useAuthStore()
@@ -133,7 +133,6 @@ const beforeUpload = (file: File) => {
     const reader = new FileReader()
     reader.readAsDataURL(file)
     reader.onload = () => {
-      debugger
       if (typeof reader.result === 'string') {
         state.options.img = reader.result
       }
@@ -148,23 +147,17 @@ const uploadImg = () => {
   cropperRef.value.getCropBlob((data: any) => {
     const formData = new FormData()
     formData.append('file', data, state.options.filename)
-    putAvatarApi(formData).then((res) => {
-      state.options.img = res.data.url
-      const dataForm = {
-        avatar: res.data.url
-      }
-      // 修改用户信息
-      putAvatarApi(dataForm).then(() => {
-        // 更新状态管理
-        authStore.user.avatar = dataForm.avatar
-        ElMessage.success({
-          message: '修改成功',
-          duration: 3000,
-          onClose: () => {
-            // 关闭对话框
-            state.dialogVisible = false
-          }
-        })
+    postAvatarApi(formData).then((res) => {
+      state.options.img = res.data
+      // 更新状态管理
+      authStore.user.avatar = res.data
+      ElMessage.success({
+        message: '修改成功',
+        duration: 3000,
+        onClose: () => {
+          // 关闭对话框
+          state.dialogVisible = false
+        }
       })
     })
   })

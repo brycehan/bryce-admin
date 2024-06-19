@@ -3,14 +3,18 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { useAuthStore } from '@/stores/modules/auth'
 import qs from 'qs'
 
-/** axios实例 */
+/**
+ * axios实例
+ */
 const request = axios.create({
   baseURL: import.meta.env.VITE_API_URL as any,
   timeout: 60000,
   headers: { 'Content-Type': 'application/json;charset=UTF-8' }
 })
 
-/** 请求拦截器 */
+/**
+ * 请求拦截器
+ */
 request.interceptors.request.use(
   (config) => {
     const authStore = useAuthStore()
@@ -37,7 +41,9 @@ request.interceptors.request.use(
   }
 )
 
-/** 响应拦截器 */
+/**
+ * 响应拦截器
+ */
 request.interceptors.response.use(
   async (response) => {
     const authStore = useAuthStore()
@@ -95,4 +101,5 @@ const handleAuthorized = () => {
     return Promise.reject('登录超时，请重新登录')
   })
 }
+
 export default request
