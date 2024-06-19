@@ -61,8 +61,8 @@
       </el-table-column>
       <el-table-column label="执行状态" prop="executeStatus" header-align="center" align="center">
         <template #default="scope">
-          <el-tag v-if="!scope.row.executeStatus" type="danger">失败</el-tag>
-          <el-tag v-else type="success">成功</el-tag>
+          <el-tag v-if="!scope.row.executeStatus" type="danger" size="small">失败</el-tag>
+          <el-tag v-else type="success" size="small">成功</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="执行时长" prop="duration" header-align="center" align="center">

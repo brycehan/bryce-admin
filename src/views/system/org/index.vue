@@ -49,8 +49,8 @@
       <el-table-column label="排序" prop="sort" header-align="center" align="center" />
       <el-table-column label="状态" prop="status" header-align="center" align="center">
         <template #default="scope">
-          <el-tag v-if="scope.row.status === true" type="success">正常</el-tag>
-          <el-tag v-if="scope.row.status === false" type="info">停用</el-tag>
+          <el-tag v-if="scope.row.status === true" type="success" size="small">正常</el-tag>
+          <el-tag v-if="scope.row.status === false" type="info" size="small">停用</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />

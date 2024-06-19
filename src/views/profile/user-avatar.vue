@@ -148,7 +148,7 @@ const uploadImg = () => {
   cropperRef.value.getCropBlob((data: any) => {
     const formData = new FormData()
     formData.append('file', data, state.options.filename)
-    uploadFile(formData).then((res) => {
+    putAvatarApi(formData).then((res) => {
       state.options.img = res.data.url
       const dataForm = {
         avatar: res.data.url

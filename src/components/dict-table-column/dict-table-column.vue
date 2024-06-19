@@ -10,6 +10,7 @@
       <el-tag
         v-if="getDictLabelClass(appStore.dictList, props.dictType, scope.row[props.prop])"
         :type="getDictLabelClass(appStore.dictList, props.dictType, scope.row[props.prop])"
+        size="small"
       >
         {{ getDictLabel(appStore.dictList, props.dictType, scope.row[props.prop]) }}
       </el-tag>

@@ -75,7 +75,7 @@
         align="center"
         width="160"
       />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="200">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="210">
         <template #default="scope">
           <el-button
             v-auth="'quartz:job:update'"

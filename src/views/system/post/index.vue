@@ -34,6 +34,7 @@
       <el-button
         v-auth="'system:post:delete'"
         type="danger"
+        plain
         icon="Delete"
         @click="handleDeleteBatch()"
         >批量删除</el-button
@@ -57,8 +58,8 @@
         align="center"
       />
       <dict-table-column label="状态" prop="status" dict-type="sys_status" />
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="160">
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="160"/>
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
         <template #default="scope">
           <el-button
             v-auth="'system:post:update'"
@@ -139,3 +140,4 @@ const handleAddOrEdit = (id?: bigint) => {
   addOrEditRef.value.init(id)
 }
 </script>
+

@@ -34,10 +34,10 @@
       <el-table-column type="selection" header-align="center" align="center" width="50" />
       <el-table-column label="字典标签" prop="dictLabel" header-align="center" align="center">
         <template #default="scope">
-          <el-tag v-if="scope.row.labelClass" :type="scope.row.labelClass">
+          <el-tag v-if="scope.row.labelClass" :type="scope.row.labelClass" size="small">
             {{ scope.row.dictLabel }}
           </el-tag>
-          <el-tag type="primary" v-else>{{ scope.row.dictLabel }}</el-tag>
+          <el-tag v-else type="primary" size="small">{{ scope.row.dictLabel }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="字典值" prop="dictValue" header-align="center" align="center" />
@@ -51,8 +51,8 @@
       />
       <el-table-column label="状态" prop="status" header-align="center" align="center" width="120">
         <template #default="scope">
-          <el-tag v-if="scope.row.status === true" type="success">正常</el-tag>
-          <el-tag v-if="scope.row.status === false" type="info">停用</el-tag>
+          <el-tag v-if="scope.row.status === true" type="success" size="small">正常</el-tag>
+          <el-tag v-if="scope.row.status === false" type="info" size="small">停用</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />

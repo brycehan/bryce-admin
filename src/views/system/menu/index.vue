@@ -61,9 +61,9 @@
       </el-table-column>
       <el-table-column label="类型" prop="type" header-align="center" align="center">
         <template #default="scope">
-          <el-tag v-if="scope.row.type === 'M'" type="primary">菜单</el-tag>
-          <el-tag v-if="scope.row.type === 'B'" type="success">按钮</el-tag>
-          <el-tag v-if="scope.row.type === 'I'" type="info">接口</el-tag>
+          <el-tag v-if="scope.row.type === 'M'" type="primary" size="small">菜单</el-tag>
+          <el-tag v-if="scope.row.type === 'B'" type="success" size="small">按钮</el-tag>
+          <el-tag v-if="scope.row.type === 'I'" type="info" size="small">接口</el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -71,7 +71,7 @@
         prop="url"
         header-align="center"
         align="center"
-        width="150"
+        width="160"
         :show-overflow-tooltip="true"
       />
       <el-table-column
@@ -79,7 +79,7 @@
         prop="authority"
         header-align="center"
         align="center"
-        width="150"
+        width="160"
         :show-overflow-tooltip="true"
       />
       <el-table-column

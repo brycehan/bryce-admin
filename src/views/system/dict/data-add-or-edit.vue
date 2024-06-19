@@ -31,8 +31,8 @@
             :label="item.label"
             :value="item.value"
           >
-            <el-tag v-if="item.value === 'primary'" class="w-100">{{ item.label }}</el-tag>
-            <el-tag v-else class="w-100" :type="item.value">{{ item.label }}</el-tag>
+            <el-tag v-if="item.value === 'primary'" class="w-100" size="small">{{ item.label }}</el-tag>
+            <el-tag v-else class="w-100" :type="item.value" size="small">{{ item.label }}</el-tag>
           </el-option>
         </el-select>
       </el-form-item>
