@@ -6,7 +6,7 @@ import request from '@/utils/request'
  * @param data 参数
  */
 export const postPageApi = (data: any) => {
-  return request.post('/monitor/onlineUser/page', data)
+  return request.post('/system/onlineUser/page', data)
 }
 
 /**
@@ -15,5 +15,5 @@ export const postPageApi = (data: any) => {
  * @param userKey 用户缓存键值
  */
 export const deleteOnlineUserApi = (userKey: string) => {
-  return request.delete(`/monitor/onlineUser/${userKey}`)
+  return request.delete(`/system/onlineUser/${userKey}`)
 }
