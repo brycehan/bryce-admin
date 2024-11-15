@@ -22,7 +22,7 @@
       </div>
       <account v-if="loginType === 'account'" />
       <phone v-if="loginType === 'phone'" />
-      <third />
+  <!--  <third /> -->
     </div>
   </div>
 </template>

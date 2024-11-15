@@ -1,4 +1,5 @@
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { createRouter, createWebHashHistory, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { isExternalLink } from '@/utils/tool'
@@ -122,7 +123,8 @@ export const errorRoute: RouteRecordRaw = {
 }
 
 export const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL), // hash模式
+  // history: createWebHistory(import.meta.env.BASE_URL), // history模式
   routes: constantRoutes
 })
 
