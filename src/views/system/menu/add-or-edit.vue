@@ -155,7 +155,7 @@ const state: StateOptions = reactive({
     openStyle: false,
     sort: 0,
     remark: '',
-    status: true
+    status: 1
   }
 })
 

@@ -1,13 +1,13 @@
 <template>
   <el-radio-group v-model="modelValue" :disabled="props.disabled">
-    <el-radio v-for="data in dataList" :key="data.dictValue" :value="data.dictValue">
+    <el-radio v-for="data in dataList" :key="data.dictValue" :value="convertInteger(data.dictValue)">
       {{ data.dictLabel }}
     </el-radio>
   </el-radio-group>
 </template>
 
 <script setup lang="ts">
-import { dictDataList } from '@/utils/tool'
+import { convertInteger, dictDataList } from '@/utils/tool'
 import { useAppStore } from '@/stores/modules/app'
 import { computed } from 'vue'
 

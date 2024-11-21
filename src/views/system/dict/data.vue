@@ -49,12 +49,7 @@
         align="center"
         width="120"
       />
-      <el-table-column label="状态" prop="status" header-align="center" align="center" width="120">
-        <template #default="scope">
-          <el-tag v-if="scope.row.status === true" type="success" size="small">正常</el-tag>
-          <el-tag v-if="scope.row.status === false" type="info" size="small">停用</el-tag>
-        </template>
-      </el-table-column>
+      <dict-table-column label="状态" prop="status" dict-type="sys_status" width="80" />
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
         <template #default="scope">

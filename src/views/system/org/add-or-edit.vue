@@ -70,10 +70,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="状态" prop="status">
-            <el-radio-group v-model="dataForm.status">
-              <el-radio :label="true">正常</el-radio>
-              <el-radio :label="false">停用</el-radio>
-            </el-radio-group>
+            <dict-radio-group v-model="dataForm.status" dict-type="sys_status" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -110,7 +107,7 @@ const dataForm = reactive({
   contactNumber: '',
   email: '',
   sort: 0,
-  status: true
+  status: 1
 })
 
 const dataRules = reactive({

@@ -46,10 +46,11 @@
       :border="true"
       style="width: 100%"
       @selection-change="handleSelectionChange"
+      @sort-change="handleSortChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
       <el-table-column label="岗位名称" prop="name" header-align="center" align="center" />
-      <el-table-column label="岗位编码" prop="code" header-align="center" align="center" />
+      <el-table-column label="岗位编码" prop="code" sortable="custom" header-align="center" align="center" />
       <el-table-column
         label="显示顺序"
         prop="sort"
@@ -119,10 +120,12 @@ onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } =
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleSortChange } =
   crud(state)
 
-/** 重置按钮操作 */
+/**
+ * 重置按钮操作
+ */
 const handleResetQuery = () => {
   for (const key in state.range) {
     state.range[key] = []
@@ -135,9 +138,12 @@ const handleResetQuery = () => {
   getPage()
 }
 
-/** 新增/修改 弹窗 */
+/**
+ * 新增/修改 弹窗
+ */
 const handleAddOrEdit = (id?: bigint) => {
   addOrEditRef.value.init(id)
 }
+
 </script>
 

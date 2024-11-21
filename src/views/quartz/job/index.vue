@@ -50,11 +50,13 @@
       :border="true"
       style="width: 100%"
       @selection-change="handleSelectionChange"
+      @sort-change="handleSortChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
       <el-table-column
         label="任务名称"
         prop="jobName"
+        sortable="custom"
         show-overflow-tooltip
         header-align="center"
         align="center"
@@ -155,7 +157,7 @@ onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } =
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleSortChange } =
   crud(state)
 
 /** 重置按钮操作 */

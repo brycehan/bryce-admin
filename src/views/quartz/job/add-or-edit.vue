@@ -108,7 +108,7 @@ const state: StateOptions = reactive({
     cronExpression: '',
     concurrent: 'N',
     sort: 0,
-    status: 'true',
+    status: 1,
     remark: ''
   }
 })

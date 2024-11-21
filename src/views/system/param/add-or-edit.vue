@@ -20,8 +20,8 @@
       <el-form-item label="参数值" prop="paramValue">
         <el-input v-model="state.dataForm.paramValue" placeholder="请输入参数值" />
       </el-form-item>
-      <el-form-item label="系统内置" prop="builtIn">
-        <dict-radio-group v-model="state.dataForm.builtIn" dict-type="sys_yes_no" />
+      <el-form-item label="系统内置" prop="paramType">
+        <dict-radio-group v-model="state.dataForm.paramType" dict-type="sys_param_type" />
       </el-form-item>
       <el-form-item label="备注" prop="remark">
         <el-input v-model="state.dataForm.remark" type="textarea" placeholder="请输入备注" />
@@ -53,7 +53,7 @@ const state: StateOptions = reactive({
     paramName: '',
     paramKey: '',
     paramValue: '',
-    builtIn: 'Y',
+    paramType: 0,
     remark: ''
   }
 })

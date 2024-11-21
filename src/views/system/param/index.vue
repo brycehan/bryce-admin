@@ -14,11 +14,11 @@
       <el-form-item label="参数键名" prop="paramKey">
         <el-input v-model="state.queryForm.paramKey" placeholder="请输入参数键名" clearable />
       </el-form-item>
-      <el-form-item label="系统内置" prop="builtIn">
+      <el-form-item label="参数类型" prop="paramType">
         <dict-select
           v-model="state.queryForm.paramType"
-          dict-type="sys_yes_no"
-          placeholder="系统内置"
+          dict-type="sys_param_type"
+          placeholder="参数类型"
           clearable
         />
       </el-form-item>
@@ -80,7 +80,7 @@
         align="center"
         width="100"
       />
-      <dict-table-column label="系统内置" prop="paramType" dict-type="sys_yes_no" width="100" />
+      <dict-table-column label="参数类型" prop="paramType" dict-type="sys_param_type" width="100" />
       <el-table-column
         label="备注"
         prop="remark"
@@ -141,6 +141,16 @@ const state: StateOptions = reactive({
     paramType: '',
     createdTime: ''
   },
+  orderItems: [
+    {
+      column: 'updatedTime',
+      asc: false
+    },
+    {
+      column: 'paramType',
+      asc: true
+    }
+  ],
   range: {
     createdTime: ''
   }

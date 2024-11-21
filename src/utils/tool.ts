@@ -64,6 +64,7 @@ export const mergeDefaultOptions = (defaultOptions: any, options: any) => {
 
 /**
  * 转换文件大小样式
+ *
  * @param size 文件大小字节数
  */
 export const convertSizeFormat = (size: number): string => {
@@ -74,7 +75,9 @@ export const convertSizeFormat = (size: number): string => {
   return normalSize.toFixed(2) + ' ' + unit[index]
 }
 
-/** 获取svg图标（id）列表 */
+/**
+ * 获取svg图标（id）列表
+ */
 export const getIconList = (): string[] => {
   const list: string[] = []
   const icons = document.querySelectorAll('svg symbol[id^="icon-"]')
@@ -99,7 +102,9 @@ export const dictDataList = (dictList: any[], dictType: string) => {
   }
 }
 
-/** 获取字典Label */
+/**
+ * 获取字典Label
+ */
 export const getDictLabel = (dictList: any[], dictType: string, dictValue: string) => {
   const dict = dictList.find((element: any) => element.dictType === dictType)
   if (dict) {
@@ -111,7 +116,9 @@ export const getDictLabel = (dictList: any[], dictType: string, dictValue: strin
   return dictValue
 }
 
-/** 获取字典Label样式 */
+/**
+ * 获取字典Label样式
+ */
 export const getDictLabelClass = (dictList: any[], dictType: string, dictValue: string) => {
   const dict = dictList.find((element: any) => element.dictType === dictType)
   if (dict) {
@@ -121,6 +128,24 @@ export const getDictLabelClass = (dictList: any[], dictType: string, dictValue: 
     }
   }
   return ''
+}
+
+/**
+ * 判断是否为数字
+ *
+ * @param value 待判断的字符串
+ */
+export const isNumeric = (value: string) => {
+  return !isNaN(parseFloat(value)) && isFinite(Number(value));
+}
+
+/**
+ * 转换为整数
+ *
+ * @param value 待转换的值
+ */
+export const convertInteger = (value: string) => {
+  return isNumeric(value) ? parseInt(value) : value
 }
 
 /**

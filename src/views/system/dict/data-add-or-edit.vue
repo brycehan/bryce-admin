@@ -40,10 +40,7 @@
         <el-input-number v-model="state.dataForm.sort" :min="0" />
       </el-form-item>
       <el-form-item label="状态" prop="status">
-        <el-radio-group v-model="state.dataForm.status">
-          <el-radio :label="true">正常</el-radio>
-          <el-radio :label="false">停用</el-radio>
-        </el-radio-group>
+        <dict-radio-group v-model="state.dataForm.status" dict-type="sys_status" />
       </el-form-item>
       <el-form-item label="备注" prop="remark">
         <el-input v-model="state.dataForm.remark" placeholder="请输入内容" />
@@ -77,7 +74,7 @@ const state: StateOptions = reactive({
     dictTypeId: '',
     labelClass: '',
     sort: 0,
-    status: 'true',
+    status: 1,
     remark: ''
   }
 })

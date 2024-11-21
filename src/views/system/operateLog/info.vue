@@ -4,7 +4,7 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="操作模块">
-            {{ state.dataForm.moduleName }} / {{ state.dataForm.operatedTypeName }}
+            {{ state.dataForm.moduleName }} / {{ state.dataForm.operatedType }}
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -94,7 +94,7 @@ const state: StateOptions = reactive({
     requestMethod: '',
     requestParam: '',
     resultMessage: '',
-    operatedTypeName: '',
+    operatedType: '',
     operatedTime: '',
     duration: '',
     status: '',

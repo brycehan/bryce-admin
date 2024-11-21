@@ -53,7 +53,7 @@ const state: StateOptions = reactive({
     name: '',
     code: '',
     sort: 0,
-    status: 'true',
+    status: 1,
     remark: ''
   }
 })

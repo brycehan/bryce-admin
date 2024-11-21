@@ -70,7 +70,7 @@ const state: StateOptions = reactive({
     exactMatch: '',
     replyType: '',
     replyContent: '',
-    status: 'true',
+    status: 1,
     effectTimeStart: '',
     effectTimeEnd: '',
     priority: '',

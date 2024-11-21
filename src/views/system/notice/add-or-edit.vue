@@ -59,8 +59,8 @@ const state: StateOptions = reactive({
     id: undefined,
     title: '',
     content: '',
-    type: '1',
-    status: true
+    type: 0,
+    status: 1
   }
 })
 

@@ -57,10 +57,11 @@
       :border="true"
       style="width: 100%"
       @selection-change="handleSelectionChange"
+      @sort-change="handleSortChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
       <el-table-column label="角色名称" prop="name" header-align="center" align="center" />
-      <el-table-column label="角色编码" prop="code" header-align="center" align="center" />
+      <el-table-column label="角色编码" prop="code" sortable="custom" header-align="center" align="center" />
       <el-table-column
         label="显示顺序"
         prop="sort"
@@ -160,7 +161,7 @@ onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } =
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleSortChange } =
   crud(state)
 
 /** 重置按钮操作 */

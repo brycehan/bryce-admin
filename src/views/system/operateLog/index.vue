@@ -60,6 +60,7 @@
       :border="true"
       style="width: 100%"
       @selection-change="handleSelectionChange"
+      @sort-change="handleSortChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
       <el-table-column
@@ -93,7 +94,7 @@
         align="center"
       />
       <el-table-column label="操作地点" prop="location" header-align="center" align="center" />
-      <el-table-column label="操作账号" prop="username" header-align="center" align="center" />
+      <el-table-column label="操作账号" prop="username" sortable="custom" header-align="center" align="center" />
       <el-table-column
         label="操作时间"
         prop="operatedTime"
@@ -165,7 +166,7 @@ onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } =
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleSortChange } =
   crud(state)
 
 /** 重置按钮操作 */

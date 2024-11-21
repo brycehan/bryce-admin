@@ -87,11 +87,12 @@
           :border="true"
           style="width: 100%"
           @selection-change="handleSelectionChange"
+          @sort-change="handleSortChange"
         >
           <el-table-column type="selection" header-align="center" align="center" width="50" />
-          <el-table-column label="账号" prop="username" header-align="center" align="center" />
-          <el-table-column label="姓名" prop="nickname" header-align="center" align="center" />
-          <el-table-column label="手机号码" prop="phone" header-align="center" align="center" />
+          <el-table-column label="账号" prop="username" sortable="custom" header-align="center" align="center" />
+          <el-table-column label="姓名" prop="nickname" sortable="custom" header-align="center" align="center" />
+          <el-table-column label="手机号码" prop="phone" sortable="custom" header-align="center" align="center" />
           <el-table-column label="机构" prop="orgName" header-align="center" align="center" />
           <dict-table-column label="状态" prop="status" dict-type="sys_status" width="80" />
           <el-table-column
@@ -187,7 +188,8 @@ const {
   handleDeleteBatch,
   handleSelectionChange,
   handleDownloadExcel,
-  handleBeforeUpload
+  handleBeforeUpload,
+  handleSortChange
 } = crud(state)
 
 const handleOrgClick = (orgId: any) => {
