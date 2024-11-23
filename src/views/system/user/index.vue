@@ -53,26 +53,6 @@
             @click="handleAddOrEdit()"
             >新增</el-button
           >
-
-          <el-upload
-            v-auth="'system:user:import'"
-            :action="importUrl"
-            :headers="headers"
-            :before-upload="handleBeforeUpload"
-            :on-success="handleOnSuccess"
-            :show-file-list="false"
-            class="el-upload-container"
-          >
-            <el-button type="info" icon="Upload">导入</el-button>
-          </el-upload>
-          <!--      <el-button v-auth="'system:user:import'" type="info" icon="Upload" @click="handleDeleteBatch()">导入</el-button>-->
-          <el-button
-            v-auth="'system:user:export'"
-            type="success"
-            icon="Download"
-            @click="handleDownloadExcel()"
-            >导出</el-button
-          >
           <el-button
             v-auth="'system:user:delete'"
             type="danger"
@@ -80,6 +60,21 @@
             @click="handleDeleteBatch()"
             >批量删除</el-button
           >
+          <el-button
+            v-auth="'system:user:import'"
+            type="info"
+            icon="Upload"
+            @click="handleXlsxUpload()"
+            >导入</el-button
+          >
+          <el-button
+            v-auth="'system:user:export'"
+            type="success"
+            icon="Download"
+            @click="handleDownloadExcel()"
+            >导出</el-button
+          >
+
         </el-row>
         <el-table
           v-loading="state.loading"
@@ -139,6 +134,8 @@
 
         <!-- 弹窗，新增 / 修改 -->
         <AddOrEdit ref="addOrEditRef" @refresh-page="getPage" />
+        <!-- 弹窗，导入 -->
+        <ImportData ref="importDataRef" @refresh-page="getPage" />
       </el-card>
     </el-col>
   </el-row>
@@ -147,12 +144,10 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
-import { postPageApi, deleteByIdsApi, postDownloadExcelApi, importUrl } from '@/api/system/user'
+import ImportData from '@/views/system/user/import-data.vue'
+import { postPageApi, deleteByIdsApi, postDownloadExcelApi } from '@/api/system/user'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import { useAuthStore } from '@/stores/modules/auth'
-import type { UploadProps } from 'element-plus'
-import { ElMessage } from 'element-plus'
 import OrgTree from '@/views/system/user/org-tree.vue'
 
 const state: StateOptions = reactive({
@@ -176,6 +171,7 @@ const state: StateOptions = reactive({
 
 const queryFormRef = ref()
 const addOrEditRef = ref()
+const importDataRef = ref()
 
 onMounted(() => {
   getPage()
@@ -188,7 +184,6 @@ const {
   handleDeleteBatch,
   handleSelectionChange,
   handleDownloadExcel,
-  handleBeforeUpload,
   handleSortChange
 } = crud(state)
 
@@ -219,21 +214,10 @@ const handleAddOrEdit = (id?: bigint) => {
   addOrEditRef.value.init(id)
 }
 
-const authStore = useAuthStore()
-
 /**
- * 上传文件请求头
+ * 导入按钮操作
  */
-const headers = {
-  Authorization: authStore.accessToken
-}
-
-const handleOnSuccess: UploadProps['onSuccess'] = (res) => {
-  if (res.code !== 200) {
-    ElMessage.error('导入失败' + res.message)
-    return false
-  }
-  getPage()
-  ElMessage.success('导入成功')
+const handleXlsxUpload = () => {
+  importDataRef.value.init()
 }
 </script>

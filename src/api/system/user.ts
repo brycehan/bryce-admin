@@ -70,6 +70,18 @@ export const getCheckEmailUniqueApi = (email: string, id: number) => {
   return request.get('/system/user/checkEmailUnique', { params: { id, email } })
 }
 
+/**
+ * 下载导入用户模板
+ */
+export const getImportTemplateApi = () => {
+  download.get('/system/user/importTemplate')
+}
+
+/**
+ * 导出系统用户
+ *
+ * @param data 导出参数
+ */
 export const postDownloadExcelApi = (data: any) => {
   download.post('/system/user/export', data)
 }

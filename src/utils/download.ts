@@ -1,8 +1,13 @@
 import request from '@/utils/request'
-import { ElMessage } from 'element-plus'
+import { ElLoading, ElMessage } from 'element-plus'
 
-/** 下载 */
+/**
+ * 下载
+ *
+ * @param config 请求配置
+ */
 const download = (config?: any) => {
+  const downloadLoadingInstance = ElLoading.service({text: '正在下载数据，请稍候', background: "rgba(0, 0, 0, 0.7)"})
   // 设置responseType 响应类型为blob，响应的直接是个blob对象
   request
     .request({
@@ -31,12 +36,26 @@ const download = (config?: any) => {
         reader.readAsText(blob)
         reader.onload = function (e: any) {
           ElMessage.error('下载文件出现错误，请联系管理员！')
-          console.error('generator.download', JSON.parse(e.target.result))
+          console.error('下载文件出现错误', JSON.parse(e.target.result))
         }
       }
     })
+    .catch((error) => {
+      ElMessage.error('下载文件出现错误，请联系管理员！')
+      console.error('下载文件出现错误', error)
+    })
+    .finally(() => {
+      // 隐藏loading
+      downloadLoadingInstance.close()
+    })
 }
 
+/**
+ * get请求
+ *
+ * @param url 请求地址
+ * @param config 请求配置
+ */
 const get = (url: string, config?: any) => {
   return download({
     url: url,
@@ -45,6 +64,13 @@ const get = (url: string, config?: any) => {
   })
 }
 
+/**
+ * post请求
+ *
+ * @param url 请求地址
+ * @param data 请求数据
+ * @param config 请求配置
+ */
 const post = (url: string, data?: any, config?: any) => {
   return download({
     url: url,

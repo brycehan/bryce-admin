@@ -176,17 +176,6 @@ export const crud = (options: StateOptions) => {
   }
 
   /**
-   * 上传文件前处理
-   */
-  const handleBeforeUpload: UploadProps['beforeUpload'] = (file: UploadRawFile) => {
-    if (file.size / 1024 / 1024 / 1024 > 1) {
-      ElMessage.error('文件大小不能超过1GB')
-      return false
-    }
-    return true
-  }
-
-  /**
    * 处理排序
    */
   const handleSortChange = (data: any) => {
@@ -205,7 +194,6 @@ export const crud = (options: StateOptions) => {
     getData,
     handleSaveOrUpdate,
     handleDownloadExcel,
-    handleBeforeUpload,
     handleSortChange
   }
 }

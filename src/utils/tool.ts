@@ -1,4 +1,5 @@
 import constant from '@/utils/constant'
+import { ElMessage, type UploadProps, type UploadRawFile } from 'element-plus'
 
 /**
  * 是否外链
@@ -128,6 +129,17 @@ export const getDictLabelClass = (dictList: any[], dictType: string, dictValue: 
     }
   }
   return ''
+}
+
+/**
+ * 上传文件前处理
+ */
+export const handleBeforeUpload: UploadProps['beforeUpload'] = (file: UploadRawFile) => {
+  if (file.size / 1024 / 1024 / 1024 > 1) {
+    ElMessage.error('文件大小不能超过1GB')
+    return false
+  }
+  return true
 }
 
 /**

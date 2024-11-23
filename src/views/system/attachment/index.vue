@@ -126,8 +126,8 @@ import { deleteByIdsApi, postPageApi, saveOrUpdateApi } from '@/api/system/attac
 import constant from '@/utils/constant'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import { ElMessage, type UploadProps, type UploadRawFile } from 'element-plus'
-import { convertSizeFormat } from '@/utils/tool'
+import { ElMessage, type UploadProps } from 'element-plus'
+import { convertSizeFormat, handleBeforeUpload } from '@/utils/tool'
 import { useAuthStore } from '@/stores/modules/auth'
 import download from '@/utils/download'
 
@@ -180,15 +180,6 @@ const authStore = useAuthStore()
 const headers = {
   Authorization: authStore.accessToken,
   'source-client': 'pc'
-}
-
-/** 上传文件前处理 */
-const handleBeforeUpload: UploadProps['beforeUpload'] = (file: UploadRawFile) => {
-  if (file.size / 1024 / 1024 / 1024 > 1) {
-    ElMessage.error('文件大小不能超过1GB')
-    return false
-  }
-  return true
 }
 
 const handleOnSuccess: UploadProps['onSuccess'] = (res) => {
