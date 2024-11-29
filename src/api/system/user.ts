@@ -42,6 +42,16 @@ export const postPageApi = (data: any) => {
 }
 
 /**
+ * 更新系统用户状态
+ *
+ * @param id ID
+ * @param status 状态
+ */
+export const patchStatusApi = (id: bigint, status: number) => {
+    return request.patch(`/system/user/${id}/${status}`)
+}
+
+/**
  * 校验用户账号是否唯一
  *
  * @param username 用户账号
@@ -90,6 +100,15 @@ export const postDownloadExcelApi = (data: any) => {
  * 导入地址
  */
 export const importUrl = import.meta.env.VITE_API_URL + '/system/user/import'
+
+/**
+ * 系统用户分页查询
+ *
+ * @param data 分页参数
+ */
+export const resetPasswordApi = (data: any) => {
+  return request.patch('/system/user/resetPassword', data)
+}
 
 /**
  * 校验用户账号是否唯一

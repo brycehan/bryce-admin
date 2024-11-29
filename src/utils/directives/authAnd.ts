@@ -9,11 +9,11 @@ export default {
     // binding.value 为指令的绑定值
     const { value } = binding
 
-    if ((value && typeof value === 'string') || (value instanceof Array && value.length > 0)) {
+    if (value && value instanceof Array && value.length > 0) {
       const authStore = useAuthStore()
 
       // 验证是否拥有权限
-      const hasPermissions = authStore.authoritySet.some((v: string) => v === value || value.includes(v))
+      const hasPermissions = value.every((v: string) => authStore.authoritySet.includes(v))
 
       if (!hasPermissions) {
         el.parentNode && el.parentNode.removeChild(el)

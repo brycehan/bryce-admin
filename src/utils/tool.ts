@@ -1,5 +1,6 @@
 import constant from '@/utils/constant'
 import { ElMessage, type UploadProps, type UploadRawFile } from 'element-plus'
+import { useAuthStore } from '@/stores/modules/auth'
 
 /**
  * 是否外链
@@ -161,6 +162,18 @@ export const convertInteger = (value: string) => {
 }
 
 /**
+ * 权限验证
+ * 用于slot下 v-auth 无效下使用
+ *
+ * @param authority 权限标识
+ * authority 例如 'system:user:save' 或 ['system:user:save', 'system:user:update']
+ */
+export const auth = (authority : any) => {
+  const authStore = useAuthStore()
+  return authStore.authoritySet.some((v: string) => v === authority || authority.includes(v))
+}
+
+/**
  * 手机号正则表达式
  */
 export const phoneRegExp = /^1[3-9]\d{9}$/
@@ -169,3 +182,5 @@ export const phoneRegExp = /^1[3-9]\d{9}$/
  * 邮箱正则表达式
  */
 export const emailRegExp = /^([A-Za-z0-9_\-.\u4e00-\u9fa5])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,8})$/
+
+

@@ -137,7 +137,6 @@ import { getRoleListApi as roleListApi } from '@/api/system/role'
 import { getListApi as postListApi } from '@/api/system/post'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import constant from '@/utils/constant'
 import { emailRegExp, phoneRegExp } from '@/utils/tool'
 
 const emit = defineEmits(['refreshPage'])

@@ -18,7 +18,7 @@ export const useAuthStore = defineStore('authStore', {
       avatar: ''
     } as any,
     // 权限集合
-    authoritySet: [],
+    authoritySet: [] as string[],
     // 访问token
     accessToken: storage.getToken()
   }),

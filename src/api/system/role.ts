@@ -93,6 +93,35 @@ export const deleteUsersApi = (roleId: string, data: any) => {
 }
 
 /**
+ * 用户未分配/分配的角色分页列表
+ *
+ * @param data 数据
+ */
+export const postAssignRolePageApi = (data: any) => {
+  return request.post('/system/role/assignRole/page', data)
+}
+
+/**
+ * 分配给用户多个角色
+ *
+ * @param userId 用户ID
+ * @param data 角色ID列表
+ */
+export const postAssignRoleSaveApi = (userId: string, data: any) => {
+  return request.post(`/system/role/assignRole/${userId}`, data)
+}
+
+/**
+ * 删除用户的多个角色
+ *
+ * @param userId 用户ID
+ * @param data 角色ID列表
+ */
+export const deleteAssignRoleApi = (userId: string, data: any) => {
+  return request.delete(`/system/role/assignRole/${userId}`, { data: data })
+}
+
+/**
  * 校验角色编码是否唯一
  *
  * @param code 角色编码

@@ -19,7 +19,7 @@
       <el-form-item label="数据范围" prop="dataScope">
         <dict-select v-model="dataForm.dataScope" dict-type="sys_data_scope" class="w-100" />
       </el-form-item>
-      <el-form-item v-show="dataForm.dataScope == 5" label="数据权限">
+      <el-form-item v-show="dataForm.dataScope == 4" label="数据权限">
         <el-tree
           ref="orgListRef"
           :data="orgList"

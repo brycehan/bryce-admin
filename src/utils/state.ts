@@ -111,22 +111,24 @@ export const crud = (options: StateOptions) => {
   }
 
   /** 批量删除 */
-  const handleDeleteBatch = (id?: bigint) => {
+  const handleDeleteBatch = (row?: any) => {
     let data: any[] = []
-    if (id) {
-      data = [id]
+    if (row) {
+      data.push(row)
     } else {
-      data = state.dataSelections ? state.dataSelections : []
-      if (data.length === 0) {
-        ElMessage.warning('请选择删除的记录')
-        return
-      }
+      data = state.dataSelections as []
     }
+
+    if (data.length === 0) {
+      ElMessage.warning('请选择删除的记录')
+      return
+    }
+
     ElMessageBox.confirm('确定进行删除操作？', '提示', {
       type: 'warning'
     })
       .then(() => {
-        state.api.deleteByIdsApi(data).then(() => {
+        state.api.deleteByIdsApi(data.map((item) => item.id)).then(() => {
           ElMessage.success('删除成功')
           getPage()
         })
@@ -138,7 +140,7 @@ export const crud = (options: StateOptions) => {
 
   /** 多选 */
   const handleSelectionChange = (selections: any[]) => {
-    state.dataSelections = selections.map((item: any) => item.id)
+    state.dataSelections = selections
   }
 
   /** 获取详情数据 */

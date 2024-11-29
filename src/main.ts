@@ -15,6 +15,7 @@ import SvgIcon from '@/components/svg-icon'
 import DictSelect from '@/components/dict-select'
 import DictRadioGroup from '@/components/dict-radio-group'
 import DictTableColumn from '@/components/dict-table-column'
+import RightToolbar from '@/components/right-toolbar'
 import SelectUser from '@/components/select-user'
 import WangEditor from '@/components/wang-editor'
 
@@ -35,6 +36,7 @@ app.use(SvgIcon)
 app.use(DictSelect)
 app.use(DictRadioGroup)
 app.use(DictTableColumn)
+app.use(RightToolbar)
 app.use(SelectUser)
 app.use(WangEditor)
 

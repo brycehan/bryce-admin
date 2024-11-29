@@ -15,12 +15,7 @@
         <el-input v-model="state.queryForm.code" placeholder="请输入角色编码" clearable />
       </el-form-item>
       <el-form-item label="状态" prop="status">
-        <dict-select
-          v-model="state.queryForm.status"
-          dict-type="sys_status"
-          placeholder="角色状态"
-          clearable
-        />
+        <dict-select v-model="state.queryForm.status" dict-type="sys_status" placeholder="角色状态" clearable />
       </el-form-item>
       <el-form-item label="创建时间" prop="createdTime">
         <el-date-picker
@@ -40,16 +35,10 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'system:role:save'" type="primary" icon="Plus" @click="handleAddOrEdit()"
-        >新增</el-button
-      >
-      <el-button
-        v-auth="'system:role:delete'"
-        type="danger"
-        icon="Delete"
-        @click="handleDeleteBatch()"
-        >批量删除</el-button
-      >
+      <el-button v-auth="'system:role:save'" type="primary" icon="Plus" @click="handleAddOrEdit()">新增</el-button>
+      <el-button v-auth="'system:role:delete'" type="danger" icon="Delete" @click="handleDeleteBatch()"
+        >批量删除
+      </el-button>
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -62,35 +51,18 @@
       <el-table-column type="selection" header-align="center" align="center" width="50" />
       <el-table-column label="角色名称" prop="name" header-align="center" align="center" />
       <el-table-column label="角色编码" prop="code" sortable="custom" header-align="center" align="center" />
-      <el-table-column
-        label="显示顺序"
-        prop="sort"
-        sortable="custom"
-        header-align="center"
-        align="center"
-      />
+      <el-table-column label="显示顺序" prop="sort" sortable="custom" header-align="center" align="center" />
       <dict-table-column label="状态" prop="status" dict-type="sys_status" />
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="300">
         <template #default="scope">
-          <el-button
-            v-auth="'system:role:update'"
-            type="primary"
-            text
-            @click="handleAddOrEdit(scope.row.id)"
-            >修改</el-button
-          >
-          <el-button
-            v-auth="'system:role:delete'"
-            type="danger"
-            text
-            @click="handleDeleteBatch(scope.row.id)"
-            >删除</el-button
-          >
-          <el-dropdown
-            v-auth="'system:role:update'"
-            @command="(command: string) => handleCommand(command, scope.row)"
-          >
+          <el-button v-auth="'system:role:update'" type="primary" text @click="handleAddOrEdit(scope.row.id)"
+            >修改
+          </el-button>
+          <el-button v-auth="'system:role:delete'" type="danger" text @click="handleDeleteBatch(scope.row.id)"
+            >删除
+          </el-button>
+          <el-dropdown v-auth="'system:role:update'" @command="(command: string) => handleCommand(command, scope.row)">
             <el-button type="success" class="btn-more-link" text>更多</el-button>
             <template #dropdown>
               <el-dropdown-menu>
@@ -177,7 +149,11 @@ const handleResetQuery = () => {
   getPage()
 }
 
-/** 新增/修改 弹窗 */
+/**
+ * 新增/修改 弹窗
+ *
+ * @param id 数据ID
+ */
 const handleAddOrEdit = (id?: bigint) => {
   addOrEditRef.value.init(id)
 }
@@ -213,5 +189,4 @@ const handleCommand = (command: string, row: any) => {
   border-left: 1px solid #e4e7ec;
   top: 7px;
 }
-
 </style>
