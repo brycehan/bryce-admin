@@ -60,11 +60,12 @@
       <dict-table-column label="状态" prop="status" dict-type="sys_status" />
       <el-table-column label="创建者" prop="createdUsername" header-align="center" align="center" />
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="180">
         <template #default="scope">
           <el-button
             v-auth="'system:notice:update'"
             type="primary"
+            icon="edit"
             text
             @click="handleAddOrEdit(scope.row)"
             >编辑</el-button
@@ -72,6 +73,7 @@
           <el-button
             v-auth="'system:notice:delete'"
             type="danger"
+            icon="delete"
             text
             @click="handleDeleteBatch(scope.row.id)"
             >删除</el-button

@@ -85,7 +85,7 @@
         align="center"
         width="160"
       />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="180">
         <template #default="scope">
           <!-- 权限无效，但浏览器有下载进度条 -->
           <!--          <a :href="scope.row.url" download>-->
@@ -94,6 +94,7 @@
           <el-button
             v-auth="'system:attachment:info'"
             type="primary"
+            icon="download"
             text
             @click="handleDownload(scope.row.url, scope.row.name)"
             >下载</el-button
@@ -101,6 +102,7 @@
           <el-button
             v-auth="'system:attachment:delete'"
             type="danger"
+            icon="delete"
             text
             @click="handleDeleteBatch(scope.row.id)"
             >删除</el-button

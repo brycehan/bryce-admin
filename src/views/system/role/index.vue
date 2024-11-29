@@ -56,14 +56,14 @@
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="300">
         <template #default="scope">
-          <el-button v-auth="'system:role:update'" type="primary" text @click="handleAddOrEdit(scope.row.id)"
+          <el-button v-auth="'system:role:update'" type="primary" icon="edit" text @click="handleAddOrEdit(scope.row.id)"
             >修改
           </el-button>
-          <el-button v-auth="'system:role:delete'" type="danger" text @click="handleDeleteBatch(scope.row.id)"
+          <el-button v-auth="'system:role:delete'" type="danger" icon="delete" text @click="handleDeleteBatch(scope.row.id)"
             >删除
           </el-button>
           <el-dropdown v-auth="'system:role:update'" @command="(command: string) => handleCommand(command, scope.row)">
-            <el-button type="success" class="btn-more-link" text>更多</el-button>
+            <el-button type="success" icon="d-arrow-right" class="btn-more-link" text>更多</el-button>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item command="dataScope">数据权限</el-dropdown-item>

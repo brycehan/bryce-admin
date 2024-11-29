@@ -61,11 +61,12 @@
       <el-table-column label="链接" prop="url" header-align="center" align="center" />
       <el-table-column label="小程序信息" prop="miniProgram" header-align="center" align="center" />
       <dict-table-column label="是否有效" prop="status" dict-type="sys_status" />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="180">
         <template #default="scope">
           <el-button
             v-auth="'mp:messageTemplate:update'"
             type="primary"
+            icon="edit"
             text
             @click="handleAddOrEdit(scope.row.id)"
             >编辑</el-button
@@ -73,6 +74,7 @@
           <el-button
             v-auth="'mp:messageTemplate:delete'"
             type="danger"
+            icon="delete"
             text
             @click="handleDeleteBatch(scope.row.id)"
             >删除</el-button

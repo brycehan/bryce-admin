@@ -51,11 +51,12 @@
       />
       <dict-table-column label="状态" prop="status" dict-type="sys_status" width="80" />
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="180">
         <template #default="scope">
           <el-button
             v-auth="'system:dictData:update'"
             type="primary"
+            icon="edit"
             text
             @click="handleAddOrEdit(scope.row.id)"
             >修改</el-button
@@ -63,6 +64,7 @@
           <el-button
             v-auth="'system:dictData:delete'"
             type="danger"
+            icon="delete"
             text
             @click="handleDeleteBatch(scope.row.id)"
             >删除</el-button

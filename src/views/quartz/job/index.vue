@@ -77,11 +77,12 @@
         align="center"
         width="160"
       />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="210">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="250">
         <template #default="scope">
           <el-button
             v-auth="'quartz:job:update'"
             type="primary"
+            icon="edit"
             text
             @click="handleAddOrEdit(scope.row.id)"
             >编辑</el-button
@@ -90,6 +91,7 @@
             v-if="!scope.row.status"
             v-auth="'quartz:job:update'"
             type="info"
+            icon="right"
             text
             @click="handleChangeStatus(scope.row, true)"
             >恢复</el-button
@@ -98,16 +100,18 @@
             v-if="scope.row.status"
             v-auth="'quartz:job:update'"
             type="warning"
+            icon="back"
             text
             @click="handleChangeStatus(scope.row, false)"
             >暂停</el-button
           >
-          <el-button v-auth="'quartz:job:run'" type="success" text @click="handleRun(scope.row)"
+          <el-button v-auth="'quartz:job:run'" type="success" icon="caretRight" text @click="handleRun(scope.row)"
             >执行</el-button
           >
           <el-button
             v-auth="'quartz:job:delete'"
             type="danger"
+            icon="delete"
             text
             @click="handleDeleteBatch(scope.row.id)"
             >删除</el-button

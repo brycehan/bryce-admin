@@ -48,7 +48,6 @@ const props = defineProps({
   // 显隐列信息
   columns: {
     type: Array as PropType<any[]>,
-    default: () => [] as any[]
   },
   // 显隐列类型（checkbox：复选框，transfer：穿梭框）
   showColumnType: {

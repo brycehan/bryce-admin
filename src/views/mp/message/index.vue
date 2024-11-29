@@ -47,11 +47,12 @@
         align="center"
         width="160"
       />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="180">
         <template #default="scope">
           <el-button
             v-auth="'mp:message:update'"
             type="primary"
+            icon="edit"
             text
             @click="handleAddOrEdit(scope.row.id)"
             >编辑</el-button
@@ -59,6 +60,7 @@
           <el-button
             v-auth="'mp:message:delete'"
             type="danger"
+            icon="delete"
             text
             @click="handleDeleteBatch(scope.row.id)"
             >删除</el-button

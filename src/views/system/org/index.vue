@@ -35,6 +35,7 @@
           全部收起 <el-icon class="ml-1"> <arrow-up /></el-icon>
         </template>
       </el-button>
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getList" />
     </el-row>
     <el-table
       v-if="refreshTable"
@@ -49,11 +50,12 @@
       <el-table-column label="排序" prop="sort" header-align="center" align="center" />
       <dict-table-column label="状态" prop="status" dict-type="sys_status" width="80" />
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="180">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="250">
         <template #default="scope">
           <el-button
             v-auth="'system:org:update'"
             type="primary"
+            icon="plus"
             text
             @click="handleAddOrEdit(scope.row, true)"
             >新增</el-button
@@ -61,6 +63,7 @@
           <el-button
             v-auth="'system:org:update'"
             type="primary"
+            icon="edit"
             text
             @click="handleAddOrEdit(scope.row, false)"
             >修改</el-button
@@ -68,6 +71,7 @@
           <el-button
             v-auth="'system:org:delete'"
             type="danger"
+            icon="delete"
             text
             @click="handleDeleteBatch(scope.row.id)"
             >删除</el-button
@@ -104,10 +108,13 @@ const state: StateOptions = reactive({
 
 const queryFormRef = ref()
 const addOrEditRef = ref()
-// 是否展开，默认全部折叠
-const isExpandAll = ref(false)
+// 是否展开，默认全部展开
+const isExpandAll = ref(true)
 // 是否重新渲染表格状态
 const refreshTable = ref(true)
+
+// 显示搜索条件
+const showSearch = ref(true)
 
 onMounted(() => {
   getList()

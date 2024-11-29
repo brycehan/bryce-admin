@@ -76,11 +76,12 @@
       <dict-table-column label="状态" prop="status" dict-type="sys_status" width="80" />
       <el-table-column label="备注" prop="remark" header-align="center" align="center" />
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="200">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="250">
         <template #default="scope">
           <el-button
             v-auth="'system:dictData:page'"
             type="primary"
+            icon="setting"
             text
             @click="handleShowDictData(scope.row)"
             >字典配置</el-button
@@ -88,6 +89,7 @@
           <el-button
             v-auth="'system:dictType:update'"
             type="primary"
+            icon="edit"
             text
             @click="handleAddOrEdit(scope.row.id)"
             >修改</el-button
@@ -95,6 +97,7 @@
           <el-button
             v-auth="'system:dictType:delete'"
             type="danger"
+            icon="delete"
             text
             @click="handleDeleteBatch(scope.row.id)"
             >删除</el-button

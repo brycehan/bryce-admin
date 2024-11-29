@@ -75,11 +75,12 @@
         align="center"
         width="160"
       />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="60">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="100">
         <template #default="scope">
           <el-button
             v-auth="'quartz:jobLog:info'"
             type="info"
+            icon="view"
             text
             @click="handleInfo(scope.row.id)"
             >详情</el-button
