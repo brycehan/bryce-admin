@@ -4,6 +4,7 @@
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
+      v-show="showSearch"
       label-width="68px"
       @keyup.enter="getList()"
       @submit.prevent
@@ -36,6 +37,7 @@
           全部收起 <el-icon class="ml-1"> <arrow-up /></el-icon>
         </template>
       </el-button>
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getList" />
     </el-row>
     <el-table
       v-if="refreshTable"
@@ -153,6 +155,9 @@ const addOrEditRef = ref()
 const isExpandAll = ref(false)
 // 是否重新渲染表格状态
 const refreshTable = ref(true)
+
+// 显示搜索条件
+const showSearch = ref(true)
 
 onMounted(() => {
   getList()

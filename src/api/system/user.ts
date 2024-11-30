@@ -92,7 +92,7 @@ export const getImportTemplateApi = () => {
  *
  * @param data 导出参数
  */
-export const postDownloadExcelApi = (data: any) => {
+export const postExportExcelApi = (data: any) => {
   download.post('/system/user/export', data)
 }
 

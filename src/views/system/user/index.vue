@@ -144,7 +144,7 @@
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import ImportData from '@/views/system/user/import-data.vue'
-import { postPageApi, deleteByIdsApi, postDownloadExcelApi, patchStatusApi } from '@/api/system/user'
+import { postPageApi, deleteByIdsApi, postExportExcelApi, patchStatusApi } from '@/api/system/user'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import OrgTree from '@/views/system/user/org-tree.vue'
@@ -157,7 +157,7 @@ const state: StateOptions = reactive({
   api: {
     postPageApi,
     deleteByIdsApi,
-    postExportExcelApi: postDownloadExcelApi
+    postExportExcelApi
   },
   queryForm: {
     username: '',

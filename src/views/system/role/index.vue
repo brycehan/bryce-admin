@@ -4,6 +4,7 @@
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
+      v-show="showSearch"
       label-width="68px"
       @keyup.enter="getPage()"
       @submit.prevent
@@ -39,6 +40,8 @@
       <el-button v-auth="'system:role:delete'" type="danger" icon="Delete" @click="handleDeleteBatch()"
         >批量删除
       </el-button>
+      <el-button v-auth="'system:role:export'" type="success" icon="Download" @click="handleDownloadExcel()">导出</el-button>
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -98,7 +101,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
-import { postPageApi, deleteByIdsApi } from '@/api/system/role'
+import { postPageApi, deleteByIdsApi, postExportExcelApi } from '@/api/system/role'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import DataScope from '@/views/system/role/data-scope.vue'
@@ -107,7 +110,8 @@ import User from '@/views/system/role/user.vue'
 const state: StateOptions = reactive({
   api: {
     postPageApi,
-    deleteByIdsApi
+    deleteByIdsApi,
+    postExportExcelApi
   },
   queryForm: {
     name: '',
@@ -125,6 +129,9 @@ const queryFormRef = ref()
 const addOrEditRef = ref()
 const dataScopeRef = ref()
 
+// 显示搜索条件
+const showSearch = ref(true)
+
 const userVisible = ref(false)
 const userTitle = ref()
 const roleId = ref()
@@ -133,7 +140,7 @@ onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleSortChange } =
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleSortChange, handleDownloadExcel } =
   crud(state)
 
 /** 重置按钮操作 */

@@ -4,6 +4,7 @@
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
+      v-show="showSearch"
       @keyup.enter="getList()"
       @submit.prevent
     >
@@ -50,9 +51,10 @@
       <el-table-column label="排序" prop="sort" header-align="center" align="center" />
       <dict-table-column label="状态" prop="status" dict-type="sys_status" width="80" />
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="250">
+      <el-table-column label="操作" fixed="right" header-align="center" width="240">
         <template #default="scope">
           <el-button
+            v-if="scope.row.parentId != 0"
             v-auth="'system:org:update'"
             type="primary"
             icon="plus"

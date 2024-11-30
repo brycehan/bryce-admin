@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import download from '@/utils/download'
 
 /**
  * 保存系统角色
@@ -38,6 +39,15 @@ export const getByIdApi = (id: bigint) => {
  */
 export const postPageApi = (data: any) => {
   return request.post('/system/role/page', data)
+}
+
+/**
+ * 导出系统角色
+ *
+ * @param data 导出参数
+ */
+export const postExportExcelApi = (data: any) => {
+  download.post('/system/role/export', data)
 }
 
 /**

@@ -4,6 +4,7 @@
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
+      v-show="showSearch"
       label-width="68px"
       @keyup.enter="getPage()"
       @submit.prevent
@@ -39,6 +40,8 @@
         @click="handleDeleteBatch()"
         >批量删除</el-button
       >
+      <el-button v-auth="'system:user:export'" type="success" icon="Download" @click="handleDownloadExcel()">导出</el-button>
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -52,7 +55,7 @@
       <el-table-column label="岗位名称" prop="name" header-align="center" align="center" />
       <el-table-column label="岗位编码" prop="code" sortable="custom" header-align="center" align="center" />
       <el-table-column
-        label="显示顺序"
+        label="岗位排序"
         prop="sort"
         sortable="custom"
         header-align="center"
@@ -99,14 +102,15 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
-import { postPageApi, deleteByIdsApi } from '@/api/system/post'
+import { postPageApi, deleteByIdsApi, postExportExcelApi } from '@/api/system/post'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 
 const state: StateOptions = reactive({
   api: {
     postPageApi,
-    deleteByIdsApi
+    deleteByIdsApi,
+    postExportExcelApi
   },
   queryForm: {
     name: '',
@@ -118,11 +122,14 @@ const state: StateOptions = reactive({
 const queryFormRef = ref()
 const addOrEditRef = ref()
 
+// 显示搜索条件
+const showSearch = ref(true)
+
 onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleSortChange } =
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleSortChange, handleDownloadExcel } =
   crud(state)
 
 /**

@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import download from '@/utils/download'
 
 /**
  * 保存quartz定时任务调度
@@ -38,6 +39,15 @@ export const getByIdApi = (id: bigint) => {
  */
 export const postPageApi = (data: any) => {
   return request.post('/quartz/job/page', data)
+}
+
+/**
+ * 导出定时任务
+ *
+ * @param data 导出参数
+ */
+export const postExportExcelApi = (data: any) => {
+  download.post('/quartz/job/export', data)
 }
 
 /**
