@@ -108,7 +108,7 @@
             icon="edit"
             text
             @click="handleAddOrEdit(scope.row.id)"
-            >编辑</el-button
+            >修改</el-button
           >
           <el-button
             v-auth="'system:menu:delete'"
