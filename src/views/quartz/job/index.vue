@@ -45,6 +45,7 @@
         >批量删除</el-button
       >
       <el-button v-auth="'quartz:job:export'" type="success" icon="Download" @click="handleDownloadExcel()">导出</el-button>
+      <el-button v-auth="'quartz:jobLog:page'" type="info" icon="operation" @click="handleJobLog()">日志</el-button>
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
@@ -108,9 +109,23 @@
             @click="handleDeleteBatch(scope.row.id)"
             >删除</el-button
           >
-          <el-button v-auth="'quartz:job:run'" type="success" icon="caretRight" text @click="handleRun(scope.row)"
-            >执行一次</el-button
-          >
+          <el-dropdown
+                  v-auth="['quartz:job:run', 'quartz:job:info', 'quartz:jobLog:page']"
+                  @command="(command: string) => handleCommand(command, scope.row)"
+                >
+                  <el-button type="success" class="btn-more-link" icon="d-arrow-right" text>更多</el-button>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item v-if="auth('quartz:job:run')" command="runOnce" icon="caretRight"
+                        >执行一次</el-dropdown-item
+                      >
+                      <el-dropdown-item v-if="auth('quartz:job:info')" command="view" icon="view"
+                        >任务详情</el-dropdown-item>
+                      <el-dropdown-item v-if="auth('quartz:jobLog:page')" command="jobLog" icon="operation"
+                        >调度日志</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
         </template>
       </el-table-column>
     </el-table>
@@ -126,6 +141,8 @@
 
     <!-- 弹窗，新增 / 修改 -->
     <AddOrEdit ref="addOrEditRef" @refresh-page="getPage" />
+    <!-- 弹窗，详情 -->
+    <Info ref="infoRef" />
   </el-card>
 </template>
 
@@ -136,6 +153,9 @@ import { postPageApi, deleteByIdsApi, putRunApi, putStatusApi, postExportExcelAp
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { useRouter } from 'vue-router'
+import { auth } from '@/utils/tool'
+import Info from '@/views/quartz/job/info.vue'
 
 const state: StateOptions = reactive({
   api: {
@@ -152,6 +172,7 @@ const state: StateOptions = reactive({
 
 const queryFormRef = ref()
 const addOrEditRef = ref()
+const infoRef = ref()
 
 // 显示搜索条件
 const showSearch = ref(true)
@@ -186,13 +207,13 @@ const handleAddOrEdit = (id?: bigint) => {
  *
  * @param row 任务数据行
  */
-const handleRun = (row: any) => {
-  ElMessageBox.confirm('确定进行立即执行操作？', '提示', {
+const handleRunOnce = (row: any) => {
+  ElMessageBox.confirm(`确定要立即执行一次“${row.jobName}”任务吗？`, '系统提示', {
     type: 'warning'
   })
     .then(() => {
       putRunApi(row).then(() => {
-        ElMessage.success('操作成功')
+        ElMessage.success('执行成功')
       })
     })
     .catch(() => {})
@@ -216,5 +237,41 @@ const handleChangeStatus = (row: any) => {
     .catch(() => {
       row.status = row.status === 1 ? 0 : 1
     })
+}
+
+const handleCommand = (command: string, row: any) => {
+  switch (command) {
+    case 'runOnce':
+      handleRunOnce(row)
+      break
+    case 'view':
+      handleView(row)
+      break
+    case 'jobLog':
+      handleJobLog(row)
+      break
+    default:
+      break
+  }
+}
+
+const router = useRouter()
+
+const handleJobLog = (row?: any) => {
+  if (row) {
+    const query = { jobName: row.jobName }
+    router.push({path: '/quartz/jobLog/index', query})
+  } else {
+    router.push({path: '/quartz/jobLog/index'})
+  }
+}
+
+/**
+ * 详情弹窗
+ *
+ * @param row 任务数据行
+ */
+const handleView = (row: any) => {
+  infoRef.value.init(row.id)
 }
 </script>

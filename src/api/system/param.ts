@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import download from '@/utils/download'
 
 /**
  * 保存系统参数
@@ -33,10 +34,20 @@ export const getByIdApi = (id: bigint) => {
 
 /**
  * 系统参数分页查询
+ *
  * @param data 分页参数
  */
 export const postPageApi = (data: any) => {
   return request.post('/system/param/page', data)
+}
+
+/**
+ * 导出系统参数
+ *
+ * @param data 导出参数
+ */
+export const postExportExcelApi = (data: any) => {
+  download.post('/system/param/export', data)
 }
 
 /**

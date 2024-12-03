@@ -311,25 +311,3 @@ const handleAssignRole = (row: any) => {
 }
 
 </script>
-
-<style scoped lang="scss">
-.btn-more-link {
-  display: flex;
-  line-height: normal;
-  margin-left: 12px;
-}
-
-/*
- * 表格操作 dropdown 样式
- */
-.el-table td.el-table__cell div .el-dropdown {
-  height: 12px;
-  line-height: 10px;
-  border-radius: 0;
-
-  padding-left: 0;
-  margin-left: 0;
-  border-left: 1px solid #e4e7ec;
-  top: 7px;
-}
-</style>

@@ -4,6 +4,7 @@
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
+      v-show="showSearch"
       label-width="68px"
       @keyup.enter="getPage()"
       @submit.prevent
@@ -54,6 +55,9 @@
         @click="handleDeleteBatch()"
         >批量删除</el-button
       >
+      <el-button v-auth="'quartz:job:delete'" type="danger" plain icon="Delete" @click="handleCleanLog">清空</el-button>
+      <el-button v-auth="'quartz:job:export'" type="success" icon="Download" @click="handleDownloadExcel()">导出</el-button>
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -97,9 +101,10 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { postPageApi, deleteByIdsApi, postExportExcelApi } from '@/api/system/loginLog'
+import { postPageApi, deleteByIdsApi, postExportExcelApi, deleteCleanApi } from '@/api/system/loginLog'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 const state: StateOptions = reactive({
   api: {
@@ -118,6 +123,8 @@ const state: StateOptions = reactive({
 })
 
 const queryFormRef = ref()
+// 显示搜索条件
+const showSearch = ref(true)
 
 onMounted(() => {
   getPage()
@@ -132,7 +139,9 @@ const {
   handleDownloadExcel
 } = crud(state)
 
-/** 重置按钮操作 */
+/**
+ * 重置按钮操作
+ */
 const handleResetQuery = () => {
   for (const key in state.range) {
     state.range[key] = []
@@ -143,5 +152,21 @@ const handleResetQuery = () => {
   }
 
   getPage()
+}
+
+/**
+ * 清空按钮操作
+ */
+const handleCleanLog = () => {
+  ElMessageBox.confirm('是否确认清空所有登录日志数据？', '系统提示', {
+    type: 'warning'
+  })
+    .then(() => {
+      deleteCleanApi().then(() => {
+        ElMessage.success('清空成功')
+        getPage()
+      })
+    })
+    .catch(() => {})
 }
 </script>

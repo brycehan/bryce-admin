@@ -4,6 +4,7 @@
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
+      v-show="showSearch"
       label-width="68px"
       @keyup.enter="getPage()"
       @submit.prevent
@@ -53,6 +54,13 @@
         @click="handleDeleteBatch()"
         >批量删除</el-button
       >
+      <el-button
+        v-auth="'system:dictType:export'"
+        type="success"
+        icon="Download"
+        @click="handleDownloadExcel()"
+      >导出</el-button>
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -120,7 +128,7 @@
 
     <!-- 字典配置 -->
     <el-drawer v-if="dataVisible" v-model="dataVisible" :title="dataTitle" :size="1000">
-      <Data :dict-type-id="dictTypeId"></Data>
+      <Data :dict-type-id="dictTypeId"  value=""/>
     </el-drawer>
   </el-card>
 </template>
@@ -129,14 +137,15 @@
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import Data from '@/views/system/dict/data.vue'
-import { postPageApi, deleteByIdsApi } from '@/api/system/dictType'
+import { postPageApi, deleteByIdsApi,postExportExcelApi } from '@/api/system/dictType'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 
 const state: StateOptions = reactive({
   api: {
     postPageApi,
-    deleteByIdsApi
+    deleteByIdsApi,
+    postExportExcelApi,
   },
   queryForm: {
     dictName: '',
@@ -155,11 +164,14 @@ const dataVisible = ref(false)
 const dataTitle = ref()
 const dictTypeId = ref()
 
+// 显示搜索条件
+const showSearch = ref(true)
+
 onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleSortChange } =
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleSortChange, handleDownloadExcel } =
   crud(state)
 
 /** 重置按钮操作 */

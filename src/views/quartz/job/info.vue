@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="state.visible" title="定时任务日志详情" :close-on-click-modal="false">
+  <el-dialog v-model="state.visible" title="定时任务详情" :close-on-click-modal="false">
     <el-form ref="dataFormRef" :model="state.dataForm" label-width="100px" class="mr-4">
       <el-row>
         <el-col :span="12">
@@ -39,23 +39,27 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="执行时间：">
-            {{ state.dataForm.createdTime }}
+          <el-form-item label="cron 表达式：">
+            {{ state.dataForm.cronExpression }}
           </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item label="执行时长："> {{ state.dataForm.duration }}毫秒 </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="执行状态：">
-            {{ state.dataForm.executeStatus ? '成功' : '失败' }}
+        <el-col :span="12">
+          <el-form-item label="状态：">
+            {{ state.dataForm.status ? '恢复' : '暂停' }}
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-form-item label="错误信息：">
-          {{ state.dataForm.errorInfo == '' ? '无' : state.dataForm.errorInfo }}
-        </el-form-item>
+        <el-col :span="12">
+          <el-form-item label="是否并发：">
+            {{ state.dataForm.concurrent === 1 ? '是' : '否' }}
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="创建时间：">
+            {{ state.dataForm.createdTime }}
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
     <template #footer>
@@ -66,7 +70,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { getByIdApi } from '@/api/quartz/jobLog'
+import { getByIdApi } from '@/api/quartz/job'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 
@@ -82,8 +86,9 @@ const state: StateOptions = reactive({
     beanName: '',
     method: '',
     params: '',
-    errorInfo: '',
-    duration: '',
+    cronExpression: '',
+    status: '',
+    concurrent: '',
     createdTime: ''
   }
 })
@@ -95,7 +100,7 @@ const { getData } = crud(state)
 /**
  * 初始化详情数据
  *
- * @param id 日志编号
+ * @param id 定时任务id
  */
 const init = (id: bigint) => {
   state.visible = true
@@ -106,3 +111,9 @@ defineExpose({
   init
 })
 </script>
+
+<style scoped lang="scss">
+.param-content {
+  word-break: break-word;
+}
+</style>

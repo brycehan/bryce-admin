@@ -1,5 +1,23 @@
 <template>
   <el-card shadow="never">
+    <el-form
+          ref="queryFormRef"
+          :model="state.queryForm"
+          :inline="true"
+          @keyup.enter="getPage()"
+          @submit.prevent
+        >
+          <el-form-item label="账号" label-width="40px" prop="username">
+            <el-input v-model="state.queryForm.username" placeholder="请输入账号" clearable/>
+          </el-form-item>
+      <el-form-item label="登录IP" label-width="60px" prop="loginIp">
+        <el-input v-model="state.queryForm.loginIp" placeholder="请输入登录IP" clearable/>
+      </el-form-item>
+          <el-form-item>
+            <el-button type="primary" icon="Search" @click="getPage()">搜索</el-button>
+            <el-button icon="Refresh" @click="handleResetQuery()">重置</el-button>
+          </el-form-item>
+        </el-form>
     <el-table
       v-loading="state.loading"
       :data="state.data"
@@ -68,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { postPageApi, deleteOnlineUserApi } from '@/api/monitor/onlineUser'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -80,22 +98,32 @@ const state: StateOptions = reactive({
   },
   queryForm: {
     username: '',
-    gender: '',
-    type: '',
-    phone: '',
-    orgId: '',
-    status: ''
+    loginIp: ''
   },
-  range: {
-    createdTime: ''
-  }
 })
+
+const queryFormRef = ref()
 
 onMounted(() => {
   getPage()
 })
 
 const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange } = crud(state)
+
+/**
+ * 重置按钮操作
+ */
+const handleResetQuery = () => {
+  for (const key in state.range) {
+    state.range[key] = []
+  }
+
+  if (queryFormRef.value) {
+    queryFormRef.value.resetFields()
+  }
+
+  getPage()
+}
 
 const handleForceQuit = (userKey: string) => {
   ElMessageBox.confirm('确定踢出该用户？', '提示', {

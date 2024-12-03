@@ -58,7 +58,7 @@
             <span class="ml-1">JVM信息</span>
           </template>
           <el-descriptions-item label="名称" width="100">{{ data.jvm.name }}</el-descriptions-item>
-          <el-descriptions-item label="版本" width="100">{{
+          <el-descriptions-item label="Java版本" width="100">{{
             data.jvm.version
           }}</el-descriptions-item>
           <el-descriptions-item label="厂商">{{ data.jvm.vendor }}</el-descriptions-item>
@@ -67,10 +67,10 @@
           <el-descriptions-item label="已用内存">{{ data.jvm.used }}</el-descriptions-item>
           <el-descriptions-item label="空闲内存">{{ data.jvm.free }}</el-descriptions-item>
           <el-descriptions-item label="内存使用率">{{ data.jvm.usage }}</el-descriptions-item>
-          <el-descriptions-item label="JVM 路径">{{ data.jvm.home }}</el-descriptions-item>
-          <el-descriptions-item label="Jar 路径">{{ data.jvm.userDir }}</el-descriptions-item>
+          <el-descriptions-item label="安装路径">{{ data.jvm.home }}</el-descriptions-item>
+          <el-descriptions-item label="项目路径">{{ data.jvm.userDir }}</el-descriptions-item>
           <el-descriptions-item label="启动时间">{{ data.jvm.startedTime }}</el-descriptions-item>
-          <el-descriptions-item label="运行时间">{{ data.jvm.runTime }}</el-descriptions-item>
+          <el-descriptions-item label="运行时长">{{ data.jvm.runTime }}</el-descriptions-item>
           <el-descriptions-item label="运行参数">{{
             data.jvm.inputArguments
           }}</el-descriptions-item>
@@ -103,6 +103,7 @@
 import { onMounted, reactive } from 'vue'
 import { getServerInfoApi } from '@/api/monitor/server'
 import { CoffeeCup, Cpu, MessageBox, Monitor, Tickets } from '@element-plus/icons-vue'
+import modal from '@/utils/modal'
 
 const data = reactive({
   cpu: {
@@ -148,8 +149,10 @@ onMounted(() => {
 })
 
 const getServerInfo = () => {
+  const loading = modal.loading('正在加载服务监控数据，请稍候！')
   getServerInfoApi().then((res: any) => {
     Object.assign(data, res.data)
+    modal.closeLoading(loading)
   })
 }
 </script>

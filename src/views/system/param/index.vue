@@ -4,6 +4,7 @@
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
+      v-show="showSearch"
       label-width="68px"
       @keyup.enter="getPage()"
       @submit.prevent
@@ -50,6 +51,15 @@
         @click="handleDeleteBatch()"
         >批量删除</el-button
       >
+      <el-button
+        v-auth="'system:param:export'"
+        type="success"
+        icon="Download"
+        @click="handleDownloadExcel()"
+      >
+        导出
+      </el-button>
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -128,14 +138,15 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
-import { postPageApi, deleteByIdsApi } from '@/api/system/param'
+import { postPageApi, deleteByIdsApi, postExportExcelApi } from '@/api/system/param'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 
 const state: StateOptions = reactive({
   api: {
     postPageApi,
-    deleteByIdsApi
+    deleteByIdsApi,
+    postExportExcelApi
   },
   queryForm: {
     paramName: '',
@@ -160,15 +171,19 @@ const state: StateOptions = reactive({
 
 const queryFormRef = ref()
 const addOrEditRef = ref()
+// 显示搜索条件
+const showSearch = ref(true)
 
 onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } =
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleDownloadExcel } =
   crud(state)
 
-/** 重置按钮操作 */
+/**
+ * 重置按钮操作
+ */
 const handleResetQuery = () => {
   for (const key in state.range) {
     state.range[key] = []
@@ -181,7 +196,11 @@ const handleResetQuery = () => {
   getPage()
 }
 
-/** 新增/修改 弹窗 */
+/**
+ * 新增/修改 弹窗
+ *
+ * @param id 参数ID
+ */
 const handleAddOrEdit = (id?: bigint) => {
   addOrEditRef.value.init(id)
 }

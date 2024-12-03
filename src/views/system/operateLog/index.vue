@@ -4,6 +4,7 @@
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
+      v-show="showSearch"
       label-width="68px"
       @keyup.enter="getPage()"
       @submit.prevent
@@ -15,12 +16,7 @@
         <el-input v-model="state.queryForm.requestUri" placeholder="请输入请求URI" clearable />
       </el-form-item>
       <el-form-item label="操作状态" prop="status">
-        <dict-select
-          v-model="state.queryForm.status"
-          dict-type="sys_status"
-          placeholder="操作状态"
-          clearable
-        />
+        <dict-select v-model="state.queryForm.status" dict-type="sys_status" placeholder="操作状态" clearable />
       </el-form-item>
       <el-form-item label="操作账号" prop="username">
         <el-input v-model="state.queryForm.username" placeholder="请输入操作账号" clearable />
@@ -43,16 +39,15 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'system:operateLog:save'" type="primary" icon="Plus" @click="handleInfo()"
-        >新增</el-button
-      >
-      <el-button
-        v-auth="'system:operateLog:delete'"
-        type="danger"
-        icon="Delete"
-        @click="handleDeleteBatch()"
+      <el-button v-auth="'system:operateLog:save'" type="primary" icon="Plus" @click="handleInfo()">新增</el-button>
+      <el-button v-auth="'system:operateLog:delete'" type="danger" icon="Delete" @click="handleDeleteBatch()"
         >批量删除</el-button
       >
+      <el-button v-auth="'quartz:job:delete'" type="danger" plain icon="Delete" @click="handleCleanLog">清空</el-button>
+      <el-button v-auth="'quartz:job:export'" type="success" icon="Download" @click="handleDownloadExcel()"
+        >导出</el-button
+      >
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -63,20 +58,8 @@
       @sort-change="handleSortChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column
-        label="模块名称"
-        prop="moduleName"
-        show-overflow-tooltip
-        header-align="center"
-        align="center"
-      />
-      <el-table-column
-        label="请求URI"
-        prop="requestUri"
-        show-overflow-tooltip
-        header-align="center"
-        align="center"
-      />
+      <el-table-column label="模块名称" prop="moduleName" show-overflow-tooltip header-align="center" align="center" />
+      <el-table-column label="请求URI" prop="requestUri" show-overflow-tooltip header-align="center" align="center" />
       <el-table-column label="请求方法" prop="requestMethod" header-align="center" align="center" />
       <dict-table-column
         label="操作类型"
@@ -86,22 +69,10 @@
         align="center"
       />
       <dict-table-column label="操作状态" prop="status" dict-type="sys_status" />
-      <el-table-column
-        label="操作IP"
-        prop="ip"
-        show-overflow-tooltip
-        header-align="center"
-        align="center"
-      />
+      <el-table-column label="操作IP" prop="ip" show-overflow-tooltip header-align="center" align="center" />
       <el-table-column label="操作地点" prop="location" header-align="center" align="center" />
       <el-table-column label="操作账号" prop="username" sortable="custom" header-align="center" align="center" />
-      <el-table-column
-        label="操作时间"
-        prop="operatedTime"
-        header-align="center"
-        align="center"
-        width="160"
-      />
+      <el-table-column label="操作时间" prop="operatedTime" header-align="center" align="center" width="160" />
       <el-table-column label="执行时长" prop="duration" header-align="center" align="center">
         <template #default="scope"> {{ scope.row.duration }}毫秒 </template>
       </el-table-column>
@@ -136,14 +107,16 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import Info from './info.vue'
-import { postPageApi, deleteByIdsApi } from '@/api/system/operateLog'
+import { deleteByIdsApi, deleteCleanApi, postExportExcelApi, postPageApi } from '@/api/system/operateLog'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 const state: StateOptions = reactive({
   api: {
     postPageApi,
-    deleteByIdsApi
+    deleteByIdsApi,
+    postExportExcelApi
   },
   queryForm: {
     name: '',
@@ -161,13 +134,22 @@ const state: StateOptions = reactive({
 
 const queryFormRef = ref()
 const infoRef = ref()
+// 显示搜索条件
+const showSearch = ref(true)
 
 onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleSortChange } =
-  crud(state)
+const {
+  getPage,
+  handleSizeChange,
+  handleCurrentChange,
+  handleDeleteBatch,
+  handleSelectionChange,
+  handleSortChange,
+  handleDownloadExcel
+} = crud(state)
 
 /** 重置按钮操作 */
 const handleResetQuery = () => {
@@ -185,5 +167,21 @@ const handleResetQuery = () => {
 /** 详情弹窗 */
 const handleInfo = (id?: bigint) => {
   infoRef.value.init(id)
+}
+
+/**
+ * 清空按钮操作
+ */
+const handleCleanLog = () => {
+  ElMessageBox.confirm('是否确认清空所有操作日志数据？', '系统提示', {
+    type: 'warning'
+  })
+    .then(() => {
+      deleteCleanApi().then(() => {
+        ElMessage.success('清空成功')
+        getPage()
+      })
+    })
+    .catch(() => {})
 }
 </script>

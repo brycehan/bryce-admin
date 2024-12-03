@@ -4,6 +4,7 @@
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
+      v-show="showSearch"
       label-width="68px"
       @keyup.enter="getPage()"
       @submit.prevent
@@ -41,6 +42,7 @@
         @click="handleDeleteBatch()"
         >批量删除</el-button
       >
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -155,6 +157,8 @@ const state: StateOptions = reactive({
 })
 
 const queryFormRef = ref()
+// 显示搜索条件
+const showSearch = ref(true)
 
 onMounted(() => {
   getPage()

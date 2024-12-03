@@ -29,6 +29,13 @@ export const postPageApi = (data: any) => {
 }
 
 /**
+ * 清空登录日志
+ */
+export const deleteCleanApi = () => {
+  return request.delete('/system/loginLog/clean')
+}
+
+/**
  * 系统登录日志导出
  */
 export const postExportExcelApi = (data: any) => {

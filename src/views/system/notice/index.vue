@@ -4,10 +4,17 @@
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
+      v-show="showSearch"
       label-width="68px"
       @keyup.enter="getPage()"
       @submit.prevent
     >
+      <el-form-item label="标题" prop="title">
+        <el-input v-model="state.queryForm.title" placeholder="请输入标题" clearable />
+      </el-form-item>
+       <el-form-item label="创建者" prop="createdUsername">
+        <el-input v-model="state.queryForm.createdUsername" placeholder="请输入创建者账号" clearable />
+      </el-form-item>
       <el-form-item label="类型" prop="type">
         <dict-select
           v-model="state.queryForm.type"
@@ -40,6 +47,7 @@
         @click="handleDeleteBatch()"
         >批量删除</el-button
       >
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -56,10 +64,10 @@
         header-align="center"
         align="center"
       />
-      <dict-table-column label="类型" prop="type" dict-type="sys_notice_type" />
-      <dict-table-column label="状态" prop="status" dict-type="sys_status" />
-      <el-table-column label="创建者" prop="createdUsername" header-align="center" align="center" />
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
+      <dict-table-column label="类型" prop="type" dict-type="sys_notice_type" width="100"/>
+      <dict-table-column label="状态" prop="status" dict-type="sys_status" width="100"/>
+      <el-table-column label="创建者" prop="createdUsername" header-align="center" align="center" width="150" />
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="200"/>
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="180">
         <template #default="scope">
           <el-button
@@ -121,6 +129,8 @@ const state: StateOptions = reactive({
     deleteByIdsApi
   },
   queryForm: {
+    title: '',
+    createdUsername: '',
     type: '',
     status: ''
   }
@@ -131,6 +141,8 @@ const queryFormRef = ref()
 const addOrEditVisible = ref(false)
 const addOrEditTitle = ref()
 const noticeId = ref()
+// 显示搜索条件
+const showSearch = ref(true)
 
 onMounted(() => {
   getPage()

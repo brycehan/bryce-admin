@@ -4,6 +4,7 @@
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
+      v-show="showSearch"
       label-width="68px"
       @keyup.enter="getPage()"
       @submit.prevent
@@ -32,6 +33,9 @@
         @click="handleDeleteBatch()"
         >批量删除</el-button
       >
+      <el-button v-auth="'quartz:job:delete'" type="danger" plain icon="Delete" @click="handleCleanJobLog">清空</el-button>
+      <el-button v-auth="'quartz:job:export'" type="success" icon="Download" @click="handleDownloadExcel()">导出</el-button>
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading"
@@ -41,7 +45,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="任务ID" prop="jobId" header-align="center" align="center" />
+      <el-table-column label="日志编号" prop="id" header-align="center" align="center" />
       <el-table-column
         label="任务名称"
         prop="jobName"
@@ -105,15 +109,18 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { postPageApi, deleteByIdsApi } from '@/api/quartz/jobLog'
+import { postPageApi, deleteByIdsApi, postExportExcelApi, deleteCleanApi } from '@/api/quartz/jobLog'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import Info from '@/views/quartz/jobLog/info.vue'
+import { useRoute } from 'vue-router'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 const state: StateOptions = reactive({
   api: {
     postPageApi,
-    deleteByIdsApi
+    deleteByIdsApi,
+    postExportExcelApi
   },
   queryForm: {
     jobName: '',
@@ -124,14 +131,22 @@ const state: StateOptions = reactive({
 const queryFormRef = ref()
 const infoRef = ref()
 
+// 显示搜索条件
+const showSearch = ref(true)
+
+const route = useRoute()
+
 onMounted(() => {
+  state.queryForm.jobName = route.query.jobName as string || ''
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } =
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleDownloadExcel } =
   crud(state)
 
-/** 重置按钮操作 */
+/**
+ * 重置按钮操作
+ */
 const handleResetQuery = () => {
   for (const key in state.range) {
     state.range[key] = []
@@ -144,8 +159,28 @@ const handleResetQuery = () => {
   getPage()
 }
 
-/** 详情弹窗 */
-const handleInfo = (id?: bigint) => {
+/**
+ * 详情弹窗
+ *
+ * @param id 日志编号
+ */
+const handleInfo = (id: bigint) => {
   infoRef.value.init(id)
+}
+
+/**
+ * 清空按钮操作
+ */
+const handleCleanJobLog = () => {
+  ElMessageBox.confirm('是否确认清空所有调度日志数据？', '系统提示', {
+    type: 'warning'
+  })
+    .then(() => {
+      deleteCleanApi().then(() => {
+        ElMessage.success('清空成功')
+        getPage()
+      })
+    })
+    .catch(() => {})
 }
 </script>
