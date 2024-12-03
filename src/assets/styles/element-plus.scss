@@ -61,7 +61,25 @@
 }
 
 /*
- * 表格操作按钮
+ * 输入框右侧clearable图标 样式聚焦变宽问题修复
+ */
+.el-input__wrapper {
+  position: relative;
+  .el-input__inner {
+    padding-right: 18px;
+  }
+  .el-input__suffix {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+
+
+/*
+ * 表格操作中的按钮
  */
 .el-table td.el-table__cell div .el-button {
   padding: 0 10px;
@@ -73,6 +91,10 @@
     padding-left: 0;
   }
 }
+
+/*
+ * 表格操作中的相邻按钮（从第二个开始）
+ */
 .el-table td.el-table__cell div .el-button + .el-button {
   margin-left: 0;
   height: 12px;

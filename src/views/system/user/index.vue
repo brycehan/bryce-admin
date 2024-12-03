@@ -1,13 +1,13 @@
 <template>
   <el-row :gutter="10">
     <!-- 部门数据 -->
-    <el-col :span="5" :xs="24">
+    <el-col :span="4" :xs="24">
       <el-card shadow="never">
         <org-tree @node-click="handleOrgClick" />
       </el-card>
     </el-col>
     <!-- 用户数据 -->
-    <el-col :span="19" :xs="24">
+    <el-col :span="20" :xs="24">
       <el-card shadow="never">
         <el-form
           ref="queryFormRef"
@@ -15,16 +15,17 @@
           :inline="true"
           v-show="showSearch"
           label-width="68px"
+          class="query-form"
           @keyup.enter="getPage()"
           @submit.prevent
         >
           <el-form-item label="账号" label-width="40px" prop="username">
-            <el-input v-model="state.queryForm.username" placeholder="请输入账号" />
+            <el-input v-model="state.queryForm.username" placeholder="请输入账号" clearable/>
           </el-form-item>
           <el-form-item label="手机号码" prop="phone">
-            <el-input v-model="state.queryForm.phone" placeholder="请输入手机号码" />
+            <el-input v-model="state.queryForm.phone" placeholder="请输入手机号码" clearable/>
           </el-form-item>
-          <el-form-item label="状态" prop="status">
+          <el-form-item label="状态" label-width="40px" prop="status">
             <dict-select v-model="state.queryForm.status" dict-type="sys_status" placeholder="用户状态" clearable />
           </el-form-item>
           <el-form-item label="创建时间" prop="createdTime">
