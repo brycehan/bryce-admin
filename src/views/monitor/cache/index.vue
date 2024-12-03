@@ -208,6 +208,11 @@ const getCacheInfo = () => {
         }
       ]
     })
+
+    window.addEventListener('resize', function () {
+      commandStatsRef.value.resize()
+      usedMemoryRef.value.resize()
+    })
   })
 }
 </script>

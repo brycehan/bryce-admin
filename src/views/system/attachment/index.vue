@@ -33,14 +33,15 @@
         multiple
         class="el-upload-container"
       >
-        <el-button type="primary" icon="Upload">上传</el-button>
+        <el-button type="primary" plain icon="Upload">上传</el-button>
       </el-upload>
       <el-button
         v-auth="'system:attachment:delete'"
         type="danger"
+        plain
         icon="Delete"
         @click="handleDeleteBatch()"
-        >批量删除</el-button
+        >删除</el-button
       >
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>

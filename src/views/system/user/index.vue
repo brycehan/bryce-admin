@@ -45,10 +45,10 @@
           </el-form-item>
         </el-form>
         <el-row class="mb-2">
-          <el-button v-auth="'system:user:save'" type="primary" icon="Plus" @click="handleAddOrEdit()">新增 </el-button>
-          <el-button v-auth="'system:user:delete'" type="danger" icon="Delete" @click="handleDeleteBatch()">批量删除</el-button>
-          <el-button v-auth="'system:user:import'" type="info" icon="Upload" @click="handleXlsxUpload()">导入</el-button>
-          <el-button v-auth="'system:user:export'" type="success" icon="Download" @click="handleDownloadExcel()">导出</el-button>
+          <el-button v-auth="'system:user:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()">新增 </el-button>
+          <el-button v-auth="'system:user:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch()">删除</el-button>
+          <el-button v-auth="'system:user:import'" type="info" plain icon="Upload" @click="handleXlsxUpload()">导入</el-button>
+          <el-button v-auth="'system:user:export'" type="success" plain icon="Download" @click="handleDownloadExcel()">导出</el-button>
           <right-toolbar v-model:showSearch="showSearch" :columns="columns" @refresh-page="getPage" />
         </el-row>
         <el-table

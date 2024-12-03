@@ -29,12 +29,13 @@
       <el-button
         v-auth="'quartz:jobLog:delete'"
         type="danger"
+        plain
         icon="Delete"
         @click="handleDeleteBatch()"
-        >批量删除</el-button
+        >删除</el-button
       >
-      <el-button v-auth="'quartz:job:delete'" type="danger" plain icon="Delete" @click="handleCleanJobLog">清空</el-button>
-      <el-button v-auth="'quartz:job:export'" type="success" icon="Download" @click="handleDownloadExcel()">导出</el-button>
+      <el-button v-auth="'quartz:jobLog:delete'" type="danger" plain icon="Delete" @click="handleCleanJobLog">清空</el-button>
+      <el-button v-auth="'quartz:jobLog:export'" type="success" plain icon="Download" @click="handleDownloadExcel()">导出</el-button>
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table

@@ -1,6 +1,6 @@
 <template>
   <div class="select-role">
-    <el-button type="primary" icon="plus" @click="handleInit()">新增</el-button>
+    <el-button type="primary" plain icon="Plus" @click="handleInit()">新增</el-button>
     <el-dialog
       v-if="state.visible"
       v-model="state.visible"

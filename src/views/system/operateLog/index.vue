@@ -39,12 +39,12 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'system:operateLog:save'" type="primary" icon="Plus" @click="handleInfo()">新增</el-button>
-      <el-button v-auth="'system:operateLog:delete'" type="danger" icon="Delete" @click="handleDeleteBatch()"
-        >批量删除</el-button
+      <el-button v-auth="'system:operateLog:save'" type="primary" plain icon="Plus" @click="handleInfo()">新增</el-button>
+      <el-button v-auth="'system:operateLog:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch()"
+        >删除</el-button
       >
-      <el-button v-auth="'quartz:job:delete'" type="danger" plain icon="Delete" @click="handleCleanLog">清空</el-button>
-      <el-button v-auth="'quartz:job:export'" type="success" icon="Download" @click="handleDownloadExcel()"
+      <el-button v-auth="'system:operateLog:delete'" type="danger" plain icon="Delete" @click="handleCleanLog">清空</el-button>
+      <el-button v-auth="'system:operateLog:export'" type="success" plain icon="Download" @click="handleDownloadExcel()"
         >导出</el-button
       >
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />

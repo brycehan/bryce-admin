@@ -20,7 +20,7 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <select-user type="primary" icon="Plus" @select="handleUser" class="mr-3"></select-user>
+      <select-user type="primary" plain icon="Plus" @select="handleUser" class="mr-3"></select-user>
       <el-button type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
     </el-row>
     <el-table

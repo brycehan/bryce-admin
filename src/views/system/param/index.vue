@@ -41,19 +41,21 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'system:param:save'" type="primary" icon="Plus" @click="handleAddOrEdit()"
+      <el-button v-auth="'system:param:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
         >新增</el-button
       >
       <el-button
         v-auth="'system:param:delete'"
         type="danger"
+        plain
         icon="Delete"
         @click="handleDeleteBatch()"
-        >批量删除</el-button
+        >删除</el-button
       >
       <el-button
         v-auth="'system:param:export'"
         type="success"
+        plain
         icon="Download"
         @click="handleDownloadExcel()"
       >

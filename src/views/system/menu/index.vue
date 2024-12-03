@@ -26,7 +26,7 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'system:menu:save'" type="primary" icon="Plus" @click="handleAddOrEdit()"
+      <el-button v-auth="'system:menu:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
         >新增</el-button
       >
       <el-button plain @click="toggleExpandAll()">

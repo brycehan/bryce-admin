@@ -43,6 +43,7 @@
       <el-button
         v-auth="'system:dictType:save'"
         type="primary"
+        plain
         icon="Plus"
         @click="handleAddOrEdit()"
         >新增</el-button
@@ -50,13 +51,15 @@
       <el-button
         v-auth="'system:dictType:delete'"
         type="danger"
+        plain
         icon="Delete"
         @click="handleDeleteBatch()"
-        >批量删除</el-button
+        >删除</el-button
       >
       <el-button
         v-auth="'system:dictType:export'"
         type="success"
+        plain
         icon="Download"
         @click="handleDownloadExcel()"
       >导出</el-button>
