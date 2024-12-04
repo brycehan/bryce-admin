@@ -69,8 +69,8 @@
             <el-button type="success" icon="d-arrow-right" class="btn-more-link" text>更多</el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="dataScope">数据权限</el-dropdown-item>
-                <el-dropdown-item command="user">分配用户</el-dropdown-item>
+                <el-dropdown-item command="handleDataScope" icon="CircleCheck">数据权限</el-dropdown-item>
+                <el-dropdown-item command="handleAssignUser" icon="User">分配用户</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -91,9 +91,9 @@
     <AddOrEdit ref="addOrEditRef" @refresh-page="getPage" />
     <!-- 数据权限 -->
     <DataScope ref="dataScopeRef" />
-    <!-- 分配用户 -->
-    <el-drawer v-if="userVisible" v-model="userVisible" :title="userTitle" :size="1000">
-      <User :role-id="roleId" />
+    <!-- 弹窗，分配用户 -->
+    <el-drawer v-if="assignUserVisible" v-model="assignUserVisible" :title="assignUserTitle" :size="1000">
+      <AssignUser :row="assignUserRow" />
     </el-drawer>
   </el-card>
 </template>
@@ -105,7 +105,8 @@ import { postPageApi, deleteByIdsApi, postExportExcelApi } from '@/api/system/ro
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import DataScope from '@/views/system/role/data-scope.vue'
-import User from '@/views/system/role/user.vue'
+import AssignUser from '@/views/system/role/assign-user.vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 const state: StateOptions = reactive({
   api: {
@@ -132,18 +133,22 @@ const dataScopeRef = ref()
 // 显示搜索条件
 const showSearch = ref(true)
 
-const userVisible = ref(false)
-const userTitle = ref()
-const roleId = ref()
+// 分配用户
+const assignUserVisible = ref(false)
+const assignUserTitle = ref('')
+const assignUserRow = ref()
+// const roleId = ref()
 
 onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleSortChange, handleDownloadExcel } =
+const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange, handleSortChange, handleDownloadExcel } =
   crud(state)
 
-/** 重置按钮操作 */
+/**
+ * 重置按钮操作
+ */
 const handleResetQuery = () => {
   for (const key in state.range) {
     state.range[key] = []
@@ -165,35 +170,77 @@ const handleAddOrEdit = (id?: bigint) => {
   addOrEditRef.value.init(id)
 }
 
+/**
+ * 批量删除
+ *
+ * @param row
+ */
+const handleDeleteBatch = (row?: any) => {
+  let data: any[] = []
+  if (row) {
+    data.push(row)
+  } else {
+    data = state.dataSelections as []
+  }
+
+  if (data.length === 0) {
+    ElMessage.warning('请选择删除的记录')
+    return
+  }
+
+  const codeStr = data.map((item: any) => item.code).join(',')
+  const ids = data.map((item: any) => item.id)
+
+  ElMessageBox.confirm(`是否确认删除角色编码为“${codeStr}”的数据项？`, '系统提示', {
+    type: 'warning'
+  })
+    .then(() => {
+      deleteByIdsApi(ids).then(() => {
+        ElMessage.success('删除成功')
+        getPage()
+      })
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+}
+
+/**
+ * 更多弹窗操作
+ *
+ * @param command 命令
+ * @param row 行数据
+ */
 const handleCommand = (command: string, row: any) => {
-  if (command === 'dataScope') {
-    dataScopeRef.value.init(row.id)
-  } else if (command === 'user') {
-    roleId.value = row.id
-    userTitle.value = '分配用户 - ' + row.name
-    userVisible.value = true
+  switch (command) {
+    case 'handleDataScope':
+      handleDataScope(row)
+      break
+    case 'handleAssignUser':
+      handleAssignUser(row)
+      break
+    default:
+      break
   }
 }
-</script>
 
-<style scoped lang="scss">
-.btn-more-link {
-  display: flex;
-  line-height: normal;
-  margin-left: 12px;
-}
-
-/*
- * 表格操作 dropdown 样式
+/**
+ * 分配数据权限
+ *
+ * @param row 当前行数据
  */
-.el-table td.el-table__cell div .el-dropdown {
-  height: 12px;
-  line-height: 10px;
-  border-radius: 0;
-
-  padding-left: 0;
-  margin-left: 0;
-  border-left: 1px solid #e4e7ec;
-  top: 7px;
+const handleDataScope = (row: any) => {
+  dataScopeRef.value.init(row.id)
 }
-</style>
+
+/**
+ * 分配用户
+ *
+ * @param row 当前行数据
+ */
+const handleAssignUser = (row: any) => {
+  assignUserVisible.value = true
+  assignUserTitle.value = `分配用户 - 角色“${row.name}”`
+  assignUserRow.value = row
+}
+</script>

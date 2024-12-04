@@ -138,6 +138,8 @@ import { getListApi as postListApi } from '@/api/system/post'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { emailRegExp, phoneRegExp } from '@/utils/tool'
+import { getValueByParamKeyApi } from '@/api/system/param'
+import constant from '@/utils/constant'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -229,7 +231,10 @@ const dataRules = reactive({
     { required: true, message: '必填项不能为空', trigger: 'blur' },
     { min: 0, max: 255, message: '密码长度不能超过255个字符', trigger: 'blur' }
   ],
-  nickname: [{ min: 0, max: 50, message: '姓名长度不能超过50个字符', trigger: 'blur' }],
+  nickname: [
+    { required: true, message: '必填项不能为空', trigger: 'blur' },
+    { min: 0, max: 50, message: '姓名长度不能超过50个字符', trigger: 'blur' }
+  ],
   gender: [{ min: 0, max: 1, message: '性别长度不能超过1个字符', trigger: 'blur' }],
   phone: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
@@ -259,6 +264,14 @@ const init = (id?: bigint) => {
   // id 存在则为修改
   if (id) {
     getData(id)
+  } else {
+    // 获取初始密码
+    getValueByParamKeyApi(constant.SYSTEM_USER_INIT_PASSWORD).then((res) => {
+      if (!res.data) {
+        return
+      }
+      state.dataForm.password = res.data
+    })
   }
   getOrgList()
   getRoleList()
@@ -279,14 +292,18 @@ const getRoleList = () => {
   })
 }
 
-/** 获取岗位列表 */
+/**
+ * 获取岗位列表
+ */
 const getPostList = () => {
   postListApi().then((response) => {
     postList.value = response.data
   })
 }
 
-/** 表单提交 */
+/**
+ * 表单提交
+ */
 const handleSubmit = () => {
   dataFormRef.value.validate((valid: boolean) => {
     if (!valid) {

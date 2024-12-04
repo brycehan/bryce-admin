@@ -102,12 +102,41 @@ export const postExportExcelApi = (data: any) => {
 export const importUrl = import.meta.env.VITE_API_URL + '/system/user/import'
 
 /**
- * 系统用户分页查询
+ * 系统用户重置密码
  *
  * @param data 分页参数
  */
 export const resetPasswordApi = (data: any) => {
   return request.patch('/system/user/resetPassword', data)
+}
+
+/**
+ * 用户 未分配/分配 的角色分页列表
+ *
+ * @param data 数据
+ */
+export const postAssignRolePageApi = (data: any) => {
+  return request.post('/system/user/assignRole/page', data)
+}
+
+/**
+ * 分配给用户多个角色
+ *
+ * @param userId 用户ID
+ * @param data 角色ID列表
+ */
+export const postAssignRoleSaveApi = (userId: string, data: any) => {
+  return request.post(`/system/user/assignRole/${userId}`, data)
+}
+
+/**
+ * 删除用户的多个角色
+ *
+ * @param userId 用户ID
+ * @param data 角色ID列表
+ */
+export const deleteAssignRoleApi = (userId: string, data: any) => {
+  return request.delete(`/system/user/assignRole/${userId}`, { data: data })
 }
 
 /**

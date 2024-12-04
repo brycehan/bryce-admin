@@ -74,61 +74,32 @@ export const putDataScopeApi = (data: any) => {
 }
 
 /**
- * 角色绑定的用户分页列表
+ * 角色 未分配/分配 的用户分页列表
  *
  * @param data 数据
  */
-export const postUserPageApi = (data: any) => {
-  return request.post('/system/role/user/page', data)
+export const postAssignUserPageApi = (data: any) => {
+  return request.post('/system/role/assignUser/page', data)
 }
 
 /**
- * 角色绑定多个用户
+ * 给多个用户分配角色授权
  *
  * @param roleId 角色ID
- * @param data 用户列表
+ * @param data 用户ID列表
  */
-export const postUsersApi = (roleId: string, data: any) => {
-  return request.post(`/system/role/user/${roleId}`, data)
+export const postAssignUserSaveApi = (roleId: string, data: any) => {
+  return request.post(`/system/role/assignUser/${roleId}`, data)
 }
 
 /**
- * 角色取消绑定多个用户
+ * 取消多个用户的角色授权
  *
  * @param roleId 角色ID
- * @param data 用户列表
+ * @param data 用户ID列表
  */
-export const deleteUsersApi = (roleId: string, data: any) => {
-  return request.delete(`/system/role/user/${roleId}`, { data: data })
-}
-
-/**
- * 用户未分配/分配的角色分页列表
- *
- * @param data 数据
- */
-export const postAssignRolePageApi = (data: any) => {
-  return request.post('/system/role/assignRole/page', data)
-}
-
-/**
- * 分配给用户多个角色
- *
- * @param userId 用户ID
- * @param data 角色ID列表
- */
-export const postAssignRoleSaveApi = (userId: string, data: any) => {
-  return request.post(`/system/role/assignRole/${userId}`, data)
-}
-
-/**
- * 删除用户的多个角色
- *
- * @param userId 用户ID
- * @param data 角色ID列表
- */
-export const deleteAssignRoleApi = (userId: string, data: any) => {
-  return request.delete(`/system/role/assignRole/${userId}`, { data: data })
+export const deleteAssignUserApi = (roleId: string, data: any) => {
+  return request.delete(`/system/role/assignUser/${roleId}`, { data: data })
 }
 
 /**

@@ -103,10 +103,10 @@
                   <el-button type="success" class="btn-more-link" icon="d-arrow-right" text>更多</el-button>
                   <template #dropdown>
                     <el-dropdown-menu>
-                      <el-dropdown-item v-if="auth('system:user:resetPassword')" command="resetPassword" icon="key"
+                      <el-dropdown-item v-if="auth('system:user:resetPassword')" command="handleResetPassword" icon="key"
                         >重置密码</el-dropdown-item
                       >
-                      <el-dropdown-item v-if="auth('system:user:update')" command="assignRole" icon="plus"
+                      <el-dropdown-item v-if="auth('system:user:update')" command="handleAssignRole" icon="plus"
                         >分配角色</el-dropdown-item
                       >
                     </el-dropdown-menu>
@@ -191,6 +191,7 @@ const columns = ref([
 // 显示搜索条件
 const showSearch = ref(true)
 
+// 分配角色
 const assignRoleVisible = ref(false)
 const assignRoleTitle = ref('')
 const assignRoleRow = ref()
@@ -290,10 +291,10 @@ const handleStatusChange = (row: any) => {
 
 const handleCommand = (command: string, row: any) => {
   switch (command) {
-    case 'resetPassword':
+    case 'handleResetPassword':
       handleResetPassword(row)
       break
-    case 'assignRole':
+    case 'handleAssignRole':
       handleAssignRole(row)
       break
     default:
@@ -301,10 +302,20 @@ const handleCommand = (command: string, row: any) => {
   }
 }
 
+/**
+ * 处理重置密码
+ *
+ * @param row 当前行数据
+ */
 const handleResetPassword = (row: any) => {
   resetPasswordRef.value.init(row)
 }
 
+/**
+ * 处理分配角色
+ *
+ * @param row 当前行数据
+ */
 const handleAssignRole = (row: any) => {
   assignRoleVisible.value = true
   assignRoleTitle.value = `分配角色 - 账号“${row.username}”`

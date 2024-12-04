@@ -8,13 +8,13 @@
       v-for="data in dataList"
       :key="data.dictValue"
       :label="data.dictLabel"
-      :value="data.dictValue"
+      :value="convertInteger(data.dictValue)"
     />
   </el-select>
 </template>
 
 <script setup lang="ts">
-import { dictDataList } from '@/utils/tool'
+import { convertInteger, dictDataList } from '@/utils/tool'
 import { useAppStore } from '@/stores/modules/app'
 import { computed } from 'vue'
 
@@ -40,6 +40,7 @@ const model = defineModel<number | string>()
 const modelValue = computed({
   get: () => model.value ? model.value : '',
   set: (value) => {
+    debugger
     model.value = value
   }
 })

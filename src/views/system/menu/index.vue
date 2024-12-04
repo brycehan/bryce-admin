@@ -115,7 +115,7 @@
             type="danger"
             icon="delete"
             text
-            @click="handleDeleteBatch(scope.row.id)"
+            @click="handleDeleteBatch(scope.row)"
             >删除</el-button
           >
         </template>
@@ -133,8 +133,9 @@ import AddOrEdit from './add-or-edit.vue'
 import { postListApi, deleteByIdsApi } from '@/api/system/menu'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
+import modal from '@/utils/modal'
 
 const state: StateOptions = reactive({
   api: {
@@ -178,23 +179,27 @@ const handleResetQuery = () => {
   getList()
 }
 
-/** 批量删除 */
-const handleDeleteBatch = (id?: bigint) => {
+/**
+ * 批量删除
+ *
+ * @param row 当前数据行
+ */
+const handleDeleteBatch = (row?: any) => {
   let data: any[] = []
-  if (id) {
-    data = [id]
+  if (row) {
+    data.push(row)
   } else {
-    data = state.dataSelections ? state.dataSelections : []
-    if (data.length === 0) {
-      ElMessage.warning('请选择删除的记录')
-      return
-    }
+    data = state.dataSelections as []
   }
-  ElMessageBox.confirm('确定进行删除操作？', '提示', {
-    type: 'warning'
-  })
-    .then(() => {
-      deleteByIdsApi(data).then(() => {
+
+  if (data.length === 0) {
+    ElMessage.warning('请选择删除的记录')
+    return
+  }
+
+  const menuNames = data.map((item: any) => item.name).join(',')
+  modal.confirm(`是否确认删除菜单名称为“${menuNames}”的数据项？`).then(() => {
+      deleteByIdsApi(data.map((item: any) => item.id)).then(() => {
         ElMessage.success('删除成功')
         getList()
       })
@@ -204,7 +209,11 @@ const handleDeleteBatch = (id?: bigint) => {
     })
 }
 
-/** 新增/修改 弹窗 */
+/**
+ * 新增/修改 弹窗
+ *
+ * @param id 菜单ID
+ */
 const handleAddOrEdit = (id?: bigint) => {
   addOrEditRef.value.init(id)
 }

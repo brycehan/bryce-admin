@@ -17,7 +17,7 @@
         <el-input v-model="dataForm.name" disabled />
       </el-form-item>
       <el-form-item label="数据范围" prop="dataScope">
-        <dict-select v-model="dataForm.dataScope" dict-type="sys_data_scope" class="w-100" />
+        <dict-select v-model="dataForm.dataScope" dict-type="sys_data_scope" placeholder="请选择数据范围" class="w-100" clearable/>
       </el-form-item>
       <el-form-item v-show="dataForm.dataScope == 4" label="数据权限">
         <el-tree
@@ -50,7 +50,6 @@ const dataForm = reactive({
   name: '',
   dataScope: 1,
   orgIds: [],
-  remark: ''
 })
 
 const dataFormRef = ref()
@@ -59,7 +58,9 @@ const orgList = ref([])
 
 const dataRules = reactive({})
 
-/** 初始化详情数据 */
+/**
+ * 初始化详情数据
+ */
 const init = (id?: bigint) => {
   visible.value = true
   dataForm.id = undefined
@@ -82,7 +83,9 @@ const init = (id?: bigint) => {
   getOrgList()
 }
 
-/** 获取详情数据 */
+/**
+ * 获取详情数据
+ */
 const getData = (id: bigint) => {
   getByIdApi(id).then((res: any) => {
     Object.assign(dataForm, res.data)
@@ -101,7 +104,9 @@ const getOrgList = () => {
   })
 }
 
-/** 表单提交 */
+/**
+ * 表单提交
+ */
 const handleSubmit = () => {
   dataForm.orgIds = orgListRef.value.getCheckedKeys()
 

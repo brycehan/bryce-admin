@@ -20,5 +20,11 @@ export default {
   /**
    * 文件上传地址
    */
-  uploadUrl: import.meta.env.VITE_API_URL + '/storage/uploadFile'
+  uploadUrl: import.meta.env.VITE_API_URL + '/storage/uploadFile',
+
+  /**
+   * 系统用户的初始密码
+   */
+  SYSTEM_USER_INIT_PASSWORD : "system.user.init.password"
+
 }

@@ -4,7 +4,7 @@
     <el-dialog
       v-if="state.visible"
       v-model="state.visible"
-      title="选择角色"
+      title="选择用户"
       :close-on-click-modal="false"
       :width="900"
       draggable
@@ -17,8 +17,9 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" header-align="center" align="center" width="50" />
-        <el-table-column label="角色名称" prop="name" header-align="center" align="center" />
-        <el-table-column label="角色编码" prop="code" header-align="center" align="center" />
+        <el-table-column label="账号" prop="username" header-align="center" align="center" />
+        <el-table-column label="姓名" prop="nickname" header-align="center" align="center" />
+        <el-table-column label="手机号码" prop="phone" header-align="center" align="center" />
         <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
       </el-table>
       <el-pagination
@@ -40,7 +41,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import { postAssignRolePageApi as postPageApi } from '@/api/system/user'
+import { postAssignUserPageApi as postPageApi } from '@/api/system/role'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { ElMessage } from 'element-plus'
@@ -59,7 +60,7 @@ const state: StateOptions = reactive({
     postPageApi
   },
   queryForm: {
-    userId: props.row.id,
+    roleId: props.row.id,
     assigned: 'N',
     status: 1
   }

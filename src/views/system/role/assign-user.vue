@@ -1,6 +1,6 @@
 <template>
   <el-row class="mb-2">
-    <select-role type="primary" icon="Plus" :row="row" @select="handleAssignRole" class="mr-3"></select-role>
+    <select-user type="primary" icon="Plus" :row="row" @select="handleAssignUser" class="mr-3"></select-user>
     <el-button type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
   </el-row>
   <el-table
@@ -11,8 +11,9 @@
     @selection-change="handleSelectionChange"
   >
     <el-table-column type="selection" header-align="center" align="center" width="50" />
-    <el-table-column label="角色名称" prop="name" header-align="center" align="center" />
-    <el-table-column label="角色编码" prop="code" header-align="center" align="center" />
+    <el-table-column label="账号" prop="username" header-align="center" align="center" />
+    <el-table-column label="姓名" prop="nickname" header-align="center" align="center" />
+    <el-table-column label="手机号码" prop="phone" header-align="center" align="center" />
     <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
     <el-table-column label="操作" fixed="right" header-align="center" align="center" width="100">
       <template #default="scope">
@@ -34,13 +35,13 @@
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue'
 import {
-  postAssignRolePageApi as postPageApi,
-  postAssignRoleSaveApi,
-  deleteAssignRoleApi
-} from '@/api/system/user'
+  postAssignUserPageApi as postPageApi,
+  postAssignUserSaveApi,
+  deleteAssignUserApi
+} from '@/api/system/role'
 import { crud, type StateOptions } from '@/utils/state'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import SelectRole from '@/views/system/user/select-role.vue'
+import SelectUser from '@/views/system/role/select-user.vue'
 
 const props = defineProps({
   row: {
@@ -54,7 +55,7 @@ const state: StateOptions = reactive({
     postPageApi,
   },
   queryForm: {
-    userId: props.row.id,
+    roleId: props.row.id,
     assigned: 'Y',
     status: 1
   }
@@ -67,12 +68,12 @@ onMounted(() => {
 const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange } = crud(state)
 
 /**
- * 为用户分配增角色
+ * 为角色分配用户
  *
- * @param roleIds 角色ID集合
+ * @param userIds 用户ID集合
  */
-const handleAssignRole = (roleIds: any[]) => {
-  postAssignRoleSaveApi(state.queryForm.userId, roleIds).then(() => {
+const handleAssignUser = (userIds: any[]) => {
+  postAssignUserSaveApi(state.queryForm.roleId, userIds).then(() => {
     getPage()
     ElMessage.success('授权成功')
   })
@@ -95,13 +96,12 @@ const handleDeleteBatch = (row?: any) => {
     ElMessage.warning('请选择删除的记录')
     return
   }
-
-  const roleCodeStr = data.map(item => item.code).join(',')
-  ElMessageBox.confirm(`是否确认移除角色编码为“${roleCodeStr}”的授权？`, '系统提示', {
+  const usernameStr = data.map(item => item.username).join(',')
+  ElMessageBox.confirm(`是否确认移除账号为“${usernameStr}”的授权？`, '系统提示', {
     type: 'warning'
   })
     .then(() => {
-      deleteAssignRoleApi(state.queryForm.userId, data.map(item => item.id)).then(() => {
+      deleteAssignUserApi(state.queryForm.roleId, data.map(item => item.id)).then(() => {
         ElMessage.success('移除授权成功')
         getPage()
       })

@@ -1,4 +1,4 @@
-import { ElLoading } from 'element-plus'
+import { ElLoading, ElMessageBox } from 'element-plus'
 
 /**
  * 打开遮罩层
@@ -18,7 +18,14 @@ const closeLoading = (loadingInstance: any) => {
   loadingInstance.close()
 }
 
+const confirm = (text: string) => {
+  return ElMessageBox.confirm(text, '系统提示', {
+    type: 'warning'
+  })
+}
+
 export default {
   loading,
-  closeLoading
+  closeLoading,
+  confirm,
 }

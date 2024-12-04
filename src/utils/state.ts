@@ -110,7 +110,11 @@ export const crud = (options: StateOptions) => {
     getPage(current)
   }
 
-  /** 批量删除 */
+  /**
+   * 批量删除
+   *
+   * @param row 当前行数据
+   */
   const handleDeleteBatch = (row?: any) => {
     let data: any[] = []
     if (row) {
@@ -143,23 +147,35 @@ export const crud = (options: StateOptions) => {
     state.dataSelections = selections
   }
 
-  /** 获取详情数据 */
+  /**
+   * 获取详情数据
+   *
+   * @param id ID
+   */
   const getData = (id: bigint) => {
     state.api.getByIdApi(id).then((res: any) => {
       Object.assign(state.dataForm, res.data)
     })
   }
 
-  /** 表单提交 */
+  /**
+   * 表单提交
+   */
   const handleSaveOrUpdate = () => {
     state.api.saveOrUpdateApi(state.dataForm).then(() => {
       state.visible = false
       state.api.emit('refreshPage')
-      ElMessage.success('操作成功')
+      if (state.dataForm.id) {
+        ElMessage.success('修改成功')
+      } else {
+        ElMessage.success('新增成功')
+      }
     })
   }
 
-  /** 导出 */
+  /**
+   * 导出
+   */
   const handleDownloadExcel = () => {
     // 添加范围查询条件
     let queryParams = state.queryForm

@@ -59,3 +59,12 @@ export const postExportExcelApi = (data: any) => {
 export const getCheckParamKeyUniqueApi = (paramKey: string, id: number) => {
   return request.get('/system/param/checkParamKeyUnique', { params: { id, paramKey } })
 }
+
+/**
+ * 获取系统参数值
+ *
+ * @param paramKey 参数键名
+ */
+export const getValueByParamKeyApi = (paramKey: string) => {
+  return request.get(`/system/param/get/${paramKey}`)
+}

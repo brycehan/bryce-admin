@@ -2,6 +2,7 @@ import axios from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useAuthStore } from '@/stores/modules/auth'
 import qs from 'qs'
+import { Warning } from '@element-plus/icons-vue'
 
 /**
  * axios实例
@@ -70,6 +71,13 @@ request.interceptors.response.use(
         handleAuthorized()
         return Promise.reject(new Error(responseData.message || 'Error'))
       }
+
+      // 警告提示
+      if (responseData.code === 599) {
+        ElMessage.warning(responseData.message || 'Warn')
+        return Promise.reject(new Warning(responseData.message || 'Warn'))
+      }
+
       // 错误提示
       ElMessage.error(responseData.message || 'Error')
 
