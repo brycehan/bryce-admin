@@ -49,7 +49,7 @@
         type="danger"
         plain
         icon="Delete"
-        @click="handleDeleteBatch()"
+        @click="handleDeleteBatch('paramKey', '参数键名')"
         >删除</el-button
       >
       <el-button
@@ -116,7 +116,7 @@
             type="danger"
             icon="delete"
             text
-            @click="handleDeleteBatch(scope.row.id)"
+            @click="handleDeleteBatch('paramKey', '参数键名', scope.row)"
             >删除</el-button
           >
         </template>

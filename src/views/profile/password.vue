@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { putPasswordApi } from '@/api/system/profile'
-import { ElMessage } from 'element-plus'
+import { ElMessage, type FormRules } from 'element-plus'
 
 const dataForm = reactive({
   password: '',
@@ -50,11 +50,11 @@ const equalToPassword = (rule: any, value: any, callback: any) => {
   }
 }
 
-const dataRules = reactive({
+const dataRules = reactive<FormRules>({
   password: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   newPassword: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 6, max: 30, message: '密码长度在6-30个字符', trigger: 'blur' }
+    { min: 6, max: 20, message: '长度为6-20个字符', trigger: 'blur' }
   ],
   confirmPassword: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
@@ -62,7 +62,9 @@ const dataRules = reactive({
   ]
 })
 
-/** 表单提交 */
+/**
+ * 表单提交
+ */
 const handleSubmit = () => {
   dataFormRef.value.validate((valid: boolean) => {
     if (!valid) {

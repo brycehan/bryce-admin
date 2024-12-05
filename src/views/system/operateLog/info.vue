@@ -112,7 +112,11 @@ const dataFormRef = ref()
 
 const { getData } = crud(state)
 
-/** 初始化详情数据 */
+/**
+ * 初始化详情数据
+ *
+ * @param id 操作日志id
+ */
 const init = (id?: bigint) => {
   state.visible = true
   state.dataForm.id = undefined

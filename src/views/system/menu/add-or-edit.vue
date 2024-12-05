@@ -134,6 +134,7 @@ import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 import { getIconList } from '@/utils/tool'
+import type { FormRules } from 'element-plus'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -170,11 +171,11 @@ const dataFormRef = ref()
 /**
  * 校验权限标识是否唯一
  *
- * @param rule 校验规则
+ * @param _rule 校验规则
  * @param value 校验值
  * @param callback 回调
  */
-const checkAuthorityUnique = (rule: any, value: any, callback: any) => {
+const checkAuthorityUnique = (_rule: any, value: any, callback: any) => {
   // 值为空时，也校验通过
   if (!value) {
     callback()
@@ -190,25 +191,29 @@ const checkAuthorityUnique = (rule: any, value: any, callback: any) => {
   })
 }
 
-const dataRules = reactive({
+const dataRules = reactive<FormRules>({
   name: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 50, message: '菜单名称长度不能超过50个字符', trigger: 'blur' }
+    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' }
   ],
   parentName: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  url: [{ min: 0, max: 255, message: '组件路径长度不能超过255个字符', trigger: 'blur' }],
+  url: [{ min: 0, max: 255, message: '长度不能超过255个字符', trigger: 'blur' }],
   authority: [
-    { min: 0, max: 100, message: '权限标识长度不能超过100个字符', trigger: 'blur' },
+    { min: 0, max: 100, message: '长度不能超过100个字符', trigger: 'blur' },
     { validator: checkAuthorityUnique, trigger: 'blur' }
   ],
-  icon: [{ min: 0, max: 100, message: '菜单图标长度不能超过100个字符', trigger: 'blur' }],
+  icon: [{ min: 0, max: 100, message: '长度不能超过100个字符', trigger: 'blur' }],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
+  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }]
 })
 
 const { handleSaveOrUpdate } = crud(state)
 
-/** 初始化详情数据 */
+/**
+ * 初始化详情数据
+ *
+ * @param id 菜单ID
+ */
 const init = (id?: bigint) => {
   state.visible = true
   state.dataForm.id = undefined
@@ -232,6 +237,33 @@ const init = (id?: bigint) => {
   iconList.value = getIconList()
 }
 
+/**
+ * 初始化详情数据，新增当前行数据的子菜单
+ *
+ * @param row 当前行数据
+ */
+const initAdd = (row?: any) => {
+  state.visible = true
+  state.dataForm.id = undefined
+
+  // 重置表单数据
+  if (dataFormRef.value) {
+    dataFormRef.value.resetFields()
+  }
+
+  // 菜单列表
+  getMenuList()
+
+  if (row) {
+    handleTreeCurrentChange(row)
+  } else {
+    handleTreeDefault()
+  }
+
+  // icon 列表
+  iconList.value = getIconList()
+}
+
 /** 获取详情数据 */
 const getData = (id: bigint) => {
   getByIdApi(id).then((res: any) => {
@@ -250,14 +282,18 @@ const handleMenuTypeChange = () => {
   getMenuList()
 }
 
-/** 获取菜单列表 */
+/**
+ * 获取菜单列表
+ */
 const getMenuList = () => {
   postListApi({}).then((res) => {
     menuList.value = res.data
   })
 }
 
-/** 上级菜单树，设置默认值 */
+/**
+ * 上级菜单树，设置默认值
+ */
 const handleTreeDefault = () => {
   state.dataForm.parentId = 0
   state.dataForm.parentName = '主类目'
@@ -287,7 +323,8 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-  init
+  init,
+  initAdd
 })
 </script>
 

@@ -1,6 +1,6 @@
 import { addDateRange, mergeDefaultOptions } from '@/utils/tool'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import type { UploadProps, UploadRawFile } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import modal from '@/utils/modal'
 
 export type StateOptions = {
   api: {
@@ -60,7 +60,12 @@ export const crud = (options: StateOptions) => {
   // 覆盖默认值
   const state = mergeDefaultOptions(defaultOptions, options)
 
-  /** 分页查询 */
+  /**
+   * 分页查询
+   *
+   * @param current 当前页码
+   * @param size 每页条数
+   */
   const getPage = (current: number = 1, size?: number) => {
     state.current = current
 
@@ -90,7 +95,9 @@ export const crud = (options: StateOptions) => {
     state.loading = false
   }
 
-  /** 列表查询 */
+  /**
+   * 列表查询
+   */
   const getList = () => {
     state.loading = true
 
@@ -100,12 +107,20 @@ export const crud = (options: StateOptions) => {
     state.loading = false
   }
 
-  /** 调整当前显示条数 */
+  /**
+   * 调整当前显示条数
+   *
+   * @param size 每页条数
+   */
   const handleSizeChange = (size: number) => {
     getPage(1, size)
   }
 
-  /** 跳转到指定页 */
+  /**
+   * 跳转到指定页
+   *
+   * @param current 当前页码
+   */
   const handleCurrentChange = (current: number) => {
     getPage(current)
   }
@@ -114,8 +129,11 @@ export const crud = (options: StateOptions) => {
    * 批量删除
    *
    * @param row 当前行数据
+   * @param column 列字段名
+   * @param columnName 列中文名
+   * @param isPage 是否分页
    */
-  const handleDeleteBatch = (row?: any) => {
+  const handleDeleteBatch = (column: string, columnName: string, row?: any, isPage: boolean = true) => {
     let data: any[] = []
     if (row) {
       data.push(row)
@@ -127,14 +145,16 @@ export const crud = (options: StateOptions) => {
       ElMessage.warning('请选择删除的记录')
       return
     }
-
-    ElMessageBox.confirm('确定进行删除操作？', '提示', {
-      type: 'warning'
-    })
+    const columns = data.map((item: any) => item[column]).join(',')
+    modal.confirm(`是否确认删除${columnName}为“${columns}”的数据项？`)
       .then(() => {
         state.api.deleteByIdsApi(data.map((item) => item.id)).then(() => {
           ElMessage.success('删除成功')
-          getPage()
+          if (isPage){
+            getPage()
+          } else {
+            getList()
+          }
         })
       })
       .catch((error) => {
@@ -142,7 +162,11 @@ export const crud = (options: StateOptions) => {
       })
   }
 
-  /** 多选 */
+  /**
+   * 处理勾选变更
+   *
+   * @param selections 选中数据
+   */
   const handleSelectionChange = (selections: any[]) => {
     state.dataSelections = selections
   }

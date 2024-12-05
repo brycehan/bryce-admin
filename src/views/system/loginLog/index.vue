@@ -46,7 +46,7 @@
         type="danger"
         plain
         icon="Delete"
-        @click="handleDeleteBatch()"
+        @click="handleDeleteBatch('id', '日志编号')"
         >删除</el-button
       >
       <el-button v-auth="'system:loginLog:delete'" type="danger" plain icon="Delete" @click="handleCleanLog">清空</el-button>
@@ -61,6 +61,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
+      <el-table-column label="日志编号" prop="id" header-align="center" align="center" />
       <el-table-column label="用户账号" prop="username" header-align="center" align="center" />
       <dict-table-column label="登录状态" prop="info" dict-type="sys_login_status" />
       <el-table-column label="登录IP" prop="ip" header-align="center" align="center" />

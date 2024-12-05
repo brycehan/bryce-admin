@@ -54,15 +54,6 @@
       <el-table-column label="操作" fixed="right" header-align="center" width="240">
         <template #default="scope">
           <el-button
-            v-if="scope.row.parentId != 0"
-            v-auth="'system:org:update'"
-            type="primary"
-            icon="plus"
-            text
-            @click="handleAddOrEdit(scope.row, true)"
-            >新增</el-button
-          >
-          <el-button
             v-auth="'system:org:update'"
             type="primary"
             icon="edit"
@@ -71,11 +62,19 @@
             >修改</el-button
           >
           <el-button
+            v-auth="'system:org:update'"
+            type="primary"
+            icon="plus"
+            text
+            @click="handleAddOrEdit(scope.row, true)"
+          >新增</el-button
+          >
+          <el-button
             v-auth="'system:org:delete'"
             type="danger"
             icon="delete"
             text
-            @click="handleDeleteBatch(scope.row.id)"
+            @click="handleDeleteBatch('name', '名称', scope.row, false)"
             >删除</el-button
           >
         </template>
@@ -90,14 +89,14 @@
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import { deleteByIdsApi, postListApi } from '@/api/system/org'
-import { ElMessage, ElMessageBox } from 'element-plus'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 
 const state: StateOptions = reactive({
   api: {
-    postListApi
+    postListApi,
+    deleteByIdsApi
   },
   queryForm: {
     status: '',
@@ -122,9 +121,11 @@ onMounted(() => {
   getList()
 })
 
-const { getList } = crud(state)
+const { getList, handleDeleteBatch } = crud(state)
 
-/** 重置按钮操作 */
+/**
+ * 重置按钮操作
+ */
 const handleResetQuery = () => {
   if (queryFormRef.value) {
     queryFormRef.value.resetFields()
@@ -135,22 +136,6 @@ const handleResetQuery = () => {
 
 const handleAddOrEdit = (row: any = null, isAdd: boolean = true) => {
   addOrEditRef.value.init(row, isAdd)
-}
-
-const handleDeleteBatch = (id: string) => {
-  let data: any[] = [id]
-  ElMessageBox.confirm('确定进行删除操作？', '提示', {
-    type: 'warning'
-  })
-    .then(() => {
-      deleteByIdsApi(data).then(() => {
-        ElMessage.success('删除成功')
-        getList()
-      })
-    })
-    .catch((error) => {
-      console.error(error)
-    })
 }
 
 /**

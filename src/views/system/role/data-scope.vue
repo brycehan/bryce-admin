@@ -42,7 +42,7 @@
 import { reactive, ref } from 'vue'
 import { getByIdApi, putDataScopeApi } from '@/api/system/role'
 import { postListApi as orgListApi } from '@/api/system/org'
-import { ElMessage } from 'element-plus'
+import { ElMessage, type FormRules } from 'element-plus'
 
 const visible = ref(false)
 const dataForm = reactive({
@@ -56,10 +56,12 @@ const dataFormRef = ref()
 const orgListRef = ref()
 const orgList = ref([])
 
-const dataRules = reactive({})
+const dataRules = reactive<FormRules>({})
 
 /**
  * 初始化详情数据
+ *
+ * @param id id
  */
 const init = (id?: bigint) => {
   visible.value = true

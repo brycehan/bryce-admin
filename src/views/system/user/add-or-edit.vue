@@ -140,6 +140,7 @@ import { crud } from '@/utils/state'
 import { emailRegExp, phoneRegExp } from '@/utils/tool'
 import { getValueByParamKeyApi } from '@/api/system/param'
 import constant from '@/utils/constant'
+import type { FormRules, ElTreeSelect } from 'element-plus'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -174,11 +175,11 @@ const postList = ref<any[]>([])
 /**
  * 校验手机号码是否唯一
  *
- * @param rule 校验规则
+ * @param _rule 校验规则
  * @param value 校验值
  * @param callback 回调
  */
-const checkPhoneUnique = (rule: any, value: any, callback: any) => {
+const checkPhoneUnique = (_rule: any, value: any, callback: any) => {
   // 校验手机号码格式
   if (!phoneRegExp.test(value)) {
     callback(new Error('手机号码格式错误'))
@@ -197,11 +198,11 @@ const checkPhoneUnique = (rule: any, value: any, callback: any) => {
 /**
  * 校验邮箱
  *
- * @param rule 校验规则
+ * @param _rule 校验规则
  * @param value 校验值
  * @param callback 回调
  */
-const checkEmail = (rule: any, value: any, callback: any) => {
+const checkEmail = (_rule: any, value: any, callback: any) => {
   // 值为空时，也校验通过
   if (!value) {
     return callback()
@@ -221,36 +222,41 @@ const checkEmail = (rule: any, value: any, callback: any) => {
   })
 }
 
-const dataRules = reactive({
+const dataRules = reactive<FormRules>({
   username: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 50, message: '账号长度不能超过50个字符', trigger: 'blur' },
+    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' },
+    { pattern: /^[^\s\u4e00-\u9fa5]*$/, message: '不允许有空格、中文', trigger: 'change'},
     { validator: checkUsernameUnique, trigger: 'blur' }
   ],
   password: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 255, message: '密码长度不能超过255个字符', trigger: 'blur' }
+    { min: 6, max: 20, message: '长度为6~20个字符', trigger: 'blur' },
+    { pattern: /^[^\s\u4e00-\u9fa5]*$/, message: '不允许有空格、中文', trigger: 'change'},
   ],
   nickname: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 50, message: '姓名长度不能超过50个字符', trigger: 'blur' }
+    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' }
   ],
-  gender: [{ min: 0, max: 1, message: '性别长度不能超过1个字符', trigger: 'blur' }],
   phone: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 7, max: 20, message: '手机号码长度在7-20个字符', trigger: 'blur' },
+    { min: 7, max: 20, message: '长度为7~20个字符', trigger: 'blur' },
     { validator: checkPhoneUnique, trigger: 'blur' }
   ],
   email: [
-    { min: 0, max: 50, message: '邮箱长度不能超过50个字符', trigger: 'blur' },
+    { min: 0, max: 50, message: '长度不能超过50个字符', trigger: 'blur' },
     { validator: checkEmail, trigger: 'blur' }
   ],
-  remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
+  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }]
 })
 
 const { getData, handleSaveOrUpdate } = crud(state)
 
-/** 初始化详情数据 */
+/**
+ * 初始化详情数据
+ *
+ * @param id 用户id
+ */
 const init = (id?: bigint) => {
   state.visible = true
   state.dataForm.id = undefined

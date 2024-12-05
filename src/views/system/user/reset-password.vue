@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { resetPasswordApi } from '@/api/system/user'
-import { ElMessage } from 'element-plus'
+import { ElMessage, type FormRules } from 'element-plus'
 
 const visible = ref(false)
 const dataForm = reactive({
@@ -37,7 +37,7 @@ const username = ref('')
 
 const dataFormRef = ref()
 
-const dataRules = reactive({
+const dataRules = reactive<FormRules>({
   password: [
     { required: true, message: '不能为空', trigger: 'blur' },
     { min: 6, max: 20, message: '长度为6~20个字符', trigger: 'blur' },

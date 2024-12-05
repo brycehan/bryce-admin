@@ -40,7 +40,7 @@
         type="danger"
         plain
         icon="Delete"
-        @click="handleDeleteBatch()"
+        @click="handleDeleteBatch('name', '附件名称')"
         >删除</el-button
       >
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
@@ -107,7 +107,7 @@
             type="danger"
             icon="delete"
             text
-            @click="handleDeleteBatch(scope.row.id)"
+            @click="handleDeleteBatch('name', '附件名称', scope.row)"
             >删除</el-button
           >
         </template>

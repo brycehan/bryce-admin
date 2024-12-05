@@ -37,7 +37,7 @@
         type="danger"
         plain
         icon="Delete"
-        @click="handleDeleteBatch()"
+        @click="handleDeleteBatch('code', '岗位编码')"
         >删除</el-button
       >
       <el-button v-auth="'system:user:export'" type="success" plain icon="Download" @click="handleDownloadExcel()">导出</el-button>
@@ -78,7 +78,7 @@
             type="danger"
             icon="delete"
             text
-            @click="handleDeleteBatch(scope.row.id)"
+            @click="handleDeleteBatch('code', '岗位编码', scope.row)"
             >删除</el-button
           >
         </template>
@@ -129,7 +129,7 @@ onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleSortChange, handleDownloadExcel } =
+const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange, handleSortChange, handleDeleteBatch, handleDownloadExcel } =
   crud(state)
 
 /**

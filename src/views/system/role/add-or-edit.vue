@@ -70,6 +70,7 @@ import { reactive, ref } from 'vue'
 import { getByIdApi, saveOrUpdateApi, getMenuApi, getCheckCodeUniqueApi } from '@/api/system/role'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
+import type { FormRules } from 'element-plus'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -111,23 +112,27 @@ const checkCodeUnique = (rule: any, value: any, callback: any) => {
   })
 }
 
-const dataRules = reactive({
+const dataRules = reactive<FormRules>({
   name: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 50, message: '角色名称长度不能超过50个字符', trigger: 'blur' }
+    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' }
   ],
   code: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 50, message: '角色编码长度不能超过50个字符', trigger: 'blur' },
+    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' },
     { validator: checkCodeUnique, trigger: 'blur' }
   ],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
+  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }]
 })
 
 const { handleSaveOrUpdate } = crud(state)
 
-/** 初始化详情数据 */
+/**
+ * 初始化详情数据
+ *
+ * @param id 角色ID
+ */
 const init = (id?: bigint) => {
   state.visible = true
   state.dataForm.id = undefined

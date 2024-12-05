@@ -31,7 +31,7 @@
         type="danger"
         plain
         icon="Delete"
-        @click="handleDeleteBatch()"
+        @click="handleDeleteBatch('id', '日志编号')"
         >删除</el-button
       >
       <el-button v-auth="'quartz:jobLog:delete'" type="danger" plain icon="Delete" @click="handleCleanJobLog">清空</el-button>

@@ -40,7 +40,7 @@
     </el-form>
     <el-row class="mb-2">
       <el-button v-auth="'system:operateLog:save'" type="primary" plain icon="Plus" @click="handleInfo()">新增</el-button>
-      <el-button v-auth="'system:operateLog:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch()"
+      <el-button v-auth="'system:operateLog:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch('id', '日志编号')"
         >删除</el-button
       >
       <el-button v-auth="'system:operateLog:delete'" type="danger" plain icon="Delete" @click="handleCleanLog">清空</el-button>
@@ -58,6 +58,7 @@
       @sort-change="handleSortChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
+      <el-table-column label="日志编号" prop="id" header-align="center" align="center" />
       <el-table-column label="模块名称" prop="moduleName" show-overflow-tooltip header-align="center" align="center" />
       <el-table-column label="请求URI" prop="requestUri" show-overflow-tooltip header-align="center" align="center" />
       <el-table-column label="请求方法" prop="requestMethod" header-align="center" align="center" />

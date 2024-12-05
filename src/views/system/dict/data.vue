@@ -1,7 +1,7 @@
 <template>
   <el-row class="mb-2">
     <el-button v-auth="'system:dictData:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()">新增 </el-button>
-    <el-button v-auth="'system:dictData:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch()"
+    <el-button v-auth="'system:dictData:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch('dictLabel', '字典标签')"
       >删除
     </el-button>
   </el-row>
@@ -40,7 +40,7 @@
           type="danger"
           icon="delete"
           text
-          @click="handleDeleteBatch(scope.row.id)"
+          @click="handleDeleteBatch('dictLabel', '字典标签', scope.row)"
           >删除
         </el-button>
       </template>

@@ -73,7 +73,7 @@ request.interceptors.response.use(
       }
 
       // 警告提示
-      if (responseData.code === 599) {
+      if (responseData.code >= 600 && responseData.code <= 799) {
         ElMessage.warning(responseData.message || 'Warn')
         return Promise.reject(new Warning(responseData.message || 'Warn'))
       }

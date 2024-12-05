@@ -39,6 +39,7 @@ import { reactive, ref } from 'vue'
 import { getByIdApi, getCheckDictTypeCodeUniqueApi, saveOrUpdateApi } from '@/api/system/dictType'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
+import type { FormRules } from 'element-plus'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -77,23 +78,27 @@ const checkDictTypeCodeUnique = (rule: any, value: any, callback: any) => {
   })
 }
 
-const dataRules = reactive({
+const dataRules = reactive<FormRules>({
   dictName: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 100, message: '字典名称长度不能超过100个字符', trigger: 'blur' }
+    { min: 0, max: 100, message: '长度不能超过100个字符', trigger: 'blur' }
   ],
   dictType: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 100, message: '字典类型长度在2-100个字符', trigger: 'blur' },
+    { min: 2, max: 100, message: '长度为2~100个字符', trigger: 'blur' },
     { validator: checkDictTypeCodeUnique, trigger: 'blur' }
   ],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
+  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }]
 })
 
 const { getData, handleSaveOrUpdate } = crud(state)
 
-/** 初始化详情数据 */
+/**
+ * 初始化详情数据
+ *
+ * @param id 字典类型id
+ */
 const init = (id?: bigint) => {
   state.visible = true
   state.dataForm.id = undefined

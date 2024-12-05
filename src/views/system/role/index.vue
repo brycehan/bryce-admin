@@ -37,7 +37,7 @@
     </el-form>
     <el-row class="mb-2">
       <el-button v-auth="'system:role:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()">新增</el-button>
-      <el-button v-auth="'system:role:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch()"
+      <el-button v-auth="'system:role:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch('code', '角色编码')"
         >删除
       </el-button>
       <el-button v-auth="'system:role:export'" type="success" plain icon="Download" @click="handleDownloadExcel()">导出</el-button>
@@ -62,7 +62,7 @@
           <el-button v-auth="'system:role:update'" type="primary" icon="edit" text @click="handleAddOrEdit(scope.row.id)"
             >修改
           </el-button>
-          <el-button v-auth="'system:role:delete'" type="danger" icon="delete" text @click="handleDeleteBatch(scope.row.id)"
+          <el-button v-auth="'system:role:delete'" type="danger" icon="delete" text @click="handleDeleteBatch('code', '角色编码', scope.row)"
             >删除
           </el-button>
           <el-dropdown v-auth="'system:role:update'" @command="(command: string) => handleCommand(command, scope.row)">
@@ -106,7 +106,6 @@ import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import DataScope from '@/views/system/role/data-scope.vue'
 import AssignUser from '@/views/system/role/assign-user.vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
 
 const state: StateOptions = reactive({
   api: {
@@ -143,7 +142,7 @@ onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange, handleSortChange, handleDownloadExcel } =
+const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange, handleSortChange, handleDeleteBatch, handleDownloadExcel } =
   crud(state)
 
 /**
@@ -168,41 +167,6 @@ const handleResetQuery = () => {
  */
 const handleAddOrEdit = (id?: bigint) => {
   addOrEditRef.value.init(id)
-}
-
-/**
- * 批量删除
- *
- * @param row
- */
-const handleDeleteBatch = (row?: any) => {
-  let data: any[] = []
-  if (row) {
-    data.push(row)
-  } else {
-    data = state.dataSelections as []
-  }
-
-  if (data.length === 0) {
-    ElMessage.warning('请选择删除的记录')
-    return
-  }
-
-  const codeStr = data.map((item: any) => item.code).join(',')
-  const ids = data.map((item: any) => item.id)
-
-  ElMessageBox.confirm(`是否确认删除角色编码为“${codeStr}”的数据项？`, '系统提示', {
-    type: 'warning'
-  })
-    .then(() => {
-      deleteByIdsApi(ids).then(() => {
-        ElMessage.success('删除成功')
-        getPage()
-      })
-    })
-    .catch((error) => {
-      console.error(error)
-    })
 }
 
 /**

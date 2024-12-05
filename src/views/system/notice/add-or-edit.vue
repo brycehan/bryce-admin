@@ -36,7 +36,7 @@ import { getByIdApi, saveOrUpdateApi } from '@/api/system/notice'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import WangEditor from '@/components/wang-editor/index.vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, type FormRules } from 'element-plus'
 
 const emit = defineEmits(['refreshPage', 'update:modelValue'])
 
@@ -66,13 +66,13 @@ const state: StateOptions = reactive({
 
 const dataFormRef = ref()
 
-const dataRules = reactive({
+const dataRules = reactive<FormRules>({
   title: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 50, message: '标题长度不能超过50个字符', trigger: 'blur' }
+    { min: 2, max: 50, message: '长度在2~50个字符', trigger: 'blur' }
   ],
   type: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
+  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }]
 })
 
 const { getData } = crud(state)

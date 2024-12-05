@@ -46,7 +46,7 @@
         </el-form>
         <el-row class="mb-2">
           <el-button v-auth="'system:user:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()">新增 </el-button>
-          <el-button v-auth="'system:user:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch()">删除</el-button>
+          <el-button v-auth="'system:user:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch('username', '账号')">删除</el-button>
           <el-button v-auth="'system:user:import'" type="info" plain icon="Upload" @click="handleXlsxUpload()">导入</el-button>
           <el-button v-auth="'system:user:export'" type="success" plain icon="Download" @click="handleDownloadExcel()">导出</el-button>
           <right-toolbar v-model:showSearch="showSearch" :columns="columns" @refresh-page="getPage" />
@@ -93,7 +93,7 @@
                   type="danger"
                   icon="delete"
                   text
-                  @click="handleDeleteBatch(scope.row)"
+                  @click="handleDeleteBatch('username', '账号', scope.row)"
                   >删除
                 </el-button>
                 <el-dropdown
@@ -200,7 +200,7 @@ onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange, handleDownloadExcel, handleSortChange } =
+const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange, handleDeleteBatch, handleDownloadExcel, handleSortChange } =
   crud(state)
 
 const handleOrgClick = (orgId: any) => {
@@ -235,41 +235,6 @@ const handleAddOrEdit = (id?: bigint) => {
  */
 const handleXlsxUpload = () => {
   importDataRef.value.init()
-}
-
-/**
- * 批量删除
- *
- * @param row
- */
-const handleDeleteBatch = (row?: any) => {
-  let data: any[] = []
-  if (row) {
-    data.push(row)
-  } else {
-    data = state.dataSelections as []
-  }
-
-  if (data.length === 0) {
-    ElMessage.warning('请选择删除的记录')
-    return
-  }
-
-  const usernames = data.map((item: any) => item.username).join(',')
-  const ids = data.map((item: any) => item.id)
-
-  ElMessageBox.confirm(`是否确认删除账号为“${usernames}”的数据项？`, '系统提示', {
-    type: 'warning'
-  })
-    .then(() => {
-      deleteByIdsApi(ids).then(() => {
-        ElMessage.success('删除成功')
-        getPage()
-      })
-    })
-    .catch((error) => {
-      console.error(error)
-    })
 }
 
 const handleStatusChange = (row: any) => {

@@ -100,7 +100,7 @@
         align="center"
         width="160"
       />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="180">
+      <el-table-column label="操作" fixed="right" header-align="center" width="250">
         <template #default="scope">
           <el-button
             v-auth="'system:menu:update'"
@@ -111,11 +111,20 @@
             >修改</el-button
           >
           <el-button
+            v-if="scope.row.type === 'M'"
+            v-auth="'system:menu:update'"
+            type="primary"
+            icon="edit"
+            text
+            @click="handleAdd(scope.row)"
+          >新增</el-button
+          >
+          <el-button
             v-auth="'system:menu:delete'"
             type="danger"
             icon="delete"
             text
-            @click="handleDeleteBatch(scope.row)"
+            @click="handleDeleteBatch('name', '菜单名称', scope.row, false)"
             >删除</el-button
           >
         </template>
@@ -133,9 +142,7 @@ import AddOrEdit from './add-or-edit.vue'
 import { postListApi, deleteByIdsApi } from '@/api/system/menu'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import { ElMessage } from 'element-plus'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
-import modal from '@/utils/modal'
 
 const state: StateOptions = reactive({
   api: {
@@ -164,9 +171,11 @@ onMounted(() => {
   getList()
 })
 
-const { getList } = crud(state)
+const { getList, handleDeleteBatch } = crud(state)
 
-/** 重置按钮操作 */
+/**
+ * 重置按钮操作
+ */
 const handleResetQuery = () => {
   for (const key in state.range) {
     state.range[key] = []
@@ -180,42 +189,21 @@ const handleResetQuery = () => {
 }
 
 /**
- * 批量删除
- *
- * @param row 当前数据行
- */
-const handleDeleteBatch = (row?: any) => {
-  let data: any[] = []
-  if (row) {
-    data.push(row)
-  } else {
-    data = state.dataSelections as []
-  }
-
-  if (data.length === 0) {
-    ElMessage.warning('请选择删除的记录')
-    return
-  }
-
-  const menuNames = data.map((item: any) => item.name).join(',')
-  modal.confirm(`是否确认删除菜单名称为“${menuNames}”的数据项？`).then(() => {
-      deleteByIdsApi(data.map((item: any) => item.id)).then(() => {
-        ElMessage.success('删除成功')
-        getList()
-      })
-    })
-    .catch((error) => {
-      console.error(error)
-    })
-}
-
-/**
  * 新增/修改 弹窗
  *
  * @param id 菜单ID
  */
 const handleAddOrEdit = (id?: bigint) => {
   addOrEditRef.value.init(id)
+}
+
+/**
+ * 新增 弹窗
+ *
+ * @param row 当前行数据
+ */
+const handleAdd = (row?: any) => {
+  addOrEditRef.value.initAdd(row)
 }
 
 /**

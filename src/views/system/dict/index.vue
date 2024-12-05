@@ -53,7 +53,7 @@
         type="danger"
         plain
         icon="Delete"
-        @click="handleDeleteBatch()"
+        @click="handleDeleteBatch('dictType', '字典类型')"
         >删除</el-button
       >
       <el-button
@@ -110,7 +110,7 @@
             type="danger"
             icon="delete"
             text
-            @click="handleDeleteBatch(scope.row.id)"
+            @click="handleDeleteBatch('dictType', '字典类型', scope.row)"
             >删除</el-button
           >
         </template>
@@ -174,10 +174,12 @@ onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleSortChange, handleDownloadExcel } =
+const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange, handleSortChange, handleDeleteBatch, handleDownloadExcel } =
   crud(state)
 
-/** 重置按钮操作 */
+/**
+ * 重置按钮操作
+ */
 const handleResetQuery = () => {
   for (const key in state.range) {
     state.range[key] = []
@@ -195,10 +197,14 @@ const handleAddOrEdit = (id?: bigint) => {
   addOrEditRef.value.init(id)
 }
 
-/** 显示字典数据 */
+/**
+ * 显示字典数据
+ *
+ * @param row 当前数据行
+ */
 const handleShowDictData = (row: any) => {
   dictTypeId.value = row.id
   dataVisible.value = true
-  dataTitle.value = '字典配置 - ' + row.dictType
+  dataTitle.value = `字典配置 - 字典类型“${row.dictType}”`
 }
 </script>

@@ -42,7 +42,7 @@
         type="danger"
         plain
         icon="Delete"
-        @click="handleDeleteBatch()"
+        @click="handleDeleteBatch('jobName', '任务名称')"
         >删除</el-button
       >
       <el-button v-auth="'quartz:job:export'" type="success" plain icon="Download" @click="handleDownloadExcel()">导出</el-button>
@@ -107,7 +107,7 @@
             type="danger"
             icon="delete"
             text
-            @click="handleDeleteBatch(scope.row.id)"
+            @click="handleDeleteBatch('jobName', '任务名称', scope.row)"
             >删除</el-button
           >
           <el-dropdown

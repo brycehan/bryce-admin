@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="visible"
-    :title="!dataForm.id ? '新增' : '修改'"
+    :title="!dataForm.id ? '新增机构' : '修改机构'"
     :close-on-click-modal="false"
   >
     <el-form
@@ -84,7 +84,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, type FormRules } from 'element-plus'
 import { getByIdApi, saveOrUpdateApi, postListApi } from '@/api/system/org'
 import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 
@@ -110,14 +110,21 @@ const dataForm = reactive({
   status: 1
 })
 
-const dataRules = reactive({
+const dataRules = reactive<FormRules>({
   name: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   parentName: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }]
 })
 
+/**
+ * 初始化表单
+ *
+ * @param row 当前行数据
+ * @param isAdd 是否添加
+ */
 const init = (row: any, isAdd: boolean) => {
   visible.value = true
+  dataForm.id = ''
 
   // 重置表单数据
   if (dataFormRef.value) {
@@ -176,7 +183,9 @@ const handleTreeCurrentChange = (data: any) => {
   orgListPopoverRef.value.hide()
 }
 
-/** 表单提交 */
+/**
+ * 表单提交
+ */
 const handleSubmit = () => {
   dataFormRef.value.validate((valid: boolean) => {
     if (!valid) {

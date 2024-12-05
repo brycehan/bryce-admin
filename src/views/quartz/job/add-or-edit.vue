@@ -89,6 +89,7 @@ import { reactive, ref } from 'vue'
 import { getByIdApi, saveOrUpdateApi } from '@/api/quartz/job'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
+import type { FormRules } from 'element-plus'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -115,35 +116,39 @@ const state: StateOptions = reactive({
 
 const dataFormRef = ref()
 
-const dataRules = reactive({
+const dataRules = reactive<FormRules>({
   jobName: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 50, message: '任务名称长度不能超过50个字符', trigger: 'blur' }
+    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' }
   ],
   jobGroup: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 50, message: '任务组名长度不能超过50个字符', trigger: 'blur' }
+    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' }
   ],
   beanName: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 200, message: 'Spring Bean 名称长度不能超过200个字符', trigger: 'blur' }
+    { min: 2, max: 200, message: '长度为2~200个字符', trigger: 'blur' }
   ],
   method: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 100, message: '执行方法长度不能超过100个字符', trigger: 'blur' }
+    { min: 2, max: 100, message: '长度为2~100个字符', trigger: 'blur' }
   ],
-  params: [{ min: 0, max: 2000, message: '参数长度不能超过2000个字符', trigger: 'blur' }],
+  params: [{ min: 0, max: 2000, message: '长度不能超过2000个字符', trigger: 'blur' }],
   cronExpression: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 255, message: 'cron 表达式长度不能超过255个字符', trigger: 'blur' }
+    { min: 2, max: 20, message: '长度为2~20个字符', trigger: 'blur' }
   ],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  remark: [{ min: 0, max: 500, message: '备注长度不能超过500个字符', trigger: 'blur' }]
+  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }]
 })
 
 const { getData, handleSaveOrUpdate } = crud(state)
 
-/** 初始化详情数据 */
+/**
+ * 初始化详情数据
+ *
+ * @param id 任务ID
+ */
 const init = (id?: bigint) => {
   state.visible = true
   state.dataForm.id = undefined
