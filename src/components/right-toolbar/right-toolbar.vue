@@ -48,6 +48,7 @@ const props = defineProps({
   // 显隐列信息
   columns: {
     type: Array as PropType<any[]>,
+    default: () => []
   },
   // 显隐列类型（checkbox：复选框，transfer：穿梭框）
   showColumnType: {
@@ -68,9 +69,9 @@ const value = ref([] as any[])
 onMounted(() => {
   if (props.showColumnType === 'transfer') {
     // 显隐列初始默认隐藏列
-    for (let item in props.columns) {
-      if (props.columns[item].visible === false) {
-        value.value.push(parseInt(item))
+    for (let i in props.columns) {
+      if (props.columns[i].visible === false) {
+        value.value.push(parseInt(i))
       }
     }
   }
@@ -96,9 +97,9 @@ const handleRefresh = () => {
  * @param data 穿梭框隐藏的数据
  */
 const handleTransferChange = (data: any[]) => {
-  for (let item in props.columns) {
-    const key = props.columns[item].key
-    props.columns[item].visible = !data.includes(key)
+  for (let i in props.columns) {
+    const key = props.columns[i].key
+    props.columns[i].visible = !data.includes(key)
   }
 }
 
