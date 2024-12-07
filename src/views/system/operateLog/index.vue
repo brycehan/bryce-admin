@@ -39,11 +39,20 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'system:operateLog:save'" type="primary" plain icon="Plus" @click="handleInfo()">新增</el-button>
-      <el-button v-auth="'system:operateLog:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch('id', '日志编号')"
+      <el-button v-auth="'system:operateLog:save'" type="primary" plain icon="Plus" @click="handleInfo()"
+        >新增</el-button
+      >
+      <el-button
+        v-auth="'system:operateLog:delete'"
+        type="danger"
+        plain
+        icon="Delete"
+        @click="handleDeleteBatch('id', '日志编号')"
         >删除</el-button
       >
-      <el-button v-auth="'system:operateLog:delete'" type="danger" plain icon="Delete" @click="handleCleanLog">清空</el-button>
+      <el-button v-auth="'system:operateLog:delete'" type="danger" plain icon="Delete" @click="handleCleanLog"
+        >清空</el-button
+      >
       <el-button v-auth="'system:operateLog:export'" type="success" plain icon="Download" @click="handleDownloadExcel()"
         >导出</el-button
       >
@@ -58,21 +67,21 @@
       @sort-change="handleSortChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="日志编号" prop="id" header-align="center" align="center" />
+      <el-table-column label="日志编号" prop="id" header-align="center" align="center" width="150"/>
       <el-table-column label="模块名称" prop="moduleName" show-overflow-tooltip header-align="center" align="center" />
       <el-table-column label="请求URI" prop="requestUri" show-overflow-tooltip header-align="center" align="center" />
-      <el-table-column label="请求方法" prop="requestMethod" header-align="center" align="center" />
       <dict-table-column
         label="操作类型"
         prop="operatedType"
         dict-type="sys_operate_type"
         header-align="center"
         align="center"
+        width="90"
       />
-      <dict-table-column label="操作状态" prop="status" dict-type="sys_status" />
+      <el-table-column label="操作账号" prop="username" sortable="custom" header-align="center" align="center" />
       <el-table-column label="操作IP" prop="ip" show-overflow-tooltip header-align="center" align="center" />
       <el-table-column label="操作地点" prop="location" header-align="center" align="center" />
-      <el-table-column label="操作账号" prop="username" sortable="custom" header-align="center" align="center" />
+      <dict-table-column label="操作状态" prop="status" dict-type="sys_status" width="90"/>
       <el-table-column label="操作时间" prop="operatedTime" header-align="center" align="center" width="160" />
       <el-table-column label="执行时长" prop="duration" header-align="center" align="center">
         <template #default="scope"> {{ scope.row.duration }}毫秒 </template>
@@ -83,10 +92,10 @@
         fixed="right"
         header-align="center"
         align="center"
-        width="80"
+        width="90"
       >
         <template #default="scope">
-          <el-button type="info" text @click="handleInfo(scope.row.id)">详情</el-button>
+          <el-button type="info" icon="view" text @click="handleInfo(scope.row.id)">详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -111,7 +120,8 @@ import Info from './info.vue'
 import { deleteByIdsApi, deleteCleanApi, postExportExcelApi, postPageApi } from '@/api/system/operateLog'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import modal from '@/utils/modal'
 
 const state: StateOptions = reactive({
   api: {
@@ -165,7 +175,9 @@ const handleResetQuery = () => {
   getPage()
 }
 
-/** 详情弹窗 */
+/**
+ * 详情弹窗
+ */
 const handleInfo = (id?: bigint) => {
   infoRef.value.init(id)
 }
@@ -174,9 +186,7 @@ const handleInfo = (id?: bigint) => {
  * 清空按钮操作
  */
 const handleCleanLog = () => {
-  ElMessageBox.confirm('是否确认清空所有操作日志数据？', '系统提示', {
-    type: 'warning'
-  })
+  modal.confirm('是否确认清空所有操作日志数据？')
     .then(() => {
       deleteCleanApi().then(() => {
         ElMessage.success('清空成功')

@@ -10,7 +10,7 @@ export const postPageApi = (data: any) => {
 }
 
 /**
- * 强制退出
+ * 强制退出用户
  *
  * @param userKey 用户缓存键值
  */

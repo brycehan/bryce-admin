@@ -153,10 +153,11 @@ import AddOrEdit from './add-or-edit.vue'
 import { postPageApi, deleteByIdsApi, putRunApi, putStatusApi, postExportExcelApi } from '@/api/quartz/job'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { auth } from '@/utils/tool'
 import Info from '@/views/quartz/job/info.vue'
+import modal from '@/utils/modal'
 
 const state: StateOptions = reactive({
   api: {
@@ -185,7 +186,9 @@ onMounted(() => {
 const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleSortChange, handleDownloadExcel } =
   crud(state)
 
-/** 重置按钮操作 */
+/**
+ * 重置按钮操作
+ */
 const handleResetQuery = () => {
   for (const key in state.range) {
     state.range[key] = []
@@ -198,7 +201,11 @@ const handleResetQuery = () => {
   getPage()
 }
 
-/** 新增/修改 弹窗 */
+/**
+ * 新增/修改 弹窗
+ *
+ * @param id 任务ID
+ */
 const handleAddOrEdit = (id?: bigint) => {
   addOrEditRef.value.init(id)
 }
@@ -209,9 +216,7 @@ const handleAddOrEdit = (id?: bigint) => {
  * @param row 任务数据行
  */
 const handleRunOnce = (row: any) => {
-  ElMessageBox.confirm(`确定要立即执行一次“${row.jobName}”任务吗？`, '系统提示', {
-    type: 'warning'
-  })
+  modal.confirm(`确定要立即执行一次“${row.jobName}”任务吗？`)
     .then(() => {
       putRunApi(row).then(() => {
         ElMessage.success('执行成功')
@@ -226,13 +231,11 @@ const handleRunOnce = (row: any) => {
  * @param row 任务数据行
  */
 const handleChangeStatus = (row: any) => {
-  const opt = row.status === 1 ? '恢复' : '暂停'
-  ElMessageBox.confirm(`确定进行${opt}操作？`, '提示', {
-    type: 'warning'
-  })
+  const opt = row.status === 1 ? '启用' : '停用'
+  modal.confirm(`确定要${opt}“${row.jobName}”任务吗？`)
     .then(() => {
       putStatusApi(row).then(() => {
-        ElMessage.success('操作成功')
+        ElMessage.success(`${opt}成功`)
       })
     })
     .catch(() => {

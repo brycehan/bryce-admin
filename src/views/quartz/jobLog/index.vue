@@ -13,12 +13,7 @@
         <el-input v-model="state.queryForm.jobName" placeholder="请输入任务名称" clearable />
       </el-form-item>
       <el-form-item label="任务组名" prop="jobGroup">
-        <dict-select
-          v-model="state.queryForm.jobGroup"
-          dict-type="quartz_job_group"
-          placeholder="任务组名"
-          clearable
-        />
+        <dict-select v-model="state.queryForm.jobGroup" dict-type="quartz_job_group" placeholder="任务组名" clearable />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="getPage()">搜索</el-button>
@@ -34,8 +29,12 @@
         @click="handleDeleteBatch('id', '日志编号')"
         >删除</el-button
       >
-      <el-button v-auth="'quartz:jobLog:delete'" type="danger" plain icon="Delete" @click="handleCleanJobLog">清空</el-button>
-      <el-button v-auth="'quartz:jobLog:export'" type="success" plain icon="Download" @click="handleDownloadExcel()">导出</el-button>
+      <el-button v-auth="'quartz:jobLog:delete'" type="danger" plain icon="Delete" @click="handleCleanJobLog"
+        >清空</el-button
+      >
+      <el-button v-auth="'quartz:jobLog:export'" type="success" plain icon="Download" @click="handleDownloadExcel()"
+        >导出</el-button
+      >
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
@@ -47,21 +46,9 @@
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
       <el-table-column label="日志编号" prop="id" header-align="center" align="center" />
-      <el-table-column
-        label="任务名称"
-        prop="jobName"
-        show-overflow-tooltip
-        header-align="center"
-        align="center"
-      />
+      <el-table-column label="任务名称" prop="jobName" show-overflow-tooltip header-align="center" align="center" />
       <dict-table-column label="任务组名" prop="jobGroup" dict-type="quartz_job_group" />
-      <el-table-column
-        label="执行方法"
-        prop="method"
-        show-overflow-tooltip
-        header-align="center"
-        align="center"
-      >
+      <el-table-column label="执行方法" prop="method" show-overflow-tooltip header-align="center" align="center">
         <template #default="scope"> {{ scope.row.beanName }}.{{ scope.row.method }}() </template>
       </el-table-column>
       <el-table-column label="执行状态" prop="executeStatus" header-align="center" align="center">
@@ -73,21 +60,10 @@
       <el-table-column label="执行时长" prop="duration" header-align="center" align="center">
         <template #default="scope"> {{ scope.row.duration }}毫秒 </template>
       </el-table-column>
-      <el-table-column
-        label="执行时间"
-        prop="createdTime"
-        header-align="center"
-        align="center"
-        width="160"
-      />
+      <el-table-column label="执行时间" prop="createdTime" header-align="center" align="center" width="160" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="100">
         <template #default="scope">
-          <el-button
-            v-auth="'quartz:jobLog:info'"
-            type="info"
-            icon="view"
-            text
-            @click="handleInfo(scope.row.id)"
+          <el-button v-auth="'quartz:jobLog:info'" type="info" icon="view" text @click="handleInfo(scope.row.id)"
             >详情</el-button
           >
         </template>
@@ -110,12 +86,13 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { postPageApi, deleteByIdsApi, postExportExcelApi, deleteCleanApi } from '@/api/quartz/jobLog'
+import { deleteByIdsApi, deleteCleanApi, postExportExcelApi, postPageApi } from '@/api/quartz/jobLog'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import Info from '@/views/quartz/jobLog/info.vue'
 import { useRoute } from 'vue-router'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import modal from '@/utils/modal'
 
 const state: StateOptions = reactive({
   api: {
@@ -138,12 +115,18 @@ const showSearch = ref(true)
 const route = useRoute()
 
 onMounted(() => {
-  state.queryForm.jobName = route.query.jobName as string || ''
+  state.queryForm.jobName = (route.query.jobName as string) || ''
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleDownloadExcel } =
-  crud(state)
+const {
+  getPage,
+  handleSizeChange,
+  handleCurrentChange,
+  handleDeleteBatch,
+  handleSelectionChange,
+  handleDownloadExcel
+} = crud(state)
 
 /**
  * 重置按钮操作
@@ -173,9 +156,8 @@ const handleInfo = (id: bigint) => {
  * 清空按钮操作
  */
 const handleCleanJobLog = () => {
-  ElMessageBox.confirm('是否确认清空所有调度日志数据？', '系统提示', {
-    type: 'warning'
-  })
+  modal
+    .confirm('是否确认清空所有调度日志数据？')
     .then(() => {
       deleteCleanApi().then(() => {
         ElMessage.success('清空成功')

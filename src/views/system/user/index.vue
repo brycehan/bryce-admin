@@ -20,10 +20,10 @@
           @submit.prevent
         >
           <el-form-item label="账号" label-width="40px" prop="username">
-            <el-input v-model="state.queryForm.username" placeholder="请输入账号" clearable/>
+            <el-input v-model="state.queryForm.username" placeholder="请输入账号" clearable />
           </el-form-item>
           <el-form-item label="手机号码" prop="phone">
-            <el-input v-model="state.queryForm.phone" placeholder="请输入手机号码" clearable/>
+            <el-input v-model="state.queryForm.phone" placeholder="请输入手机号码" clearable />
           </el-form-item>
           <el-form-item label="状态" label-width="40px" prop="status">
             <dict-select v-model="state.queryForm.status" dict-type="sys_status" placeholder="用户状态" clearable />
@@ -45,10 +45,23 @@
           </el-form-item>
         </el-form>
         <el-row class="mb-2">
-          <el-button v-auth="'system:user:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()">新增 </el-button>
-          <el-button v-auth="'system:user:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch('username', '账号')">删除</el-button>
-          <el-button v-auth="'system:user:import'" type="info" plain icon="Upload" @click="handleXlsxUpload()">导入</el-button>
-          <el-button v-auth="'system:user:export'" type="success" plain icon="Download" @click="handleDownloadExcel()">导出</el-button>
+          <el-button v-auth="'system:user:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
+            >新增
+          </el-button>
+          <el-button
+            v-auth="'system:user:delete'"
+            type="danger"
+            plain
+            icon="Delete"
+            @click="handleDeleteBatch('username', '账号')"
+            >删除</el-button
+          >
+          <el-button v-auth="'system:user:import'" type="info" plain icon="Upload" @click="handleXlsxUpload()"
+            >导入</el-button
+          >
+          <el-button v-auth="'system:user:export'" type="success" plain icon="Download" @click="handleDownloadExcel()"
+            >导出</el-button
+          >
           <right-toolbar v-model:showSearch="showSearch" :columns="columns" @refresh-page="getPage" />
         </el-row>
         <el-table
@@ -60,11 +73,39 @@
           @sort-change="handleSortChange"
         >
           <el-table-column type="selection" header-align="center" align="center" width="50" />
-          <el-table-column label="账号" prop="username" sortable="custom" header-align="center" align="center" v-if="columns[0].visible" />
-          <el-table-column label="姓名" prop="nickname" sortable="custom" header-align="center" align="center" v-if="columns[1].visible" />
-          <el-table-column label="部门" prop="orgName" header-align="center" align="center" v-if="columns[2].visible"/>
-          <el-table-column label="手机号码" prop="phone" sortable="custom" header-align="center" align="center" v-if="columns[3].visible" />
-          <el-table-column label="状态" prop="status" sortable="custom" header-align="center" align="center" v-if="columns[4].visible" >
+          <el-table-column
+            label="账号"
+            prop="username"
+            sortable="custom"
+            header-align="center"
+            align="center"
+            v-if="columns[0].visible"
+          />
+          <el-table-column
+            label="姓名"
+            prop="nickname"
+            sortable="custom"
+            header-align="center"
+            align="center"
+            v-if="columns[1].visible"
+          />
+          <el-table-column label="部门" prop="orgName" header-align="center" align="center" v-if="columns[2].visible" />
+          <el-table-column
+            label="手机号码"
+            prop="phone"
+            sortable="custom"
+            header-align="center"
+            align="center"
+            v-if="columns[3].visible"
+          />
+          <el-table-column
+            label="状态"
+            prop="status"
+            sortable="custom"
+            header-align="center"
+            align="center"
+            v-if="columns[4].visible"
+          >
             <template #default="scope">
               <el-switch
                 v-model="scope.row.status"
@@ -76,8 +117,22 @@
               />
             </template>
           </el-table-column>
-          <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="160" v-if="columns[5].visible" />
-          <el-table-column label="操作" fixed="right" header-align="center" align="center" width="250" v-if="columns[6].visible" >
+          <el-table-column
+            label="创建时间"
+            prop="createdTime"
+            header-align="center"
+            align="center"
+            width="160"
+            v-if="columns[5].visible"
+          />
+          <el-table-column
+            label="操作"
+            fixed="right"
+            header-align="center"
+            align="center"
+            width="250"
+            v-if="columns[6].visible"
+          >
             <template #default="scope">
               <div v-if="!scope.row.superAdmin">
                 <el-button
@@ -103,7 +158,10 @@
                   <el-button type="success" class="btn-more-link" icon="d-arrow-right" text>更多</el-button>
                   <template #dropdown>
                     <el-dropdown-menu>
-                      <el-dropdown-item v-if="auth('system:user:resetPassword')" command="handleResetPassword" icon="key"
+                      <el-dropdown-item
+                        v-if="auth('system:user:resetPassword')"
+                        command="handleResetPassword"
+                        icon="key"
                         >重置密码</el-dropdown-item
                       >
                       <el-dropdown-item v-if="auth('system:user:update')" command="handleAssignRole" icon="plus"
@@ -145,14 +203,15 @@
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import ImportData from '@/views/system/user/import-data.vue'
-import { postPageApi, deleteByIdsApi, postExportExcelApi, patchStatusApi } from '@/api/system/user'
+import { deleteByIdsApi, patchStatusApi, postExportExcelApi, postPageApi } from '@/api/system/user'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import OrgTree from '@/views/system/user/org-tree.vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import ResetPassword from '@/views/system/user/reset-password.vue'
 import AssignRole from '@/views/system/user/assign-role.vue'
 import { auth } from '@/utils/tool'
+import modal from '@/utils/modal'
 
 const state: StateOptions = reactive({
   api: {
@@ -186,7 +245,7 @@ const columns = ref([
   { key: 3, label: `手机号码`, visible: true },
   { key: 4, label: `状态`, visible: true },
   { key: 5, label: `创建时间`, visible: true },
-  { key: 6, label: `操作`, visible: true },
+  { key: 6, label: `操作`, visible: true }
 ])
 // 显示搜索条件
 const showSearch = ref(true)
@@ -200,8 +259,15 @@ onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange, handleDeleteBatch, handleDownloadExcel, handleSortChange } =
-  crud(state)
+const {
+  getPage,
+  handleSizeChange,
+  handleCurrentChange,
+  handleSelectionChange,
+  handleDeleteBatch,
+  handleDownloadExcel,
+  handleSortChange
+} = crud(state)
 
 const handleOrgClick = (orgId: any) => {
   state.queryForm.orgId = orgId
@@ -239,11 +305,8 @@ const handleXlsxUpload = () => {
 
 const handleStatusChange = (row: any) => {
   let text = row.status === 1 ? '启用' : '停用'
-  ElMessageBox.confirm(`确定要${text}“${row.username}”用户吗？`, '系统提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  })
+  modal
+    .confirm(`确定要${text}“${row.username}”用户吗？`)
     .then(() => {
       patchStatusApi(row.id, row.status).then(() => {
         ElMessage.success(`${text}成功`)
@@ -286,5 +349,4 @@ const handleAssignRole = (row: any) => {
   assignRoleTitle.value = `分配角色 - 账号“${row.username}”`
   assignRoleRow.value = row
 }
-
 </script>

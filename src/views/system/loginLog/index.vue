@@ -16,12 +16,7 @@
         <el-input v-model="state.queryForm.ip" placeholder="请输入登录IP地址" clearable />
       </el-form-item>
       <el-form-item label="状态" prop="status">
-        <dict-select
-          v-model="state.queryForm.status"
-          dict-type="sys_operate_status"
-          placeholder="登录状态"
-          clearable
-        />
+        <dict-select v-model="state.queryForm.status" dict-type="sys_operate_status" placeholder="登录状态" clearable />
       </el-form-item>
       <el-form-item label="访问时间" prop="accessTime">
         <el-date-picker
@@ -49,8 +44,12 @@
         @click="handleDeleteBatch('id', '日志编号')"
         >删除</el-button
       >
-      <el-button v-auth="'system:loginLog:delete'" type="danger" plain icon="Delete" @click="handleCleanLog">清空</el-button>
-      <el-button v-auth="'system:loginLog:export'" type="success" plain icon="Download" @click="handleDownloadExcel()">导出</el-button>
+      <el-button v-auth="'system:loginLog:delete'" type="danger" plain icon="Delete" @click="handleCleanLog"
+        >清空</el-button
+      >
+      <el-button v-auth="'system:loginLog:export'" type="success" plain icon="Download" @click="handleDownloadExcel()"
+        >导出</el-button
+      >
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
@@ -62,25 +61,13 @@
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
       <el-table-column label="日志编号" prop="id" header-align="center" align="center" />
-      <el-table-column label="用户账号" prop="username" header-align="center" align="center" />
-      <dict-table-column label="登录状态" prop="info" dict-type="sys_login_status" />
+      <el-table-column label="账号" prop="username" header-align="center" align="center" />
       <el-table-column label="登录IP" prop="ip" header-align="center" align="center" />
       <el-table-column label="登录地点" prop="location" header-align="center" align="center" />
-      <el-table-column
-        label="User Agent"
-        prop="userAgent"
-        show-overflow-tooltip
-        header-align="center"
-        align="center"
-      />
+      <el-table-column label="User Agent" prop="userAgent" show-overflow-tooltip header-align="center" align="center" />
       <dict-table-column label="状态" prop="status" dict-type="sys_operate_status" />
-      <el-table-column
-        label="访问时间"
-        prop="accessTime"
-        header-align="center"
-        align="center"
-        width="165"
-      />
+      <dict-table-column label="操作信息" prop="info" dict-type="sys_login_status" />
+      <el-table-column label="访问时间" prop="accessTime" header-align="center" align="center" width="165" />
     </el-table>
     <el-pagination
       :current-page="state.current"
@@ -96,10 +83,11 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { postPageApi, deleteByIdsApi, postExportExcelApi, deleteCleanApi } from '@/api/system/loginLog'
+import { deleteByIdsApi, deleteCleanApi, postExportExcelApi, postPageApi } from '@/api/system/loginLog'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import modal from '@/utils/modal'
 
 const state: StateOptions = reactive({
   api: {
@@ -153,9 +141,8 @@ const handleResetQuery = () => {
  * 清空按钮操作
  */
 const handleCleanLog = () => {
-  ElMessageBox.confirm('是否确认清空所有登录日志数据？', '系统提示', {
-    type: 'warning'
-  })
+  modal
+    .confirm('是否确认清空所有登录日志数据？')
     .then(() => {
       deleteCleanApi().then(() => {
         ElMessage.success('清空成功')

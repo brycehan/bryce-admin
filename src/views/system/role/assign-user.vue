@@ -34,14 +34,11 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue'
-import {
-  postAssignUserPageApi as postPageApi,
-  postAssignUserSaveApi,
-  deleteAssignUserApi
-} from '@/api/system/role'
+import { deleteAssignUserApi, postAssignUserPageApi as postPageApi, postAssignUserSaveApi } from '@/api/system/role'
 import { crud, type StateOptions } from '@/utils/state'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import SelectUser from '@/views/system/role/select-user.vue'
+import modal from '@/utils/modal'
 
 const props = defineProps({
   row: {
@@ -52,7 +49,7 @@ const props = defineProps({
 
 const state: StateOptions = reactive({
   api: {
-    postPageApi,
+    postPageApi
   },
   queryForm: {
     roleId: props.row.id,
@@ -96,12 +93,14 @@ const handleDeleteBatch = (row?: any) => {
     ElMessage.warning('请选择删除的记录')
     return
   }
-  const usernameStr = data.map(item => item.username).join(',')
-  ElMessageBox.confirm(`是否确认移除账号为“${usernameStr}”的授权？`, '系统提示', {
-    type: 'warning'
-  })
+  const usernameStr = data.map((item) => item.username).join(',')
+  modal
+    .confirm(`是否确认移除账号为“${usernameStr}”的授权？`)
     .then(() => {
-      deleteAssignUserApi(state.queryForm.roleId, data.map(item => item.id)).then(() => {
+      deleteAssignUserApi(
+        state.queryForm.roleId,
+        data.map((item) => item.id)
+      ).then(() => {
         ElMessage.success('移除授权成功')
         getPage()
       })

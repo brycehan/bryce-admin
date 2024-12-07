@@ -11,15 +11,6 @@ export const deleteByIdsApi = (ids: bigint[]) => {
 }
 
 /**
- * 查询系统登录日志详情
- *
- * @param id ID
- */
-export const getByIdApi = (id: bigint) => {
-  return request.get(`/system/loginLog/${id}`)
-}
-
-/**
  * 系统登录日志分页查询
  *
  * @param data 参数
