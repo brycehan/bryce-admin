@@ -98,11 +98,11 @@ const menuTree = ref([])
 /**
  * 角色编码是否唯一
  *
- * @param rule 校验规则
+ * @param _rule 校验规则
  * @param value 校验值
  * @param callback 回调
  */
-const checkCodeUnique = (rule: any, value: any, callback: any) => {
+const checkCodeUnique = (_rule: any, value: any, callback: any) => {
   getCheckCodeUniqueApi(value, state.dataForm.id).then((res) => {
     if (res.data) {
       callback()
@@ -133,7 +133,7 @@ const { handleSaveOrUpdate } = crud(state)
  *
  * @param id 角色ID
  */
-const init = (id?: bigint) => {
+const init = (id?: string) => {
   state.visible = true
   state.dataForm.id = undefined
 
@@ -155,15 +155,15 @@ const init = (id?: bigint) => {
 }
 
 /** 获取详情数据 */
-const getData = (id: bigint) => {
+const getData = (id: string) => {
   getByIdApi(id).then((res: any) => {
     Object.assign(state.dataForm, res.data)
-    state.dataForm.menuIds.forEach((menuId: bigint) => menuTreeRef.value.setChecked(menuId, true))
+    state.dataForm.menuIds.forEach((menuId: string) => menuTreeRef.value.setChecked(menuId, true))
   })
 }
 
 const getMenuTree = () => {
-  return getMenuApi().then((res: any) => {
+  getMenuApi().then((res: any) => {
     menuTree.value = res.data
   })
 }

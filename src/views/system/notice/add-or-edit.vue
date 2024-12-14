@@ -78,7 +78,7 @@ const dataRules = reactive<FormRules>({
 const { getData } = crud(state)
 
 /** 初始化详情数据 */
-const init = (id?: bigint) => {
+const init = (id?: string) => {
   state.visible = true
   state.dataForm.id = undefined
 
@@ -92,10 +92,6 @@ const init = (id?: bigint) => {
     getData(id)
   }
 }
-
-onMounted(() => {
-  init(BigInt(props.noticeId || ''))
-})
 
 /** 表单提交 */
 const handleSubmit = () => {

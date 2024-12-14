@@ -203,7 +203,7 @@ const handleResetQuery = () => {
  *
  * @param id 参数ID
  */
-const handleAddOrEdit = (id?: bigint) => {
+const handleAddOrEdit = (id?: string) => {
   addOrEditRef.value.init(id)
 }
 </script>

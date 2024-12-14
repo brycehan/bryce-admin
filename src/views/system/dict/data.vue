@@ -98,7 +98,7 @@ onMounted(() => {
 const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } = crud(state)
 
 /** 新增/修改 弹窗 */
-const handleAddOrEdit = (id?: bigint) => {
+const handleAddOrEdit = (id?: string) => {
   addOrEditRef.value.dataForm.dictTypeId = props.dictTypeId
   addOrEditRef.value.init(id)
 }

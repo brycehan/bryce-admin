@@ -97,7 +97,7 @@ const { getData } = crud(state)
  *
  * @param id 日志编号
  */
-const init = (id: bigint) => {
+const init = (id: string) => {
   state.visible = true
   getData(id)
 }

@@ -7,7 +7,7 @@
       <el-tooltip effect="dark" content="刷新" placement="top">
         <el-button icon="refresh" circle @click="handleRefresh" />
       </el-tooltip>
-      <el-tooltip effect="dark" content="显隐列" placement="top" v-if="columns">
+      <el-tooltip effect="dark" content="显隐列" placement="top" v-if="columns.length > 0">
         <el-button v-if="showColumnType === 'transfer'" icon="menu" circle @click="showColumnDialog" />
         <el-dropdown v-else trigger="click" :hide-on-click="false" placement="bottom-end">
           <el-button icon="menu" circle />

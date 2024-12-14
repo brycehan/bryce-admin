@@ -214,7 +214,7 @@ const { handleSaveOrUpdate } = crud(state)
  *
  * @param id 菜单ID
  */
-const init = (id?: bigint) => {
+const init = (id?: string) => {
   state.visible = true
   state.dataForm.id = undefined
 
@@ -265,7 +265,7 @@ const initAdd = (row?: any) => {
 }
 
 /** 获取详情数据 */
-const getData = (id: bigint) => {
+const getData = (id: string) => {
   getByIdApi(id).then((res: any) => {
     Object.assign(state.dataForm, res.data)
 

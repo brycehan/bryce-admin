@@ -19,7 +19,7 @@ export const saveOrUpdateApi = (data: any) => {
  *
  * @param ids ID数组
  */
-export const deleteByIdsApi = (ids: bigint[]) => {
+export const deleteByIdsApi = (ids: string[]) => {
   return request.delete('/system/user', { data: { ids } })
 }
 
@@ -28,7 +28,7 @@ export const deleteByIdsApi = (ids: bigint[]) => {
  *
  * @param id ID
  */
-export const getByIdApi = (id: bigint) => {
+export const getByIdApi = (id: string) => {
   return request.get(`/system/user/${id}`)
 }
 
@@ -45,9 +45,9 @@ export const postPageApi = (data: any) => {
  * 更新系统用户状态
  *
  * @param id ID
- * @param status 状态
+ * @param status 状态（0：禁用，1：启用）
  */
-export const patchStatusApi = (id: bigint, status: number) => {
+export const patchStatusApi = (id: string, status: number) => {
     return request.patch(`/system/user/${id}/${status}`)
 }
 

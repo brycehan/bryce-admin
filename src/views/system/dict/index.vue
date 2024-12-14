@@ -193,7 +193,7 @@ const handleResetQuery = () => {
 }
 
 /** 新增/修改 弹窗 */
-const handleAddOrEdit = (id?: bigint) => {
+const handleAddOrEdit = (id?: string) => {
   addOrEditRef.value.init(id)
 }
 

@@ -6,7 +6,7 @@ import download from '@/utils/download'
  *
  * @param ids ID数组
  */
-export const deleteByIdsApi = (ids: bigint[]) => {
+export const deleteByIdsApi = (ids: string[]) => {
   return request.delete('/system/loginLog', { data: { ids } })
 }
 

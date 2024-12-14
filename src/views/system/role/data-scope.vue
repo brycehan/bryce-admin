@@ -46,7 +46,7 @@ import { ElMessage, type FormRules } from 'element-plus'
 
 const visible = ref(false)
 const dataForm = reactive({
-  id: undefined,
+  id: '',
   name: '',
   dataScope: 1,
   orgIds: [],
@@ -63,9 +63,9 @@ const dataRules = reactive<FormRules>({})
  *
  * @param id id
  */
-const init = (id?: bigint) => {
+const init = (id?: string) => {
   visible.value = true
-  dataForm.id = undefined
+  dataForm.id = ''
 
   // 重置表单数据
   if (dataFormRef.value) {
@@ -88,7 +88,7 @@ const init = (id?: bigint) => {
 /**
  * 获取详情数据
  */
-const getData = (id: bigint) => {
+const getData = (id: string) => {
   getByIdApi(id).then((res: any) => {
     Object.assign(dataForm, res.data)
 

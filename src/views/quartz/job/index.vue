@@ -206,7 +206,7 @@ const handleResetQuery = () => {
  *
  * @param id 任务ID
  */
-const handleAddOrEdit = (id?: bigint) => {
+const handleAddOrEdit = (id?: string) => {
   addOrEditRef.value.init(id)
 }
 

@@ -178,7 +178,7 @@ const handleResetQuery = () => {
 /**
  * 详情弹窗
  */
-const handleInfo = (id?: bigint) => {
+const handleInfo = (id?: string) => {
   infoRef.value.init(id)
 }
 

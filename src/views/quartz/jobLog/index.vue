@@ -148,7 +148,7 @@ const handleResetQuery = () => {
  *
  * @param id 日志编号
  */
-const handleInfo = (id: bigint) => {
+const handleInfo = (id: string) => {
   infoRef.value.init(id)
 }
 

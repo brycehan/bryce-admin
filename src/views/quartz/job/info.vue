@@ -102,7 +102,7 @@ const { getData } = crud(state)
  *
  * @param id 定时任务id
  */
-const init = (id: bigint) => {
+const init = (id: string) => {
   state.visible = true
   getData(id)
 }

@@ -56,24 +56,44 @@
       <el-table-column label="角色编码" prop="code" sortable="custom" header-align="center" align="center" />
       <el-table-column label="显示顺序" prop="sort" sortable="custom" header-align="center" align="center" />
       <dict-table-column label="状态" prop="status" dict-type="sys_status" />
+      <el-table-column
+        label="状态"
+        prop="status"
+        sortable="custom"
+        header-align="center"
+        align="center"
+      >
+        <template #default="scope">
+          <el-switch
+            v-model="scope.row.status"
+            :disabled="scope.row.id == 1"
+            :width="40"
+            :active-value="1"
+            :inactive-value="0"
+            @change="handleStatusChange(scope.row)"
+          />
+        </template>
+      </el-table-column>
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="300">
         <template #default="scope">
-          <el-button v-auth="'system:role:update'" type="primary" icon="edit" text @click="handleAddOrEdit(scope.row.id)"
+          <div v-if="scope.row.id != 1">
+            <el-button v-auth="'system:role:update'" type="primary" icon="edit" text @click="handleAddOrEdit(scope.row.id)"
             >修改
-          </el-button>
-          <el-button v-auth="'system:role:delete'" type="danger" icon="delete" text @click="handleDeleteBatch('code', '角色编码', scope.row)"
+            </el-button>
+            <el-button v-auth="'system:role:delete'" type="danger" icon="delete" text @click="handleDeleteBatch('code', '角色编码', scope.row)"
             >删除
-          </el-button>
-          <el-dropdown v-auth="'system:role:update'" @command="(command: string) => handleCommand(command, scope.row)">
-            <el-button type="success" icon="d-arrow-right" class="btn-more-link" text>更多</el-button>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item command="handleDataScope" icon="CircleCheck">数据权限</el-dropdown-item>
-                <el-dropdown-item command="handleAssignUser" icon="User">分配用户</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+            </el-button>
+            <el-dropdown v-auth="'system:role:update'" @command="(command: string) => handleCommand(command, scope.row)">
+              <el-button type="success" icon="d-arrow-right" class="btn-more-link" text>更多</el-button>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item command="handleDataScope" icon="CircleCheck">数据权限</el-dropdown-item>
+                  <el-dropdown-item command="handleAssignUser" icon="User">分配用户</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -106,6 +126,8 @@ import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import DataScope from '@/views/system/role/data-scope.vue'
 import AssignUser from '@/views/system/role/assign-user.vue'
+import modal from '@/utils/modal'
+import { ElMessage } from 'element-plus'
 
 const state: StateOptions = reactive({
   api: {
@@ -165,8 +187,27 @@ const handleResetQuery = () => {
  *
  * @param id 数据ID
  */
-const handleAddOrEdit = (id?: bigint) => {
+const handleAddOrEdit = (id?: string) => {
   addOrEditRef.value.init(id)
+}
+
+/**
+ * 状态改变
+ *
+ * @param row 当前行数据
+ */
+const handleStatusChange = (row: any) => {
+  let text = row.status === 1 ? '启用' : '停用'
+  modal
+    .confirm(`确定要${text}“${row.username}”用户吗？`)
+    .then(() => {
+      patchStatusApi(row.id, row.status).then(() => {
+        ElMessage.success(`${text}成功`)
+      })
+    })
+    .catch(() => {
+      row.status = row.status === 1 ? 0 : 1
+    })
 }
 
 /**

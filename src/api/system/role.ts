@@ -19,7 +19,7 @@ export const saveOrUpdateApi = (data: any) => {
  *
  * @param ids ID数组
  */
-export const deleteByIdsApi = (ids: bigint[]) => {
+export const deleteByIdsApi = (ids: string[]) => {
   return request.delete('/system/role', { data: { ids } })
 }
 
@@ -28,7 +28,7 @@ export const deleteByIdsApi = (ids: bigint[]) => {
  *
  * @param id ID
  */
-export const getByIdApi = (id: bigint) => {
+export const getByIdApi = (id: string) => {
   return request.get(`/system/role/${id}`)
 }
 
@@ -39,6 +39,16 @@ export const getByIdApi = (id: bigint) => {
  */
 export const postPageApi = (data: any) => {
   return request.post('/system/role/page', data)
+}
+
+/**
+ * 更新系统角色状态
+ *
+ * @param id ID
+ * @param status 状态（0：禁用，1：启用）
+ */
+export const patchStatusApi = (id: string, status: number) => {
+  return request.patch(`/system/role/${id}/${status}`)
 }
 
 /**
@@ -70,7 +80,7 @@ export const getMenuApi = () => {
  * @param data 数据
  */
 export const putDataScopeApi = (data: any) => {
-  return request.put('/system/role/dataScope', data)
+  return request.put('/system/role/assignDataScope', data)
 }
 
 /**

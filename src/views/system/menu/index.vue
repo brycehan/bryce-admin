@@ -193,7 +193,7 @@ const handleResetQuery = () => {
  *
  * @param id 菜单ID
  */
-const handleAddOrEdit = (id?: bigint) => {
+const handleAddOrEdit = (id?: string) => {
   addOrEditRef.value.init(id)
 }
 

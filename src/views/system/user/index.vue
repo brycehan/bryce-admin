@@ -292,7 +292,7 @@ const handleResetQuery = () => {
 /**
  * 新增/修改 弹窗
  */
-const handleAddOrEdit = (id?: bigint) => {
+const handleAddOrEdit = (id?: string) => {
   addOrEditRef.value.init(id)
 }
 
@@ -303,6 +303,11 @@ const handleXlsxUpload = () => {
   importDataRef.value.init()
 }
 
+/**
+ * 状态改变
+ *
+ * @param row 当前行数据
+ */
 const handleStatusChange = (row: any) => {
   let text = row.status === 1 ? '启用' : '停用'
   modal

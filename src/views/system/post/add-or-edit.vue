@@ -50,7 +50,7 @@ const state: StateOptions = reactive({
     emit
   },
   dataForm: {
-    id: undefined,
+    id: '',
     name: '',
     code: '',
     sort: 0,
@@ -64,11 +64,11 @@ const dataFormRef = ref()
 /**
  * 校验岗位编码是否唯一
  *
- * @param rule 校验规则
+ * @param _rule 校验规则
  * @param value 校验值
  * @param callback 回调
  */
-const checkCodeUnique = (rule: any, value: any, callback: any) => {
+const checkCodeUnique = (_rule: any, value: any, callback: any) => {
   getCheckCodeUniqueApi(value, state.dataForm.id).then((res) => {
     if (res.data) {
       callback()
@@ -99,7 +99,7 @@ const { getData, handleSaveOrUpdate } = crud(state)
  *
  * @param id 岗位ID
  */
-const init = (id?: bigint) => {
+const init = (id?: string) => {
   state.visible = true
   state.dataForm.id = undefined
 

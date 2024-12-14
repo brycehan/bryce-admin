@@ -121,7 +121,6 @@ const state: StateOptions = reactive({
 
 const queryFormRef = ref()
 const addOrEditRef = ref()
-
 // 显示搜索条件
 const showSearch = ref(true)
 
@@ -149,8 +148,10 @@ const handleResetQuery = () => {
 
 /**
  * 新增/修改 弹窗
+ *
+ * @param id 主键ID
  */
-const handleAddOrEdit = (id?: bigint) => {
+const handleAddOrEdit = (id?: string) => {
   addOrEditRef.value.init(id)
 }
 

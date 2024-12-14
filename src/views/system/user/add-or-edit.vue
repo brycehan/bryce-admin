@@ -257,7 +257,7 @@ const { getData, handleSaveOrUpdate } = crud(state)
  *
  * @param id 用户id
  */
-const init = (id?: bigint) => {
+const init = (id?: string) => {
   state.visible = true
   state.dataForm.id = undefined
   state.dataForm.username = ''
