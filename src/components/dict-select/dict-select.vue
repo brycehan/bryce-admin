@@ -6,7 +6,7 @@
   >
     <el-option
       v-for="data in dataList"
-      :key="data.dictValue"
+      :key="convertInteger(data.dictValue)"
       :label="data.dictLabel"
       :value="convertInteger(data.dictValue)"
     />
@@ -38,7 +38,7 @@ const props = defineProps({
 
 const model = defineModel<number | string>()
 const modelValue = computed({
-  get: () => model.value ? model.value : '',
+  get: () => model.value,
   set: (value) => {
     model.value = value
   }
