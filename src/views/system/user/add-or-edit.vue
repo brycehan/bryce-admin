@@ -151,7 +151,7 @@ const state: StateOptions = reactive({
     emit
   },
   dataForm: {
-    id: undefined,
+    id: '',
     username: '',
     password: '',
     nickname: '',

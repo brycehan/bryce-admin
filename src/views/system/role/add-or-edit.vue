@@ -36,24 +36,34 @@
         </el-col>
       </el-row>
       <el-row>
+        <el-form-item label="菜单权限">
+          <el-checkbox v-model="menuExpandAll" @change="handleTreeExpand($event)">{{menuExpandAll ? '全部收起' : '全部展开'}}</el-checkbox>
+          <el-checkbox v-model="menuCheckAll" @change="handleTreeCheckAll($event)">全选/全不选</el-checkbox>
+          <el-checkbox v-model="menuCheckStrictly" @change="handleTreeCheckStrictly($event)">父子联动</el-checkbox>
+        </el-form-item>
+      </el-row>
+      <el-row>
+        <el-form-item class="w-100">
+          <el-card shadow="never" class="w-100">
+            <el-tree
+              ref="menuTreeRef"
+              :data="menuData"
+              :props="{ label: 'name', children: 'children' }"
+              node-key="id"
+              :check-strictly="!menuCheckStrictly"
+              empty-text="加载中，请稍候..."
+              show-checkbox
+            />
+          </el-card>
+        </el-form-item>
+      </el-row>
+      <el-row>
         <el-form-item label="备注" prop="remark" class="w-100">
           <el-input
             v-model="state.dataForm.remark"
             type="textarea"
             placeholder="请输入备注"
             clearable
-          />
-        </el-form-item>
-      </el-row>
-      <el-row>
-        <el-form-item label="菜单权限">
-          <el-tree
-            ref="menuTreeRef"
-            :data="menuTree"
-            :props="{ label: 'name', children: 'children' }"
-            node-key="id"
-            accordion
-            show-checkbox
           />
         </el-form-item>
       </el-row>
@@ -70,7 +80,7 @@ import { reactive, ref } from 'vue'
 import { getByIdApi, saveOrUpdateApi, getMenuApi, getCheckCodeUniqueApi } from '@/api/system/role'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import type { FormRules } from 'element-plus'
+import { ElMessage, type FormRules } from 'element-plus'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -81,7 +91,7 @@ const state: StateOptions = reactive({
     emit
   },
   dataForm: {
-    id: undefined,
+    id: '',
     name: '',
     code: '',
     dataScope: '',
@@ -93,7 +103,10 @@ const state: StateOptions = reactive({
 
 const dataFormRef = ref()
 const menuTreeRef = ref()
-const menuTree = ref([])
+const menuData = ref([] as any[])
+const menuExpandAll = ref(false)
+const menuCheckAll = ref(false)
+const menuCheckStrictly = ref(true)
 
 /**
  * 角色编码是否唯一
@@ -135,7 +148,7 @@ const { handleSaveOrUpdate } = crud(state)
  */
 const init = (id?: string) => {
   state.visible = true
-  state.dataForm.id = undefined
+  state.dataForm.id = ''
 
   // 重置表单数据
   if (dataFormRef.value) {
@@ -144,6 +157,9 @@ const init = (id?: string) => {
   if (menuTreeRef.value) {
     menuTreeRef.value.setCheckedKeys([])
   }
+  menuExpandAll.value = false
+  menuCheckAll.value = false
+  menuCheckStrictly.value = true
 
   // id 存在则为修改
   if (id) {
@@ -154,7 +170,11 @@ const init = (id?: string) => {
   getMenuTree()
 }
 
-/** 获取详情数据 */
+/**
+ * 获取详情数据
+ *
+ * @param id 角色ID
+ */
 const getData = (id: string) => {
   getByIdApi(id).then((res: any) => {
     Object.assign(state.dataForm, res.data)
@@ -162,12 +182,18 @@ const getData = (id: string) => {
   })
 }
 
+/**
+ * 获取菜单树
+ */
 const getMenuTree = () => {
   getMenuApi().then((res: any) => {
-    menuTree.value = res.data
+    menuData.value = res.data
   })
 }
-/** 表单提交 */
+
+/**
+ * 表单提交
+ */
 const handleSubmit = () => {
   dataFormRef.value.validate((valid: boolean) => {
     if (!valid) {
@@ -178,8 +204,42 @@ const handleSubmit = () => {
       ...menuTreeRef.value.getCheckedKeys()
     ]
 
+    if (state.dataForm.menuIds.length === 0) {
+      ElMessage.error('请至少选择一个菜单')
+      return
+    }
+
     handleSaveOrUpdate()
   })
+}
+
+/**
+ * 展开/折叠菜单树
+ *
+ * @param val true 展开 false 折叠
+ */
+const handleTreeExpand = (val: any) => {
+  for (let i = 0; i < menuData.value.length; i++) {
+    menuTreeRef.value.store.nodesMap[menuData.value[i].id].expanded = val
+  }
+}
+
+/**
+ * 全选/全不选菜单树
+ *
+ * @param val true 全选 false 全不选
+ */
+const handleTreeCheckAll = (val: any) => {
+  menuTreeRef.value.setCheckedNodes(val ? menuData.value : [])
+}
+
+/**
+ * 父子联动菜单树
+ *
+ * @param val true 父子联动 false 不联动
+ */
+const handleTreeCheckStrictly = (val: boolean) => {
+  menuCheckStrictly.value = val
 }
 
 defineExpose({

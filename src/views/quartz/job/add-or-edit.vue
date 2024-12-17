@@ -100,7 +100,7 @@ const state: StateOptions = reactive({
     emit
   },
   dataForm: {
-    id: undefined,
+    id: '',
     jobName: '',
     jobGroup: '',
     beanName: '',

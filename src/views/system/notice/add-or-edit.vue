@@ -56,7 +56,7 @@ const state: StateOptions = reactive({
     emit
   },
   dataForm: {
-    id: undefined,
+    id: '',
     title: '',
     content: '',
     type: 0,

@@ -69,7 +69,7 @@ const state: StateOptions = reactive({
     emit
   },
   dataForm: {
-    id: undefined,
+    id: '',
     dictLabel: '',
     dictValue: '',
     dictTypeId: '',
@@ -89,7 +89,7 @@ const dataRules = reactive<FormRules>({
   ],
   dictValue: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 100, message: '长度为2~100个字符', trigger: 'blur' }
+    { min: 1, max: 100, message: '长度为1~100个字符', trigger: 'blur' }
   ],
   labelClass: [{ min: 0, max: 100, message: '长度不能超过100个字符', trigger: 'blur' }],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],

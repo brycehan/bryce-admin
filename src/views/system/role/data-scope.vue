@@ -19,16 +19,24 @@
       <el-form-item label="数据范围" prop="dataScope">
         <dict-select v-model="dataForm.dataScope" dict-type="sys_data_scope" placeholder="请选择数据范围" class="w-100" clearable/>
       </el-form-item>
-      <el-form-item v-show="dataForm.dataScope == 4" label="数据权限">
-        <el-tree
-          ref="orgListRef"
-          :data="orgList"
-          :props="{ label: 'name', children: 'children' }"
-          node-key="id"
-          accordion
-          show-checkbox
-          class="w-100"
-        />
+      <el-form-item v-show="dataForm.dataScope == 1" label="数据权限">
+        <el-checkbox v-model="orgExpandAll" @change="handleTreeExpand($event)">{{orgExpandAll ? '全部收起' : '全部展开'}}</el-checkbox>
+        <el-checkbox v-model="orgCheckAll" @change="handleTreeCheckAll($event)">全选/全不选</el-checkbox>
+        <el-checkbox v-model="orgCheckStrictly" @change="handleTreeCheckStrictly($event)">父子联动</el-checkbox>
+      </el-form-item>
+      <el-form-item v-show="dataForm.dataScope == 1">
+       <el-card shadow="never" class="w-100">
+         <el-tree
+           ref="orgTreeRef"
+           :data="orgData"
+           :props="{ label: 'name', children: 'children' }"
+           node-key="id"
+           :check-strictly="!orgCheckStrictly"
+           empty-text="加载中，请稍候..."
+           show-checkbox
+           default-expand-all
+         />
+       </el-card>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -48,13 +56,16 @@ const visible = ref(false)
 const dataForm = reactive({
   id: '',
   name: '',
-  dataScope: 1,
-  orgIds: [],
+  dataScope: 0,
+  orgIds: [] as any[],
 })
 
 const dataFormRef = ref()
-const orgListRef = ref()
-const orgList = ref([])
+const orgTreeRef = ref()
+const orgData = ref([] as any[])
+const orgExpandAll = ref(true)
+const orgCheckAll = ref(false)
+const orgCheckStrictly = ref(false)
 
 const dataRules = reactive<FormRules>({})
 
@@ -72,9 +83,12 @@ const init = (id?: string) => {
     dataFormRef.value.resetFields()
   }
 
-  if (orgListRef.value) {
-    orgListRef.value.setCheckedKeys([])
+  if (orgTreeRef.value) {
+    orgTreeRef.value.setCheckedKeys([])
   }
+  orgExpandAll.value = true
+  orgCheckAll.value = false
+  orgCheckStrictly.value = false
 
   // id 存在则为修改
   if (id) {
@@ -93,7 +107,7 @@ const getData = (id: string) => {
     Object.assign(dataForm, res.data)
 
     // 初始化机构树
-    orgListRef.value.setCheckedKeys(dataForm.orgIds)
+    orgTreeRef.value.setCheckedKeys(dataForm.orgIds)
   })
 }
 
@@ -102,7 +116,7 @@ const getData = (id: string) => {
  */
 const getOrgList = () => {
   orgListApi({}).then((response) => {
-    orgList.value = response.data || []
+    orgData.value = response.data || []
   })
 }
 
@@ -110,10 +124,18 @@ const getOrgList = () => {
  * 表单提交
  */
 const handleSubmit = () => {
-  dataForm.orgIds = orgListRef.value.getCheckedKeys()
+  dataForm.orgIds = [
+    ...orgTreeRef.value.getHalfCheckedKeys(),
+    ...orgTreeRef.value.getCheckedKeys()
+  ]
 
   dataFormRef.value.validate((valid: boolean) => {
     if (!valid) {
+      return false
+    }
+
+    if (dataForm.orgIds.length === 0) {
+      ElMessage.error('请至少选择一个部门')
       return false
     }
 
@@ -122,6 +144,35 @@ const handleSubmit = () => {
       ElMessage.success('操作成功')
     })
   })
+}
+
+/**
+ * 展开/折叠机构树
+ *
+ * @param val true 展开 false 折叠
+ */
+const handleTreeExpand = (val: any) => {
+  for (let i = 0; i < orgData.value.length; i++) {
+    orgTreeRef.value.store.nodesMap[orgData.value[i].id].expanded = val
+  }
+}
+
+/**
+ * 全选/全不选机构树
+ *
+ * @param val true 全选 false 全不选
+ */
+const handleTreeCheckAll = (val: any) => {
+  orgTreeRef.value.setCheckedNodes(val ? orgData.value : [])
+}
+
+/**
+ * 父子联动机构树
+ *
+ * @param val true 父子联动 false 不联动
+ */
+const handleTreeCheckStrictly = (val: boolean) => {
+  orgCheckStrictly.value = val
 }
 
 defineExpose({
