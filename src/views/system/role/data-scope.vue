@@ -124,10 +124,7 @@ const getOrgList = () => {
  * 表单提交
  */
 const handleSubmit = () => {
-  dataForm.orgIds = [
-    ...orgTreeRef.value.getHalfCheckedKeys(),
-    ...orgTreeRef.value.getCheckedKeys()
-  ]
+  dataForm.orgIds = orgTreeRef.value.getCheckedKeys()
 
   dataFormRef.value.validate((valid: boolean) => {
     if (!valid) {

@@ -11,9 +11,10 @@ export default {
 
     if (value && value instanceof Array && value.length > 0) {
       const authStore = useAuthStore()
+      const roleSuperAdmin = 'ROLE_SUPER_ADMIN'
 
       // 验证是否拥有权限
-      const hasPermissions = value.every((v: string) => authStore.authoritySet.includes(v))
+      const hasPermissions = authStore.authoritySet.includes(roleSuperAdmin) || value.every((v: string) => authStore.authoritySet.includes(v))
 
       if (!hasPermissions) {
         el.parentNode && el.parentNode.removeChild(el)

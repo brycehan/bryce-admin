@@ -34,7 +34,11 @@ export const useAuthStore = defineStore('authStore', {
       this.accessToken = null
       storage.removeToken()
     },
-    /** 账号登录 */
+    /**
+     * 账号登录
+     *
+     * @param loginDto 登录参数
+     */
     async loginByAccount(loginDto: Auth.LoginDto) {
       const { code, data, message } = await postLoginByAccountApi(loginDto)
       if (code == 200) {
@@ -53,18 +57,24 @@ export const useAuthStore = defineStore('authStore', {
         return Promise.reject(message)
       }
     },
-    /** 获取登录用户信息 */
+    /**
+     * 获取登录用户信息
+     */
     async getCurrentUser() {
       const { data } = await getCurrentUserApi()
       // this.user = data
       Object.assign(this.user, data)
     },
-    /** 获取权限 */
+    /**
+     * 获取权限
+     */
     async getAuthoritySet() {
       const { data } = await getAuthorityApi()
       this.authoritySet = data || []
     },
-    /** 用户退出 */
+    /**
+     * 用户退出
+     */
     async logout() {
       await getLogoutApi()
       storage.removeToken()
