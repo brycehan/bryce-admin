@@ -70,6 +70,7 @@
           >新增</el-button
           >
           <el-button
+            v-if="scope.row.parentId != 0"
             v-auth="'system:org:delete'"
             type="danger"
             icon="delete"
@@ -134,6 +135,11 @@ const handleResetQuery = () => {
   getList()
 }
 
+/**
+ * 新增 / 修改
+ * @param row 当前行数据
+ * @param isAdd 是否新增
+ */
 const handleAddOrEdit = (row: any = null, isAdd: boolean = true) => {
   addOrEditRef.value.init(row, isAdd)
 }

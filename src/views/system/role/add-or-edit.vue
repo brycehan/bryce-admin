@@ -94,7 +94,7 @@ const state: StateOptions = reactive({
     id: '',
     name: '',
     code: '',
-    dataScope: '',
+    dataScopeType: '',
     sort: '0',
     status: 1,
     remark: ''

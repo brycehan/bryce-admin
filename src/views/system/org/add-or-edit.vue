@@ -11,32 +11,20 @@
       label-width="100px"
       class="mr-4"
     >
-      <el-form-item label="上级机构" prop="parentName" class="org-list">
-        <el-popover
-          ref="orgListPopoverRef"
-          placement="bottom-start"
-          trigger="click"
-          :width="400"
-          popper-class="popover-pop"
-        >
-          <template #reference>
-            <el-input v-model="dataForm.parentName" :readonly="true" placeholder="上级机构">
-              <template #suffix>
-                <svg-icon icon="icon-close-circle" @click.stop="handleTreeDefault(null)" />
-              </template>
-            </el-input>
-          </template>
-          <el-tree
+      <el-form-item label="上级机构" prop="parentId" v-if="dataForm.parentId != 0">
+          <el-tree-select
+            v-model="dataForm.parentId"
             ref="orgTreeRef"
             :data="orgList"
             :props="{ label: 'name', children: 'children' }"
             node-key="id"
-            :highlight-current="true"
-            :expand-on-click-node="false"
-            accordion
-            @current-change="handleTreeCurrentChange"
-          ></el-tree>
-        </el-popover>
+            :render-after-expand="false"
+            check-on-click-node
+            check-strictly
+            placeholder="请选择上级机构"
+            filterable
+            clearable
+          ></el-tree-select>
       </el-form-item>
       <el-row>
         <el-col :span="12">
@@ -86,22 +74,19 @@
 import { onMounted, reactive, ref } from 'vue'
 import { ElMessage, type FormRules } from 'element-plus'
 import { getByIdApi, saveOrUpdateApi, postListApi } from '@/api/system/org'
-import SvgIcon from '@/components/svg-icon/svg-icon.vue'
-
+import { ElTreeSelect } from 'element-plus'
 const emit = defineEmits(['refreshPage'])
 
 const visible = ref(false)
 const dataFormRef = ref()
 const orgList = ref([])
 const orgTreeRef = ref()
-const orgListPopoverRef = ref()
 
 const dataForm = reactive({
   id: '',
   name: '',
   code: '',
-  parentId: 0,
-  parentName: '',
+  parentId: null,
   ancestor: '',
   leader: '',
   contactNumber: '',
@@ -112,7 +97,7 @@ const dataForm = reactive({
 
 const dataRules = reactive<FormRules>({
   name: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  parentName: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
+  parentId: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }]
 })
 
@@ -148,14 +133,13 @@ const getOrg = (row: any) => {
   getByIdApi(row.id).then((response) => {
     Object.assign(dataForm, response.data)
 
-    if (dataForm.parentId === 0) {
-      return handleTreeDefault(null)
-    }
-
     orgTreeRef.value.setCurrentKey(dataForm.parentId)
   })
 }
 
+/**
+ * 机构树列表
+ */
 const getOrgList = () => {
   postListApi({}).then((response) => {
     orgList.value = response.data
@@ -170,17 +154,7 @@ const getOrgList = () => {
 const handleTreeDefault = (row: any) => {
   if (row) {
     dataForm.parentId = row.id
-    dataForm.parentName = row.name
-  } else {
-    dataForm.parentId = 0
-    dataForm.parentName = '主类目'
   }
-}
-
-const handleTreeCurrentChange = (data: any) => {
-  dataForm.parentId = data.id
-  dataForm.parentName = data.name
-  orgListPopoverRef.value.hide()
 }
 
 /**
@@ -209,14 +183,3 @@ defineExpose({
   init
 })
 </script>
-
-<style scoped lang="scss">
-.org-list {
-  ::v-deep(.el-input__inner) {
-    cursor: pointer;
-  }
-  ::v-deep(.el-input__suffix) {
-    cursor: pointer;
-  }
-}
-</style>
