@@ -170,7 +170,8 @@ export const convertInteger = (value: string) => {
  */
 export const auth = (authority : any) => {
   const authStore = useAuthStore()
-  return authStore.authoritySet.some((v: string) => v === authority || authority.includes(v))
+  const roleSuperAdmin = 'ROLE_SUPER_ADMIN'
+  return authStore.authoritySet.some((v: string) =>  roleSuperAdmin === v || v === authority || authority.includes(v))
 }
 
 /**

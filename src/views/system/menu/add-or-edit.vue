@@ -11,50 +11,45 @@
       label-width="100px"
       class="mr-4"
     >
-      <el-form-item label="菜单名称" prop="name">
-        <el-input v-model="state.dataForm.name" placeholder="请输入菜单名称" />
+      <el-form-item label="上级菜单" prop="parentId">
+        <el-tree-select
+          v-model="state.dataForm.parentId"
+          ref="menuTreeRef"
+          :data="menuList"
+          :props="{ label: 'name', children: 'children' }"
+          node-key="id"
+          check-on-click-node
+          check-strictly
+          placeholder="请选择上级菜单"
+          filterable
+          clearable
+          @current-change="handleMenuTreeChange"
+        ></el-tree-select>
       </el-form-item>
-      <el-form-item label="类型" prop="type">
+      <el-form-item label="菜单类型" prop="type">
         <el-radio-group
           v-model="state.dataForm.type"
           :disabled="!!state.dataForm.id"
-          @change="handleMenuTypeChange"
         >
+          <el-radio label="C">目录</el-radio>
           <el-radio label="M">菜单</el-radio>
           <el-radio label="B">按钮</el-radio>
-          <el-radio label="I">接口</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="上级菜单" prop="parentName" class="popover-container menu-list">
-        <el-popover
-          ref="menuPopoverRef"
-          placement="bottom-start"
-          trigger="click"
-          :width="400"
-          popper-class="popover-pop"
-        >
-          <template #reference>
-            <el-input v-model="state.dataForm.parentName" :readonly="true" placeholder="上级菜单">
-              <template #suffix>
-                <svg-icon icon="icon-close-circle" @click.stop="handleTreeDefault()" />
-              </template>
-            </el-input>
-          </template>
-          <el-tree
-            ref="menuTreeRef"
-            :data="menuList"
-            :props="{ label: 'name', children: 'children' }"
-            node-key="id"
-            :highlight-current="true"
-            :expand-on-click-node="false"
-            accordion
-            @current-change="handleTreeCurrentChange"
-          ></el-tree>
-        </el-popover>
+      <el-row>
+        <el-col :span="12">
+      <el-form-item label="菜单名称" prop="name">
+        <el-input v-model="state.dataForm.name" placeholder="请输入菜单名称" />
       </el-form-item>
-
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="显示顺序" prop="sort">
+            <el-input-number v-model="state.dataForm.sort" :min="0" />
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-form-item
-        v-if="state.dataForm.type === 'M'"
+        v-if="state.dataForm.type === 'C' || state.dataForm.type === 'M'"
         label="菜单图标"
         prop="icon"
         class="popover-container icon-list"
@@ -67,7 +62,11 @@
           popper-class="icon-popover"
         >
           <template #reference>
-            <el-input v-model="state.dataForm.icon" placeholder="请选择图标" />
+            <el-input v-model="state.dataForm.icon" placeholder="请选择图标" clearable>
+              <template #prefix>
+                <svg-icon :icon="state.dataForm.icon ? state.dataForm.icon : 'icon-search'" />
+              </template>
+            </el-input>
           </template>
           <div class="icon-popover-icon-inner">
             <el-scrollbar class="icon-popover-icon-list" height="250">
@@ -83,37 +82,78 @@
           </div>
         </el-popover>
       </el-form-item>
-      <el-row>
+      <el-row v-if="state.dataForm.type === 'M'">
         <el-col :span="12">
-          <el-form-item label="地址" prop="url">
-            <el-input v-model="state.dataForm.url" placeholder="请输入地址" />
-          </el-form-item>
-        </el-col>
-
-        <el-col :span="12">
-          <el-form-item label="权限标识" prop="authority">
-            <el-input v-model="state.dataForm.authority" placeholder="请输入权限标识" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="打开方式" prop="openStyle">
+          <el-form-item prop="openStyle">
+            <template #label>
+              <el-tooltip effect="dark" content="选择是外部则地址需要以`http(s)://`开头" placement="top">
+                <el-icon class="tooltip-icon">
+                  <QuestionFilled />
+                </el-icon>
+              </el-tooltip>
+              <span>打开方式</span>
+            </template>
             <el-radio-group v-model="state.dataForm.openStyle">
               <el-radio :label="false">内部</el-radio>
               <el-radio :label="true">外部</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
+
         <el-col :span="12">
-          <el-form-item label="显示顺序" prop="sort">
-            <el-input-number v-model="state.dataForm.sort" :min="0" />
+          <el-form-item prop="url">
+            <template #label>
+              <el-tooltip effect="dark" content="访问的路由地址，如：`system/user/index`，或外网地址则以`http(s)://`开头" placement="top">
+                <el-icon class="tooltip-icon">
+                  <QuestionFilled />
+                </el-icon>
+              </el-tooltip>
+              <span>访问地址</span>
+            </template>
+            <el-input v-model="state.dataForm.url" placeholder="请输入地址" />
           </el-form-item>
+
         </el-col>
       </el-row>
-      <el-form-item label="状态" prop="status">
-        <dict-radio-group v-model="state.dataForm.status" dict-type="sys_status" />
-      </el-form-item>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item prop="status" v-if="state.dataForm.type === 'C' || state.dataForm.type === 'M'">
+            <template #label>
+              <el-tooltip effect="dark" content="选择隐藏则路由将不会出现在侧边栏，但仍然可以访问" placement="top">
+                <el-icon class="tooltip-icon">
+                  <QuestionFilled />
+                </el-icon>
+              </el-tooltip>
+              <span>显示状态</span>
+            </template>
+            <dict-radio-group v-model="state.dataForm.visible" dict-type="sys_show_hide" />
+          </el-form-item>
+          <el-form-item prop="authority" v-if="state.dataForm.type === 'M' || state.dataForm.type === 'B'">
+            <template #label>
+              <el-tooltip effect="dark" content="控制器中定义的权限字符，如：@PreAuthorize(`@auth.hasAuthority('system:user:page')`)" placement="top">
+                <el-icon class="tooltip-icon">
+                  <QuestionFilled />
+                </el-icon>
+              </el-tooltip>
+              <span>权限标识</span>
+            </template>
+            <el-input v-model="state.dataForm.authority" placeholder="请输入权限标识" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+        <el-form-item prop="status">
+          <template #label>
+            <el-tooltip effect="dark" content="选择停用则菜单将不会出现在侧边栏，也不能被访问" placement="top">
+              <el-icon class="tooltip-icon">
+                <QuestionFilled />
+              </el-icon>
+            </el-tooltip>
+            <span>菜单状态</span>
+          </template>
+          <dict-radio-group v-model="state.dataForm.status" dict-type="sys_status" />
+        </el-form-item>
+          </el-col>
+      </el-row>
     </el-form>
     <template #footer>
       <el-button @click="state.visible = false">取消</el-button>
@@ -134,7 +174,8 @@ import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 import { getIconList } from '@/utils/tool'
-import type { FormRules } from 'element-plus'
+import { ElTreeSelect, type FormRules } from 'element-plus'
+import { QuestionFilled } from '@element-plus/icons-vue'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -147,22 +188,21 @@ const state: StateOptions = reactive({
   dataForm: {
     id: '',
     name: '',
-    type: 'M',
+    type: 'C',
     parentId: '',
-    parentName: '',
     url: '',
     authority: '',
     icon: '',
     openStyle: false,
     sort: 0,
     remark: '',
-    status: 1
+    visible: 1,
+    status: 1,
   }
 })
 
-const menuList = ref([])
+const menuList = ref([] as any[])
 const iconList = ref<string[]>([])
-const menuPopoverRef = ref()
 const menuTreeRef = ref()
 const iconPopoverRef = ref()
 
@@ -196,7 +236,7 @@ const dataRules = reactive<FormRules>({
     { required: true, message: '必填项不能为空', trigger: 'blur' },
     { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' }
   ],
-  parentName: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
+  parentId: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   url: [{ min: 0, max: 255, message: '长度不能超过255个字符', trigger: 'blur' }],
   authority: [
     { min: 0, max: 100, message: '长度不能超过100个字符', trigger: 'blur' },
@@ -216,23 +256,20 @@ const { handleSaveOrUpdate } = crud(state)
  */
 const init = (id?: string) => {
   state.visible = true
-  state.dataForm.id = undefined
+  state.dataForm.id = ''
 
   // 重置表单数据
   if (dataFormRef.value) {
     dataFormRef.value.resetFields()
   }
 
-  // id 存在则为修改
-  if (id) {
-    getData(id)
-  } else {
-    handleTreeDefault()
-  }
-
   // 菜单列表
   getMenuList()
 
+  // id 存在则为修改
+  if (id) {
+    getData(id)
+  }
   // icon 列表
   iconList.value = getIconList()
 }
@@ -244,7 +281,7 @@ const init = (id?: string) => {
  */
 const initAdd = (row?: any) => {
   state.visible = true
-  state.dataForm.id = undefined
+  state.dataForm.id = null
 
   // 重置表单数据
   if (dataFormRef.value) {
@@ -255,31 +292,23 @@ const initAdd = (row?: any) => {
   getMenuList()
 
   if (row) {
-    handleTreeCurrentChange(row)
-  } else {
-    handleTreeDefault()
+    handleTreeInitAdd(row)
   }
 
   // icon 列表
   iconList.value = getIconList()
 }
 
-/** 获取详情数据 */
+/**
+ * 获取详情数据
+ *
+ * @param id 菜单ID
+ */
 const getData = (id: string) => {
   getByIdApi(id).then((res: any) => {
     Object.assign(state.dataForm, res.data)
-
-    if (state.dataForm.parentId === 0) {
-      return handleTreeDefault()
-    }
-
     menuTreeRef.value.setCurrentKey(state.dataForm.parentId)
   })
-}
-
-/** 菜单类型改变 */
-const handleMenuTypeChange = () => {
-  getMenuList()
 }
 
 /**
@@ -287,31 +316,53 @@ const handleMenuTypeChange = () => {
  */
 const getMenuList = () => {
   postListApi({}).then((res) => {
-    menuList.value = res.data
+    const menuData = []
+    const menu = { id: '0', name: '主类目', type: 'C', children: [] as any[]}
+    menu.children = filterMenuTree(res.data)
+    menuData.push(menu)
+    menuList.value = menuData
   })
 }
 
 /**
- * 上级菜单树，设置默认值
+ * 递归过滤菜单树，只保留类型为 C 或 M 的节点
+ *
+ * @param menus 菜单列表
+ * @returns 过滤后的菜单列表
  */
-const handleTreeDefault = () => {
-  state.dataForm.parentId = 0
-  state.dataForm.parentName = '主类目'
+const filterMenuTree = (menus: any[]): any[] => {
+  return menus
+    .filter((menu: any) => menu.type === 'C' || menu.type === 'M')
+    .map((menu: any) => ({
+      ...menu,
+      children: menu.children ? filterMenuTree(menu.children) : []
+    }))
 }
 
-const handleTreeCurrentChange = (data: any) => {
+/**
+ * 菜单树初始化添加子菜单
+ *
+ * @param data 菜单树选中数据
+ */
+const handleTreeInitAdd = (data: any) => {
   state.dataForm.parentId = data.id
-  state.dataForm.parentName = data.name
-  menuPopoverRef.value.hide()
+  if (data.type === 'M') {
+    state.dataForm.type = 'B'
+  }
 }
 
-/** 图标点击事件 */
+/**
+ * 图标点击事件
+ *
+ */
 const handleIcon = (icon: string) => {
   state.dataForm.icon = icon
   iconPopoverRef.value.hide()
 }
 
-/** 表单提交 */
+/**
+ * 表单提交
+ */
 const handleSubmit = () => {
   dataFormRef.value.validate((valid: boolean) => {
     if (!valid) {
@@ -320,6 +371,19 @@ const handleSubmit = () => {
 
     handleSaveOrUpdate()
   })
+}
+
+/**
+ * 菜单树选中事件（上线菜单是菜单类型时，添加/修改的子菜单类型自动切换为按钮类型）
+ *
+ * @param data
+ */
+const handleMenuTreeChange = (data: any) => {
+  if (data.type === 'M') {
+    state.dataForm.type = 'B'
+  } else {
+    state.dataForm.type = 'C'
+  }
 }
 
 defineExpose({
@@ -344,5 +408,10 @@ defineExpose({
     height: 30px;
     width: 30px;
   }
+}
+
+/* icon 垂直居中 */
+::v-deep(.el-form-item__label) {
+  align-items: center;
 }
 </style>
