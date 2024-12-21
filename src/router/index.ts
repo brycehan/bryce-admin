@@ -163,7 +163,7 @@ router.beforeEach(async (to, from, next) => {
           const { data } = await getDictListApi()
           appStore.setDictList(data)
         } catch (error) {
-          console.warn('出错：', error)
+          console.error('router.beforeEach', error)
 
           // 请求异常，则跳转到登录页
           authStore?.removeToken()
@@ -273,6 +273,7 @@ export const generateRoutes = (menuList: any): RouteRecordRaw[] => {
         title: menu.name,
         icon: menu.icon,
         id: '' + menu.id,
+        type: menu.type,
         url: menu.url,
         cache: true,
         openStyle: menu.openStyle,

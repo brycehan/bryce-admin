@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-sub-menu
-      v-if="menu.children.length > 0"
+      v-if="menu.meta.type === 'C'"
       :key="menu.meta.id"
       :index="menu.path"
       :class="titleSpanClass"
@@ -10,10 +10,10 @@
         <SvgIcon :icon="menu.meta.icon" />
         <span v-if="appStore.sidebarOpened">{{ menu.meta.title }}</span>
       </template>
-      <MenuItem v-for="item in menu.children" :key="item.path" :menu="item" />
+      <menu-item v-for="item in menu.children" :key="item.path" :menu="item" />
     </el-sub-menu>
     <el-menu-item
-      v-if="menu.children.length === 0"
+      v-if="menu.meta.type === 'M'"
       :key="menu.meta.id"
       :index="menu.path"
       @click="handleClick(menu)"
@@ -32,6 +32,7 @@ import { useRouter } from 'vue-router'
 import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 import { isExternalLink, replaceLinkParam } from '@/utils/tool'
 import { useAppStore } from '@/stores/modules/app'
+import MenuItem from '@/components/layout/menu-item/index.vue'
 
 defineOptions({
   name: 'MenuItem'
