@@ -74,12 +74,6 @@ const handleClick = (menu: any) => {
 }
 </script>
 
-<!--<script lang="ts">-->
-<!--export default {-->
-<!--  name: 'MenuItem'-->
-<!--}-->
-<!--</script>-->
-
 <style scoped lang="scss">
 /** 修复折叠样式问题 */
 .title-hide {

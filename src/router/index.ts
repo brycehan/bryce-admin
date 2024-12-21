@@ -76,47 +76,57 @@ export const constantMenu = [
     name: 'Demo',
     url: null,
     icon: 'icon-windows',
+    visible: 1,
     children: [
       {
         id: -11,
         name: 'Icon 图标',
         url: 'demo/icons/index',
-        icon: 'icon-unorderedlist'
+        icon: 'icon-unorderedlist',
+        visible: 1,
       },
       {
         id: -12,
         name: '二维码生成',
         url: 'demo/qrcode/index',
-        icon: 'icon-unorderedlist'
+        icon: 'icon-unorderedlist',
+        visible: 1,
       },
       {
         id: -13,
         name: '页面打印',
         url: 'demo/printJs/index',
-        icon: 'icon-unorderedlist'
+        icon: 'icon-unorderedlist',
+        visible: 1,
       },
       {
         id: -14,
         name: '图片裁剪',
         url: 'demo/cropper/index',
-        icon: 'icon-unorderedlist'
+        icon: 'icon-unorderedlist',
+        visible: 1,
       },
       {
         id: -15,
         name: 'Markdown',
         url: 'demo/markdown/index',
-        icon: 'icon-unorderedlist'
+        icon: 'icon-unorderedlist',
+        visible: 1,
       },
       {
         id: -16,
         name: 'ECharts图表',
         url: 'demo/echarts/index',
-        icon: 'icon-unorderedlist'
+        icon: 'icon-unorderedlist',
+        visible: 1,
       }
     ]
   }
 ]
-/** 错误路由 */
+
+/**
+ * 错误路由
+ */
 export const errorRoute: RouteRecordRaw = {
   path: '/:pathMatch(.*)',
   redirect: '/404'
@@ -231,11 +241,14 @@ const getDynamicComponent = (path: string): any => {
 
 /**
  * 根据菜单列表，生成路由数据
+ *
  * @param menuList 菜单列表
  */
 export const generateRoutes = (menuList: any): RouteRecordRaw[] => {
   const routes: RouteRecordRaw[] = []
-  menuList.forEach((menu: any) => {
+  menuList
+    .filter((item: any) => item.visible === 1) // 隐藏不可见菜单
+    .forEach((menu: any) => {
     let component, path
     if (menu.children?.length > 0) {
       component = () => import('@/components/layout/index.vue')
