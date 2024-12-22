@@ -18,6 +18,7 @@ import DictTableColumn from '@/components/dict-table-column'
 import RightToolbar from '@/components/right-toolbar'
 import SelectUser from '@/components/select-user'
 import WangEditor from '@/components/wang-editor'
+import 'default-passive-events'
 
 const app = createApp(App)
 

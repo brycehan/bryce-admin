@@ -1,7 +1,11 @@
+import type { Theme } from '@/stores/theme/typings'
+import { themeConfig } from '@/stores/theme/config'
+
 const Cache = {
   tokenKey: 'token',
   sidebarOpenedKey: 'sidebarOpened',
-  componentSizeKey: 'componentSize'
+  componentSizeKey: 'componentSize',
+  themeKey: 'theme'
 }
 
 class Storage {
@@ -35,6 +39,18 @@ class Storage {
 
   getComponentSize = (): string => {
     return Tool.getItem(Cache.componentSizeKey) || ''
+  }
+
+  getTheme = (): Theme => {
+    return Tool.getItem(Cache.themeKey) as Theme || themeConfig
+  }
+
+  setTheme(theme: Theme) {
+    Tool.setItem(Cache.themeKey, theme)
+  }
+
+  removeTheme() {
+    Tool.removeItem(Cache.themeKey)
   }
 }
 const Tool = {

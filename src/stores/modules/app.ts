@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import storage from '@/utils/storage'
 
 export const useAppStore = defineStore(
   'appStore',
@@ -10,6 +11,7 @@ export const useAppStore = defineStore(
     const componentSize = ref<string>()
     // 字典列表
     const dictList = ref<any>([])
+    const theme = storage.getTheme()
 
     const toggleSidebarOpened = () => {
       sidebarOpened.value = !sidebarOpened.value
@@ -32,7 +34,8 @@ export const useAppStore = defineStore(
       toggleSidebarOpened,
       setComponentSize,
       setDictList,
-      getDictList
+      getDictList,
+      theme
     }
   },
   {

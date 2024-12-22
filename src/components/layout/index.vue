@@ -26,6 +26,7 @@
       </el-main>
     </el-container>
   </el-container>
+  <settings />
 </template>
 <script setup lang="ts">
 import { useAppStore } from '@/stores/modules/app'
@@ -37,6 +38,7 @@ import Main from '@/components/layout/main/index.vue'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 import { useRouterStore } from '@/stores/modules/router'
+import Settings from '@/components/layout/settings/index.vue'
 
 const route = useRoute()
 const appStore = useAppStore()
