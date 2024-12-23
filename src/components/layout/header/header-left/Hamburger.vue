@@ -1,7 +1,5 @@
 <template>
-  <div @click="handleClick">
-    <svg-icon :icon="icon" />
-  </div>
+  <svg-icon :icon="icon" @click="handleClick"/>
 </template>
 
 <script setup lang="ts">

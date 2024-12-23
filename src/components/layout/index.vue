@@ -2,12 +2,12 @@
   <el-container class="layout-container">
     <!-- 左侧菜单 -->
     <el-aside class="layout-sidebar" :class="sidebarClass">
-      <Logo />
+      <Logo v-if="appStore.theme.showLogo"/>
       <el-scrollbar>
         <el-menu
           :default-active="route.path"
           :collapse="!appStore.sidebarOpened"
-          :unique-opened="true"
+          :unique-opened="appStore.theme.uniqueOpened"
           :collapse-transition="false"
           mode="vertical"
         >
@@ -17,7 +17,7 @@
     </el-aside>
     <el-container>
       <!-- 顶部导航 -->
-      <el-header class="layout-header">
+      <el-header class="layout-header" >
         <Header />
       </el-header>
       <!-- 内容区域 -->
@@ -45,7 +45,9 @@ const appStore = useAppStore()
 const routerStore = useRouterStore()
 
 const sidebarClass = computed(() => {
-  return appStore.sidebarOpened ? 'aside-expend' : 'aside-compress'
+  const sidebarOpened = appStore.sidebarOpened ? 'aside-expend' : 'aside-compress'
+  const isDark = appStore.theme.sidebarStyle === 'dark' ? 'sidebar-dark' : ''
+  return `${sidebarOpened} ${isDark}`
 })
 </script>
 
@@ -57,6 +59,7 @@ const sidebarClass = computed(() => {
   .layout-sidebar {
     height: inherit;
     background: var(--theme-menu-bg-color);
+    border-right: 1px solid var(--theme-border-color-light);
     display: flex;
     position: relative;
     flex-direction: column;

@@ -17,6 +17,12 @@ const route = useRoute()
 .header-breadcrumb {
   ::v-deep(.el-breadcrumb__inner) {
     color: var(--theme-header-text-color);
+    &:hover {
+      color: var(--theme-header-text-color);
+    }
+  }
+  ::v-deep(.el-breadcrumb__separator) {
+    color: var(--theme-header-text-color);
   }
 
   padding-left: 10px;

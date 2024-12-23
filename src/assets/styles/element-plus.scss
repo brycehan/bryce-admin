@@ -35,9 +35,15 @@
 }
 
 .el-menu-item.is-active {
+  border-right: 2px solid var(--theme-menu-border-color);
   position: relative;
+  right: 1px;
   overflow: hidden;
-  background-color: var(--el-color-primary);
+  color: var(--theme-menu-hover-color);
+  background-color: var(--theme-menu-hover-bg-color);
+  &:hover {
+    background-color: var(--theme-menu-hover-bg-color);
+  }
 }
 .el-sub-menu.is-active.is-opened {
   .el-sub-menu__title {

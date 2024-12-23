@@ -1,15 +1,16 @@
 :root {
+  // logo
+  --theme-logo-text-color: var(--el-color-primary);
+  --theme-logo-text-fontsize: 18px;
+
   // 左侧菜单
   --theme-menu-width: 230px;
   --theme-menu-min-width: 64px;
-  --theme-menu-bg-color: #263238;
-  --theme-menu-text-color: #bbb;
-  --theme-menu-hover-color: #eee;
+  --theme-menu-text-color: #333;
+  --theme-menu-bg-color: white;
+  --theme-menu-hover-color: var(--el-color-primary);
   --theme-menu-hover-bg-color: var(--el-color-primary-light-9);
-
-  // logo
-  --theme-logo-text-color: #e7e3e3;
-  --theme-logo-text-fontsize: 18px;
+  --theme-menu-border-color: var(--el-color-primary);
 
   // 顶部区域
   --theme-header-height: 50px;

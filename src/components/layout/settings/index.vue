@@ -92,7 +92,7 @@
 
         <el-space direction="vertical" class="config-content">
           <el-alert
-            title='设置之后仅是临时生效，要想永久生效，需点击下方的 "复制配置" 按钮，将配置替换到 store/theme/config.ts 中。'
+            title='设置之后仅是临时生效，要想永久生效，需点击下方的 "复制配置" 按钮，将配置替换到 /src/store/theme/config.ts 中。'
             type="warning"
             :closable="false"
           />
@@ -113,6 +113,7 @@ import { useClipboard, useDark } from '@vueuse/core'
 import storage from '@/utils/storage'
 import { ElMessage } from 'element-plus'
 import SwitchItem from '@/components/layout/settings/SwitchItem.vue'
+import { handleThemePrimary } from '@/utils/theme'
 
 const visible = ref(false)
 emitter.on('openThemeSetting', () => {
@@ -183,7 +184,7 @@ const handleHeaderTheme = (style: string) => {
 const handleThemeColor = (color: string) => {
   theme.value.primaryColor = color
   storage.setTheme(theme.value)
-  // handleThemeStyle(theme.value)
+  handleThemePrimary(theme.value)
 }
 
 const handleOtherTheme = () => {

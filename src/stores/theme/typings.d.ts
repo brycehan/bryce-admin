@@ -4,7 +4,7 @@ export interface Theme {
    */
   sidebarStyle: string
   /**
-   * 顶栏风格 [light、dark]
+   * 顶栏风格 [light、primary]
    */
   headerStyle: string
   /**

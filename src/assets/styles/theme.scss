@@ -1,0 +1,47 @@
+/*
+ * 侧边栏暗色
+ */
+.sidebar-dark {
+  --theme-logo-text-color: #e7e3e3;
+  --theme-menu-text-color: #bbb;
+  --theme-menu-bg-color: #263238;
+  --theme-menu-hover-color: #eee;
+  --theme-menu-hover-bg-color: var(--el-color-primary-light-9);
+  --theme-main-bg-color: #f0f2f5;
+  .el-menu-item.is-active {
+    border-right: 2px solid var(--theme-menu-border-color) !important;
+    position: relative !important;
+    right: 0 !important;
+    color: var(--theme-menu-hover-color);
+    background-color: var(--el-color-primary);
+  }
+  &.layout-sidebar {
+    border-right: none !important;
+  }
+}
+/*
+ * 分栏暗色
+ */
+.layout-column {
+  .sidebar-dark {
+    .sidebar-logo {
+      border-bottom: #444 1px solid !important;
+    }
+  }
+}
+
+/*
+ * 顶栏主题色
+ */
+.header-primary {
+  --theme-logo-text-color: white;
+  --theme-header-bg-color: var(--el-color-primary);
+  --theme-header-text-color: white;
+  --theme-header-hover-color: rgba(0, 0, 0, 0.1);
+  --theme-menu-text-color: #ddd;
+  --theme-menu-hover-color: white;
+  --el-menu-active-color: white;
+  .el-dropdown {
+    color: inherit;
+  }
+}

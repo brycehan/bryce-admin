@@ -1,11 +1,11 @@
 <template>
   <el-container class="main-container">
-    <Tabs />
+    <Tabs v-if="appStore.theme.showTabsView"/>
     <el-main class="main-content">
       <el-scrollbar>
         <el-container class="main-card-container">
           <router-view v-slot="{ Component, route }">
-            <keep-alive :include="[...tabsStore.cachedViews]">
+            <keep-alive :include="cachedViews">
               <component :is="Component" :key="route.name" />
             </keep-alive>
           </router-view>
@@ -18,8 +18,13 @@
 <script setup lang="ts">
 import Tabs from '@/components/layout/main/Tabs.vue'
 import { useTabsStore } from '@/stores/modules/tabs'
+import { useAppStore } from '@/stores/modules/app'
+import { computed } from 'vue'
 
 const tabsStore = useTabsStore()
+const appStore = useAppStore()
+
+const cachedViews = computed(() => appStore.theme.isTabsCache ? tabsStore.cachedViews : [])
 </script>
 
 <style lang="scss">

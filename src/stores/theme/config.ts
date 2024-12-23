@@ -10,5 +10,4 @@ export const themeConfig: Theme = {
   showBreadcrumb: true,
   showTabsView: true,
   isTabsCache: true
-
 }
