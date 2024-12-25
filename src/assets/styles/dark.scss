@@ -16,9 +16,10 @@ html.dark {
   * {
     --theme-logo-text-color: var(--el-text-color-primary);
 
+    --el-menu-hover-text-color: #eee;
+    --el-menu-active-color: #eee;
     --theme-menu-bg-color: var(--el-bg-color);
-    --theme-menu-hover-text-color: #eee;
-    --theme-menu-hover-bg-color: var(--el-color-primary);
+    --theme-menu-active-bg-color: var(--el-color-primary);
 
     --theme-header-text-color: #eee;
     --theme-header-bg-color: var(--el-bg-color);
@@ -50,14 +51,11 @@ html.dark {
     color: #999;
   }
 
-  .sidebar-dark {
-    .el-menu-item.is-active {
-      border-right: 2px solid var(--theme-menu-border-color) !important;
-      position: relative !important;
-      right: 1px !important;
-    }
-    &.layout-sidebar {
-      border-right: 1px solid var(--theme-border-color-light) !important;
-    }
+  .el-menu-item.is-active {
+    border-right: none !important;
+    right: 0 !important;
+  }
+  .layout-sidebar {
+    border-right: 1px solid var(--theme-border-color-light) !important;
   }
 }

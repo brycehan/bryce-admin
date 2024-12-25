@@ -1,19 +1,16 @@
 :root {
-  // logo
+  // logo区
   --theme-logo-text-color: var(--el-color-primary);
   --theme-logo-text-fontsize: 18px;
 
-  // 左侧菜单
+  // 侧边栏菜单
   --theme-menu-width: 230px;
   --theme-menu-min-width: 64px;
+  --theme-menu-bg-color: white;
+  --theme-menu-active-bg-color: var(--el-color-primary-light-9);
   --theme-menu-border-color: var(--el-color-primary);
 
-  --theme-menu-active-color: var(--el-color-primary);
-  --theme-menu-bg-color: white;
-  --theme-menu-hover-text-color: var(--el-color-primary);
-  --theme-menu-hover-bg-color: var(--el-color-primary-light-9);
-
-  // 顶部区域
+  // 顶栏区域
   --theme-header-height: 50px;
   --theme-header-text-color: #444444;
   --theme-header-bg-color: white;

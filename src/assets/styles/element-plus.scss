@@ -1,9 +1,9 @@
 // 覆盖element-plus样式
 
-// 弹窗菜单图标
+// 菜单图标
 .el-menu-item .svg-icon,
 .el-sub-menu .svg-icon {
-  font-size: 16px !important;
+  font-size: 16px;
   display: inline-block;
   vertical-align: middle;
   margin-right: 5px;
@@ -11,22 +11,25 @@
   text-align: center;
 }
 
-// 侧边栏弹出菜单高度
-.sidebar-menu-popper {
+// 侧边栏弹出菜单
+.sidebar-menu-popper, .el-menu--horizontal.el-menu--popup-container {
   .el-menu-item, .el-sub-menu__title {
+    //  高度 和 顶栏弹出菜单 高度一致
     height: var(--el-menu-horizontal-sub-item-height);
     line-height: var(--el-menu-horizontal-sub-item-height);
+    &:hover {
+      color: var(--el-color-primary);
+    }
+  }
+  // 子菜单
+  .el-sub-menu.is-active > .el-sub-menu__title {
+    color: var(--el-menu-active-color);
+  }
+  // 菜单项
+  .el-menu-item.is-active {
+    background-color: var(--theme-menu-active-bg-color);
   }
 }
-//.el-menu--popup-container {
-//  .el-menu-item, .el-sub-menu__title {
-//    background-color: transparent;
-//    &:hover {
-//      color: var(--el-color-primary);
-//      background-color: var(--theme-menu-hover-bg-color);
-//    }
-//  }
-//}
 
 // 2.5.0之后， el-select 的默认宽度更改为 100% 当使用内联形式时，宽度将显示异常bug
 .el-form--inline {

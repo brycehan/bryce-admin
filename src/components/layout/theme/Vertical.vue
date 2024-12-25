@@ -50,10 +50,12 @@ const sidebarClass = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+// 布局容器
 .layout-container {
   width: 100%;
   height: 100%;
 
+  // 侧边栏
   .layout-sidebar {
     background: var(--theme-menu-bg-color);
     border-right: 1px solid var(--theme-border-color-light);
@@ -62,57 +64,51 @@ const sidebarClass = computed(() => {
     display: flex;
     flex-direction: column;
     overflow-x: hidden !important;
-
     .el-scrollbar__view {
       overflow: hidden;
     }
 
+    // 侧边栏展开
     &.aside-expend {
-      width: var(--theme-menu-width) !important;
+      width: var(--theme-menu-width);
       transition: width 0.3s ease;
     }
 
+    // 侧边栏收起
     &.aside-compress {
-      width: var(--theme-menu-min-width) !important;
+      width: var(--theme-menu-min-width);
       transition: width 0.3s ease;
     }
 
-    --el-menu-hover-bg-color: transparent;
+    // 菜单样式
     ::v-deep(.el-menu) {
       border-right: none !important;
+      // 子菜单样式
       .el-sub-menu {
-        .el-sub-menu__title {
-          //height: 50px !important;
-          overflow: hidden;
-          &:hover {
-            color: var(--theme-menu-hover-text-color);
-          }
+        .el-sub-menu__title:hover {
+          color: var(--el-menu-hover-text-color);
         }
-
         &.is-active > .el-sub-menu__title {
-          color: var(--theme-menu-hover-text-color);
+          color: var(--el-menu-active-color);
         }
       }
 
+      // 菜单项样式
       .el-menu-item {
-        overflow: hidden;
-        height: 45px !important;
-        line-height: 45px !important;
-        &.is-active {
-          background-color: var(--theme-menu-hover-bg-color);
-          border-right: 2px solid var(--theme-menu-border-color);
-          position: relative;
-          //right: 0;
-          overflow: hidden;
-        }
-
+        height: 44px;
+        line-height: 44px;
         &:hover {
-          color: var(--theme-menu-hover-text-color) !important;
+          color: var(--el-menu-hover-text-color) !important;
+        }
+        &.is-active {
+          background-color: var(--theme-menu-active-bg-color);
+          border-right: 2px solid var(--theme-menu-border-color);
         }
       }
     }
   }
 
+  // 顶部区域
   .layout-header {
     --el-header-padding: 0;
     display: flex;
@@ -120,6 +116,7 @@ const sidebarClass = computed(() => {
     height: var(--theme-header-height);
   }
 
+  // 内容区域
   .layout-main {
     width: 100%;
     overflow: hidden;

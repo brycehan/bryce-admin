@@ -162,6 +162,7 @@ const layoutHeaderHeight = computed(() => {
 // 侧边栏菜单样式
 .column-menu {
   flex: 1;
+  // 主菜单样式
   .column-menu-item {
     display: flex;
     flex-direction: column;
@@ -170,39 +171,19 @@ const layoutHeaderHeight = computed(() => {
     height: 70px;
     cursor: pointer;
     transition: all 0.3s ease;
-    &:hover {
-      background: var(--el-color-primary);
-      .title {
-        color: white;
-      }
-      ::v-deep(.svg-icon) {
-        svg {
-          color: white !important;
-        }
-      }
-    }
-    ::v-deep(.svg-icon) {
-      align-items: center;
-      cursor: pointer;
-      svg{
-        font-size: 21px;
-        color: var(--el-menu-text-color) !important;
-      }
+    color: var(--el-menu-text-color);
+    ::v-deep(.svg-icon) > svg {
+      font-size: 21px;
     }
     .title {
       margin-top: 6px;
       font-size: 12px;
-      color: var(--el-menu-text-color);
     }
-  }
-  .active {
-    background-color: var(--el-color-primary);
-    .title {
-      color: white;
-    }
-    ::v-deep(.svg-icon) {
-      svg {
-        color: white !important;
+    // 选中、hover主菜单样式
+    &:hover, &.active {
+      background: var(--el-color-primary);
+      ::v-deep(.svg-icon) > svg, .title {
+        color: white;
       }
     }
   }
@@ -216,17 +197,16 @@ const layoutHeaderHeight = computed(() => {
   float: left;
   border-right: 1px solid var(--theme-border-color-light);
   background: white;
+  overflow: hidden;
   ::v-deep(.el-menu) {
     border-right: none !important;
   }
 
+  // 子菜单样式
   ::v-deep(.el-sub-menu) {
     font-size: 14px !important;
     color: var(--el-menu-text-color);
     background-color: transparent;
-    &:hover {
-      color: var(--el-color-primary) !important;
-    }
     .el-sub-menu__title {
       height: 40px !important;
       line-height: 40px !important;
@@ -234,14 +214,15 @@ const layoutHeaderHeight = computed(() => {
       color: var(--el-menu-text-color);
       background-color: transparent;
       &:hover {
-        color: var(--el-color-primary) !important;
+        color: var(--el-color-primary);
       }
     }
     &.is-active > .el-sub-menu__title {
-      color: var(--theme-menu-hover-text-color) !important;
+      color: var(--el-menu-active-color);
     }
   }
 
+  // 菜单项样式
   ::v-deep(.el-menu-item) {
     height: 40px !important;
     line-height: 40px !important;
@@ -249,19 +230,21 @@ const layoutHeaderHeight = computed(() => {
     color: var(--el-menu-text-color);
     background-color: transparent;
     &:hover {
-      color: var(--el-color-primary) !important;
+      color: var(--el-color-primary);
     }
     &.is-active {
-      color: var(--theme-menu-hover-text-color) !important;
-      background-color: var(--theme-menu-hover-bg-color);
+      color: var(--el-menu-active-color);
+      background-color: var(--theme-menu-active-bg-color);
     }
   }
 }
 
+// 布局容器
 .layout-container {
   width: 100%;
   height: 100%;
 
+  // 侧边栏
   .layout-sidebar {
     background: var(--theme-menu-bg-color);
     border-right: 1px solid var(--theme-border-color-light);
@@ -275,6 +258,7 @@ const layoutHeaderHeight = computed(() => {
     }
   }
 
+  // 顶部区域
   .layout-header {
     --el-header-padding: 0;
     display: flex;
@@ -282,6 +266,7 @@ const layoutHeaderHeight = computed(() => {
     height: var(--theme-header-height);
   }
 
+  // 内容区域
   .layout-main {
     width: 100%;
     overflow: hidden;

@@ -3,10 +3,10 @@
  */
 .sidebar-dark {
   --theme-logo-text-color: #e7e3e3;
-  //--el-menu-text-color: rgb(255 255 255 / 66%);
+
   --theme-menu-bg-color: #263238;
-  --theme-menu-hover-text-color: #eee;
-  --theme-menu-hover-bg-color: var(--el-color-primary);
+  --theme-menu-active-bg-color: var(--el-color-primary);
+
   --theme-main-bg-color: #f0f2f5;
 
   --el-menu-active-color: #eee;
@@ -15,16 +15,15 @@
   --el-menu-bg-color: transparent;
   --el-menu-hover-bg-color: transparent;
 
-
   .el-menu-item.is-active {
     border-right: none !important;
     right: 0 !important;
-    background-color: var(--el-color-primary) !important;
   }
   &.layout-sidebar {
     border-right: none !important;
   }
 }
+
 /*
  * 分栏暗色
  */
@@ -44,13 +43,12 @@
   --theme-header-bg-color: var(--el-color-primary);
   --theme-header-text-color: white;
   --theme-header-hover-color: var(--el-color-primary-light-9);
-  --theme-menu-hover-text-color: white;
   // 菜单
   --el-menu-active-color: white;
   --el-menu-text-color: white;
   --el-menu-hover-text-color: white;
   --el-menu-bg-color: transparent;
-  --el-menu-hover-bg-color: var(--el-color-primary-light-9);
+  --el-menu-hover-bg-color: transparent;
 
   .el-dropdown {
     color: inherit;
@@ -60,13 +58,16 @@
   }
 }
 
+/**
+ * 全局样式设置
+ */
 :root {
-  // 菜单全局样式设置
+  // 菜单
   --el-menu-active-color: var(--el-color-primary);
   --el-menu-text-color: var(--el-text-color-primary);
   --el-menu-hover-text-color: var(--el-color-primary);
   --el-menu-bg-color: var(--el-fill-color-blank);
-  --el-menu-hover-bg-color: var(--el-color-primary-light-9);
+  --el-menu-hover-bg-color: transparent;
 
   --el-menu-item-height: var(--theme-header-height);
   --el-menu-sub-item-height: calc(var(--el-menu-item-height) - 6px);

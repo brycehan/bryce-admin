@@ -37,10 +37,12 @@ const headerClass = computed(() => appStore.theme.headerStyle === 'primary' ? 'h
 </script>
 
 <style scoped lang="scss">
+// 布局容器
 .layout-container {
   width: 100%;
   height: 100%;
 
+  // 顶部导航
   .layout-header {
     --el-header-padding: 0;
     height: var(--theme-header-height);
@@ -51,6 +53,7 @@ const headerClass = computed(() => appStore.theme.headerStyle === 'primary' ? 'h
     color: var(--theme-header-text-color);
     border-bottom: 1px solid var(--theme-border-color-light);
 
+    // 菜单
     .el-menu {
       display: flex;
       align-items: center;
@@ -59,6 +62,7 @@ const headerClass = computed(() => appStore.theme.headerStyle === 'primary' ? 'h
       height: var(--theme-header-height);
       line-height: var(--theme-header-height);
 
+      // 子菜单
       ::v-deep(.el-sub-menu) {
         height: var(--theme-header-height);
         line-height: var(--theme-header-height);
@@ -66,6 +70,7 @@ const headerClass = computed(() => appStore.theme.headerStyle === 'primary' ? 'h
     }
   }
 
+  // 内容区域
   .layout-main {
     width: 100%;
     overflow: hidden;

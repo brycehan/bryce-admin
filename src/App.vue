@@ -8,6 +8,15 @@
 import { RouterView } from 'vue-router'
 import { useAppStore } from '@/stores/modules/app'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import { nextTick, onMounted } from 'vue'
+import { handleThemePrimary } from '@/utils/theme'
 
 const appStore = useAppStore()
+
+onMounted(() => {
+  nextTick(() => {
+    // 初始化主题样式
+    handleThemePrimary(appStore.theme)
+  })
+})
 </script>
