@@ -21,6 +21,23 @@ import ThemeSetting from '@/components/layout/header/header-right/ThemeSetting.v
 <style scoped lang="scss">
 .header-right-container {
   display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  ::v-deep(.svg-icon) {
+    cursor: pointer;
+    line-height: var(--theme-header-height);
+    padding: 0 12px;
+
+    svg {
+      color: var(--theme-header-text-color) !important;
+      font-size: 16px;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
 }
 .block-icon {
   display: block;

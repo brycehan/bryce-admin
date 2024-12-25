@@ -20,23 +20,7 @@ const headerClass = computed(() => appStore.theme.headerStyle === 'primary' ? 'h
 .header-container {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid var(--theme-border-color-light);
   background: var(--theme-header-bg-color);
-  border-bottom: 1px solid var(--theme-border-color-light);
   color: var(--theme-header-text-color);
-  ::v-deep(.svg-icon) {
-    cursor: pointer;
-    line-height: var(--theme-header-height);
-    padding: 0 12px;
-
-    svg {
-      color: var(--theme-header-text-color) !important;
-      font-size: 16px;
-    }
-
-    &:hover {
-      background-color: var(--theme-header-hover-color);
-    }
-  }
 }
 </style>

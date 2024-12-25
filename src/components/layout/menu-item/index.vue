@@ -1,29 +1,27 @@
 <template>
-  <div>
-    <el-sub-menu
-      v-if="menu.meta.type === 'C'"
-      :key="menu.meta.id"
-      :index="menu.path"
-      :class="titleSpanClass"
-    >
-      <template #title>
-        <SvgIcon :icon="menu.meta.icon" />
-        <span v-if="appStore.sidebarOpened">{{ menu.meta.title }}</span>
-      </template>
-      <menu-item v-for="item in menu.children" :key="item.path" :menu="item" />
-    </el-sub-menu>
-    <el-menu-item
-      v-if="menu.meta.type === 'M'"
-      :key="menu.meta.id"
-      :index="menu.path"
-      @click="handleClick(menu)"
-    >
-      <SvgIcon :icon="menu.meta.icon" />
-      <template #title>
-        {{ menu.meta.title }}
-      </template>
-    </el-menu-item>
-  </div>
+  <el-sub-menu
+    v-if="menu.meta.type === 'C'"
+    :key="menu.meta.id"
+    :index="menu.path"
+    :class="titleSpanClass"
+  >
+    <template #title>
+      <SvgIcon v-if="showIcon" :icon="menu.meta.icon" />
+      <span>{{ menu.meta.title }}</span>
+    </template>
+    <menu-item v-for="item in menu.children" :key="item.path" :menu="item" />
+  </el-sub-menu>
+  <el-menu-item
+    v-if="menu.meta.type === 'M'"
+    :key="menu.meta.id"
+    :index="menu.path"
+    @click="handleClick(menu)"
+  >
+    <SvgIcon v-if="showIcon" :icon="menu.meta.icon" />
+    <template #title>
+      {{ menu.meta.title }}
+    </template>
+  </el-menu-item>
 </template>
 
 <script setup lang="ts">
@@ -48,8 +46,15 @@ defineProps({
 const router = useRouter()
 const appStore = useAppStore()
 
+/**
+ * 菜单图标显示控制
+ */
+const showIcon = computed(() => {
+  return !appStore.sidebarOpened || appStore.theme.layout !== 'column'
+})
+
 const titleSpanClass = computed(() => {
-  return appStore.sidebarOpened ? '' : 'title-hide'
+  return appStore.sidebarOpened || appStore.theme.layout === 'horizontal' ? '' : 'title-hide'
 })
 
 /**
@@ -74,54 +79,3 @@ const handleClick = (menu: any) => {
   }
 }
 </script>
-
-<style scoped lang="scss">
-/** 修复折叠样式问题 */
-.title-hide {
-  .el-sub-menu__title {
-    display: none;
-  }
-
-  ::v-deep(.el-sub-menu__icon-arrow) {
-    display: none;
-  }
-
-  // 修复图标显示问题
-  ::v-deep(.svg-icon) {
-    margin-left: 4px;
-  }
-}
-
-/** 修复弹出菜单样式问题 */
-.el-menu--popup .el-menu-item.is-active {
-  position: relative;
-  overflow: hidden;
-  color: var(--el-color-primary);
-  background-color: var(--theme-menu-hover-bg-color) !important;
-  border-right: 2px solid;
-
-  &:hover {
-    color: var(--el-color-primary);
-  }
-}
-
-/** 修复弹出菜单样式问题 */
-.el-menu--popup .el-menu-item,
-.el-sub-menu__title {
-  height: 50px !important;
-  overflow: hidden;
-  color: var(--theme-header-text-color);
-
-  &:hover {
-    background-color: unset;
-    color: var(--el-color-primary) !important;
-  }
-}
-
-/** 修复弹出菜单样式问题 */
-.el-menu--popup .el-sub-menu.is-active.is-opened {
-  .el-sub-menu__title {
-    background-color: unset !important;
-  }
-}
-</style>

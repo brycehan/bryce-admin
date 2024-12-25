@@ -21,7 +21,7 @@
             </el-tooltip>
           </el-space>
           <!-- 顶栏 -->
-          <el-space>
+          <el-space direction="horizontal">
             <el-tooltip effect="dark" content="亮色顶栏" placement="top">
               <div
                 class="settings-box-item item-top-light"
@@ -72,9 +72,9 @@
           </el-tooltip>
           <el-tooltip effect="dark" content="横向" placement="top">
             <div
-              class="settings-box-item item-transverse"
-              :class="theme.layout === 'transverse' ? 'active' : ''"
-              @click="handleLayoutTheme('transverse')"
+              class="settings-box-item item-horizontal"
+              :class="theme.layout === 'horizontal' ? 'active' : ''"
+              @click="handleLayoutTheme('horizontal')"
             ></div>
           </el-tooltip>
         </el-space>
@@ -402,7 +402,7 @@ const handleResetConfig = async () => {
   /**
   * 菜单横向样式
   */
-  .item-transverse {
+  .item-horizontal {
     &:before {
       position: absolute;
       top: 0;

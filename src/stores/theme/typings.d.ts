@@ -12,7 +12,7 @@ export interface Theme {
    */
   primaryColor: string
   /**
-   * 布局风格 [vertical、column、transverse]
+   * 布局风格 [vertical、column、horizontal]
    */
   layout: string
   /**

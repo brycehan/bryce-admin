@@ -6,16 +6,17 @@
   // 左侧菜单
   --theme-menu-width: 230px;
   --theme-menu-min-width: 64px;
-  --theme-menu-text-color: #333;
-  --theme-menu-bg-color: white;
-  --theme-menu-hover-color: var(--el-color-primary);
-  --theme-menu-hover-bg-color: var(--el-color-primary-light-9);
   --theme-menu-border-color: var(--el-color-primary);
+
+  --theme-menu-active-color: var(--el-color-primary);
+  --theme-menu-bg-color: white;
+  --theme-menu-hover-text-color: var(--el-color-primary);
+  --theme-menu-hover-bg-color: var(--el-color-primary-light-9);
 
   // 顶部区域
   --theme-header-height: 50px;
-  --theme-header-bg-color: white;
   --theme-header-text-color: #444444;
+  --theme-header-bg-color: white;
   --theme-header-hover-color: rgba(0, 0, 0, 0.1);
 
   // 主区域

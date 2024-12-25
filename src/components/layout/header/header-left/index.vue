@@ -19,5 +19,19 @@ const appStore = useAppStore()
 .header-left-container {
   display: flex;
   align-items: center;
+  ::v-deep(.svg-icon) {
+      cursor: pointer;
+      line-height: var(--theme-header-height);
+      padding: 0 12px;
+
+      svg {
+        color: var(--theme-header-text-color) !important;
+        font-size: 16px;
+      }
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    }
 }
 </style>
