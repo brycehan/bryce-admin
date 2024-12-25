@@ -53,13 +53,14 @@ watch(route, () => {
   }
 })
 
-/** 初始化 */
 onMounted(() => {
   initTabs()
   addTab()
 })
 
-/** 初始化固定标签页 */
+/**
+ * 初始化固定标签页
+ */
 const initTabs = () => {
   const affixTabs = getAffixTabs(routerStore.routes)
   for (const tab of affixTabs) {
@@ -70,7 +71,12 @@ const initTabs = () => {
   }
 }
 
-/** 获取需要固定的标签 */
+/**
+ * 获取需要固定的标签
+ *
+ * @param routes 路由配置数组，包含各个路由的路径、名称和元数据等信息
+ * @returns 返回一个包含所有affix标签页信息的数组
+ */
 const getAffixTabs = (routes: any) => {
   let affixTabs: any[] = []
   routes.forEach((route: any) => {
@@ -92,29 +98,47 @@ const getAffixTabs = (routes: any) => {
   return affixTabs
 }
 
-/** 添加标签页 */
+/**
+ * 添加标签页
+ */
 const addTab = () => {
   tabsStore.addView(route)
   tabsStore.addCachedView(route)
   activeTabName.value = route.path
 }
-/** 标签页是否固定 */
+/**
+ * 判断标签页是否固定
+ *
+ * @param tab 标签页对象
+ */
 const isAffix = (tab: any) => {
   return tab.meta && tab.meta.affix
 }
 
-/** 标签页被选中 */
+/**
+ * 标签页被选中
+ *
+ * @param tab 标签页对象
+ */
 const tabClick = (tab: any) => {
   tab.props.name && router.push(tab.props.name)
 }
 
-/** 点击关闭标签页回调 */
+/**
+ * 点击关闭标签页回调
+ *
+ * @param path 路径
+ */
 const tabRemove = (path: string) => {
   const tab = tabsStore.visitedViews.filter((tab: any) => tab.path === path)
   closeTab(router, tab[0])
 }
 
-/** dropdown 关闭回调 */
+/**
+ * dropdown 关闭回调
+ *
+ * @param type 关闭类型
+ */
 const onClose = (type: string) => {
   switch (type) {
     case 'close':
@@ -132,7 +156,7 @@ const onClose = (type: string) => {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .tabs-container {
   display: flex;
   // position: relative;
@@ -145,7 +169,7 @@ const onClose = (type: string) => {
     transition: left 3s;
     flex-grow: 1;
     overflow: hidden;
-    border-bottom: 0 solid red;
+    border-bottom: 0;
 
     // 往前图标样式
     ::v-deep(.el-tabs__nav-prev) {

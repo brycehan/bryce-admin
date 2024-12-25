@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import storage from '@/utils/storage'
+import { getDictListApi } from '@/api/system/dictType'
 
 export const useAppStore = defineStore(
   'appStore',
@@ -23,8 +24,13 @@ export const useAppStore = defineStore(
     const setDictList = (dictSet: any[]) => {
       dictList.value = dictSet
     }
-    const getDictList = () => {
-      return dictList.value
+
+    /**
+     * 获取字典列表
+     */
+    const getDictList = async () => {
+      const { data } = await getDictListApi()
+      return dictList.value = data || []
     }
 
     return {

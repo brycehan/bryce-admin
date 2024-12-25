@@ -6,7 +6,6 @@ import { isExternalLink } from '@/utils/tool'
 import { useAuthStore } from '@/stores/modules/auth'
 import { useAppStore } from '@/stores/modules/app'
 import { useRouterStore } from '@/stores/modules/router'
-import { getMenuRoutes } from '@/api/system/router'
 import { getDictListApi } from '@/api/system/dictType'
 
 NProgress.configure({ showSpinner: false })
@@ -41,20 +40,11 @@ const constantRoutes: RouteRecordRaw[] = [
 /**
  * 异步路由
  */
-const asyncRoute: RouteRecordRaw = {
+const asyncRoute: RouteRecordRaw & { visible ?: number } = {
   path: '/',
   component: () => import('@/components/layout/index.vue'),
-  redirect: '/home',
+  redirect: '/dashboard/index',
   children: [
-    {
-      path: '/home',
-      name: 'Home',
-      component: () => import('@/views/home.vue'),
-      meta: {
-        title: '首页',
-        affix: true
-      }
-    },
     {
       path: '/profile',
       name: 'Profile',
@@ -68,57 +58,89 @@ const asyncRoute: RouteRecordRaw = {
 }
 
 /**
+ * 配置Dashboard菜单
+ */
+export const dashboardMenu = [
+  {
+    id: -1,
+    name: 'Dashboard',
+    url: null,
+    icon: 'icon-appstore',
+    visible: 1,
+    type: 'C',
+    children: [
+      {
+        id: -11,
+        name: '首页',
+        url: 'dashboard/index',
+        icon: 'icon-home',
+        visible: 1,
+        type: 'M',
+        affix: true,
+      }
+    ]
+  },
+]
+
+/**
  * 配置常量菜单
  */
 export const constantMenu = [
   {
-    id: -1,
+    id: -2,
     name: 'Demo',
     url: null,
     icon: 'icon-windows',
     visible: 1,
+    type: 'C',
     children: [
       {
-        id: -11,
+        id: -21,
         name: 'Icon 图标',
         url: 'demo/icons/index',
         icon: 'icon-unorderedlist',
         visible: 1,
+        type: 'M',
       },
       {
-        id: -12,
+        id: -22,
         name: '二维码生成',
         url: 'demo/qrcode/index',
         icon: 'icon-unorderedlist',
         visible: 1,
+        type: 'M',
       },
       {
-        id: -13,
+        id: -23,
         name: '页面打印',
         url: 'demo/printJs/index',
         icon: 'icon-unorderedlist',
         visible: 1,
+        type: 'M',
       },
       {
-        id: -14,
+        id: -24,
         name: '图片裁剪',
         url: 'demo/cropper/index',
         icon: 'icon-unorderedlist',
         visible: 1,
+        type: 'M',
       },
       {
-        id: -15,
+        id: -25,
         name: 'Markdown',
         url: 'demo/markdown/index',
         icon: 'icon-unorderedlist',
         visible: 1,
+        type: 'M',
       },
       {
-        id: -16,
+        id: -26,
         name: 'ECharts图表',
         url: 'demo/echarts/index',
         icon: 'icon-unorderedlist',
         visible: 1,
+        type: 'M',
       }
     ]
   }
@@ -159,20 +181,18 @@ router.beforeEach(async (to, from, next) => {
         try {
           await authStore.getCurrentUser()
           await authStore.getAuthoritySet()
-
-          const { data } = await getDictListApi()
-          appStore.setDictList(data)
+          await appStore.getDictList()
         } catch (error) {
           console.error('router.beforeEach', error)
 
           // 请求异常，则跳转到登录页
           authStore?.removeToken()
           next('/login')
-          // return
           return Promise.reject(error)
         }
+
         // 动态菜单
-        const menuRoutes = await getMenuRoutes()
+        const menuRoutes = await routerStore.getMenuRoutes()
         routerStore.setMenuRoutes(menuRoutes)
 
         // 获取扁平化路由，将多级路由转换成一组路由
@@ -276,6 +296,7 @@ export const generateRoutes = (menuList: any): RouteRecordRaw[] => {
         type: menu.type,
         url: menu.url,
         cache: true,
+        affix: menu.affix || false,
         openStyle: menu.openStyle,
         breadcrumb: []
       }
