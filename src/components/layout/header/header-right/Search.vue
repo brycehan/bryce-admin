@@ -117,7 +117,7 @@ const handleBlur = () => {
     top: 100px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: white;
+    background-color: var(--theme-header-bg-color);
     border-radius: 3px;
   }
   ::v-deep(.el-dialog) {

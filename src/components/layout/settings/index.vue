@@ -81,7 +81,6 @@
 
         <el-divider content-position="left">界面设置</el-divider>
 
-        <switch-item v-model="isDark" title="开启暗黑模式" />
         <switch-item v-model="theme.uniqueOpened" title="侧栏排他展开" @change="handleOtherTheme" />
         <switch-item v-model="theme.showLogo" title="开启LOGO" @change="handleOtherTheme" />
         <switch-item v-model="theme.showBreadcrumb" title="开启面包屑" @change="handleOtherTheme" />
@@ -109,7 +108,7 @@
 import { computed, ref } from 'vue'
 import emitter from '@/utils/emitter'
 import { useAppStore } from '@/stores/modules/app'
-import { useClipboard, useDark } from '@vueuse/core'
+import { useClipboard } from '@vueuse/core'
 import storage from '@/utils/storage'
 import { ElMessage } from 'element-plus'
 import SwitchItem from '@/components/layout/settings/SwitchItem.vue'
@@ -122,8 +121,6 @@ emitter.on('openThemeSetting', () => {
 
 const appStore = useAppStore()
 const { copy } = useClipboard()
-// 暗黑模式
-const isDark = useDark()
 
 const theme = computed(() => appStore.theme)
 

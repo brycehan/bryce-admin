@@ -1,5 +1,6 @@
 <template>
   <div class="header-right-container">
+    <appearance />
     <component-size />
     <a href="https://github.com/brycehan/bryce-admin" target="_blank">
       <svg-icon icon="icon-github-fill" class="block-icon"></svg-icon>
@@ -18,6 +19,7 @@ import ComponentSize from './ComponentSize.vue'
 import Fullscreen from './Fullscreen.vue'
 import ThemeSetting from '@/components/layout/header/header-right/ThemeSetting.vue'
 import Search from '@/components/layout/header/header-right/Search.vue'
+import Appearance from '@/components/layout/header/header-right/Appearance.vue'
 </script>
 
 <style scoped lang="scss">
