@@ -18,7 +18,7 @@
     "@vueuse/core": "^10.9.0",
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-vue": "^5.1.12",
-    "axios": "^1.6.8",
+    "axios": "1.7.4",
     "cropperjs": "^1.6.1",
     "default-passive-events": "^2.0.0",
     "echarts": "^5.5.0",
@@ -50,7 +50,7 @@
     "npm-run-all2": "^6.1.2",
     "prettier": "^3.2.5",
     "typescript": "~5.4.2",
-    "vite": "^5.2.13",
+    "vite": "5.4.6",
     "vue-tsc": "^2.0.21"
   }
 }
