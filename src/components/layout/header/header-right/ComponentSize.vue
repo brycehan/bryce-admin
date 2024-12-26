@@ -1,5 +1,5 @@
 <template>
-  <el-dropdown trigger="click" @command="fontSizeChange">
+  <el-dropdown trigger="click" @command="componentSizeChange">
     <SvgIcon icon="icon-font-size" />
     <template #dropdown>
       <el-dropdown-menu>
@@ -25,7 +25,7 @@ import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 const appStore = useAppStore()
 
 const componentSize = computed(() => appStore.componentSize)
-const fontSizeChange = (componentSize: string) => {
+const componentSizeChange = (componentSize: string) => {
   appStore.setComponentSize(componentSize)
 }
 </script>

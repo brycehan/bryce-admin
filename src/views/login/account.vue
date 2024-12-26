@@ -78,7 +78,7 @@ const loginByAccount = async () => {
     authStore
       .loginByAccount(loginDto)
       .then(() => {
-        router.push({ path: '/' })
+        router.push({ path: '/dashboard/index' })
       })
       .catch((e: any) => {
         if (captchaEnabled.value) {

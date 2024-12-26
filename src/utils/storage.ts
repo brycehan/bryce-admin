@@ -38,7 +38,7 @@ class Storage {
   }
 
   getComponentSize = (): string => {
-    return Tool.getItem(Cache.componentSizeKey) || ''
+    return Tool.getItem(Cache.componentSizeKey) || 'default'
   }
 
   getTheme = (): Theme => {

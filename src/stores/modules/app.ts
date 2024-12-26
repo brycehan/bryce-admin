@@ -9,20 +9,27 @@ export const useAppStore = defineStore(
     // sidebar 是否展开
     const sidebarOpened = ref<boolean>(true)
     // 组件大小
-    const componentSize = ref<string>()
+    const componentSize = ref<string>('default')
+    // 主题
+    const theme = storage.getTheme()
     // 字典列表
     const dictList = ref<any>([])
-    const theme = storage.getTheme()
 
+    /**
+     * 切换侧边栏展开状态
+     */
     const toggleSidebarOpened = () => {
       sidebarOpened.value = !sidebarOpened.value
     }
+
+    /**
+     * 设置组件大小
+     *
+     * @param size 组件大小
+     */
     const setComponentSize = (size: string) => {
       componentSize.value = size
-    }
-
-    const setDictList = (dictSet: any[]) => {
-      dictList.value = dictSet
+      storage.setComponentSize(size)
     }
 
     /**
@@ -33,15 +40,24 @@ export const useAppStore = defineStore(
       return dictList.value = data || []
     }
 
+    /**
+     * 设置字典列表
+     *
+     * @param dictSet 字典列表
+     */
+    const setDictList = (dictSet: any[]) => {
+      dictList.value = dictSet
+    }
+
     return {
       sidebarOpened,
       componentSize,
+      theme,
       dictList,
       toggleSidebarOpened,
       setComponentSize,
-      setDictList,
       getDictList,
-      theme
+      setDictList,
     }
   },
   {

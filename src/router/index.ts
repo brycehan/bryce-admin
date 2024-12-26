@@ -6,6 +6,7 @@ import { isExternalLink } from '@/utils/tool'
 import { useAuthStore } from '@/stores/modules/auth'
 import { useAppStore } from '@/stores/modules/app'
 import { useRouterStore } from '@/stores/modules/router'
+import { getMenuRoutes } from '@/api/system/router'
 import { getDictListApi } from '@/api/system/dictType'
 
 NProgress.configure({ showSpinner: false })
@@ -40,7 +41,7 @@ const constantRoutes: RouteRecordRaw[] = [
 /**
  * 异步路由
  */
-const asyncRoute: RouteRecordRaw & { visible ?: number } = {
+const asyncRoute: RouteRecordRaw = {
   path: '/',
   component: () => import('@/components/layout/index.vue'),
   redirect: '/dashboard/index',
@@ -174,7 +175,7 @@ router.beforeEach(async (to, from, next) => {
   // token存在的情况
   if (authStore.accessToken) {
     if (to.path === '/login') {
-      next('/home')
+      next('/dashboard/index')
     } else {
       // 用户信息不存在，则重新拉取
       if (!authStore.user?.id) {
@@ -192,17 +193,24 @@ router.beforeEach(async (to, from, next) => {
         }
 
         // 动态菜单
-        const menuRoutes = await routerStore.getMenuRoutes()
+        const menuRoutes = await getMenuRoutes()
         routerStore.setMenuRoutes(menuRoutes)
 
         // 获取扁平化路由，将多级路由转换成一组路由
         const flatRoutes = getFlatRoutes(menuRoutes, [])
+
+        // 设置搜索菜单，搜索菜单功能缓存
+        routerStore.setSearchMenu(flatRoutes)
 
         // 添加菜单路由
         asyncRoute.children.push(...flatRoutes)
 
         router.addRoute(asyncRoute)
         router.addRoute(errorRoute)
+
+        console.log('router.beforeEach', menuRoutes)
+        console.log('router.beforeEach', flatRoutes)
+        console.log('router.beforeEach', asyncRoute)
 
         // 保存路由数据
         routerStore.setRoutes(constantRoutes.concat(asyncRoute))

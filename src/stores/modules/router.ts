@@ -2,29 +2,19 @@ import { defineStore } from 'pinia'
 import type { RouteRecordRaw } from 'vue-router'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
-import { getNavApi } from '@/api/system/menu'
-import { constantMenu, dashboardMenu, generateRoutes } from '@/router'
 
 export const useRouterStore = defineStore(
   'routerStore',
   () => {
     const menuRoutes: Ref<RouteRecordRaw[]> = ref<RouteRecordRaw[]>([])
+    const searchMenu: Ref<RouteRecordRaw[]> = ref<RouteRecordRaw[]>([])
     const routes = ref<RouteRecordRaw[]>([])
 
     /**
      * 获取菜单路由
      */
-    const  getMenuRoutes =  async () => {
-      const { data } = await getNavApi()
-      const menuRoutes = [] as RouteRecordRaw[]
-      // Dashboard菜单
-      menuRoutes.push(...generateRoutes(dashboardMenu))
-      // 后端菜单
-      menuRoutes.push(...generateRoutes(data))
-      // 常量菜单
-      menuRoutes.push(...generateRoutes(constantMenu))
-      console.log('menuRoutes', menuRoutes)
-      return menuRoutes
+    const getMenuRoutes = () => {
+      return menuRoutes.value
     }
 
     /**
@@ -33,6 +23,14 @@ export const useRouterStore = defineStore(
      */
     const setMenuRoutes = (routesParam: RouteRecordRaw[]) => {
       menuRoutes.value = routesParam
+    }
+
+    /**
+     * 设置查询菜单列表
+     * @param routeList 路由列表
+     */
+    const setSearchMenu = (routeList: RouteRecordRaw[]) => {
+      searchMenu.value = routeList
     }
 
     const getRoutes = () => {
@@ -46,8 +44,10 @@ export const useRouterStore = defineStore(
     return {
       menuRoutes,
       routes,
+      searchMenu,
       getMenuRoutes,
       setMenuRoutes,
+      setSearchMenu,
       getRoutes,
       setRoutes
     }

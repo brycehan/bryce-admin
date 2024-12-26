@@ -4,6 +4,7 @@
     <a href="https://github.com/brycehan/bryce-admin" target="_blank">
       <svg-icon icon="icon-github-fill" class="block-icon"></svg-icon>
     </a>
+    <search />
     <fullscreen />
     <user />
     <theme-setting />
@@ -16,6 +17,7 @@ import User from './User.vue'
 import ComponentSize from './ComponentSize.vue'
 import Fullscreen from './Fullscreen.vue'
 import ThemeSetting from '@/components/layout/header/header-right/ThemeSetting.vue'
+import Search from '@/components/layout/header/header-right/Search.vue'
 </script>
 
 <style scoped lang="scss">
