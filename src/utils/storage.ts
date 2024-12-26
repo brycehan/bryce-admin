@@ -14,7 +14,7 @@ class Storage {
   }
 
   getToken = () => {
-    return localStorage.getItem(Cache.tokenKey)
+    return localStorage.getItem(Cache.tokenKey) || ''
   }
 
   removeToken = () => {

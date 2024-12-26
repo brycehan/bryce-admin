@@ -176,7 +176,7 @@ router.beforeEach(async (to, from, next) => {
       next('/dashboard/index')
     } else {
       // 用户信息不存在，则重新拉取
-      if (!authStore.user?.id) {
+      if (!authStore.user.id) {
         try {
           await authStore.getCurrentUser()
           await authStore.getAuthoritySet()
@@ -206,12 +206,15 @@ router.beforeEach(async (to, from, next) => {
         router.addRoute(asyncRoute)
         router.addRoute(errorRoute)
 
+        console.log('router.beforeEach', router.getRoutes())
         console.log('router.beforeEach', menuRoutes)
         console.log('router.beforeEach', flatRoutes)
         console.log('router.beforeEach', asyncRoute)
 
+        const allRoutes = [...constantRoutes, asyncRoute, errorRoute]
+        console.log('router.beforeEach allRoutes', allRoutes)
         // 保存路由数据
-        routerStore.setRoutes(constantRoutes.concat(asyncRoute))
+        routerStore.setRoutes(allRoutes)
 
         next({ ...to, replace: true })
       } else {
