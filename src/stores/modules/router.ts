@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import type { RouteRecordRaw } from 'vue-router'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
+import { getNavApi } from '@/api/system/menu'
+import { constantMenu, dashboardMenu, generateRoutes } from '@/router'
 
 export const useRouterStore = defineStore(
   'routerStore',
@@ -13,8 +15,14 @@ export const useRouterStore = defineStore(
     /**
      * 获取菜单路由
      */
-    const getMenuRoutes = () => {
-      return menuRoutes.value
+    const getMenuRoutes = async () => {
+      const { data } = await getNavApi()
+      const menuRouteList = [] as RouteRecordRaw[]
+      menuRouteList.push(...generateRoutes(dashboardMenu))
+      menuRouteList.push(...generateRoutes(data))
+      menuRouteList.push(...generateRoutes(constantMenu))
+
+      return menuRouteList
     }
 
     /**

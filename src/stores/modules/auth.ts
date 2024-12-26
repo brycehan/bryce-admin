@@ -62,7 +62,6 @@ export const useAuthStore = defineStore('authStore', {
      */
     async getCurrentUser() {
       const { data } = await getCurrentUserApi()
-      // this.user = data
       Object.assign(this.user, data)
     },
     /**

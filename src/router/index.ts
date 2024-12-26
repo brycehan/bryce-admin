@@ -6,8 +6,6 @@ import { isExternalLink } from '@/utils/tool'
 import { useAuthStore } from '@/stores/modules/auth'
 import { useAppStore } from '@/stores/modules/app'
 import { useRouterStore } from '@/stores/modules/router'
-import { getMenuRoutes } from '@/api/system/router'
-import { getDictListApi } from '@/api/system/dictType'
 
 NProgress.configure({ showSpinner: false })
 
@@ -193,7 +191,7 @@ router.beforeEach(async (to, from, next) => {
         }
 
         // 动态菜单
-        const menuRoutes = await getMenuRoutes()
+        const menuRoutes = await routerStore.getMenuRoutes()
         routerStore.setMenuRoutes(menuRoutes)
 
         // 获取扁平化路由，将多级路由转换成一组路由
