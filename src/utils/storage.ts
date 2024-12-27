@@ -5,7 +5,8 @@ const Cache = {
   tokenKey: 'token',
   sidebarOpenedKey: 'sidebarOpened',
   componentSizeKey: 'componentSize',
-  themeKey: 'theme'
+  languageKey: 'language',
+  themeKey: 'theme',
 }
 
 class Storage {
@@ -41,6 +42,20 @@ class Storage {
     return Tool.getItem(Cache.componentSizeKey) || 'default'
   }
 
+  /**
+   * 设置国际化语言
+   */
+  setLanguage(locale: string) {
+    return Tool.setItem(Cache.languageKey, locale)
+  }
+
+  /**
+   * 获取当前语言
+   */
+  getLanguage() {
+    return Tool.getItem(Cache.languageKey)
+  }
+
   getTheme = (): Theme => {
     return Tool.getItem(Cache.themeKey) as Theme || themeConfig
   }
@@ -53,6 +68,7 @@ class Storage {
     Tool.removeItem(Cache.themeKey)
   }
 }
+
 const Tool = {
   setItem(key: string, value: any) {
     if (value === undefined) {

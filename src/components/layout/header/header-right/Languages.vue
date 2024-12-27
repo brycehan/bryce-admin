@@ -1,0 +1,33 @@
+<template>
+  <el-dropdown trigger="click" @command="handleLanguageChange">
+    <SvgIcon icon="icon-languages" />
+    <template #dropdown>
+      <el-dropdown-menu>
+        <el-dropdown-item v-for="language in languages" :key="language" :command="language" :disabled="locale === language"
+          >{{ messages[language].langName}}{{locale}}</el-dropdown-item
+        >
+      </el-dropdown-menu>
+    </template>
+  </el-dropdown>
+</template>
+
+<script setup lang="ts">
+import { useAppStore } from '@/stores/modules/app'
+import SvgIcon from '@/components/svg-icon/svg-icon.vue'
+import { messages } from '@/i18n'
+import { useI18n } from 'vue-i18n'
+
+const appStore = useAppStore()
+const languages = Object.keys(messages)
+const { locale } = useI18n()
+
+/**
+ * 设置国际化语言
+ *
+ * @param {string} language - 用户选择的语言
+ */
+const handleLanguageChange = (language: string) => {
+  appStore.setLanguage(language)
+  locale.value = language
+}
+</script>

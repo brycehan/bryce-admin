@@ -20,6 +20,7 @@ import RightToolbar from '@/components/right-toolbar'
 import SelectUser from '@/components/select-user'
 import WangEditor from '@/components/wang-editor'
 import 'default-passive-events'
+import { i18n } from '@/i18n'
 
 const app = createApp(App)
 
@@ -28,11 +29,11 @@ app.use(ElementPlus, {
 })
 
 app.use(pinia)
+app.use(router)
+app.use(i18n)
 
 // 自定义指令
 app.use(directives)
-
-app.use(router)
 
 app.use(SvgIcon)
 app.use(DictSelect)

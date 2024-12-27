@@ -1,6 +1,6 @@
 <template>
   <el-breadcrumb separator-icon="ArrowRight" class="header-breadcrumb">
-    <el-breadcrumb-item key="home">首页</el-breadcrumb-item>
+    <el-breadcrumb-item key="home">{{ $t('home')}}</el-breadcrumb-item>
     <el-breadcrumb-item v-for="(item, index) in route.meta.breadcrumb" :key="index">
       <span>{{ item }}</span></el-breadcrumb-item
     >
@@ -16,8 +16,7 @@ const route = useRoute()
 <style scoped lang="scss">
 .header-breadcrumb {
   ::v-deep(.el-breadcrumb__inner) {
-    color: var(--theme-header-text-color);
-    &:hover {
+    &, &:hover {
       color: var(--theme-header-text-color);
     }
   }

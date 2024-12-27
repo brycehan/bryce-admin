@@ -10,6 +10,9 @@ export const useAppStore = defineStore(
     const sidebarOpened = ref<boolean>(true)
     // 组件大小
     const componentSize = ref<string>('default')
+
+    // 国际化语言
+    const language = ref<string>('')
     // 主题
     const theme = storage.getTheme()
     // 字典列表
@@ -32,6 +35,17 @@ export const useAppStore = defineStore(
       storage.setComponentSize(size)
     }
 
+
+
+    /**
+     * 设置国际化语言
+     *
+     * @param locale 当前语言
+     */
+    const setLanguage = (locale: string) => {
+      language.value = locale
+      storage.setLanguage(locale)
+    }
     /**
      * 获取字典列表
      */
@@ -52,10 +66,12 @@ export const useAppStore = defineStore(
     return {
       sidebarOpened,
       componentSize,
+      language,
       theme,
       dictList,
       toggleSidebarOpened,
       setComponentSize,
+      setLanguage,
       getDictList,
       setDictList,
     }

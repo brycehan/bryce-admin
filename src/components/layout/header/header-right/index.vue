@@ -1,6 +1,7 @@
 <template>
   <div class="header-right-container">
     <appearance />
+    <languages />
     <component-size />
     <a href="https://github.com/brycehan/bryce-admin" target="_blank">
       <svg-icon icon="icon-github-fill" class="block-icon"></svg-icon>
@@ -20,6 +21,7 @@ import Fullscreen from './Fullscreen.vue'
 import ThemeSetting from '@/components/layout/header/header-right/ThemeSetting.vue'
 import Search from '@/components/layout/header/header-right/Search.vue'
 import Appearance from '@/components/layout/header/header-right/Appearance.vue'
+import Languages from '@/components/layout/header/header-right/Languages.vue'
 </script>
 
 <style scoped lang="scss">

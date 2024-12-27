@@ -1,6 +1,23 @@
 import constant from '@/utils/constant'
 import { ElMessage, type UploadProps, type UploadRawFile } from 'element-plus'
 import { useAuthStore } from '@/stores/modules/auth'
+import storage from '@/utils/storage'
+
+/**
+ * 获取默认语言
+ */
+export const getDefaultLanguage = () => {
+  let locale = storage.getLanguage()
+  if (!locale) {
+    console.log('获取语言失败', navigator.language)
+    if (navigator.language.toLowerCase().indexOf('zh') > -1) {
+      locale = 'zh-CN'
+    } else {
+      locale = 'en-US'
+    }
+  }
+  return locale
+}
 
 /**
  * 是否外链
