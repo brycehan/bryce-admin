@@ -4,7 +4,7 @@
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item v-for="language in languages" :key="language" :command="language" :disabled="locale === language"
-          >{{ messages[language].langName}}{{locale}}</el-dropdown-item
+          >{{ messages[language].langName }}</el-dropdown-item
         >
       </el-dropdown-menu>
     </template>

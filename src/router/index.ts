@@ -49,7 +49,8 @@ const asyncRoute: RouteRecordRaw = {
       name: 'Profile',
       component: () => import('@/views/profile/index.vue'),
       meta: {
-        title: '个人中心',
+        title: 'profile.title',
+        i18n: true,
         cache: true
       }
     }

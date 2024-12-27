@@ -10,9 +10,9 @@
     <template #dropdown>
       <el-dropdown-menu>
         <router-link to="/profile">
-          <el-dropdown-item>个人中心</el-dropdown-item>
+          <el-dropdown-item>{{ $t('profile.title') }}</el-dropdown-item>
         </router-link>
-        <el-dropdown-item divided @click="logout">退出</el-dropdown-item>
+        <el-dropdown-item divided @click="logout">{{ $t('login.signOut') }}</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>

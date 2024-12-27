@@ -10,7 +10,7 @@
         <el-tab-pane
           v-for="tab in tabsStore.visitedViews"
           :key="tab"
-          :label="tab.title"
+          :label="tab.meta.i18n ? t(tab.title) : tab.title"
           :name="tab.path"
           :closable="!isAffix(tab)"
         ></el-tab-pane>
@@ -19,9 +19,9 @@
     <el-dropdown class="tabs-action" trigger="click" placement="bottom-end" @command="onClose">
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item :icon="Close" command="close">关闭</el-dropdown-item>
-          <el-dropdown-item :icon="CircleClose" command="closeOthers">关闭其它</el-dropdown-item>
-          <el-dropdown-item :icon="CircleCloseFilled" command="closeAll">关闭全部</el-dropdown-item>
+          <el-dropdown-item :icon="Close" command="close">{{ $t('main.tabs.close') }}</el-dropdown-item>
+          <el-dropdown-item :icon="CircleClose" command="closeOthers">{{ $t('main.tabs.closeOthers') }}</el-dropdown-item>
+          <el-dropdown-item :icon="CircleCloseFilled" command="closeAll">{{ $t('main.tabs.closeAll') }}</el-dropdown-item>
         </el-dropdown-menu>
       </template>
       <el-icon>
@@ -38,11 +38,13 @@ import { ArrowDown, Close, CircleClose, CircleCloseFilled } from '@element-plus/
 import { closeTab, closeOthersTabs, closeAllTabs } from '@/utils/tabs'
 import { useTabsStore } from '@/stores/modules/tabs'
 import { useRouterStore } from '@/stores/modules/router'
+import { useI18n } from 'vue-i18n'
 
 const route = useRoute()
 const router = useRouter()
 const tabsStore = useTabsStore()
 const routerStore = useRouterStore()
+const { t } = useI18n()
 
 const activeTabName = ref(route.path)
 
