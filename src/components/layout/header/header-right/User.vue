@@ -31,7 +31,8 @@ const username = computed(() => authStore.user.username)
 const logout = () => {
   authStore.logout().then(() => {
     // 刷新页面
-    location.reload()
+    // location.reload()
+    location.href = '/'
   })
 }
 </script>

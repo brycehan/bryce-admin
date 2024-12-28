@@ -1,6 +1,6 @@
 <template>
   <el-sub-menu
-    v-if="menu.meta.type === 'C'"
+    v-if="menu.meta.type === 'C' && menu.meta.visible === 1"
     :key="menu.meta.id"
     :index="menu.path"
     :class="titleSpanClass"
@@ -12,7 +12,7 @@
     <menu-item v-for="item in menu.children" :key="item.path" :menu="item" />
   </el-sub-menu>
   <el-menu-item
-    v-if="menu.meta.type === 'M'"
+    v-if="menu.meta.type === 'M' && menu.meta.visible === 1"
     :key="menu.meta.id"
     :index="menu.path"
     @click="handleClick(menu)"

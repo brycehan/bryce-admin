@@ -58,6 +58,14 @@ const asyncRoute: RouteRecordRaw = {
 }
 
 /**
+ * 错误路由
+ */
+export const errorRoute: RouteRecordRaw = {
+  path: '/:pathMatch(.*)',
+  redirect: '/404'
+}
+
+/**
  * 配置Dashboard菜单
  */
 export const dashboardMenu = [
@@ -85,74 +93,66 @@ export const dashboardMenu = [
 /**
  * 配置常量菜单
  */
-export const constantMenu = [
+export const demoMenu = [
   {
     id: -2,
     name: 'Demo',
     url: null,
     icon: 'icon-windows',
-    visible: 1,
     type: 'C',
+    visible: 1,
     children: [
       {
         id: -21,
         name: 'Icon 图标',
         url: 'demo/icons/index',
         icon: 'icon-unorderedlist',
-        visible: 1,
         type: 'M',
+        visible: 1,
       },
       {
         id: -22,
         name: '二维码生成',
         url: 'demo/qrcode/index',
         icon: 'icon-unorderedlist',
-        visible: 1,
         type: 'M',
+        visible: 1,
       },
       {
         id: -23,
         name: '页面打印',
         url: 'demo/printJs/index',
         icon: 'icon-unorderedlist',
-        visible: 1,
         type: 'M',
+        visible: 1,
       },
       {
         id: -24,
         name: '图片裁剪',
         url: 'demo/cropper/index',
         icon: 'icon-unorderedlist',
-        visible: 1,
         type: 'M',
+        visible: 1,
       },
       {
         id: -25,
         name: 'Markdown',
         url: 'demo/markdown/index',
         icon: 'icon-unorderedlist',
-        visible: 1,
         type: 'M',
+        visible: 1,
       },
       {
         id: -26,
         name: 'ECharts图表',
         url: 'demo/echarts/index',
         icon: 'icon-unorderedlist',
-        visible: 1,
         type: 'M',
+        visible: 1,
       }
     ]
   }
 ]
-
-/**
- * 错误路由
- */
-export const errorRoute: RouteRecordRaw = {
-  path: '/:pathMatch(.*)',
-  redirect: '/404'
-}
 
 export const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL), // hash模式
@@ -264,7 +264,7 @@ export const getFlatRoutes = (routes: RouteRecordRaw[], breadcrumb: string[]): R
 // 加载vue组件
 const layoutModules = import.meta.glob('/src/views/**/*.vue')
 
-//根据路径，动态获取vue组件
+// 根据路径，动态获取vue组件
 const getDynamicComponent = (path: string): any => {
   return layoutModules[`/src/views/${path}.vue`]
 }
@@ -304,6 +304,7 @@ export const generateRoutes = (menuList: any): RouteRecordRaw[] => {
         icon: menu.icon,
         id: '' + menu.id,
         type: menu.type,
+        visible: menu.visible || 1,
         url: menu.url,
         cache: true,
         affix: menu.affix || false,

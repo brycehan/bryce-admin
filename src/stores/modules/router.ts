@@ -3,7 +3,7 @@ import type { RouteRecordRaw } from 'vue-router'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { getNavApi } from '@/api/system/menu'
-import { constantMenu, dashboardMenu, generateRoutes } from '@/router'
+import { demoMenu, dashboardMenu, generateRoutes } from '@/router'
 
 export const useRouterStore = defineStore(
   'routerStore',
@@ -20,7 +20,7 @@ export const useRouterStore = defineStore(
       const menuRouteList = [] as RouteRecordRaw[]
       menuRouteList.push(...generateRoutes(dashboardMenu))
       menuRouteList.push(...generateRoutes(data))
-      menuRouteList.push(...generateRoutes(constantMenu))
+      menuRouteList.push(...generateRoutes(demoMenu))
 
       return menuRouteList
     }
