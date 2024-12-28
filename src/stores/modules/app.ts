@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import storage from '@/utils/storage'
 import { getDictListApi } from '@/api/system/dictType'
+import { useI18n } from 'vue-i18n'
 
 export const useAppStore = defineStore(
   'appStore',
@@ -13,6 +14,8 @@ export const useAppStore = defineStore(
 
     // 国际化语言
     const language = ref<string>('')
+    // 国际化
+    const { locale } = useI18n()
     // 主题
     const theme = storage.getTheme()
     // 字典列表
@@ -67,6 +70,7 @@ export const useAppStore = defineStore(
       sidebarOpened,
       componentSize,
       language,
+      locale,
       theme,
       dictList,
       toggleSidebarOpened,

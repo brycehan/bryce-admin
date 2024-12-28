@@ -3,24 +3,24 @@
     ref="dataFormRef"
     :model="dataForm"
     :rules="dataRules"
-    label-width="100px"
+    label-width="120px"
     @keyup.enter="handleSubmit()"
     class="mr-4"
   >
-    <el-form-item label="姓名" prop="nickname">
-      <el-input v-model="dataForm.nickname" placeholder="请输入姓名" />
+    <el-form-item :label="$t('profile.basic.data.nickname')" prop="nickname">
+      <el-input v-model="dataForm.nickname" :placeholder="t('profile.basic.data.nicknamePlaceholder')" />
     </el-form-item>
-    <el-form-item label="手机号码" prop="phone">
-      <el-input v-model="dataForm.phone" placeholder="请输入手机号码" />
+    <el-form-item :label="$t('profile.basic.data.phone')" prop="phone">
+      <el-input v-model="dataForm.phone" :placeholder="t('profile.basic.data.phonePlaceholder')" />
     </el-form-item>
-    <el-form-item label="邮箱">
-      <el-input v-model="dataForm.email" placeholder="请输入邮箱" />
+    <el-form-item :label="$t('profile.basic.data.email')" prop="email">
+      <el-input v-model="dataForm.email" :placeholder="t('profile.basic.data.emailPlaceholder')" />
     </el-form-item>
-    <el-form-item label="性别">
+    <el-form-item :label="$t('profile.basic.data.gender')">
       <dict-radio-group v-model="dataForm.gender" dict-type="sys_gender" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="handleSubmit()">确定</el-button>
+      <el-button type="primary" @click="handleSubmit()">{{ t('button.confirm')}}</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -32,8 +32,10 @@ import { ElMessage, type FormRules } from 'element-plus'
 import { useAuthStore } from '@/stores/modules/auth'
 import { getCheckPhoneUniqueApi } from '@/api/system/user'
 import { phoneRegExp } from '@/utils/tool'
+import { useI18n } from 'vue-i18n'
 
 const authStore = useAuthStore()
+const { t } = useI18n()
 
 const dataForm = reactive({
   nickname: authStore.user.nickname,
@@ -54,7 +56,7 @@ const dataFormRef = ref()
 const checkPhoneUnique = (_rule: any, value: any, callback: any) => {
   // 校验手机号码格式
   if (!phoneRegExp.test(value)) {
-    callback(new Error('手机号码格式错误'))
+    callback(new Error(t('profile.basic.data.phoneIncorrect')))
     return
   }
   // 后端校验唯一
@@ -62,24 +64,29 @@ const checkPhoneUnique = (_rule: any, value: any, callback: any) => {
     if (res.data) {
       callback()
     } else {
-      callback(new Error('此手机号码已注册'))
+      callback(new Error(t('profile.basic.data.phoneRegistered')))
     }
   })
 }
 
 const dataRules = reactive<FormRules>({
   nickname: [
-    { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' }
+    { required: true, message: () => t('rules.required'), trigger: 'blur' },
+    { min: 2, max: 50, message: () => t('rules.length', { min: 2, max: 50}), trigger: 'blur' }
   ],
   phone: [
-    { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 7, max: 20, message: '长度为7~20个字符', trigger: 'blur' },
+    { required: true, message: () => t('rules.required'), trigger: 'blur' },
+    { min: 7, max: 20, message: () => t('rules.length', { min: 7, max: 20}), trigger: 'blur' },
     { validator: checkPhoneUnique, trigger: 'blur' }
+  ],
+  email: [
+    { type: 'email', message: () => t('rules.email'), trigger: 'blur' }
   ]
 })
 
-/** 表单提交 */
+/**
+ * 表单提交
+ */
 const handleSubmit = () => {
   dataFormRef.value.validate((valid: boolean) => {
     if (!valid) {
@@ -94,7 +101,7 @@ const handleSubmit = () => {
       authStore.user.email = dataForm.email
       authStore.user.gender = dataForm.gender
 
-      ElMessage.success('修改成功')
+      ElMessage.success(t('message.successUpdate'))
     })
   })
 }

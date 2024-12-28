@@ -4,6 +4,7 @@ import { useAuthStore } from '@/stores/modules/auth'
 import qs from 'qs'
 import { Warning } from '@element-plus/icons-vue'
 import errorMessage from '@/utils/errorMessage'
+import { useAppStore } from '@/stores/modules/app'
 
 /**
  * axios实例
@@ -20,11 +21,13 @@ const request = axios.create({
 request.interceptors.request.use(
   (config) => {
     const authStore = useAuthStore()
+    const appStore = useAppStore()
     if (authStore?.accessToken) {
       config.headers.Authorization = authStore.accessToken
     }
 
-    config.headers['Accept-Language'] = 'zh-CN'
+    console.log('locale', appStore.locale)
+    config.headers['Accept-Language'] = appStore.locale
     config.headers['X-Source-Client'] = 'pc'
 
     // 追加时间戳，防止GET请求缓存
@@ -52,8 +55,8 @@ request.interceptors.response.use(
     const code = response.data.code || 200;
     // 获取错误信息
     const message = errorMessage[code] || response.data.message || errorMessage['default']
-    const authStore = useAuthStore()
 
+    const authStore = useAuthStore()
     // 处理自动刷新令牌
     if (response.headers.authorization) {
       authStore.setToken(response.headers.authorization)

@@ -111,6 +111,7 @@ export const useAuthStore = defineStore('authStore', () => {
       loginByPhone,
       getCurrentUser,
       getAuthoritySet,
+      setToken,
       removeToken,
       logout
     }

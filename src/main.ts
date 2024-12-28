@@ -9,7 +9,6 @@ import App from './App.vue'
 import pinia from '@/stores'
 import { router } from '@/router'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 import directives from '@/utils/directives'
 import SvgIcon from '@/components/svg-icon'
@@ -24,9 +23,7 @@ import { i18n } from '@/i18n'
 
 const app = createApp(App)
 
-app.use(ElementPlus, {
-  locale: zhCn
-})
+app.use(ElementPlus)
 
 app.use(pinia)
 app.use(router)
