@@ -26,7 +26,6 @@ request.interceptors.request.use(
       config.headers.Authorization = authStore.accessToken
     }
 
-    console.log('locale', appStore.locale)
     config.headers['Accept-Language'] = appStore.locale
     config.headers['X-Source-Client'] = 'pc'
 

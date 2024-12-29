@@ -51,7 +51,8 @@ const asyncRoute: RouteRecordRaw = {
       meta: {
         title: 'profile.title',
         i18n: true,
-        cache: true
+        cache: true,
+        breadcrumb: ['profile.title'],
       }
     }
   ]
@@ -74,16 +75,16 @@ export const dashboardMenu = [
     name: 'Dashboard',
     url: null,
     icon: 'icon-appstore',
-    visible: 1,
     type: 'C',
+    visible: 1,
     children: [
       {
         id: -11,
         name: '首页',
         url: 'dashboard/index',
         icon: 'icon-home',
-        visible: 1,
         type: 'M',
+        visible: 1,
         affix: true,
       }
     ]
@@ -91,7 +92,7 @@ export const dashboardMenu = [
 ]
 
 /**
- * 配置常量菜单
+ * 配置示例菜单
  */
 export const demoMenu = [
   {
@@ -207,13 +208,7 @@ router.beforeEach(async (to, from, next) => {
         router.addRoute(asyncRoute)
         router.addRoute(errorRoute)
 
-        console.log('router.beforeEach', router.getRoutes())
-        console.log('router.beforeEach', menuRoutes)
-        console.log('router.beforeEach', flatRoutes)
-        console.log('router.beforeEach', asyncRoute)
-
         const allRoutes = [...constantRoutes, asyncRoute, errorRoute]
-        console.log('router.beforeEach allRoutes', allRoutes)
         // 保存路由数据
         routerStore.setRoutes(allRoutes)
 

@@ -31,7 +31,6 @@ export const useAuthStore = defineStore('authStore', () => {
      */
     const setToken = (token: string) => {
       accessToken.value = token
-      storage.setToken(token)
     }
 
     /**
@@ -39,7 +38,6 @@ export const useAuthStore = defineStore('authStore', () => {
      */
     const removeToken = () => {
       accessToken.value = ''
-      storage.removeToken()
     }
 
     /**
@@ -49,7 +47,6 @@ export const useAuthStore = defineStore('authStore', () => {
      */
     const loginByAccount = async (loginDto: Auth.LoginDto) => {
       const { code, data, message } = await postLoginByAccountApi(loginDto)
-      console.log('loginByAccount', data)
       if (code == 200) {
         const token = (data as Auth.LoginVo).accessToken as string || ''
         setToken(token)
@@ -85,6 +82,7 @@ export const useAuthStore = defineStore('authStore', () => {
         gender: '',
         avatar: ''
       } as any)
+      storage.setUser(user)
     }
 
     /**

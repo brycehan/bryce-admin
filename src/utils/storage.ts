@@ -2,58 +2,19 @@ import type { Theme } from '@/stores/theme/typings'
 import { themeConfig } from '@/stores/theme/config'
 
 const Cache = {
-  tokenKey: 'token',
-  sidebarOpenedKey: 'sidebarOpened',
+  userKey: 'user',
   componentSizeKey: 'componentSize',
   languageKey: 'language',
   themeKey: 'theme',
 }
 
 class Storage {
-  setToken = (token: any) => {
-    localStorage.setItem(Cache.tokenKey, token)
+  setUser = (value: any) => {
+    return Tool.setItem(Cache.userKey, value)
   }
 
-  getToken = () => {
-    return localStorage.getItem(Cache.tokenKey) || ''
-  }
-
-  removeToken = () => {
-    return localStorage.removeItem(Cache.tokenKey)
-  }
-
-  setSidebarOpened = (status: boolean) => {
-    return Tool.setItem(Cache.sidebarOpenedKey, status)
-  }
-
-  getSidebarOpened = (): boolean => {
-    const sidebarOpened = Tool.getItem(Cache.sidebarOpenedKey)
-    if (sidebarOpened === null) {
-      return true
-    }
-    return sidebarOpened
-  }
-
-  setComponentSize = (fontSize: string) => {
-    Tool.setItem(Cache.componentSizeKey, fontSize)
-  }
-
-  getComponentSize = (): string => {
-    return Tool.getItem(Cache.componentSizeKey) || 'default'
-  }
-
-  /**
-   * 设置国际化语言
-   */
-  setLanguage(locale: string) {
-    return Tool.setItem(Cache.languageKey, locale)
-  }
-
-  /**
-   * 获取当前语言
-   */
-  getLanguage() {
-    return Tool.getItem(Cache.languageKey)
+  getUser = (): any => {
+    return Tool.getItem(Cache.userKey)
   }
 
   getTheme = (): Theme => {

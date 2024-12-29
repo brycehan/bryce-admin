@@ -35,20 +35,17 @@ export const useAppStore = defineStore(
      */
     const setComponentSize = (size: string) => {
       componentSize.value = size
-      storage.setComponentSize(size)
     }
-
-
 
     /**
      * 设置国际化语言
      *
-     * @param locale 当前语言
+     * @param lang 当前语言
      */
-    const setLanguage = (locale: string) => {
-      language.value = locale
-      storage.setLanguage(locale)
+    const setLanguage = (lang: string) => {
+      language.value = lang
     }
+
     /**
      * 获取字典列表
      */

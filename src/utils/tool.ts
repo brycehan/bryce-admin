@@ -1,15 +1,16 @@
 import constant from '@/utils/constant'
 import { ElMessage, type UploadProps, type UploadRawFile } from 'element-plus'
 import { useAuthStore } from '@/stores/modules/auth'
-import storage from '@/utils/storage'
+import { useAppStore } from '@/stores/modules/app'
 
 /**
  * 获取默认语言
  */
 export const getDefaultLanguage = () => {
-  let locale = storage.getLanguage()
+  const appStore = useAppStore()
+  let locale = appStore.language
   if (!locale) {
-    console.log('获取语言失败', navigator.language)
+    console.log('获取浏览器默认语言', navigator.language)
     if (navigator.language.toLowerCase().indexOf('zh') > -1) {
       locale = 'zh-CN'
     } else {

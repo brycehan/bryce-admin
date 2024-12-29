@@ -2,7 +2,6 @@ import { createI18n } from 'vue-i18n'
 // element-plus 国际化文件
 import element_zh_cn from 'element-plus/es/locale/lang/zh-cn'
 import element_en from 'element-plus/es/locale/lang/en'
-import storage from '@/utils/storage'
 
 // 框架国际化文件
 const zh_cn = import.meta.glob('./lang/**/zh-CN.ts', { eager: true })
@@ -36,13 +35,6 @@ export const messages: { [key: string]: any} = {
 }
 
 /**
- * 获取当前语言
- */
-const getLanguage = () => {
-  return storage.getLanguage()
-}
-
-/**
  * 创建国际化(i18n)实例
  *
  * @returns 返回国际化实例
@@ -50,6 +42,5 @@ const getLanguage = () => {
  export const i18n = createI18n({
   globalInjection: true,
   legacy: false,
-  locale: getLanguage(),
   messages
 })
