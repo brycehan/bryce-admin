@@ -74,8 +74,8 @@
           />
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="300">
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="170"/>
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="240">
         <template #default="scope">
           <div v-if="scope.row.id != 1">
             <el-button v-auth="'system:role:update'" type="primary" icon="edit" text @click="handleAddOrEdit(scope.row.id)"
@@ -121,7 +121,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
-import { postPageApi, deleteByIdsApi, postExportExcelApi } from '@/api/system/role'
+import { postPageApi, deleteByIdsApi, postExportExcelApi, patchStatusApi } from '@/api/system/role'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import DataScope from '@/views/system/role/data-scope.vue'

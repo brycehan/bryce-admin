@@ -97,6 +97,7 @@
             header-align="center"
             align="center"
             v-if="columns[3].visible"
+            width="120"
           />
           <el-table-column
             label="状态"
@@ -122,7 +123,7 @@
             prop="createdTime"
             header-align="center"
             align="center"
-            width="160"
+            width="170"
             v-if="columns[5].visible"
           />
           <el-table-column
@@ -130,7 +131,7 @@
             fixed="right"
             header-align="center"
             align="center"
-            width="250"
+            width="240"
             v-if="columns[6].visible"
           >
             <template #default="scope">

@@ -86,8 +86,8 @@
       />
       <dict-table-column label="状态" prop="status" dict-type="sys_status" width="80" />
       <el-table-column label="备注" prop="remark" header-align="center" align="center" />
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="250">
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="170"/>
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="270">
         <template #default="scope">
           <el-button
             v-auth="'system:dictData:page'"

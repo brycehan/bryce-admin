@@ -100,8 +100,8 @@
         header-align="center"
         align="center"
       />
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="160"/>
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="180">
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="170"/>
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="170">
         <template #default="scope">
           <el-button
             v-auth="'system:param:update'"

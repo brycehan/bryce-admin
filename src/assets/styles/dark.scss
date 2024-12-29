@@ -58,4 +58,11 @@ html.dark {
   .layout-sidebar {
     border-right: 1px solid var(--theme-border-color-light) !important;
   }
+
+  .el-switch .el-switch__core {
+    border: 1px solid #444 !important;
+    &:before {// switch主题色hover边框
+      border: 1px solid var(--el-color-primary) !important;
+    }
+  }
 }

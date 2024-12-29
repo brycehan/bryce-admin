@@ -152,7 +152,9 @@ onMounted(() => {
 const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } =
   crud(state)
 
-/** 重置按钮操作 */
+/**
+ * 重置按钮操作
+ */
 const handleResetQuery = () => {
   for (const key in state.range) {
     state.range[key] = []
@@ -165,10 +167,14 @@ const handleResetQuery = () => {
   getPage()
 }
 
-/** 新增/修改 */
+/**
+ * 新增/修改
+ *
+ * @param row 当前行数据
+ */
 const handleAddOrEdit = (row?: any) => {
-  noticeId.value = row?.id
   addOrEditVisible.value = true
   addOrEditTitle.value = !row?.id ? '新增通知公告' : '修改通知公告'
+  noticeId.value = row?.id
 }
 </script>

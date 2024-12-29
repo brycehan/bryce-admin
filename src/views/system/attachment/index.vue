@@ -86,9 +86,9 @@
         prop="createdTime"
         header-align="center"
         align="center"
-        width="160"
+        width="170"
       />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="180">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="170">
         <template #default="scope">
           <!-- 权限无效，但浏览器有下载进度条 -->
           <!--          <a :href="scope.row.url" download>-->

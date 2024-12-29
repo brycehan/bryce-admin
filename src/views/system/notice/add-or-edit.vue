@@ -10,9 +10,6 @@
     <el-form-item label="标题" prop="title">
       <el-input v-model="state.dataForm.title" placeholder="请输入标题" />
     </el-form-item>
-    <el-form-item label="内容" prop="content">
-      <WangEditor v-model="state.dataForm.content" placeholder="请输入内容" />
-    </el-form-item>
     <el-row>
       <el-col :span="12">
         <el-form-item label="类型" prop="type">
@@ -25,6 +22,9 @@
         </el-form-item>
       </el-col>
     </el-row>
+    <el-form-item label="内容" prop="content">
+      <WangEditor v-model="state.dataForm.content" placeholder="请输入内容" />
+    </el-form-item>
   </el-form>
   <el-button @click="state.visible = false">取消</el-button>
   <el-button type="primary" @click="handleSubmit()">确定</el-button>
@@ -77,10 +77,14 @@ const dataRules = reactive<FormRules>({
 
 const { getData } = crud(state)
 
-/** 初始化详情数据 */
+/**
+ * 初始化详情数据
+ *
+ * @param id ID
+ */
 const init = (id?: string) => {
   state.visible = true
-  state.dataForm.id = undefined
+  state.dataForm.id = ''
 
   // 重置表单数据
   if (dataFormRef.value) {
@@ -93,7 +97,15 @@ const init = (id?: string) => {
   }
 }
 
-/** 表单提交 */
+onMounted(() => {
+  if (props.noticeId) {
+    init(props.noticeId)
+  }
+})
+
+/**
+ * 表单提交
+ */
 const handleSubmit = () => {
   dataFormRef.value.validate((valid: boolean) => {
     if (!valid) {
@@ -104,7 +116,9 @@ const handleSubmit = () => {
   })
 }
 
-/** 表单提交 */
+/**
+ * 表单提交
+ */
 const handleSaveOrUpdate = () => {
   saveOrUpdateApi(state.dataForm).then(() => {
     emit('update:modelValue', false)

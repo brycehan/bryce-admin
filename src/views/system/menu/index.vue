@@ -56,7 +56,7 @@
         align="center"
         width="150"
       />
-      <el-table-column label="图标" prop="icon" header-align="center" align="center">
+      <el-table-column label="图标" prop="icon" header-align="center" align="center" width="70">
         <template #default="scope">
           <svg-icon :icon="scope.row.icon" />
         </template>
@@ -90,17 +90,17 @@
         sortable="custom"
         header-align="center"
         align="center"
-        width="120"
+        width="115"
       />
-      <dict-table-column label="状态" prop="status" dict-type="sys_status" width="100" />
+      <dict-table-column label="状态" prop="status" dict-type="sys_status" width="75" />
       <el-table-column
         label="创建时间"
         prop="createdTime"
         header-align="center"
         align="center"
-        width="160"
+        width="170"
       />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="250">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="235">
         <template #default="scope">
           <el-button
             v-auth="'system:menu:update'"

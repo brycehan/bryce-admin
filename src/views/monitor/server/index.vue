@@ -87,12 +87,12 @@
         </div>
         <el-table :data="data.disks" class="w-100" border>
           <el-table-column align="center" label="磁盘名称" prop="diskName" />
-          <el-table-column align="center" label="磁盘类型" prop="diskType" />
-          <el-table-column align="center" label="磁盘路径" prop="dirName" />
-          <el-table-column align="center" label="总大小" prop="total" />
-          <el-table-column align="center" label="已用大小" prop="used" />
-          <el-table-column align="center" label="空闲大小" prop="free" />
-          <el-table-column align="center" label="空间使用率" prop="usage" />
+          <el-table-column align="center" label="磁盘类型" prop="diskType" width="100"/>
+          <el-table-column align="center" label="磁盘路径" prop="dirName" width="390"/>
+          <el-table-column align="center" label="总大小" prop="total" width="110"/>
+          <el-table-column align="center" label="已用大小" prop="used" width="110"/>
+          <el-table-column align="center" label="空闲大小" prop="free" width="110"/>
+          <el-table-column align="center" label="空间使用率" prop="usage" width="110"/>
         </el-table>
       </el-col>
     </el-row>

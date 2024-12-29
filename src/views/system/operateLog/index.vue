@@ -67,9 +67,8 @@
       @sort-change="handleSortChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="日志编号" prop="id" header-align="center" align="center" width="150"/>
+      <el-table-column label="日志编号" prop="id" show-overflow-tooltip header-align="center" align="center" width="150"/>
       <el-table-column label="模块名称" prop="moduleName" show-overflow-tooltip header-align="center" align="center" />
-      <el-table-column label="请求URI" prop="requestUri" show-overflow-tooltip header-align="center" align="center" />
       <dict-table-column
         label="操作类型"
         prop="operatedType"
@@ -82,7 +81,7 @@
       <el-table-column label="操作IP" prop="ip" show-overflow-tooltip header-align="center" align="center" />
       <el-table-column label="操作地点" prop="location" header-align="center" align="center" />
       <dict-table-column label="操作状态" prop="status" dict-type="sys_status" width="90"/>
-      <el-table-column label="操作时间" prop="operatedTime" header-align="center" align="center" width="160" />
+      <el-table-column label="操作时间" prop="operatedTime" header-align="center" align="center" width="170" />
       <el-table-column label="执行时长" prop="duration" header-align="center" align="center">
         <template #default="scope"> {{ scope.row.duration }}毫秒 </template>
       </el-table-column>
@@ -92,7 +91,7 @@
         fixed="right"
         header-align="center"
         align="center"
-        width="90"
+        width="100"
       >
         <template #default="scope">
           <el-button type="info" icon="view" text @click="handleInfo(scope.row.id)">详情</el-button>

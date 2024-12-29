@@ -34,7 +34,7 @@
         show-overflow-tooltip
         header-align="center"
         align="center"
-        width="160"
+        width="170"
       />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="100">
         <template #default="scope">
