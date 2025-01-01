@@ -18,6 +18,7 @@ const route = useRoute()
     &,
     &:hover {
       color: var(--theme-header-text-color);
+      font-size: 1rem;
     }
   }
 

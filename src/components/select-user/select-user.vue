@@ -12,11 +12,11 @@
         ref="queryFormRef"
         :model="state.queryForm"
         :inline="true"
-        label-width="68px"
+        label-width="78"
         @keyup.enter="getPage()"
         @submit.prevent
       >
-        <el-form-item label="账号" label-width="40px" prop="username">
+        <el-form-item label="账号" label-width="50" prop="username">
           <el-input v-model="state.queryForm.username" placeholder="账号" />
         </el-form-item>
         <el-form-item label="手机号码" prop="phone">

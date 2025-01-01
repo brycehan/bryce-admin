@@ -5,7 +5,7 @@
       :model="state.queryForm"
       :inline="true"
       v-show="showSearch"
-      label-width="68px"
+      label-width="78"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -60,7 +60,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="日志编号" prop="id" header-align="center" align="center" />
+      <el-table-column label="日志编号" prop="id" header-align="center" align="center" width="160"/>
       <el-table-column label="账号" prop="username" header-align="center" align="center" />
       <el-table-column label="登录IP" prop="ip" header-align="center" align="center" width="120"/>
       <el-table-column label="登录地点" prop="location" header-align="center" align="center" />

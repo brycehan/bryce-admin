@@ -10,7 +10,7 @@
       ref="dataFormRef"
       :model="dataForm"
       :rules="dataRules"
-      label-width="100px"
+      label-width="100"
       class="mr-4"
     >
       <el-form-item label="角色名称" prop="name">

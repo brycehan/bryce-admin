@@ -3,12 +3,17 @@
 // 菜单图标
 .el-menu-item .svg-icon,
 .el-sub-menu .svg-icon {
-  font-size: 16px;
+  font-size: 1.14rem;
   display: inline-block;
   vertical-align: middle;
-  margin-right: 5px;
-  width: 24px;
+  margin-right: 0.28rem;
+  width: 1.71rem;
   text-align: center;
+}
+
+// 菜单字体
+.el-menu-item, .el-sub-menu__title {
+  font-size: unset;
 }
 
 // 侧边栏弹出菜单
@@ -119,4 +124,18 @@
 // 上传按钮间距
 .el-button+.el-upload-container, .el-upload-container+.el-button {
   margin-left: 12px;
+}
+
+// 分割线字体大小
+.el-divider__text {
+  font-size: 1rem;
+}
+
+// 表单标签字体大小
+.el-form-item {
+  --font-size: var(--el-font-size-base) !important;
+}
+// input框、select框字体大小
+.el-input__inner, .el-select__placeholder > span{
+  font-size: 1rem;
 }

@@ -5,7 +5,6 @@
       :model="state.queryForm"
       :inline="true"
       v-show="showSearch"
-      label-width="68px"
       @keyup.enter="getPage()"
       @submit.prevent
     >

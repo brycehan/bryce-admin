@@ -5,7 +5,6 @@
       :model="state.queryForm"
       :inline="true"
       v-show="showSearch"
-      label-width="68px"
       @keyup.enter="getList()"
       @submit.prevent
     >
@@ -54,14 +53,13 @@
         show-overflow-tooltip
         header-align="center"
         align="center"
-        width="150"
       />
       <el-table-column label="图标" prop="icon" header-align="center" align="center" width="70">
         <template #default="scope">
           <svg-icon :icon="scope.row.icon" />
         </template>
       </el-table-column>
-      <el-table-column label="类型" prop="type" header-align="center" align="center">
+      <el-table-column label="类型" prop="type" header-align="center" align="center" width="80">
         <template #default="scope">
           <el-tag v-if="scope.row.type === 'C'" type="info" size="small">目录</el-tag>
           <el-tag v-if="scope.row.type === 'M'" type="primary" size="small">菜单</el-tag>
@@ -73,7 +71,6 @@
         prop="authority"
         header-align="center"
         align="center"
-        width="160"
         :show-overflow-tooltip="true"
       />
       <el-table-column
@@ -81,11 +78,10 @@
         prop="url"
         header-align="center"
         align="center"
-        width="160"
         :show-overflow-tooltip="true"
       />
       <el-table-column
-        label="显示顺序"
+        label="排序"
         prop="sort"
         sortable="custom"
         header-align="center"

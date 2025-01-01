@@ -9,7 +9,7 @@
       ref="dataFormRef"
       :model="dataForm"
       :rules="dataRules"
-      label-width="100px"
+      label-width="100"
       label-position="top"
     >
       <el-form-item :label="`请输入“${username}”的新密码`" prop="password">

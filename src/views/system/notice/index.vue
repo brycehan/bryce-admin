@@ -5,7 +5,6 @@
       :model="state.queryForm"
       :inline="true"
       v-show="showSearch"
-      label-width="68px"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -23,7 +22,7 @@
           clearable
         />
       </el-form-item>
-      <el-form-item label="状态" label-width="40px" prop="status">
+      <el-form-item label="状态" prop="status">
         <dict-select
           v-model="state.queryForm.status"
           dict-type="sys_status"

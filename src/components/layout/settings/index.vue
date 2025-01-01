@@ -326,6 +326,9 @@ const handleResetConfig = async () => {
     }
   }
 
+  /**
+   * 主题色
+   */
   .theme-primary-color {
     width: 20px;
     height: 20px;
@@ -427,13 +430,22 @@ const handleResetConfig = async () => {
     }
   }
 
+  /**
+  * 配置内容样式
+  */
   .config-content {
     ::v-deep(.el-space__item) {
       width: 100%;
+      & .el-alert__title {
+        font-size: 1rem;
+        line-height: 1.71rem;
+      }
     }
     button {
       width: 100%;
     }
   }
+
+
 }
 </style>

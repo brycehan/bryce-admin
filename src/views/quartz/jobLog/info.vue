@@ -1,6 +1,6 @@
 <template>
   <el-dialog v-model="state.visible" title="定时任务日志详情" :close-on-click-modal="false">
-    <el-form ref="dataFormRef" :model="state.dataForm" label-width="100px" class="mr-4">
+    <el-form ref="dataFormRef" :model="state.dataForm" label-width="100" class="mr-4">
       <el-row>
         <el-col :span="12">
           <el-form-item label="任务编号：">

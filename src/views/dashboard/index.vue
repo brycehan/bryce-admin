@@ -12,7 +12,7 @@
 <style scoped lang="scss">
 .layout-home {
   line-height: 2;
-  font-size: 15px;
+  font-size: 1rem;
 
   h2 {
     margin: 6px 0;

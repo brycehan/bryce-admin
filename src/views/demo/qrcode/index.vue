@@ -1,6 +1,6 @@
 <template>
   <el-card header="二维码生成" shadow="hover">
-    <el-form label-position="left" label-width="100px">
+    <el-form label-position="left" label-width="100">
       <el-form-item label="文本">
         <el-input v-model="value" />
       </el-form-item>

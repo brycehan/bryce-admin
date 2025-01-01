@@ -3,7 +3,7 @@
     ref="dataFormRef"
     :model="dataForm"
     :rules="dataRules"
-    label-width="140px"
+    label-width="140"
     @keyup.enter="handleSubmit()"
     class="mr-4"
   >

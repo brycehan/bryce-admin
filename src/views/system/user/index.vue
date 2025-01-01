@@ -14,18 +14,17 @@
           :model="state.queryForm"
           :inline="true"
           v-show="showSearch"
-          label-width="68px"
           class="query-form"
           @keyup.enter="getPage()"
           @submit.prevent
         >
-          <el-form-item label="账号" label-width="40px" prop="username">
+          <el-form-item label="账号" prop="username">
             <el-input v-model="state.queryForm.username" placeholder="请输入账号" clearable />
           </el-form-item>
           <el-form-item label="手机号码" prop="phone">
             <el-input v-model="state.queryForm.phone" placeholder="请输入手机号码" clearable />
           </el-form-item>
-          <el-form-item label="状态" label-width="40px" prop="status">
+          <el-form-item label="状态" label-width="50" prop="status">
             <dict-select v-model="state.queryForm.status" dict-type="sys_status" placeholder="用户状态" clearable />
           </el-form-item>
           <el-form-item label="创建时间" prop="createdTime">
@@ -89,7 +88,7 @@
             align="center"
             v-if="columns[1].visible"
           />
-          <el-table-column label="部门" prop="orgName" header-align="center" align="center" v-if="columns[2].visible" />
+          <el-table-column label="所属机构" prop="orgName" header-align="center" align="center" v-if="columns[2].visible" />
           <el-table-column
             label="手机号码"
             prop="phone"

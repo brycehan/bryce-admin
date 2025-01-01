@@ -8,7 +8,7 @@
       ref="dataFormRef"
       :model="state.dataForm"
       :rules="dataRules"
-      label-width="100px"
+      label-width="100"
       class="mr-4"
     >
       <el-form-item label="字典名称" prop="dictName">

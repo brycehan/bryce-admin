@@ -5,7 +5,7 @@
       :model="state.queryForm"
       :inline="true"
       v-show="showSearch"
-      label-width="68px"
+      label-width="78"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -67,7 +67,7 @@
       @sort-change="handleSortChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="日志编号" prop="id" show-overflow-tooltip header-align="center" align="center" width="150"/>
+      <el-table-column label="日志编号" prop="id" show-overflow-tooltip header-align="center" align="center" width="160"/>
       <el-table-column label="模块名称" prop="moduleName" show-overflow-tooltip header-align="center" align="center" />
       <dict-table-column
         label="操作类型"

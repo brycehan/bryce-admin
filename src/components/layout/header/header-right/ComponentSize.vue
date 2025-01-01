@@ -21,5 +21,16 @@ const appStore = useAppStore()
 const componentSize = computed(() => appStore.componentSize)
 const componentSizeChange = (componentSize: string) => {
   appStore.setComponentSize(componentSize)
+  switch (componentSize) {
+    case 'large':
+      document.documentElement.style.setProperty('--el-font-size-base', '16px')
+      break
+    case 'default':
+      document.documentElement.style.setProperty('--el-font-size-base', '14px')
+      break
+    case 'small':
+      document.documentElement.style.setProperty('--el-font-size-base', '12px')
+      break
+  }
 }
 </script>

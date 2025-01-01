@@ -1,10 +1,10 @@
 <template>
   <el-card shadow="never">
     <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" @keyup.enter="getPage()" @submit.prevent>
-      <el-form-item label="账号" label-width="40px" prop="username">
+      <el-form-item label="账号" label-width="50" prop="username">
         <el-input v-model="state.queryForm.username" placeholder="请输入账号" clearable />
       </el-form-item>
-      <el-form-item label="登录IP" label-width="60px" prop="loginIp">
+      <el-form-item label="登录IP" label-width="60" prop="loginIp">
         <el-input v-model="state.queryForm.loginIp" placeholder="请输入登录IP" clearable />
       </el-form-item>
       <el-form-item>
