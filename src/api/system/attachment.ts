@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import download from '@/utils/download'
 
 /**
  * 保存系统附件
@@ -23,19 +24,19 @@ export const deleteByIdsApi = (ids: string[]) => {
 }
 
 /**
- * 查询系统附件详情
- *
- * @param id ID
- */
-export const getByIdApi = (id: string) => {
-  return request.get(`/system/attachment/${id}`)
-}
-
-/**
  * 系统附件分页查询
  *
  * @param data 分页参数
  */
 export const postPageApi = (data: any) => {
   return request.post('/system/attachment/page', data)
+}
+
+/**
+ * 下载系统附件
+ *
+ * @param id ID
+ */
+export const downloadByIdApi = (id: string) => {
+  return download.get(`/system/attachment/secure/download/${id}`)
 }

@@ -24,8 +24,15 @@ const download = (config?: any) => {
         reader.onload = function (e: any) {
           // 转换完成，创建一个a标签用于下载
           const a = document.createElement('a')
-          const filename = decodeURI(response.headers['content-disposition'])
-          a.download = filename.split("''")[1] || config.filename
+          const contentDisposition = decodeURI(response.headers['content-disposition'])
+          let filename = contentDisposition.split("''")[1] || config.filename
+          if (typeof filename === 'undefined') {
+            filename = contentDisposition.split(';')
+              .map((item: string) => item.trim().replaceAll('"', ''))
+              .filter((item: string) => item.startsWith('filename='))
+              .map((item: string) => item.split('filename=')[1])
+          }
+          a.download = filename
           a.href = e.target.result
           // 在body中插入a元素
           document.body.insertAdjacentElement('afterend', a)

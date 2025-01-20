@@ -5,7 +5,6 @@
       :model="state.queryForm"
       :inline="true"
       v-show="showSearch"
-      label-width="78"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -21,20 +20,9 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-upload
-        v-auth="'system:attachment:save'"
-        :action="constant.uploadUrl"
-        :headers="headers"
-        :before-upload="handleBeforeUpload"
-        :on-success="handleOnSuccess"
-        :show-file-list="false"
-        :limit="9"
-        :on-exceed="handleExceed"
-        multiple
-        class="el-upload-container"
+      <el-button v-auth="'system:attachment:save'" type="info" plain icon="Upload" @click="handleUpload()"
+      >上传</el-button
       >
-        <el-button type="primary" plain icon="Upload">上传</el-button>
-      </el-upload>
       <el-button
         v-auth="'system:attachment:delete'"
         type="danger"
@@ -62,44 +50,50 @@
       />
       <el-table-column
         label="附件地址"
-        prop="url"
         show-overflow-tooltip
         header-align="center"
         align="center"
-      />
+      ><template #default="scope">
+        <el-button v-if="scope.row.accessType === 0" @click="handleCopy(scope)" text>
+          <el-text :style="{'width': (scope.column.realWidth - 20) + 'px'}" truncated>
+            {{ scope.row.url }}
+          </el-text></el-button>
+      </template>
+      </el-table-column>
+      <el-table-column label="附件名后缀" prop="suffix" header-align="center" align="center" />
+      <dict-table-column label="访问类型" prop="accessType" dict-type="sys_access_type" width="90"/>
       <el-table-column label="附件大小" prop="size" header-align="center" align="center">
         <template #default="scope">
           {{ convertSizeFormat(scope.row.size) }}
         </template>
       </el-table-column>
-      <el-table-column label="附件名后缀" prop="suffix" header-align="center" align="center" />
       <el-table-column
-        label="哈希码"
+        label="sha256"
         prop="hash"
         show-overflow-tooltip
         header-align="center"
         align="center"
       />
-      <el-table-column label="存储平台" prop="platform" header-align="center" align="center" />
+      <el-table-column label="存储平台" prop="platform" header-align="center" align="center" width="100"/>
       <el-table-column
         label="创建时间"
         prop="createdTime"
+        show-overflow-tooltip
         header-align="center"
         align="center"
-        width="170"
       />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="170">
         <template #default="scope">
-          <!-- 权限无效，但浏览器有下载进度条 -->
-          <!--          <a :href="scope.row.url" download>-->
-          <!--            <el-button v-auth="'system:attachment:info'" type="primary" text>下载</el-button>-->
-          <!--          </a>-->
+<!--          &lt;!&ndash; 公共访问权限，浏览器有下载进度条 &ndash;&gt;-->
+<!--          <a :href="scope.row.url" download v-if="scope.row.accessType === 0" class="download-a">-->
+<!--            <el-button v-auth="'system:attachment:info'" type="primary"  icon="download" text>下载</el-button>-->
+<!--          </a>-->
           <el-button
             v-auth="'system:attachment:info'"
             type="primary"
             icon="download"
             text
-            @click="handleDownload(scope.row.url, scope.row.name)"
+            @click="handleDownload(scope.row)"
             >下载</el-button
           >
           <el-button
@@ -122,19 +116,21 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
+    <!-- 弹窗，导入 -->
+    <upload-file ref="uploadFileRef" @refresh-page="getPage" />
   </el-card>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import { deleteByIdsApi, postPageApi, saveOrUpdateApi } from '@/api/system/attachment'
-import constant from '@/utils/constant'
+import { deleteByIdsApi, downloadByIdApi, postPageApi } from '@/api/system/attachment'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import { ElMessage, type UploadProps } from 'element-plus'
-import { convertSizeFormat, handleBeforeUpload } from '@/utils/tool'
-import { useAuthStore } from '@/stores/modules/auth'
+import { convertSizeFormat } from '@/utils/tool'
 import download from '@/utils/download'
+import UploadFile from '@/views/system/attachment/upload-file.vue'
+import { useClipboard } from '@vueuse/core'
+import { ElMessage } from 'element-plus'
 
 const state: StateOptions = reactive({
   api: {
@@ -143,23 +139,15 @@ const state: StateOptions = reactive({
   },
   queryForm: {
     name: '',
-    type: '',
     platform: ''
-  },
-  dataForm: {
-    name: '',
-    platform: '',
-    size: '',
-    type: '',
-    suffix: '',
-    hash: '',
-    url: ''
   }
 })
 
 const queryFormRef = ref()
 // 显示搜索条件
 const showSearch = ref(true)
+const uploadFileRef = ref()
+const { copy } = useClipboard()
 
 onMounted(() => {
   getPage()
@@ -168,7 +156,9 @@ onMounted(() => {
 const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } =
   crud(state)
 
-/** 重置按钮操作 */
+/**
+ * 重置按钮操作
+ */
 const handleResetQuery = () => {
   for (const key in state.range) {
     state.range[key] = []
@@ -181,37 +171,37 @@ const handleResetQuery = () => {
   getPage()
 }
 
-const authStore = useAuthStore()
-
-/** 上传文件请求头 */
-const headers = {
-  Authorization: authStore.accessToken,
-  'source-client': 'pc'
+/**
+ * 上传按钮操作
+ */
+const handleUpload = () => {
+  uploadFileRef.value.init()
 }
 
-const handleOnSuccess: UploadProps['onSuccess'] = (res) => {
-  if (res.code !== 200) {
-    ElMessage.error('上传失败' + res.message)
-    return false
+/**
+ * 拷贝附件地址操作
+ */
+const handleCopy = (row: any) => {
+  copy(row.row.url)
+  ElMessage.success('已复制')
+}
+
+/**
+ * 下载按钮操作
+ */
+const handleDownload = (row: any) => {
+  // 访问类型：0-public 1-安全
+  if (row.accessType === 1) {
+    downloadByIdApi(row.id)
+  } else {
+    download.get(row.url, { filename: row.name })
   }
-
-  Object.assign(state.dataForm, res.data)
-
-  saveOrUpdateApi(state.dataForm).then(() => {
-    getPage()
-    ElMessage.success('上传成功')
-  })
-}
-
-const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
-  ElMessage.warning(
-    `限制为9个，您这次选择了 ${files.length} 个文件, 总共 ${
-      files.length + uploadFiles.length
-    } 个文件`
-  )
-}
-
-const handleDownload = (url: string, filename: string) => {
-  download.get(url, { filename })
 }
 </script>
+
+<style lang="scss" scoped>
+.download-a + .el-button {
+  border-left: 1px solid #e4e7ec;
+  padding-left: 10px !important;
+}
+</style>

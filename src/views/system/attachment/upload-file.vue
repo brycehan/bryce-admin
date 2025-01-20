@@ -1,8 +1,8 @@
 <template>
   <el-dialog
     v-model="visible"
-    title="导入用户"
-    width="400px"
+    title="上传文件"
+    width="500px"
     :close-on-click-modal="false"
   >
     <el-form
@@ -10,16 +10,17 @@
     >
       <el-upload
         ref="uploadRef"
-        v-auth="'system:user:import'"
-        :limit="1"
-        accept=".xlsx,.xls,.csv"
+        v-auth="'system:attachment:save'"
         :headers="headers"
-        :action="`${importUrl}?isUpdateSupport=${isUpdateSupport}`"
+        :action="`${constant.uploadUrl}?accessType=${accessType}`"
         :disabled="isUploading"
         :on-progress="handleProgress"
         :before-upload="handleBeforeUpload"
         :on-success="handleOnSuccess"
+        :limit="9"
+        :on-exceed="handleExceed"
         :auto-upload="false"
+        multiple
         drag
         >
           <el-icon class="el-icon--upload"><upload-filled /></el-icon>
@@ -29,11 +30,9 @@
           <template #tip>
             <div class="el-upload__tip">
               <div class="upload-tip">
-                <el-checkbox v-model="isUpdateSupport"><span>是否更新已经存在的用户数据</span></el-checkbox>
-              </div>
-              <div class="upload-tip">
-                <span>仅允许导入xlsx、xls、csv格式文件。</span>
-                <el-link type="primary" :underline="false" style="font-size: 12px" @click="handleImportTemplate">下载模板</el-link>
+                <el-tooltip effect="dark" content="非安全访问生成外部访问附件地址以`http(s)://`开头，否则不生成附件地址" placement="top">
+                  <el-checkbox v-model="accessType" :true-value="1" :false-value="0">是否安全访问文件</el-checkbox>
+                </el-tooltip>
               </div>
             </div>
           </template>
@@ -47,19 +46,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { getImportTemplateApi, importUrl } from '@/api/system/user'
+import { reactive, ref } from 'vue'
 import { UploadFilled } from '@element-plus/icons-vue'
-import { ElMessageBox, type UploadProps } from 'element-plus'
+import { ElMessage, type UploadProps } from 'element-plus'
 import { useAuthStore } from '@/stores/modules/auth'
 import { handleBeforeUpload } from '@/utils/tool'
+import { saveOrUpdateApi } from '@/api/system/attachment'
+import constant from '@/utils/constant'
 
 const emit = defineEmits(['refreshPage'])
 
+const dataForm = reactive({
+  name: '',
+  platform: '',
+  suffix: '',
+  accessType: '',
+  size: '',
+  hash: '',
+  url: ''
+})
 const dataFormRef = ref()
 const uploadRef = ref()
 const visible = ref(false)
-const isUpdateSupport = ref(false)
+const accessType = ref<number>(0)
 const isUploading = ref(false)
 
 const authStore = useAuthStore()
@@ -77,13 +86,8 @@ const headers = {
  */
 const init = () => {
   visible.value = true
-}
-
-/**
- * 下载导入模板
- */
-const handleImportTemplate = () => {
-  getImportTemplateApi()
+  // 0 public 1 secure
+  accessType.value = 0
 }
 
 /**
@@ -107,12 +111,33 @@ const handleProgress: UploadProps['onProgress'] = () => {
  * @param res 返回的数据
  */
 const handleOnSuccess: UploadProps['onSuccess'] = (res) => {
-  visible.value = false
-  isUploading.value = false
-  isUpdateSupport.value = false
-  uploadRef.value.clearFiles()
-  ElMessageBox.alert(res.message, '导入结果', {dangerouslyUseHTMLString: true})
-  emit('refreshPage')
+  if (res.code !== 200) {
+    ElMessage.error('上传失败，' + res.message)
+    return false
+  }
+
+  Object.assign(dataForm, res.data)
+  saveOrUpdateApi(dataForm).then(() => {
+    emit('refreshPage')
+    ElMessage.success('上传成功')
+    visible.value = false
+    isUploading.value = false
+    uploadRef.value.clearFiles()
+  })
+}
+
+/**
+ * 文件超出限制
+ *
+ * @param files 当前选择的文件数组
+ * @param uploadFiles 之前选择的文件数组
+ */
+const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
+  ElMessage.warning(
+    `限制为9个，您这次选择了 ${files.length} 个文件, 总共 ${
+      files.length + uploadFiles.length
+    } 个文件`
+  )
 }
 
 defineExpose({

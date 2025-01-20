@@ -28,7 +28,7 @@ import { useAppStore } from '@/stores/modules/app'
 const appStore = useAppStore()
 
 const props = defineProps({
-  label: {
+  dictType: {
     type: String,
     required: true
   },
@@ -36,7 +36,7 @@ const props = defineProps({
     type: String,
     required: true
   },
-  dictType: {
+  label: {
     type: String,
     required: true
   },

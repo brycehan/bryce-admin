@@ -15,6 +15,9 @@
       <el-input v-model="loginDto.code" placeholder="请输入验证码" :prefix-icon="Key" />
       <img :src="captchaBase64" alt="验证码" @click="handleCaptcha" />
     </el-form-item>
+    <el-form-item prop="rememberMe" style="margin-bottom: 5px">
+      <el-checkbox v-model="loginDto.rememberMe">记住密码</el-checkbox>
+    </el-form-item>
     <el-form-item class="login-btn">
       <el-button class="w-100" type="primary" size="default" @click="loginByAccount()"
         >登录</el-button
@@ -38,8 +41,9 @@ let loading = ref(false)
 let loginDto = reactive({
   username: 'admin',
   password: 'brycehan',
-  key: '',
-  code: ''
+  uuid: '',
+  code: '',
+  rememberMe: false
 })
 const captchaBase64 = ref()
 
@@ -50,7 +54,9 @@ onMounted(() => {
   handleCaptchaEnabled()
 })
 
-/** 获取验证码开关 */
+/**
+ * 获取验证码开关
+ */
 const handleCaptchaEnabled = async () => {
   const { data } = await getEnabledApi('login')
   captchaEnabled.value = data
@@ -59,14 +65,18 @@ const handleCaptchaEnabled = async () => {
   }
 }
 
-/** 获取验证码 */
+/**
+ * 获取验证码
+ */
 const handleCaptcha = async () => {
   const { data } = await getGenerateApi()
-  loginDto.key = data.key
+  loginDto.uuid = data.uuid
   captchaBase64.value = data.image
 }
 
-/** 登录 */
+/**
+ * 登录
+ */
 const loginByAccount = async () => {
   loginFormRef.value.validate((valid: boolean) => {
     if (!valid) {
@@ -80,17 +90,18 @@ const loginByAccount = async () => {
       .then(() => {
         router.push({ path: '/dashboard/index' })
       })
-      .catch((e: any) => {
+      .catch(() => {
+        loading.value = false
         if (captchaEnabled.value) {
           handleCaptcha()
         }
-        console.error(e)
       })
   })
 }
+
 const loginRules = {
   username: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  password: [{ required: true, min: 6, max: 50, message: '密码长度在6到50之间', trigger: 'blur' }],
+  password: [{ required: true, min: 6, max: 20, message: '长度为6~20个字符', trigger: 'blur' }],
   code: [{ required: true, message: '必填项不能为空', trigger: 'blur' }]
 }
 </script>

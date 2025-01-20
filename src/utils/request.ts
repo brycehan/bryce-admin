@@ -22,6 +22,7 @@ request.interceptors.request.use(
   (config) => {
     const authStore = useAuthStore()
     const appStore = useAppStore()
+    // 有访问令牌时，添加上访问令牌
     if (authStore?.accessToken) {
       config.headers.Authorization = authStore.accessToken
     }
@@ -34,6 +35,7 @@ request.interceptors.request.use(
       config.params = { ...config.params, t: new Date().getTime() }
     }
 
+    // 请求方式为 application/x-www-form-urlencoded 将 config.data 转换为 URL 编码的字符串格式
     if (Object.values(config.headers).includes('application/x-www-form-urlencoded')) {
       config.data = qs.stringify(config.data)
     }
