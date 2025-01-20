@@ -12,6 +12,7 @@ const download = (config?: any) => {
   request
     .request({
       ...config,
+      timeout: 60000,
       responseType: 'blob'
     })
     .then((response) => {

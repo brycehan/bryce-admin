@@ -11,7 +11,7 @@ import { useAppStore } from '@/stores/modules/app'
  */
 const request = axios.create({
   baseURL: import.meta.env.VITE_API_URL as any,
-  timeout: 60000,
+  timeout: 10000,
   headers: { 'Content-Type': 'application/json;charset=UTF-8' }
 })
 
