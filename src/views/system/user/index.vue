@@ -24,7 +24,7 @@
           <el-form-item label="手机号码" prop="phone">
             <el-input v-model="state.queryForm.phone" placeholder="请输入手机号码" clearable />
           </el-form-item>
-          <el-form-item label="状态" label-width="50" prop="status">
+          <el-form-item label="状态" prop="status">
             <dict-select v-model="state.queryForm.status" dict-type="sys_status" placeholder="用户状态" clearable />
           </el-form-item>
           <el-form-item label="创建时间" prop="createdTime">
@@ -78,6 +78,8 @@
             sortable="custom"
             header-align="center"
             align="center"
+            min-width="100"
+            fixed="left"
             v-if="columns[0].visible"
           />
           <el-table-column
@@ -86,9 +88,10 @@
             sortable="custom"
             header-align="center"
             align="center"
+            min-width="90"
             v-if="columns[1].visible"
           />
-          <el-table-column label="所属机构" prop="orgName" header-align="center" align="center" v-if="columns[2].visible" />
+          <el-table-column label="所属机构" prop="orgName" header-align="center" align="center" min-width="100" v-if="columns[2].visible" />
           <el-table-column
             label="手机号码"
             prop="phone"
@@ -96,7 +99,7 @@
             header-align="center"
             align="center"
             v-if="columns[3].visible"
-            width="120"
+            min-width="110"
           />
           <el-table-column
             label="状态"
@@ -104,6 +107,7 @@
             sortable="custom"
             header-align="center"
             align="center"
+            min-width="65"
             v-if="columns[4].visible"
           >
             <template #default="scope">
@@ -122,7 +126,7 @@
             prop="createdTime"
             header-align="center"
             align="center"
-            width="170"
+            min-width="165"
             v-if="columns[5].visible"
           />
           <el-table-column
@@ -130,7 +134,7 @@
             fixed="right"
             header-align="center"
             align="center"
-            width="240"
+            min-width="225"
             v-if="columns[6].visible"
           >
             <template #default="scope">

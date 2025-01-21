@@ -47,22 +47,25 @@
         show-overflow-tooltip
         header-align="center"
         align="center"
+        min-width="180"
+        fixed="left"
       />
-      <el-table-column
-        label="附件地址"
-        show-overflow-tooltip
-        header-align="center"
-        align="center"
-      ><template #default="scope">
-        <el-button v-if="scope.row.accessType === 0" @click="handleCopy(scope)" text>
-          <el-text :style="{'width': (scope.column.realWidth - 20) + 'px'}" truncated>
-            {{ scope.row.url }}
-          </el-text></el-button>
-      </template>
-      </el-table-column>
-      <el-table-column label="附件名后缀" prop="suffix" header-align="center" align="center" />
-      <dict-table-column label="访问类型" prop="accessType" dict-type="sys_access_type" width="90"/>
-      <el-table-column label="附件大小" prop="size" header-align="center" align="center">
+<!--      <el-table-column-->
+<!--        label="附件地址"-->
+<!--        show-overflow-tooltip-->
+<!--        header-align="center"-->
+<!--        align="center"-->
+<!--        min-width="250"-->
+<!--      ><template #default="scope">-->
+<!--        <el-button v-if="scope.row.accessType === 0" @click="handleCopy(scope)" text>-->
+<!--          <el-text :style="{'width': (scope.column.realWidth - 20) + 'px'}" truncated>-->
+<!--            {{ scope.row.url }}-->
+<!--          </el-text></el-button>-->
+<!--      </template>-->
+<!--      </el-table-column>-->
+      <el-table-column label="附件名后缀" prop="suffix" header-align="center" align="center" min-width="110"/>
+      <dict-table-column label="访问类型" prop="accessType" dict-type="sys_access_type" min-width="90"/>
+      <el-table-column label="附件大小" prop="size" header-align="center" align="center" min-width="100">
         <template #default="scope">
           {{ convertSizeFormat(scope.row.size) }}
         </template>
@@ -73,16 +76,18 @@
         show-overflow-tooltip
         header-align="center"
         align="center"
+        min-width="250"
       />
-      <el-table-column label="存储平台" prop="platform" header-align="center" align="center" width="100"/>
+      <el-table-column label="存储平台" prop="platform" header-align="center" align="center" min-width="100"/>
       <el-table-column
         label="创建时间"
         prop="createdTime"
         show-overflow-tooltip
         header-align="center"
         align="center"
+        min-width="165"
       />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="170">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="170">
         <template #default="scope">
 <!--          &lt;!&ndash; 公共访问权限，浏览器有下载进度条 &ndash;&gt;-->
 <!--          <a :href="scope.row.url" download v-if="scope.row.accessType === 0" class="download-a">-->

@@ -5,7 +5,6 @@
       :model="state.queryForm"
       :inline="true"
       v-show="showSearch"
-      label-width="78"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -45,23 +44,23 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="日志编号" prop="id" header-align="center" align="center" />
-      <el-table-column label="任务名称" prop="jobName" show-overflow-tooltip header-align="center" align="center" />
-      <dict-table-column label="任务组名" prop="jobGroup" dict-type="quartz_job_group" width="90"/>
-      <el-table-column label="执行方法" prop="method" show-overflow-tooltip header-align="center" align="center">
+      <el-table-column label="日志编号" prop="id" header-align="center" align="center" show-overflow-tooltip min-width="120"/>
+      <el-table-column label="任务名称" prop="jobName" show-overflow-tooltip header-align="center" align="center" min-width="120"/>
+      <dict-table-column label="任务组名" prop="jobGroup" dict-type="quartz_job_group" min-width="80"/>
+      <el-table-column label="执行方法" prop="method" show-overflow-tooltip header-align="center" align="center" min-width="160">
         <template #default="scope"> {{ scope.row.beanName }}.{{ scope.row.method }}() </template>
       </el-table-column>
-      <el-table-column label="执行状态" prop="executeStatus" header-align="center" align="center" width="90">
+      <el-table-column label="执行状态" prop="executeStatus" header-align="center" align="center" min-width="70">
         <template #default="scope">
           <el-tag v-if="!scope.row.executeStatus" type="danger" size="small">失败</el-tag>
           <el-tag v-else type="success" size="small">成功</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="执行时长" prop="duration" header-align="center" align="center" width="100">
+      <el-table-column label="执行时长" prop="duration" header-align="center" align="center" min-width="90">
         <template #default="scope"> {{ scope.row.duration }}毫秒 </template>
       </el-table-column>
-      <el-table-column label="执行时间" prop="createdTime" header-align="center" align="center" width="170" />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="100">
+      <el-table-column label="执行时间" prop="createdTime" header-align="center" align="center" min-width="165" />
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="70">
         <template #default="scope">
           <el-button v-auth="'quartz:jobLog:info'" type="info" icon="view" text @click="handleInfo(scope.row.id)"
             >详情</el-button

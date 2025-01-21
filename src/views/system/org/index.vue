@@ -47,11 +47,11 @@
       :border="true"
       style="width: 100%"
     >
-      <el-table-column label="名称" prop="name" header-align="center" align="center" />
-      <el-table-column label="排序" prop="sort" header-align="center" align="center" />
-      <dict-table-column label="状态" prop="status" dict-type="sys_status" width="80" />
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="240">
+      <el-table-column label="名称" prop="name" header-align="center" align="center" min-width="180" />
+      <el-table-column label="排序" prop="sort" header-align="center" align="center" min-width="100"/>
+      <dict-table-column label="状态" prop="status" dict-type="sys_status" min-width="80" />
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165"/>
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="240">
         <template #default="scope">
           <el-button
             v-auth="'system:org:update'"

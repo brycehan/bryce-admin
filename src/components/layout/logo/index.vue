@@ -1,7 +1,7 @@
 <template>
   <div v-if="appStore.sidebarOpened" class="sidebar-logo">
     <el-avatar src="/favicon.ico"></el-avatar>
-    <span class="logo-title">Bryce Admin</span>
+    <span class="logo-title">布莱斯管理系统</span>
   </div>
   <div v-else class="sidebar-logo sidebar-logo-expend">
     <el-avatar src="/favicon.ico"></el-avatar>
@@ -29,7 +29,6 @@ const appStore = useAppStore()
   }
 
   .logo-title {
-    font-size: var(--theme-logo-text-fontsize);
     margin-left: 10px;
   }
 }

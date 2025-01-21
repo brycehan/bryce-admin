@@ -5,7 +5,6 @@
       :model="state.queryForm"
       :inline="true"
       v-show="showSearch"
-      label-width="78"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -60,14 +59,14 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="日志编号" prop="id" header-align="center" align="center" width="160"/>
-      <el-table-column label="账号" prop="username" header-align="center" align="center" />
-      <el-table-column label="登录IP" prop="ip" header-align="center" align="center" width="120"/>
-      <el-table-column label="登录地点" prop="location" header-align="center" align="center" />
-      <el-table-column label="User Agent" prop="userAgent" show-overflow-tooltip header-align="center" align="center" />
-      <dict-table-column label="状态" prop="status" dict-type="sys_operate_status" width="80"/>
-      <dict-table-column label="操作信息" prop="info" dict-type="sys_login_status" width="100"/>
-      <el-table-column label="访问时间" prop="accessTime" header-align="center" align="center" width="165" />
+      <el-table-column label="日志编号" prop="id" header-align="center" align="center" fixed="left" min-width="150"/>
+      <el-table-column label="账号" prop="username" header-align="center" align="center" fixed="left" min-width="100"/>
+      <el-table-column label="登录IP" prop="ip" header-align="center" align="center" min-width="130"/>
+      <el-table-column label="登录地点" prop="location" header-align="center" align="center" min-width="120"/>
+      <el-table-column label="User Agent" prop="userAgent" show-overflow-tooltip header-align="center" align="center" min-width="180"/>
+      <dict-table-column label="状态" prop="status" dict-type="sys_operate_status" min-width="65"/>
+      <dict-table-column label="操作信息" prop="info" dict-type="sys_login_status" min-width="80"/>
+      <el-table-column label="访问时间" prop="accessTime" header-align="center" align="center" fixed="right" min-width="165" />
     </el-table>
     <el-pagination
       :current-page="state.current"

@@ -51,18 +51,19 @@
       @sort-change="handleSortChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="岗位名称" prop="name" header-align="center" align="center" />
-      <el-table-column label="岗位编码" prop="code" sortable="custom" header-align="center" align="center" />
+      <el-table-column label="岗位名称" prop="name" header-align="center" align="center" min-width="200"/>
+      <el-table-column label="岗位编码" prop="code" sortable="custom" header-align="center" align="center" min-width="150" />
       <el-table-column
         label="岗位排序"
         prop="sort"
         sortable="custom"
         header-align="center"
         align="center"
+        min-width="110"
       />
-      <dict-table-column label="状态" prop="status" dict-type="sys_status" width="80"/>
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="170"/>
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="180">
+      <dict-table-column label="状态" prop="status" dict-type="sys_status" min-width="80"/>
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165"/>
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="170">
         <template #default="scope">
           <el-button
             v-auth="'system:post:update'"

@@ -5,7 +5,6 @@
       :model="state.queryForm"
       :inline="true"
       v-show="showSearch"
-      label-width="78"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -74,20 +73,12 @@
       @sort-change="handleSortChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="字典名称" prop="dictName" header-align="center" align="center" />
-      <el-table-column label="字典类型" prop="dictType" sortable="custom" header-align="center" align="center" />
-      <el-table-column
-        label="显示顺序"
-        prop="sort"
-        sortable="custom"
-        header-align="center"
-        align="center"
-        width="120"
-      />
-      <dict-table-column label="状态" prop="status" dict-type="sys_status" width="80" />
-      <el-table-column label="备注" prop="remark" header-align="center" align="center" />
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="170"/>
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="270">
+      <el-table-column label="字典名称" prop="dictName" header-align="center" align="center" fixed="left" min-width="100" />
+      <el-table-column label="字典类型" prop="dictType" sortable="custom" header-align="center" align="center" fixed="left" min-width="150" />
+      <dict-table-column label="状态" prop="status" dict-type="sys_status" min-width="75" />
+      <el-table-column label="备注" prop="remark" header-align="center" align="center" min-width="120" show-overflow-tooltip />
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165"/>
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="230">
         <template #default="scope">
           <el-button
             v-auth="'system:dictData:page'"

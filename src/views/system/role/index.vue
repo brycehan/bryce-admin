@@ -51,10 +51,9 @@
       @sort-change="handleSortChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="角色名称" prop="name" header-align="center" align="center" />
-      <el-table-column label="角色编码" prop="code" sortable="custom" header-align="center" align="center" />
-      <el-table-column label="显示顺序" prop="sort" sortable="custom" header-align="center" align="center" />
-      <dict-table-column label="状态" prop="status" dict-type="sys_status" />
+      <el-table-column label="角色名称" prop="name" header-align="center" align="center" min-width="100"/>
+      <el-table-column label="角色编码" prop="code" sortable="custom" header-align="center" align="center" min-width="100" />
+      <el-table-column label="显示顺序" prop="sort" sortable="custom" header-align="center" align="center" min-width="100"/>
       <el-table-column
         label="状态"
         prop="status"
@@ -73,8 +72,8 @@
           />
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="170"/>
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="240">
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165"/>
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="210">
         <template #default="scope">
           <div v-if="scope.row.id != 1">
             <el-button v-auth="'system:role:update'" type="primary" icon="edit" text @click="handleAddOrEdit(scope.row.id)"

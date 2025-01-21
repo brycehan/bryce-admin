@@ -4,7 +4,7 @@
     :prop="prop"
     :header-align="headerAlign"
     :align="align"
-    :width="width"
+    :min-width="minWidth"
   >
     <template #default="scope">
       <el-tag
@@ -50,7 +50,7 @@ const props = defineProps({
     required: false,
     default: () => 'center'
   },
-  width: {
+  minWidth: {
     type: String,
     required: false,
     default: () => ''

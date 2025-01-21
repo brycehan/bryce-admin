@@ -5,7 +5,6 @@
       :model="state.queryForm"
       :inline="true"
       v-show="showSearch"
-      label-width="78"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -74,34 +73,40 @@
       <el-table-column
         label="参数名称"
         prop="paramName"
-        show-overflow-tooltip
         header-align="center"
         align="center"
+        show-overflow-tooltip
+        min-width="150"
+        fixed="left"
       />
       <el-table-column
         label="参数键名"
         prop="paramKey"
-        show-overflow-tooltip
         header-align="center"
         align="center"
+        show-overflow-tooltip
+        min-width="150"
+        fixed="left"
       />
       <el-table-column
         label="参数值"
         prop="paramValue"
         header-align="center"
         align="center"
-        width="100"
+        show-overflow-tooltip
+        min-width="90"
       />
-      <dict-table-column label="参数类型" prop="paramType" dict-type="sys_param_type" width="100" />
+      <dict-table-column label="参数类型" prop="paramType" dict-type="sys_param_type" min-width="90" />
       <el-table-column
         label="备注"
         prop="remark"
         show-overflow-tooltip
         header-align="center"
         align="center"
+        min-width="200"
       />
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="170"/>
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="170">
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165"/>
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="170">
         <template #default="scope">
           <el-button
             v-auth="'system:param:update'"

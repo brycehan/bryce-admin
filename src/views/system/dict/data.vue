@@ -23,7 +23,7 @@
     </el-table-column>
     <el-table-column label="字典值" prop="dictValue" header-align="center" align="center" />
     <el-table-column label="显示顺序" prop="sort" sortable="custom" header-align="center" align="center" width="120" />
-    <dict-table-column label="状态" prop="status" dict-type="sys_status" width="80" />
+    <dict-table-column label="状态" prop="status" dict-type="sys_status" min-width="80" />
     <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
     <el-table-column label="操作" fixed="right" header-align="center" align="center" width="180">
       <template #default="scope">

@@ -12,7 +12,6 @@
         ref="queryFormRef"
         :model="state.queryForm"
         :inline="true"
-        label-width="78"
         @keyup.enter="getPage()"
         @submit.prevent
       >
