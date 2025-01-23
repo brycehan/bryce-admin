@@ -78,6 +78,7 @@
             sortable="custom"
             header-align="center"
             align="center"
+            show-overflow-tooltip
             min-width="100"
             fixed="left"
             v-if="columns[0].visible"
@@ -88,10 +89,11 @@
             sortable="custom"
             header-align="center"
             align="center"
+            show-overflow-tooltip
             min-width="90"
             v-if="columns[1].visible"
           />
-          <el-table-column label="所属机构" prop="orgName" header-align="center" align="center" min-width="100" v-if="columns[2].visible" />
+          <el-table-column label="所属机构" prop="orgName" header-align="center" align="center" show-overflow-tooltip min-width="110" v-if="columns[2].visible" />
           <el-table-column
             label="手机号码"
             prop="phone"
@@ -99,7 +101,8 @@
             header-align="center"
             align="center"
             v-if="columns[3].visible"
-            min-width="110"
+            show-overflow-tooltip
+            min-width="125"
           />
           <el-table-column
             label="状态"
@@ -107,7 +110,7 @@
             sortable="custom"
             header-align="center"
             align="center"
-            min-width="65"
+            min-width="90"
             v-if="columns[4].visible"
           >
             <template #default="scope">
@@ -126,7 +129,8 @@
             prop="createdTime"
             header-align="center"
             align="center"
-            min-width="165"
+            show-overflow-tooltip
+            min-width="170"
             v-if="columns[5].visible"
           />
           <el-table-column
@@ -134,7 +138,7 @@
             fixed="right"
             header-align="center"
             align="center"
-            min-width="225"
+            min-width="255"
             v-if="columns[6].visible"
           >
             <template #default="scope">

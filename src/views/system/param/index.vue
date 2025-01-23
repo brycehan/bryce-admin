@@ -96,17 +96,15 @@
         show-overflow-tooltip
         min-width="90"
       />
-      <dict-table-column label="参数类型" prop="paramType" dict-type="sys_param_type" min-width="90" />
+      <dict-table-column label="参数类型" prop="paramType" dict-type="sys_param_type" min-width="100" />
       <el-table-column
         label="备注"
         prop="remark"
         show-overflow-tooltip
-        header-align="center"
-        align="center"
         min-width="200"
       />
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165"/>
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="170">
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="185"/>
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="180">
         <template #default="scope">
           <el-button
             v-auth="'system:param:update'"

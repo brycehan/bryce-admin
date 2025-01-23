@@ -51,15 +51,16 @@
       @sort-change="handleSortChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="角色名称" prop="name" header-align="center" align="center" min-width="100"/>
-      <el-table-column label="角色编码" prop="code" sortable="custom" header-align="center" align="center" min-width="100" />
-      <el-table-column label="显示顺序" prop="sort" sortable="custom" header-align="center" align="center" min-width="100"/>
+      <el-table-column label="角色名称" prop="name" header-align="center" align="center" show-overflow-tooltip min-width="120"/>
+      <el-table-column label="角色编码" prop="code" sortable="custom" header-align="center" align="center" show-overflow-tooltip min-width="120" />
+      <el-table-column label="显示顺序" prop="sort" sortable="custom" header-align="center" align="center" min-width="110"/>
       <el-table-column
         label="状态"
         prop="status"
         sortable="custom"
         header-align="center"
         align="center"
+        min-width="90"
       >
         <template #default="scope">
           <el-switch
@@ -73,7 +74,7 @@
         </template>
       </el-table-column>
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165"/>
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="210">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="220">
         <template #default="scope">
           <div v-if="scope.row.id != 1">
             <el-button v-auth="'system:role:update'" type="primary" icon="edit" text @click="handleAddOrEdit(scope.row.id)"

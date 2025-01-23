@@ -62,7 +62,7 @@
         min-width="110"
       />
       <dict-table-column label="状态" prop="status" dict-type="sys_status" min-width="80"/>
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165"/>
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" show-overflow-tooltip min-width="170"/>
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="170">
         <template #default="scope">
           <el-button

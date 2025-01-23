@@ -61,19 +61,22 @@
         label="任务名称"
         prop="jobName"
         sortable="custom"
-        show-overflow-tooltip
         header-align="center"
         align="center"
+        show-overflow-tooltip
+        min-width="130"
+        fixed="left"
       />
-      <dict-table-column label="任务组名" prop="jobGroup" dict-type="quartz_job_group" />
-      <el-table-column label="执行方法" prop="method" header-align="center" align="center" />
+      <dict-table-column label="任务组名" prop="jobGroup" dict-type="quartz_job_group" min-width="100"/>
+      <el-table-column label="执行方法" prop="method" header-align="center" align="center" min-width="100"/>
       <el-table-column
         label="cron 表达式"
         prop="cronExpression"
         header-align="center"
         align="center"
+        min-width="125"
       />
-      <el-table-column label="状态" prop="status" sortable="custom" header-align="center" align="center" >
+      <el-table-column label="状态" prop="status" sortable="custom" header-align="center" align="center" min-width="90">
             <template #default="scope">
               <el-switch
                 v-model="scope.row.status"
@@ -89,9 +92,9 @@
         prop="createdTime"
         header-align="center"
         align="center"
-        width="160"
+        min-width="185"
       />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" width="250">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="255">
         <template #default="scope">
           <el-button
             v-auth="'quartz:job:update'"

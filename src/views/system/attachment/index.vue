@@ -63,9 +63,9 @@
 <!--          </el-text></el-button>-->
 <!--      </template>-->
 <!--      </el-table-column>-->
-      <el-table-column label="附件名后缀" prop="suffix" header-align="center" align="center" min-width="110"/>
-      <dict-table-column label="访问类型" prop="accessType" dict-type="sys_access_type" min-width="90"/>
-      <el-table-column label="附件大小" prop="size" header-align="center" align="center" min-width="100">
+      <el-table-column label="附件名后缀" prop="suffix" header-align="center" align="center" min-width="115"/>
+      <dict-table-column label="访问类型" prop="accessType" dict-type="sys_access_type" min-width="100"/>
+      <el-table-column label="附件大小" prop="size" header-align="center" align="center" min-width="110">
         <template #default="scope">
           {{ convertSizeFormat(scope.row.size) }}
         </template>
@@ -85,9 +85,9 @@
         show-overflow-tooltip
         header-align="center"
         align="center"
-        min-width="165"
+        min-width="170"
       />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="170">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="180">
         <template #default="scope">
 <!--          &lt;!&ndash; 公共访问权限，浏览器有下载进度条 &ndash;&gt;-->
 <!--          <a :href="scope.row.url" download v-if="scope.row.accessType === 0" class="download-a">-->

@@ -68,8 +68,8 @@
       <dict-table-column label="类型" prop="type" dict-type="sys_notice_type" min-width="80"/>
       <dict-table-column label="状态" prop="status" dict-type="sys_status" min-width="80"/>
       <el-table-column label="创建者" prop="createdUsername" header-align="center" align="center" min-width="100" />
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165"/>
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="170">
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="185"/>
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="180">
         <template #default="scope">
           <el-button
             v-auth="'system:notice:update'"

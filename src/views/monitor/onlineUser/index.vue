@@ -26,17 +26,17 @@
       <el-table-column label="机构名称" prop="orgName" header-align="center" align="center" min-width="100"/>
       <el-table-column label="登录IP" prop="loginIp" show-overflow-tooltip header-align="center" align="center" min-width="110" />
       <el-table-column label="登录位置" prop="loginLocation" header-align="center" align="center" min-width="100"/>
-      <el-table-column label="浏览器" prop="browser" header-align="center" align="center" min-width="75"/>
-      <el-table-column label="操作系统" prop="os" header-align="center" align="center" min-width="75"/>
+      <el-table-column label="浏览器" prop="browser" header-align="center" align="center" min-width="90"/>
+      <el-table-column label="操作系统" prop="os" header-align="center" align="center" min-width="100"/>
       <el-table-column
         label="登录时间"
         prop="loginTime"
         show-overflow-tooltip
         header-align="center"
         align="center"
-        min-width="160"
+        min-width="170"
       />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="70">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="100">
         <template #default="scope">
           <el-button
             v-auth="'monitor:onlineUser:delete'"

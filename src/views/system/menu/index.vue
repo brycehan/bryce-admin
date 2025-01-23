@@ -56,12 +56,12 @@
         min-width="145"
         fixed="left"
       />
-      <el-table-column label="图标" prop="icon" header-align="center" align="center" min-width="60">
+      <el-table-column label="图标" prop="icon" header-align="center" align="center" min-width="70">
         <template #default="scope">
           <svg-icon :icon="scope.row.icon" />
         </template>
       </el-table-column>
-      <el-table-column label="类型" prop="type" header-align="center" align="center" min-width="70">
+      <el-table-column label="类型" prop="type" header-align="center" align="center" min-width="75">
         <template #default="scope">
           <el-tag v-if="scope.row.type === 'C'" type="info" size="small">目录</el-tag>
           <el-tag v-if="scope.row.type === 'M'" type="primary" size="small">菜单</el-tag>
@@ -84,15 +84,16 @@
         min-width="150"
         :show-overflow-tooltip="true"
       />
-      <dict-table-column label="状态" prop="status" dict-type="sys_status" min-width="70" />
+      <dict-table-column label="状态" prop="status" dict-type="sys_status" min-width="75" />
       <el-table-column
         label="创建时间"
         prop="createdTime"
         header-align="center"
         align="center"
-        min-width="165"
+        show-overflow-tooltip
+        min-width="170"
       />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="230">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="255">
         <template #default="scope">
           <el-button
             v-auth="'system:menu:update'"
