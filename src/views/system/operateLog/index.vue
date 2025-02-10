@@ -38,9 +38,6 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'system:operateLog:save'" type="primary" plain icon="Plus" @click="handleInfo()"
-        >新增</el-button
-      >
       <el-button
         v-auth="'system:operateLog:delete'"
         type="danger"
