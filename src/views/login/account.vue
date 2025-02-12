@@ -115,6 +115,7 @@ const loginRules = {
 
 .login-captcha img {
   width: 150px;
+  height: 40px;
   margin: 5px 0 0 10px;
   cursor: pointer;
   pointer-events: auto;
