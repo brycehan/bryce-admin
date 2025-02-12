@@ -13,7 +13,7 @@
     </el-form-item>
     <el-form-item v-if="captchaEnabled" prop="code" class="login-captcha">
       <el-input v-model="loginDto.code" placeholder="请输入验证码" :prefix-icon="Key" />
-      <img :src="captchaBase64" alt="验证码" @click="handleCaptcha" />
+      <img v-show="captchaBase64" :src="captchaBase64" alt="验证码" @click="handleCaptcha" />
     </el-form-item>
     <el-form-item prop="rememberMe" style="margin-bottom: 5px">
       <el-checkbox v-model="loginDto.rememberMe">记住密码</el-checkbox>
@@ -115,7 +115,7 @@ const loginRules = {
 
 .login-captcha img {
   width: 150px;
-  height: 40px;
+  //height: 40px;
   margin: 5px 0 0 10px;
   cursor: pointer;
   pointer-events: auto;
