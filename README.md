@@ -23,7 +23,7 @@
 bryce-admin
 ├── docker                   // 容器模块
 ├── public                   // 静态资源文件（该文件夹不会被打包）
-├── src          			 // 源码
+├── src                      // 源码
 │       └── api                     // API接口管理
 │       └── assets                  // 静态资源文件
 │       └── components              // 全局组件
@@ -42,13 +42,13 @@ bryce-admin
 ├── .gitignore               // 忽略 Git 提交
 ├── .gitlab-ci.yml           // GitLab CI/CD 配置
 ├── .prettierrc.json         // Prettier 格式化配置
-├── env.d.ts       			 // 声明环境变量类型
+├── env.d.ts                 // 声明环境变量类型
 ├── index.html       		 // 入口 html
 ├── package.json       		 // 依赖包管理
 ├── tsconfig-app.json        // TypeScript 全局配置，用于前端应用的编译配置
-├── tsconfig.json       	 // TypeScript 全局配置
+├── tsconfig.json            // TypeScript 全局配置
 ├── tsconfig.node.json       // TypeScript 全局配置，主要用于 Node.js 后端应用或工具脚本的编译配置
-├── vite.config.ts       	 // Vite 全局配置
+├── vite.config.ts           // Vite 全局配置
 ~~~
 
 ## 开发环境
