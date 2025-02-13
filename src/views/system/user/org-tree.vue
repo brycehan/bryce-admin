@@ -11,6 +11,7 @@
       node-key="id"
       :current-node-key="currentNodeKey"
       @node-click="handleNodeClick"
+      :default-expand-all="true"
       accordion
     />
   </el-container>

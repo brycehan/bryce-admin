@@ -12,7 +12,7 @@ variables:
 
 build:
   stage: build
-  image: node:18-alpine
+  image: node:20-alpine
   when: always
   only:
     - main
