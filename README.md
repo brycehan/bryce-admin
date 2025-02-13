@@ -43,8 +43,8 @@ bryce-admin
 ├── .gitlab-ci.yml           // GitLab CI/CD 配置
 ├── .prettierrc.json         // Prettier 格式化配置
 ├── env.d.ts                 // 声明环境变量类型
-├── index.html       		 // 入口 html
-├── package.json       		 // 依赖包管理
+├── index.html               // 入口 html
+├── package.json             // 依赖包管理
 ├── tsconfig-app.json        // TypeScript 全局配置，用于前端应用的编译配置
 ├── tsconfig.json            // TypeScript 全局配置
 ├── tsconfig.node.json       // TypeScript 全局配置，主要用于 Node.js 后端应用或工具脚本的编译配置
