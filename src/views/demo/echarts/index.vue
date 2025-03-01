@@ -2,7 +2,7 @@
   <el-card>
     <div
       ref="main"
-      class="w-100"
+      class="w-full"
       style="height: calc(100vh - 110px - var(--theme-header-height))"
     ></div>
   </el-card>

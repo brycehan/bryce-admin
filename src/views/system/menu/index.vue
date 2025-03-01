@@ -45,7 +45,7 @@
       :data="state.data"
       row-key="id"
       :border="true"
-      class="w-100"
+      class="w-full"
     >
       <el-table-column
         label="菜单名称"

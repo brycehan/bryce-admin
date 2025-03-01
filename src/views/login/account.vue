@@ -19,7 +19,7 @@
       <el-checkbox v-model="loginDto.rememberMe">记住密码</el-checkbox>
     </el-form-item>
     <el-form-item class="login-btn">
-      <el-button class="w-100" type="primary" size="default" @click="loginByAccount()"
+      <el-button class="w-full" type="primary" size="default" @click="loginByAccount()"
         >登录</el-button
       >
     </el-form-item>

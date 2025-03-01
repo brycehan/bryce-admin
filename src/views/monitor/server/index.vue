@@ -17,7 +17,7 @@
         </el-descriptions>
       </el-col>
     </el-row>
-    <el-row class="mt-4 descriptions-row">
+    <el-row class="mt-6 descriptions-row">
       <el-descriptions :column="2" border>
         <template #title>
           <el-icon>
@@ -48,7 +48,7 @@
         <el-descriptions-item label="内存使用率">{{ data.mem.usage }}</el-descriptions-item>
       </el-descriptions>
     </el-row>
-    <el-row class="mt-4">
+    <el-row class="mt-6">
       <el-col :span="24">
         <el-descriptions :column="2" border>
           <template #title>
@@ -77,15 +77,15 @@
         </el-descriptions>
       </el-col>
     </el-row>
-    <el-row class="mt-4">
+    <el-row class="mt-6">
       <el-col :span="24">
-        <div class="disk-header mb-3">
+        <div class="disk-header mb-5">
           <el-icon>
             <MessageBox />
           </el-icon>
           <span class="ml-1">磁盘信息</span>
         </div>
-        <el-table :data="data.disks" class="w-100" border>
+        <el-table :data="data.disks" class="w-full" border>
           <el-table-column align="center" label="磁盘名称" prop="diskName" />
           <el-table-column align="center" label="磁盘类型" prop="diskType" width="100"/>
           <el-table-column align="center" label="磁盘路径" prop="dirName" width="390"/>

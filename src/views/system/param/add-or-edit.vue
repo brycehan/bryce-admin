@@ -9,7 +9,7 @@
       :model="state.dataForm"
       :rules="dataRules"
       label-width="100"
-      class="mr-4"
+      class="mr-5"
     >
       <el-form-item label="参数名称" prop="paramName">
         <el-input v-model="state.dataForm.paramName" placeholder="请输入参数名称" />

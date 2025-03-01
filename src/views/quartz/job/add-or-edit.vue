@@ -23,7 +23,7 @@
               v-model="state.dataForm.jobGroup"
               dict-type="quartz_job_group"
               placeholder="请选择任务组名"
-              class="w-100"
+              class="w-full"
               clearable
             />
           </el-form-item>

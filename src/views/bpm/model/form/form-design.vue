@@ -20,7 +20,7 @@
       <el-select
         v-model="dataForm.formId"
         placeholder="请选择流程表单"
-        class="w-100"
+        class="w-full"
         clearable
       >
         <el-option

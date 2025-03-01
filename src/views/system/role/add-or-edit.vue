@@ -43,8 +43,8 @@
         </el-form-item>
       </el-row>
       <el-row>
-        <el-form-item class="w-100">
-          <el-card shadow="never" class="w-100">
+        <el-form-item class="w-full">
+          <el-card shadow="never" class="w-full">
             <el-tree
               ref="menuTreeRef"
               :data="menuData"
@@ -58,7 +58,7 @@
         </el-form-item>
       </el-row>
       <el-row>
-        <el-form-item label="备注" prop="remark" class="w-100">
+        <el-form-item label="备注" prop="remark" class="w-full">
           <el-input
             v-model="state.dataForm.remark"
             type="textarea"

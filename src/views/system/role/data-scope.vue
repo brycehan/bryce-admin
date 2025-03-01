@@ -17,7 +17,7 @@
         <el-input v-model="dataForm.name" disabled />
       </el-form-item>
       <el-form-item label="数据范围" prop="dataScope">
-        <dict-select v-model="dataForm.dataScopeType" dict-type="sys_data_scope" placeholder="请选择数据范围" class="w-100" clearable/>
+        <dict-select v-model="dataForm.dataScopeType" dict-type="sys_data_scope" placeholder="请选择数据范围" class="w-full" clearable/>
       </el-form-item>
       <el-form-item v-show="dataForm.dataScopeType == 1" label="数据权限">
         <el-checkbox v-model="orgExpandAll" @change="handleTreeExpand($event)">{{orgExpandAll ? '全部收起' : '全部展开'}}</el-checkbox>
@@ -25,7 +25,7 @@
         <el-checkbox v-model="orgCheckStrictly" @change="handleTreeCheckStrictly($event)">父子联动</el-checkbox>
       </el-form-item>
       <el-form-item v-show="dataForm.dataScopeType == 1">
-       <el-card shadow="never" class="w-100">
+       <el-card shadow="never" class="w-full">
          <el-tree
            ref="orgTreeRef"
            :data="orgData"

@@ -23,7 +23,7 @@
       <el-select
         v-model="dataForm.category"
         placeholder="请选择岗位"
-        class="w-100"
+        class="w-full"
         clearable
       >
         <el-option

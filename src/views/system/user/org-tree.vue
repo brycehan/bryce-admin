@@ -1,6 +1,6 @@
 <template>
   <el-container class="org-container">
-    <el-input v-model="orgName" class="w-100" clearable placeholder="请输入关键字过滤" />
+    <el-input v-model="orgName" class="w-full" clearable placeholder="请输入关键字过滤" />
     <el-tree
       ref="orgListRef"
       :data="orgList"

@@ -6,7 +6,7 @@
       </div>
       <div class="img-preview"></div>
     </div>
-    <div class="mt-4">
+    <div class="mt-6">
       <el-button type="primary" @click="handleUpload">选择图片</el-button>
       <el-button type="primary" @click="handleDownload">下载图片</el-button>
       <input

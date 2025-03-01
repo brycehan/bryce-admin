@@ -61,7 +61,7 @@
               value-key="id"
               check-strictly
               :props="{ label: 'name', children: 'children' }"
-              class="w-100"
+              class="w-full"
               clearable
             />
           </el-form-item>
@@ -72,7 +72,6 @@
               v-model="state.dataForm.postIds"
               multiple
               placeholder="请选择岗位"
-              class="w-100"
               clearable
             >
               <el-option
@@ -92,7 +91,7 @@
               v-model="state.dataForm.roleIds"
               multiple
               placeholder="请选择角色"
-              class="w-100"
+              class="w-full"
               clearable
             >
               <el-option
@@ -111,7 +110,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-form-item label="备注" prop="remark" class="w-100">
+        <el-form-item label="备注" prop="remark" class="w-full">
           <el-input v-model="state.dataForm.remark" type="textarea" placeholder="请输入内容" />
         </el-form-item>
       </el-row>

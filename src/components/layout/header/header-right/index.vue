@@ -31,9 +31,12 @@ import Languages from '@/components/layout/header/header-right/Languages.vue'
   justify-content: flex-end;
 
   ::v-deep(.svg-icon) {
+    display: flex;
     cursor: pointer;
     line-height: var(--theme-header-height);
+    height: var(--theme-header-height);
     padding: 0 12px;
+    align-items: center;
 
     svg {
       color: var(--theme-header-text-color) !important;

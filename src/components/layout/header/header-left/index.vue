@@ -20,9 +20,12 @@ const appStore = useAppStore()
   display: flex;
   align-items: center;
   ::v-deep(.svg-icon) {
+    display: flex;
       cursor: pointer;
       line-height: var(--theme-header-height);
+      height: var(--theme-header-height);
       padding: 0 12px;
+      align-items: center;
 
       svg {
         color: var(--theme-header-text-color) !important;

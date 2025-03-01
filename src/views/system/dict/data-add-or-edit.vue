@@ -18,7 +18,7 @@
         <el-input v-model="state.dataForm.dictValue" placeholder="请输入字典值" />
       </el-form-item>
       <el-form-item label="标签样式" prop="labelClass">
-        <el-select v-model="state.dataForm.labelClass" class="w-100" clearable>
+        <el-select v-model="state.dataForm.labelClass" class="w-full" clearable>
           <el-option
             v-for="item in [
               { label: 'primary', value: 'primary' },
@@ -31,8 +31,8 @@
             :label="item.label"
             :value="item.value"
           >
-            <el-tag v-if="item.value === 'primary'" class="w-100" size="small">{{ item.label }}</el-tag>
-            <el-tag v-else class="w-100" :type="item.value" size="small">{{ item.label }}</el-tag>
+            <el-tag v-if="item.value === 'primary'" class="w-full" size="small">{{ item.label }}</el-tag>
+            <el-tag v-else class="w-full" :type="item.value" size="small">{{ item.label }}</el-tag>
           </el-option>
         </el-select>
       </el-form-item>

@@ -12,7 +12,7 @@
       <el-checkbox v-model="loginForm.rememberMe">记住密码</el-checkbox>
     </el-form-item>
     <el-form-item class="login-btn">
-      <el-button class="w-100" type="primary" @click="loginByPhone()">登录</el-button>
+      <el-button class="w-full" type="primary" @click="loginByPhone()">登录</el-button>
     </el-form-item>
   </el-form>
 </template>

@@ -46,9 +46,9 @@
         </el-descriptions>
       </el-col>
     </el-row>
-    <el-row class="mt-4">
+    <el-row class="mt-6">
       <el-col :span="12">
-        <div class="disk-header mb-3 mr-1">
+        <div class="disk-header">
           <el-icon>
             <PieChart />
           </el-icon>
@@ -60,7 +60,7 @@
         </div>
       </el-col>
       <el-col :span="12">
-        <div class="disk-header mb-3 ml-1">
+        <div class="disk-header">
           <el-icon>
             <Odometer />
           </el-icon>
