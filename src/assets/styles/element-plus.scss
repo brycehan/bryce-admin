@@ -61,6 +61,28 @@
   }
 }
 
+// radio 组列显示
+.el-radio-group-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/**
+ * icon 垂直居中
+ */
+.el-form-item__label {
+  align-items: center;
+}
+
+/**
+ * radio 垂直居中
+ */
+.el-radio__label {
+  display: flex;
+  align-items: center;
+}
+
 /*
  * 表格操作中的按钮
  */

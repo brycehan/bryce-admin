@@ -1,5 +1,5 @@
-@import './variables.scss';
-@import './app.scss';
-@import './element-plus.scss';
-@import './theme.scss';
-@import './dark.scss';
+@forward './variables.scss';
+@forward './app.scss';
+@forward './element-plus.scss';
+@forward './theme.scss';
+@forward './dark.scss';

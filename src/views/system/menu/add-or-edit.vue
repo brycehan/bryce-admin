@@ -409,9 +409,4 @@ defineExpose({
     width: 30px;
   }
 }
-
-/* icon 垂直居中 */
-::v-deep(.el-form-item__label) {
-  align-items: center;
-}
 </style>
