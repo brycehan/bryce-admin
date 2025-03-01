@@ -42,6 +42,15 @@ export const postPageApi = (data: any) => {
 }
 
 /**
+ * 查询系统用户列表
+ *
+ * @param data 参数
+ */
+export const postListApi = (data: any) => {
+  return request.post('/system/user/list', data)
+}
+
+/**
  * 更新系统用户状态
  *
  * @param id ID
