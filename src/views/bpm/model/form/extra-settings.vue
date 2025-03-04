@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="dataFormRef" :model="dataForm" :rules="dataRules" label-width="100" class="mr-4 extra-settings-form">
+  <el-form ref="dataFormRef" :model="dataForm" :rules="dataRules" label-width="100" class="w-2xl">
     <el-form-item prop="allowCancelRunningProcess">
       <template #label>
         <el-tooltip effect="dark" content="第一个审批节点通过后，提交人仍可撤销申请" placement="top">
@@ -231,10 +231,6 @@ const dataRules = reactive<FormRules>({
 </script>
 
 <style lang="scss" scoped>
-.extra-settings-form {
-  width: 560px;
-}
-
 // 修复表单数字输入框宽度不居中问题
 ::v-deep(.el-input-number) {
   .el-input__wrapper .el-input__inner {

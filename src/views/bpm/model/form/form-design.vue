@@ -4,7 +4,7 @@
     :model="dataForm"
     :rules="dataRules"
     label-width="100"
-    class="mr-4 form-design-form"
+    class="w-xl"
   >
     <div>
       <div class="form-group">
@@ -125,9 +125,6 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
-.form-design-form {
-  width: 560px;
-}
 .form-group {
   display: flex;
   align-items: center;
