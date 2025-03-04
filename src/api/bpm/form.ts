@@ -19,7 +19,7 @@ export type FormVo = {
     /**
      * 字段数组
      */
-    fields: string
+    fields: string[]
     /**
      * 状态
      */

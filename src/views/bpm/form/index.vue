@@ -63,6 +63,7 @@ import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
 import FormEditor from '@/views/bpm/form/form-editor.vue'
 import { setPreviewConfAndFields } from '@/utils/formCreate'
+import FormCreate from '@form-create/element-ui'
 
 const state: StateOptions = reactive({
   api: {
@@ -131,7 +132,7 @@ const detailData = ref({
 const handleInfo = (id: any) => {
   if (id) {
     getByIdApi(id).then((res: any) => {
-      setPreviewConfAndFields(detailData, res.data.conf, JSON.parse(res.data.fields))
+      setPreviewConfAndFields(detailData, res.data.conf, res.data.fields)
       // 详情弹窗显示
       detailVisible.value = true
     })

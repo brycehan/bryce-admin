@@ -68,7 +68,6 @@ export const setPreviewConfAndFields = (detailPreview: object, conf: string, fie
   if (isRef(detailPreview)) {
     // @ts-ignore
     detailPreview = detailPreview.value
-
   }
   // @ts-ignore
   detailPreview.option = JSON.parse(conf)

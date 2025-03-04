@@ -31,6 +31,12 @@ export const BpmFormType = {
   CUSTOM: 1, // 业务表单
 }
 
+export const BpmProcessDefinitionStatus = {
+  NOT_PUBLISH: 0, // 未发布
+  RUNNING: 1, // 运行中
+  SUSPEND: 2, // 已挂起
+}
+
 /**
  * BPM 流程实例状态
  */

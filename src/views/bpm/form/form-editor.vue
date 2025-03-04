@@ -55,7 +55,7 @@ const state: StateOptions  = reactive({
   dataForm: {
     name: '',
     status: 1,
-    remark: ''
+    remark: '',
   }
 })
 
@@ -119,7 +119,7 @@ const init = (id?: string) => {
   if (id) {
     getByIdApi(id).then((res) => {
       state.dataForm = res.data
-      setConfAndFields(designerRef, state.dataForm.conf, JSON.parse(state.dataForm.fields))
+      setConfAndFields(designerRef, state.dataForm.conf, state.dataForm.fields)
     }).catch((reason) => {
       console.info(reason)
       setConfAndFields(designerRef, '{}', [])
@@ -139,18 +139,20 @@ const handleSave = () => {
 /**
  * 表单提交
  */
-const handleSubmit = () => {
-  dataFormRef.value.validate((valid: boolean) => {
-    if (!valid) {
-      return false
-    }
-    formLoading.value = true // 开始提交请求
-  })
+const handleSubmit = async () => {
+  const valid = dataFormRef.value.validate()
+  if (!valid) {
+    return
+  }
+
+  // 开始提交请求
+  formLoading.value = true
   const data = state.dataForm as FormVo
+
   // 表单配置
   data.conf = encodeConf(designerRef)
   // 表单字段
-  data.fields = JSON.stringify(encodeFields(designerRef))
+  data.fields = encodeFields(designerRef)
 
   saveOrUpdateApi(data).then(() => {
     if (data.id) {

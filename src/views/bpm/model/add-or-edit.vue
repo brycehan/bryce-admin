@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { getByIdApi, saveOrUpdateApi } from '@/api/bpm/processDefinitionInfo'
+import { getByIdApi, saveOrUpdateApi } from '@/api/bpm/model'
 import * as CategoryApi from '@/api/bpm/category'
 import * as FormApi from '@/api/bpm/form'
 import * as UserApi from '@/api/system/user'
@@ -219,14 +219,11 @@ const handleSave = async () => {
     } else {
       // 新增场景
       ModelApi.saveOrUpdateApi(state.dataForm).then((res: any) => {
-        state.dataForm.id = res.data.id
+        // state.dataForm.id = res.data.id
+        state.visible = false
         // 询问是否发布流程
-        Modal.confirm('新增流程成功，是否继续编辑？').then(() => {
-          // 用户点击继续编辑，跳转到编辑页面
-          // await nextTick()
-          // 先删除当前页签
-        }).catch(() => {})
-
+        ElMessage.success('保存成功')
+        emit('refreshPage')
       })
     }
   } catch (error: any) {

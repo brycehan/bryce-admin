@@ -10,8 +10,8 @@
       <el-input v-model="dataForm.name" :disabled="!!dataForm.id" clearable placeholder="请输入流程名称" />
     </el-form-item>
     <el-form-item label="流程标识" prop="key">
-      <div style="display: flex; align-items: center; width: 100%;">
-        <el-input v-model="dataForm.key" style="flex-shrink: 0; margin-right: 10px;" clearable placeholder="请输入流程标识，以字母或下划线开头"/>
+      <div style="display: flex; align-items: center; width: 100%;" class="">
+        <el-input v-model="dataForm.key" :disabled="!!dataForm.id" style="flex-shrink: 0; margin-right: 10px;" clearable placeholder="请输入流程标识，以字母或下划线开头"/>
         <el-tooltip effect="dark" :content="dataForm.id ? '流程标识不可修改！': '新建后，流程标识不可修改！'" placement="top">
           <el-icon class="tooltip-icon">
             <QuestionFilled />

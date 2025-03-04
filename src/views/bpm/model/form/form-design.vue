@@ -57,7 +57,7 @@
        <div class="form-group-icon"></div>
        <span class="form-group-title">表单预览</span>
      </div>
-      <form-create v-model="formPreview.formData" :option="formPreview.option" :rule="formPreview.rule" />
+      <form-create :modelValue="formPreview.formData" :option="formPreview.option" :rule="formPreview.rule" />
     </div>
   </el-form>
 </template>
@@ -67,6 +67,7 @@ import { type PropType, reactive, ref, watch } from 'vue'
 import type { FormRules } from 'element-plus'
 import * as FormApi from '@/api/bpm/form'
 import { setPreviewConfAndFields } from '@/utils/formCreate'
+import FormCreate from '@form-create/element-ui'
 
 const props = defineProps({
   formList: {
@@ -88,6 +89,8 @@ const formPreview = reactive({
   }
 })
 
+const formData = ref({})
+
 const dataFormRef = ref()
 
 const dataRules = reactive<FormRules>({
@@ -99,10 +102,10 @@ const dataRules = reactive<FormRules>({
 watch(() => dataForm.value.formId, async (newFormId) => {
   if (newFormId) {
     const form = await FormApi.getByIdApi(newFormId)
-    setPreviewConfAndFields(formPreview, form.data.conf, JSON.parse(form.data.fields))
+    setPreviewConfAndFields(formPreview, form.data.conf, form.data.fields)
     // 设置只读
     formPreview.rule.forEach((item: any) => {
-      item.props.disabled = true
+      item.props = { ...item.props, disabled: true }
     })
   } else {
     formPreview.rule = []
