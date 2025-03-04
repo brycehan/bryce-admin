@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { provide, reactive, ref, watch } from 'vue'
 import { getByIdApi, saveOrUpdateApi } from '@/api/bpm/model'
 import * as CategoryApi from '@/api/bpm/category'
 import * as FormApi from '@/api/bpm/form'
@@ -120,6 +120,11 @@ const state: StateOptions  = reactive({
   }
 })
 
+// 流程数据
+const processData = ref<any>()
+
+provide('processData', processData)
+
 const active = ref(0)
 const dataFormRef = ref()
 
@@ -169,6 +174,18 @@ const init = async (id?: string) => {
   active.value = 0
 }
 
+watch(
+  async () => state.dataForm.type,
+  () => {
+    if (state.dataForm.type === BpmModelType.BPMN) {
+      processData.value = state.dataForm.bpmnXml
+    } else {
+      processData.value = state.dataForm.simpleModel
+    }
+    console.debug('processData', processData.value)
+  }
+)
+
 /**
  * 校验基本信息
  */
@@ -186,8 +203,8 @@ const validateForm = async () => {
 /**
  * 校验设计的流程
  */
-const validateProcessDesign = async () => {
-  await processDesignRef.value?.validate()
+const validateProcessDesign = () => {
+  processDesignRef.value?.validate()
 }
 
 /**
@@ -201,6 +218,8 @@ const validateAllSteps = async () => {
       console.error(error)
     })
 }
+
+
 /**
  * 表单保存
  */

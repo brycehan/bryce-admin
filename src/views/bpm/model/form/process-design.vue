@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { inject, onMounted, reactive, type Ref, ref } from 'vue'
 // 导入bpmn-js
 import BpmnModeler from 'bpmn-js/lib/Modeler'
 // 导入bpmn-js样式
@@ -25,6 +25,8 @@ const state = reactive<any>({
 })
 
 const canvasRef = ref()
+
+const processData = inject('processData') as Ref
 
 /**
  * 创建新的流程图
@@ -64,8 +66,11 @@ const init = () => {
 /**
  * 表单校验
  */
-const validate = async () => {
-  // await dataFormRef.value.validate()
+const validate = () => {
+  if (processData.value) {
+    return true
+  }
+  throw new Error('请设计流程')
 }
 
 onMounted(() => {
