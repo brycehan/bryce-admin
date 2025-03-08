@@ -69,7 +69,6 @@ import ProcessDesign from '@/views/bpm/model/form/process-design.vue'
 import ExtraSettings from '@/views/bpm/model/form/extra-settings.vue'
 import { BpmAutoApproveType, BpmFormType, BpmModelType } from '@/api/bpm/constant'
 import { DictSysShowHide } from '@/utils/constant'
-import Modal from '@/utils/modal'
 import modal from '@/utils/modal'
 
 const emit = defineEmits(['refreshPage'])
@@ -124,6 +123,7 @@ const state: StateOptions  = reactive({
 const processData = ref<any>()
 
 provide('processData', processData)
+provide('modelData', state.dataForm)
 
 const active = ref(0)
 const dataFormRef = ref()
@@ -232,7 +232,7 @@ const handleSave = async () => {
       // 更新场景
       await ModelApi.saveOrUpdateApi(state.dataForm)
       // 询问是否发布流程
-      Modal.confirm('修改流程成功，是否发布流程？').then(() => {
+      modal.confirm('修改流程成功，是否发布流程？').then(() => {
         return handleDeploy()
       }).catch(() => {})
     } else {

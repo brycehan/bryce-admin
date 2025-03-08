@@ -1,5 +1,31 @@
 import request from '@/utils/request'
 
+export type BpmProcessDefinitionVo = {
+    id: string
+    version: number
+    deploymentTIme: string
+    suspensionState: number
+    formType?: number
+}
+
+export type BpmModelVo = {
+    id: number
+    formName: string
+    key: string
+    name: string
+    description: string
+    category: string
+    formType: number
+    formId: number
+    formCustomCreatePath: string
+    formCustomViewPath: string
+    processDefinition: BpmProcessDefinitionVo
+    status: number
+    remark: string
+    createTime: string
+    bpmnXml: string
+}
+
 /**
  * 保存流程模型信息
  *

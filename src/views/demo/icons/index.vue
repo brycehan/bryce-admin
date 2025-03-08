@@ -4,14 +4,14 @@
       <el-col
         v-for="(icon, key) in iconList"
         :key="key"
-        class="iconfont-item"
+        class="iconfont-item items-center"
         :xs="12"
         :sm="8"
         :md="6"
         :lg="3"
         :xl="2"
       >
-        <div class="iconfont-wrap" @click="handleCopy(icon)">
+        <div @click="handleCopy(icon)">
           <SvgIcon :icon="icon" class-name="svg-size" />
           <p>{{ icon }}</p>
         </div>
@@ -64,12 +64,6 @@ const handleCopy = (icon: string) => {
 
     &:hover {
       background-color: var(--el-border-color-extra-light);
-    }
-
-    .iconfont-wrap {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
     }
   }
 }

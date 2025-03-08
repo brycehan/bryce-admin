@@ -1,4 +1,15 @@
 // BPM 模块
+export enum BpmTypeEnum {
+  // ========== BPM 模块 ==========
+  BPM_MODEL_TYPE = 'bpm_model_type',
+  BPM_MODEL_FORM_TYPE = 'bpm_model_form_type',
+  BPM_PROCESS_INSTANCE_STATUS = 'bpm_process_instance_status',
+  BPM_PROCESS_LISTENER_TYPE = 'bpm_process_listener_type',
+  BPM_PROCESS_LISTENER_VALUE_TYPE = 'bpm_process_listener_value_type',
+  BPM_TASK_STATUS = 'bpm_task_status',
+  BPM_TASK_CANDIDATE_STRATEGY = 'bpm_task_candidate_strategy',
+  BPM_OA_LEAVE_TYPE = 'bpm_oa_leave_type',
+}
 
 export enum BpmProcessVariableEnum {
   /**

@@ -38,3 +38,9 @@ export const DictSysShowHide = {
   SHOW: 1, // 显示
   HIDE: 0, // 隐藏
 }
+
+// 通用状态枚举
+export const StatusType = {
+  ENABLE: 1, // 开启
+  DISABLE: 0 // 停用
+}

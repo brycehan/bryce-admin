@@ -88,4 +88,37 @@ const post = (url: string, data?: any, config?: any) => {
   })
 }
 
-export default { get, post }
+/**
+ * json格式下载
+ *
+ * @param data 下载的数据
+ * @param filename 文件名
+ */
+const json = (data: Blob, filename: string) => {
+  downloadBlob(data, filename, 'application/json')
+}
+
+/**
+ * 下载blob对象
+ *
+ * @param data 下载的数据
+ * @param filename 文件名
+ * @param type 下载文件类型
+ */
+const downloadBlob = (data: Blob, filename: string, type: string) => {
+  const blob = new Blob([data], { type })
+  const reader = new FileReader()
+  reader.readAsDataURL(blob)
+  reader.onload = function (e: any) {
+    // 转换完成，创建一个a标签用于下载
+    const a = document.createElement('a')
+    a.download = filename
+    a.href = e.target.result
+    // 在body中插入a元素
+    document.body.insertAdjacentElement('afterend', a)
+    a.click()
+    a.remove()
+  }
+}
+
+export default { get, post, json }

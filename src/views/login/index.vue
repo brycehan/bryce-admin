@@ -56,6 +56,7 @@ const loginSwitch = (type: string) => {
 }
 .login-info h1 {
   color: var(--el-color-primary);
+  font-size: 28px;
 }
 .login-info .login-tips {
   color: #777;

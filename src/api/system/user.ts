@@ -168,3 +168,23 @@ export const checkUsernameUnique = (rule: any, value: any, callback: any) => {
       console.log(error)
     })
 }
+
+export default {
+  saveOrUpdateApi,
+  deleteByIdsApi,
+  getByIdApi,
+  postPageApi,
+  postListApi,
+  patchStatusApi,
+  getCheckUsernameUniqueApi,
+  getCheckPhoneUniqueApi,
+  getCheckEmailUniqueApi,
+  getImportTemplateApi,
+  postExportExcelApi,
+  importUrl,
+  resetPasswordApi,
+  postAssignRolePageApi,
+  postAssignRoleSaveApi,
+  deleteAssignRoleApi,
+  checkUsernameUnique
+}
