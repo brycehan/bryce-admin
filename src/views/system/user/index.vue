@@ -330,6 +330,12 @@ const handleStatusChange = (row: any) => {
     })
 }
 
+/**
+ * 处理命令
+ *
+ * @param command 命令
+ * @param row 当前行数据
+ */
 const handleCommand = (command: string, row: any) => {
   switch (command) {
     case 'handleResetPassword':

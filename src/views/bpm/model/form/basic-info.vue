@@ -40,9 +40,9 @@
     <el-form-item label="是否可见" prop="visible">
       <dict-radio-group v-model="dataForm.visible" dict-type="sys_show_hide" />
     </el-form-item>
-    <el-form-item label="谁可以发起" prop="startUserIds">
-      <el-input v-model="dataForm.startUserIds" placeholder="请输入可发起人" />
-    </el-form-item>
+<!--    <el-form-item label="谁可以发起" prop="startUserIds">-->
+<!--      <el-input v-model="dataForm.startUserIds" placeholder="请输入可发起人" />-->
+<!--    </el-form-item>-->
   </el-form>
 
 </template>
@@ -124,6 +124,13 @@ const handleUserSelectSubmit = (users: any[]) => {
 }
 
 /**
+ * 重置表单
+ */
+const resetFields = () => {
+  dataFormRef.value.resetFields()
+}
+
+/**
  * 表单校验
  */
 const validate = async () => {
@@ -131,7 +138,8 @@ const validate = async () => {
 }
 
 defineExpose({
-  validate
+  validate,
+  resetFields
 })
 </script>
 

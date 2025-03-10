@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="state.visible"
-    :title="!state.dataForm.id ? '新增流程定义信息' : '修改流程定义信息'"
+    :title="!state.dataForm.id ? '新增流程' : '修改流程'"
     :close-on-click-modal="false"
     fullscreen
   >
@@ -9,7 +9,7 @@
     <template #header>
       <el-row>
         <!-- 左侧标题 -->
-        <el-col :span="7" class="title-box">{{ !state.dataForm.id ? '新增流程定义信息' : '修改流程定义信息' }}</el-col>
+        <el-col :span="7" class="title-box">{{ !state.dataForm.id ? '新增流程' : '修改流程' + ' - ' + state.dataForm.name }}</el-col>
         <!-- 步骤条 -->
         <el-col :span="10">
           <el-steps :active="active" finish-status="success" simple align-center>
@@ -55,11 +55,10 @@
 
 <script setup lang="ts">
 import { provide, reactive, ref, watch } from 'vue'
-import { getByIdApi, saveOrUpdateApi } from '@/api/bpm/model'
 import * as CategoryApi from '@/api/bpm/category'
 import * as FormApi from '@/api/bpm/form'
 import * as UserApi from '@/api/system/user'
-import * as ModelApi from '@/api/bpm/model'
+import modelApi from '@/api/bpm/modelApi'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
 import { ElMessage } from 'element-plus'
@@ -75,8 +74,8 @@ const emit = defineEmits(['refreshPage'])
 
 const state: StateOptions  = reactive({
   api: {
-    saveOrUpdateApi,
-    getByIdApi,
+    saveOrUpdateApi: modelApi.saveOrUpdateApi,
+    getByIdApi: modelApi.getByIdApi,
     emit
   },
   dataForm: {
@@ -150,14 +149,12 @@ const init = async (id?: string) => {
   state.visible = true
   state.dataForm.id = ''
 
-  // 重置表单数据
-  if (dataFormRef.value) {
-    dataFormRef.value.resetFields()
-  }
-
   // id 存在则为修改
   if (id) {
     getData(id)
+  } else {
+    // 重置表单数据
+    //
   }
   // 获取分类列表
   const categoryListRes = await CategoryApi.postListApi({})
@@ -230,14 +227,14 @@ const handleSave = async () => {
 
     if (state.dataForm.id) {
       // 更新场景
-      await ModelApi.saveOrUpdateApi(state.dataForm)
+      await modelApi.saveOrUpdateApi(state.dataForm)
       // 询问是否发布流程
       modal.confirm('修改流程成功，是否发布流程？').then(() => {
         return handleDeploy()
       }).catch(() => {})
     } else {
       // 新增场景
-      ModelApi.saveOrUpdateApi(state.dataForm).then((res: any) => {
+      modelApi.saveOrUpdateApi(state.dataForm).then((res: any) => {
         // state.dataForm.id = res.data.id
         state.visible = false
         // 询问是否发布流程
@@ -270,7 +267,7 @@ const handleDeploy = () => {
     })
     // 数据保存处理
     .then(async () => {
-      const data = await ModelApi.saveOrUpdateApi(state.dataForm).then((res) => res.data)
+      const data = await modelApi.saveOrUpdateApi(state.dataForm).then((res) => res.data)
       if (!state.dataForm.id && data && data.id) { // 添加
         state.dataForm.id = data.id
       }
@@ -280,7 +277,7 @@ const handleDeploy = () => {
     })
     // 部署流程
     .then(() => {
-      return ModelApi.deployModelApi(state.dataForm.id)
+      return modelApi.deployModelApi(state.dataForm.id)
     })
     // 处理成功结果
     .then(() => {

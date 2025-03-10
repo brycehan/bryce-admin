@@ -74,3 +74,22 @@ export const postPageApi = (data: any) => {
 export const deployModelApi = (id: string) => {
     return request.post(`/bpm/model/deploy?id=${id}`)
 }
+
+/**
+ * 更新流程状态
+ *
+ * @param id ID
+ * @param state 状态（1：启用，0：停用）
+ */
+export const patchState = (id: string, state: number) => {
+    return request.patch(`/bpm/model/${id}/${state}`)
+}
+
+export default {
+    saveOrUpdateApi,
+    deleteByIdsApi,
+    getByIdApi,
+    postPageApi,
+    deployModelApi,
+    patchState
+}

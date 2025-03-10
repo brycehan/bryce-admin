@@ -52,7 +52,7 @@
 <!--      </div>-->
 <!--    </el-form-item>-->
     <!-- 表单预览 -->
-    <div>
+    <div v-if="dataForm.formId">
      <div class="form-group">
        <div class="form-group-icon"></div>
        <span class="form-group-title">表单预览</span>
@@ -113,6 +113,13 @@ watch(() => dataForm.value.formId, async (newFormId) => {
 })
 
 /**
+ * 重置表单
+ */
+const resetFields = () => {
+  dataFormRef.value.resetFields()
+}
+
+/**
  * 表单校验
  */
 const validate = async () => {
@@ -120,7 +127,8 @@ const validate = async () => {
 }
 
 defineExpose({
-  validate
+  validate,
+  resetFields
 })
 </script>
 

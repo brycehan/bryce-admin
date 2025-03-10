@@ -22,7 +22,7 @@
       :bpmnModeler="modeler"
       :prefix="controlForm.prefix"
       class="process-panel"
-      :model="model"
+      :model="modelData"
     />
   </div>
 </template>

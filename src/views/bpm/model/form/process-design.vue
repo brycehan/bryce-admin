@@ -1,5 +1,6 @@
 <template>
     <bpm-model-editor
+      v-if="modelData.type === BpmModelType.BPMN"
       :model-id="modelData.id"
       :model-key="modelData.key"
       :model-name="modelData.name"
@@ -16,16 +17,6 @@ import { BpmModelType } from '@/api/bpm/constant'
 const modelData = defineModel<any>()
 
 const processData = inject('processData') as Ref
-
-/**
- * 表单校验
- */
-const validate = () => {
-  if (processData.value) {
-    return true
-  }
-  throw new Error('请设计流程')
-}
 
 /**
  * 处理设计器保存成功
@@ -47,7 +38,25 @@ const handleDesignSuccess = async (data?: any) => {
   }
 }
 
+/**
+ * 重置表单
+ */
+const resetFields = () => {
+  // processData.value = null
+}
+
+/**
+ * 表单校验
+ */
+const validate = () => {
+  if (processData.value) {
+    return true
+  }
+  throw new Error('请设计流程')
+}
+
 defineExpose({
-  validate
+  validate,
+  resetFields
 })
 </script>
