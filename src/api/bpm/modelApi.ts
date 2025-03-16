@@ -45,7 +45,7 @@ export const saveOrUpdateApi = (data: any) => {
  * @param ids ID数组
  */
 export const deleteByIdsApi = (ids: string[]) => {
-    return request.delete('/bpm/model', { data: { ids } })
+    return request.delete('/bpm/model', { data: ids })
 }
 
 /**

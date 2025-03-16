@@ -111,6 +111,11 @@ const formDetailPreview = ref({
 
 const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange } = crud(state)
 
+/**
+ * 流程图预览详情
+ *
+ * @param row 当前行数据
+ */
 const handleBpmnDetail = (row: any) => {
     // 详情弹窗显示
     bpmnDetailPreview.value.visible = true

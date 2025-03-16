@@ -14,7 +14,7 @@
     </el-form>
     <el-row class="mb-2">
       <el-button v-auth="'bpm:processDefinitionInfo:save'" type="primary" icon="Plus" plain @click="handleAddOrEdit()">新增</el-button>
-      <el-button v-auth="'bpm:processDefinitionInfo:delete'" type="danger" icon="Delete" plain @click="handleDeleteBatch('id', '编号')">删除</el-button>
+      <el-button v-auth="'bpm:processDefinitionInfo:delete'" type="danger" icon="Delete" plain @click="handleDeleteBatch('key', '流程KEY')">删除</el-button>
 			<right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
@@ -229,7 +229,7 @@ const handleDeploy = (row: any) => {
 const handleCommand = (command: string, row: any) => {
   switch (command) {
     case 'handleDeleteBatch':
-      handleDeleteBatch('id', '编号', row)
+      handleDeleteBatch('key', '流程KEY', row)
       break
     case 'handleHistoryDefinition':
       handleHistoryDefinition(row)
