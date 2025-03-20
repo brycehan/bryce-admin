@@ -167,7 +167,7 @@ onMounted(async () => {
     loading.value = true
     // 获取表单字段
     if (props.modelId) {
-      const bpmnModel = await ModelApi.getByIdApi(props.modelId).then((res) => res.data)
+      const bpmnModel = await ModelApi.getByIdApi(props.modelId).then((res: any) => res.data)
       if (bpmnModel) {
         formType.value = bpmnModel.formType
         if (formType.value === BpmModelFormType.NORMAL && bpmnModel.formId) {

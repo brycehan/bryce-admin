@@ -91,6 +91,6 @@ const emit = defineEmits(['success']) // 定义 success 事件，用于操作成
 const select = async (row: any) => {
   dialogVisible.value = false
   // 发送操作成功的事件
-  emit('select', row)
+  emit('success', row)
 }
 </script>
