@@ -58,7 +58,7 @@ import { provide, reactive, ref, watch } from 'vue'
 import * as CategoryApi from '@/api/bpm/category'
 import * as FormApi from '@/api/bpm/form'
 import * as UserApi from '@/api/system/user'
-import modelApi from '@/api/bpm/modelApi'
+import modelApi from '@/api/bpm/model'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
 import { ElMessage } from 'element-plus'

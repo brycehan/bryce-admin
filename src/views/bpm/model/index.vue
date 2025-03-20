@@ -133,7 +133,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './form/index.vue'
-import modelApi from '@/api/bpm/modelApi'
+import modelApi from '@/api/bpm/model'
 import * as FormApi from '@/api/bpm/form'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
