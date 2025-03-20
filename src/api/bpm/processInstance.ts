@@ -63,12 +63,22 @@ export type ApprovalNodeInfo = {
     tasks: ApprovalTaskInfo[]
 }
 
-export const getProcessInstanceMyPage = (params: any) => {
-    return request.get('/bpm/process-instance/my-page', { params })
+/**
+ * 查询流程实例分页
+ *
+ * @param data 参数
+ */
+export const postProcessInstanceManagerPage = (data: any) => {
+    return request.post('/bpm/process-instance/manager-page', data)
 }
 
-export const getProcessInstanceManagerPage = (params: any) => {
-    return request.get('/bpm/process-instance/manager-page', { params })
+/**
+ * 查询我的流程实例分页
+ *
+ * @param data 参数
+ */
+export const postProcessInstanceMyPage = (data: any) => {
+    return request.post('/bpm/process-instance/my-page', data)
 }
 
 /**
@@ -117,4 +127,17 @@ export const getFormFieldsPermission = (params: any) => {
 // 获取流程实例的 BPMN 模型视图
 export const getProcessInstanceBpmnModelView = (id: string) => {
     return request.get('/bpm/process-instance/get-bpmn-model-view?id=' + id)
+}
+
+export default {
+    postProcessInstanceManagerPage,
+    postProcessInstanceMyPage,
+    createProcessInstance,
+    cancelProcessInstanceByStartUser,
+    cancelProcessInstanceByAdmin,
+    getProcessInstance,
+    getProcessInstanceCopyPage,
+    getApprovalDetail,
+    getFormFieldsPermission,
+    getProcessInstanceBpmnModelView
 }

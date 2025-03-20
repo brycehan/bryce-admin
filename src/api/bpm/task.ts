@@ -35,11 +35,59 @@ export enum TaskStatusEnum {
    * 已退回
    */
   RETURN = 5,
+
+  /**
+   * 委派中
+   */
+  ASSIGNMENT = 6,
   /**
    * 审批通过中
    */
   APPROVING = 7
 }
+
+export const BpmTaskStatusOptions = [
+  {
+    label: '待审批',
+    value: TaskStatusEnum.WAIT,
+    type: 'info'
+  },
+  {
+    label: '审批中',
+    value: TaskStatusEnum.RUNNING,
+    type: 'primary'
+  },
+  {
+    label: '审批通过',
+    value: TaskStatusEnum.APPROVE,
+    type: 'success'
+  },
+  {
+    label: '审批不通过',
+    value: TaskStatusEnum.REJECT,
+    type: 'danger'
+  },
+  {
+    label: '已取消',
+    value: TaskStatusEnum.CANCEL,
+    type: 'info'
+  },
+  {
+    label: '已退回',
+    value: TaskStatusEnum.RETURN,
+    type: 'warning'
+  },
+  {
+    label: '委派中',
+    value: TaskStatusEnum.ASSIGNMENT,
+    type: 'primary'
+  },
+  {
+    label: '审批通过中',
+    value: TaskStatusEnum.APPROVING,
+    type: 'success'
+  }
+]
 
 export const getTaskTodoPage = async (params: any) => {
   return await request.get('/bpm/task/todo-page', params)
@@ -108,4 +156,23 @@ export const myTodoTask = async (processInstanceId: string) => {
 // 获取减签任务列表
 export const getChildrenTaskList = async (id: string) => {
   return await request.get('/bpm/task/list-by-parent-task-id?parentTaskId=' + id)
+}
+
+export default {
+  BpmTaskStatusOptions,
+  getTaskTodoPage,
+  getTaskDonePage,
+  getTaskManagerPage,
+  approveTask,
+  rejectTask,
+  getTaskListByProcessInstanceId,
+  getTaskListByReturn,
+  returnTask,
+  delegateTask,
+  transferTask,
+  signCreateTask,
+  signDeleteTask,
+  copyTask,
+  myTodoTask,
+  getChildrenTaskList
 }
