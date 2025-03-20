@@ -134,7 +134,7 @@
     />
 
     <!-- 弹窗，新增 / 修改 -->
-    <detail ref="detailRef" id=""/>
+<!--    <detail ref="detailRef" id=""/>-->
 
     <!-- 弹窗，表单详情 -->
     <el-dialog title="表单详情" v-model="formDetailPreview.visible" width="60%">
@@ -162,7 +162,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import HistoryDefinition from '@/views/bpm/model/history-definition.vue'
 import * as UserApi from '@/api/system/user'
 import { formatPast2 } from '@/utils/formatTime'
-import Detail from '@/views/bpm/process-instance/detail/index.vue'
+// import Detail from '@/views/bpm/process-instance/detail/index.vue'
 
 const state: StateOptions = reactive({
   api: {
