@@ -91,5 +91,5 @@ export default {
     getByIdApi,
     postPageApi,
     deployModelApi,
-    patchState
+    patchState,
 }
