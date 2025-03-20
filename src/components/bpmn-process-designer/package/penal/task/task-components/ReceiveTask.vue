@@ -49,8 +49,9 @@
 </template>
 
 <script lang="ts" setup>
-import { defineOptions, defineComponent, ref, onMounted, onBeforeUnmount, watch, nextTick, toRaw } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch, nextTick, toRaw } from 'vue'
 import { ElMessage } from 'element-plus'
+
 defineOptions({ name: 'ReceiveTask' })
 const props = defineProps({
   id: String,
