@@ -33,7 +33,7 @@ import { MyProcessDesigner, MyProcessPenal } from '@/components/bpmn-process-des
 import CustomContentPadProvider from '@/components/bpmn-process-designer/package/designer/plugins/content-pad'
 // 自定义左侧菜单（修改 默认任务 为 用户任务）
 import CustomPaletteProvider from '@/components/bpmn-process-designer/package/designer/plugins/palette'
-import * as ModelApi from '@/api/bpm/modelApi'
+import { type BpmModelVo } from '@/api/bpm/model'
 import { inject, onBeforeUnmount, provide, type Ref, ref, shallowRef } from 'vue'
 import { ElMessage } from 'element-plus'
 
@@ -70,7 +70,7 @@ const controlForm = ref({
   headerButtonSize: 'mini',
   additionalModel: [CustomContentPadProvider, CustomPaletteProvider]
 })
-const model = ref<ModelApi.BpmModelVo>() // 流程模型的信息
+const model = ref<BpmModelVo>() // 流程模型的信息
 
 /**
  * 初始化 modeler
