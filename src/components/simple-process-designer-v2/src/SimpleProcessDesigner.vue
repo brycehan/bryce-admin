@@ -31,11 +31,11 @@ import * as ModelApi from '@/api/bpm/model'
 import * as FormApi from '@/api/bpm/form'
 import { handleTree } from '@/utils/tree'
 import * as RoleApi from '@/api/system/role'
-import * as DeptApi from '@/api/system/dept'
+import * as DeptApi from '@/api/system/org'
 import * as PostApi from '@/api/system/post'
 import * as UserApi from '@/api/system/user'
 import * as UserGroupApi from '@/api/bpm/userGroupApi'
-import { BpmModelFormType } from '@/utils/constants'
+import { BpmFormType } from '@/api/bpm/constant'
 import { StatusType } from '@/utils/constant'
 
 defineOptions({
@@ -170,7 +170,7 @@ onMounted(async () => {
       const bpmnModel = await ModelApi.getByIdApi(props.modelId).then((res: any) => res.data)
       if (bpmnModel) {
         formType.value = bpmnModel.formType
-        if (formType.value === BpmModelFormType.NORMAL && bpmnModel.formId) {
+        if (formType.value === BpmFormType.NORMAL && bpmnModel.formId) {
           const bpmnForm = (await FormApi.getByIdApi(bpmnModel.formId)).data as unknown as any
           formFields.value = bpmnForm?.fields
         }
@@ -184,7 +184,7 @@ onMounted(async () => {
     // userOptions.value = await UserApi.getSimpleList({status: StatusType.ENABLE})
     // todo api 实现
     // 获得部门列表
-    deptOptions.value = await DeptApi.getSimpleDeptList()
+    deptOptions.value = await DeptApi.postListApi({}).then((res) => res.data)
     deptTreeOptions.value = handleTree(deptOptions.value as any[], 'id')
     // 获取用户组列表
     userGroupOptions.value = await UserGroupApi.getSimpleList({status: StatusType.ENABLE}).then((res) => res.data)

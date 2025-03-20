@@ -114,8 +114,9 @@ import ProcessNodeTree from '../ProcessNodeTree.vue'
 import { type SimpleFlowNode, NodeType, ConditionType, DEFAULT_CONDITION_GROUP_VALUE, NODE_DEFAULT_TEXT } from '../consts'
 import { useTaskStatusClass } from '../node'
 import { getDefaultInclusiveConditionNodeName } from '../utils'
-import { generateUUID } from '@/utils'
 import ConditionNodeConfig from '../nodes-config/ConditionNodeConfig.vue'
+import { v4 as uuidv4 } from 'uuid'
+
 const { proxy } = getCurrentInstance() as any
 defineOptions({
   name: 'InclusiveNode'
@@ -177,7 +178,7 @@ const addCondition = () => {
     const len = conditionNodes.length
     let lastIndex = len - 1
     const conditionData: SimpleFlowNode = {
-      id: 'Flow_' + generateUUID(),
+      id: 'Flow_' + uuidv4(),
       name: '包容条件' + len,
       showText: '',
       type: NodeType.CONDITION_NODE,

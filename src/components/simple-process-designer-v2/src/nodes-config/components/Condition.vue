@@ -140,7 +140,7 @@ import {
   ConditionType,
   DEFAULT_CONDITION_GROUP_VALUE
 } from '../../consts'
-import { BpmModelFormType } from '@/utils/constants'
+import { BpmFormType } from '@/api/bpm/constant'
 import { useFormFieldsAndStartUser } from '../../node'
 import { computed, inject, reactive, ref, type Ref } from 'vue'
 
@@ -163,7 +163,7 @@ const formType = inject<Ref<number>>('formType') // 表单类型
 const conditionConfigTypes = computed(() => {
   return CONDITION_CONFIG_TYPES.filter((item) => {
     // 业务表单暂时去掉条件规则选项
-    if (formType?.value === BpmModelFormType.CUSTOM && item.value === ConditionType.RULE) {
+    if (formType?.value === BpmFormType.CUSTOM && item.value === ConditionType.RULE) {
       return false
     } else {
       return true

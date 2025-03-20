@@ -79,8 +79,8 @@ import {
   type SimpleFlowNode,
   DEFAULT_CONDITION_GROUP_VALUE
 } from './consts'
-import {generateUUID} from '@/utils'
 import { ElMessage } from 'element-plus'
+import { v4 as uuidv4 } from 'uuid'
 
 defineOptions({
   name: 'NodeHandler'
@@ -117,7 +117,7 @@ const addNode = (type: number) => {
 
   popoverShow.value = false
   if (type === NodeType.USER_TASK_NODE) {
-    const id = 'Activity_' + generateUUID()
+    const id = 'Activity_' + uuidv4()
     const data: SimpleFlowNode = {
       id: id,
       name: NODE_DEFAULT_NAME.get(NodeType.USER_TASK_NODE) as string,
@@ -150,7 +150,7 @@ const addNode = (type: number) => {
   }
   if (type === NodeType.COPY_TASK_NODE) {
     const data: SimpleFlowNode = {
-      id: 'Activity_' + generateUUID(),
+      id: 'Activity_' + uuidv4(),
       name: NODE_DEFAULT_NAME.get(NodeType.COPY_TASK_NODE) as string,
       showText: '',
       type: NodeType.COPY_TASK_NODE,
@@ -162,11 +162,11 @@ const addNode = (type: number) => {
     const data: SimpleFlowNode = {
       name: '条件分支',
       type: NodeType.CONDITION_BRANCH_NODE,
-      id: 'GateWay_' + generateUUID(),
+      id: 'GateWay_' + uuidv4(),
       childNode: props.childNode,
       conditionNodes: [
         {
-          id: 'Flow_' + generateUUID(),
+          id: 'Flow_' + uuidv4(),
           name: '条件1',
           showText: '',
           type: NodeType.CONDITION_NODE,
@@ -178,7 +178,7 @@ const addNode = (type: number) => {
           }
         },
         {
-          id: 'Flow_' + generateUUID(),
+          id: 'Flow_' + uuidv4(),
           name: '其它情况',
           showText: '未满足其它条件时，将进入此分支',
           type: NodeType.CONDITION_NODE,
@@ -195,18 +195,18 @@ const addNode = (type: number) => {
     const data: SimpleFlowNode = {
       name: '并行分支',
       type: NodeType.PARALLEL_BRANCH_NODE,
-      id: 'GateWay_' + generateUUID(),
+      id: 'GateWay_' + uuidv4(),
       childNode: props.childNode,
       conditionNodes: [
         {
-          id: 'Flow_' + generateUUID(),
+          id: 'Flow_' + uuidv4(),
           name: '并行1',
           showText: '无需配置条件同时执行',
           type: NodeType.CONDITION_NODE,
           childNode: undefined
         },
         {
-          id: 'Flow_' + generateUUID(),
+          id: 'Flow_' + uuidv4(),
           name: '并行2',
           showText: '无需配置条件同时执行',
           type: NodeType.CONDITION_NODE,
@@ -220,11 +220,11 @@ const addNode = (type: number) => {
     const data: SimpleFlowNode = {
       name: '包容分支',
       type: NodeType.INCLUSIVE_BRANCH_NODE,
-      id: 'GateWay_' + generateUUID(),
+      id: 'GateWay_' + uuidv4(),
       childNode: props.childNode,
       conditionNodes: [
         {
-          id: 'Flow_' + generateUUID(),
+          id: 'Flow_' + uuidv4(),
           name: '包容条件1',
           showText: '',
           type: NodeType.CONDITION_NODE,
@@ -236,7 +236,7 @@ const addNode = (type: number) => {
           }
         },
         {
-          id: 'Flow_' + generateUUID(),
+          id: 'Flow_' + uuidv4(),
           name: '其它情况',
           showText: '未满足其它条件时，将进入此分支',
           type: NodeType.CONDITION_NODE,
@@ -251,7 +251,7 @@ const addNode = (type: number) => {
   }
   if (type === NodeType.DELAY_TIMER_NODE) {
     const data: SimpleFlowNode = {
-      id: 'Activity_' + generateUUID(),
+      id: 'Activity_' + uuidv4(),
       name: NODE_DEFAULT_NAME.get(NodeType.DELAY_TIMER_NODE) as string,
       showText: '',
       type: NodeType.DELAY_TIMER_NODE,
@@ -261,7 +261,7 @@ const addNode = (type: number) => {
   }
   if (type === NodeType.ROUTER_BRANCH_NODE) {
     const data: SimpleFlowNode = {
-      id: 'GateWay_' + generateUUID(),
+      id: 'GateWay_' + uuidv4(),
       name: NODE_DEFAULT_NAME.get(NodeType.ROUTER_BRANCH_NODE) as string,
       showText: '',
       type: NodeType.ROUTER_BRANCH_NODE,
@@ -271,7 +271,7 @@ const addNode = (type: number) => {
   }
   if (type === NodeType.TRIGGER_NODE) {
     const data: SimpleFlowNode = {
-      id: 'Activity_' + generateUUID(),
+      id: 'Activity_' + uuidv4(),
       name: NODE_DEFAULT_NAME.get(NodeType.TRIGGER_NODE) as string,
       showText: '',
       type: NodeType.TRIGGER_NODE,

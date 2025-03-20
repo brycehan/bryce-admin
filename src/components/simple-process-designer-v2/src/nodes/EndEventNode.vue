@@ -45,9 +45,9 @@
             min-width="140"
           />
           <el-table-column align="center" label="审批状态" prop="status" min-width="90">
-            <template #default="scope">
-              <dict-tag :type="DICT_TYPE.BPM_PROCESS_INSTANCE_STATUS" :value="scope.row.status" />
-            </template>
+<!--            <template #default="scope">-->
+<!--              <dict-tag :type="DICT_TYPE.BPM_PROCESS_INSTANCE_STATUS" :value="scope.row.status" />-->
+<!--            </template>-->
           </el-table-column>
 
           <el-table-column align="center" label="耗时" prop="durationInMillis" width="100">
@@ -64,7 +64,6 @@ import { inject, ref, type Ref } from 'vue'
 import { type SimpleFlowNode } from '../consts'
 import { useWatchNode, useTaskStatusClass } from '../node'
 import { dateFormatter, formatPast2 } from '@/utils/formatTime'
-import { DICT_TYPE } from '@/utils/dict'
 defineOptions({
   name: 'EndEventNode'
 })

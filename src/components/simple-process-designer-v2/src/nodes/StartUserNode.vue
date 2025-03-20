@@ -87,7 +87,7 @@
         />
         <el-table-column align="center" label="审批状态" prop="status" min-width="90">
           <template #default="scope">
-            <dict-tag :type="DICT_TYPE.BPM_TASK_STATUS" :value="scope.row.status" />
+            <el-tag :type="getBpmTaskStatusOption(scope.row.status).type">{{ getBpmTaskStatusOption(scope.row.status).label }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column align="center" label="审批建议" prop="reason" min-width="120" />
@@ -101,13 +101,13 @@
   </el-dialog>
 </template>
 <script setup lang="ts">
-import { inject, ref, type Ref } from 'vue'
+import { computed, inject, ref, type Ref } from 'vue'
 import NodeHandler from '../NodeHandler.vue'
 import { useWatchNode, useNodeName2, useTaskStatusClass } from '../node'
 import { type SimpleFlowNode, NODE_DEFAULT_TEXT, NodeType } from '../consts'
 import StartUserNodeConfig from '../nodes-config/StartUserNodeConfig.vue'
 import { dateFormatter, formatPast2 } from '@/utils/formatTime'
-import { DICT_TYPE } from '@/utils/dict'
+import taskApi from '@/api/bpm/task'
 defineOptions({
   name: 'StartEventNode'
 })
@@ -146,6 +146,13 @@ const nodeClick = () => {
     nodeSetting.value.openDrawer()
   }
 }
+
+/**
+ * 获取审批状态
+ */
+const getBpmTaskStatusOption: any = computed((value) => {
+  return taskApi.BpmTaskStatusOptions.filter((item) => item.value === value)[0]
+})
 
 // 任务的弹窗显示，用于只读模式
 const dialogVisible = ref(false) // 弹窗可见性

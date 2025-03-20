@@ -85,7 +85,8 @@ import NodeHandler from '../NodeHandler.vue'
 import ProcessNodeTree from '../ProcessNodeTree.vue'
 import { type SimpleFlowNode, NodeType, NODE_DEFAULT_TEXT } from '../consts'
 import { useTaskStatusClass } from '../node'
-import { generateUUID } from '@/utils'
+import { v4 as uuidv4 } from 'uuid'
+
 const { proxy } = getCurrentInstance() as any
 defineOptions({
   name: 'ParallelNode'
@@ -143,7 +144,7 @@ const addCondition = () => {
     const len = conditionNodes.length
     let lastIndex = len - 1
     const conditionData: SimpleFlowNode = {
-      id: 'Flow_' + generateUUID(),
+      id: 'Flow_' + uuidv4(),
       name: '并行' + len,
       showText: '无需配置条件同时执行',
       type: NodeType.CONDITION_NODE,
