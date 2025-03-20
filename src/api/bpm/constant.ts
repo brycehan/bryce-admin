@@ -67,3 +67,25 @@ export const BpmAutoApproveType = {
   APPROVE_ALL: 1, // 仅审批一次，后续重复的审批节点均自动通过
   APPROVE_SEQUENCE: 2, // 仅针对连续审批的节点自动通过
 }
+
+/**
+ * BPM 流程实例状态
+ */
+export const BpmProcessInstanceStatusOptions = [
+  {
+    label: '审批中',
+    value: 1
+  },
+  {
+    label: '审批通过',
+    value: 2
+  },
+  {
+    label: '审批不通过',
+    value: 3
+  },
+  {
+    label: '已取消',
+    value: 4
+  }
+]
