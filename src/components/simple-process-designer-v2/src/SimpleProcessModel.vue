@@ -1,54 +1,54 @@
 <template>
   <div class="simple-process-model-container position-relative">
     <div class="position-absolute top-0px right-0px bg-#fff">
-      <el-row type="flex" justify="end">
-        <el-button-group key="scale-control" size="default">
-          <el-button v-if="!readonly" size="default" @click="exportJson">
-            <Icon icon="ep:download" /> 导出
-          </el-button>
-          <el-button v-if="!readonly" size="default" @click="importJson">
-            <Icon icon="ep:upload" />导入
-          </el-button>
-          <!-- 用于打开本地文件-->
-          <input
-            v-if="!readonly"
-            type="file"
-            id="files"
-            ref="refFile"
-            style="display: none"
-            accept=".json"
-            @change="importLocalFile"
-          />
-          <el-button size="default" :icon="ScaleToOriginal" @click="processReZoom()" />
-          <el-button size="default" :plain="true" :icon="ZoomOut" @click="zoomOut()" />
-          <el-button size="default" class="w-80px"> {{ scaleValue }}% </el-button>
-          <el-button size="default" :plain="true" :icon="ZoomIn" @click="zoomIn()" />
-        </el-button-group>
-      </el-row>
+<!--      <el-row type="flex" justify="end">-->
+<!--        <el-button-group key="scale-control" size="default">-->
+<!--          <el-button v-if="!readonly" size="default" @click="exportJson">-->
+<!--            <Icon icon="ep:download" /> 导出-->
+<!--          </el-button>-->
+<!--          <el-button v-if="!readonly" size="default" @click="importJson">-->
+<!--            <Icon icon="ep:upload" />导入-->
+<!--          </el-button>-->
+<!--          &lt;!&ndash; 用于打开本地文件&ndash;&gt;-->
+<!--          <input-->
+<!--            v-if="!readonly"-->
+<!--            type="file"-->
+<!--            id="files"-->
+<!--            ref="refFile"-->
+<!--            style="display: none"-->
+<!--            accept=".json"-->
+<!--            @change="importLocalFile"-->
+<!--          />-->
+<!--          <el-button size="default" :icon="ScaleToOriginal" @click="processReZoom()" />-->
+<!--          <el-button size="default" :plain="true" :icon="ZoomOut" @click="zoomOut()" />-->
+<!--          <el-button size="default" class="w-80px"> {{ scaleValue }}% </el-button>-->
+<!--          <el-button size="default" :plain="true" :icon="ZoomIn" @click="zoomIn()" />-->
+<!--        </el-button-group>-->
+<!--      </el-row>-->
     </div>
     <div class="simple-process-model" :style="`transform: scale(${scaleValue / 100});`">
-      <ProcessNodeTree v-if="processNodeTree" v-model:flow-node="processNodeTree" />
+<!--      <ProcessNodeTree v-if="processNodeTree" v-model:flow-node="processNodeTree" />-->
     </div>
   </div>
-  <Dialog v-model="errorDialogVisible" title="保存失败" width="400" :fullscreen="false">
-    <div class="mb-2">以下节点内容不完善，请修改后保存</div>
-    <div
-      class="mb-3 b-rounded-1 bg-gray-100 p-2 line-height-normal"
-      v-for="(item, index) in errorNodes"
-      :key="index"
-    >
-      {{ item.name }} : {{ NODE_DEFAULT_TEXT.get(item.type) }}
-    </div>
-    <template #footer>
-      <el-button type="primary" @click="errorDialogVisible = false">知道了</el-button>
-    </template>
-  </Dialog>
+<!--  <Dialog v-model="errorDialogVisible" title="保存失败" width="400" :fullscreen="false">-->
+<!--    <div class="mb-2">以下节点内容不完善，请修改后保存</div>-->
+<!--    <div-->
+<!--      class="mb-3 b-rounded-1 bg-gray-100 p-2 line-height-normal"-->
+<!--      v-for="(item, index) in errorNodes"-->
+<!--      :key="index"-->
+<!--    >-->
+<!--      {{ item.name }} : {{ NODE_DEFAULT_TEXT.get(item.type) }}-->
+<!--    </div>-->
+<!--    <template #footer>-->
+<!--      <el-button type="primary" @click="errorDialogVisible = false">知道了</el-button>-->
+<!--    </template>-->
+<!--  </Dialog>-->
 </template>
 
 <script setup lang="ts">
 import ProcessNodeTree from './ProcessNodeTree.vue'
 import { type SimpleFlowNode, NodeType, NODE_DEFAULT_TEXT } from './consts'
-import { useWatchNode } from './node'
+import { useWatchNode } from './nodeUtils.ts'
 import { ZoomOut, ZoomIn, ScaleToOriginal } from '@element-plus/icons-vue'
 import { isString } from '@/utils/is'
 import download from '@/utils/download'

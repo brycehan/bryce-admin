@@ -86,7 +86,7 @@ import {
   DelayTypeEnum,
   DELAY_TYPE
 } from '../consts'
-import { useWatchNode, useDrawer, useNodeName } from '../node'
+import { useWatchNode, useDrawer, useNodeName } from '../nodeUtils.ts'
 import { convertTimeUnit } from '../utils'
 defineOptions({
   name: 'DelayTimerNodeConfig'

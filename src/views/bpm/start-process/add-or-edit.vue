@@ -53,8 +53,9 @@ import processDefinitionApi from '@/api/bpm/processDefinitionApi'
 import { MyProcessViewer } from '@/components/bpmn-process-designer/package'
 import { decodeFields, setPreviewConfAndFields } from '@/utils/formCreate'
 import { useRouter } from 'vue-router'
-import { CandidateStrategy, FieldPermissionType, NodeId } from '@/components/simple-process-designer-v2/src/consts'
+// import { CandidateStrategy, FieldPermissionType, NodeId } from '@/components/simple-process-designer-v2/src/consts'
 import type { ApprovalNodeInfo } from '@/api/bpm/processInstance'
+import { CandidateStrategy, FieldPermissionType, NodeId } from '@/api/bpm/consts.ts'
 
 const props = defineProps<{
   processDefinition: any }>()

@@ -98,7 +98,7 @@
 </template>
 <script setup lang="ts">
 import { type SimpleFlowNode, NodeType, FieldPermissionType, START_USER_BUTTON_SETTING } from '../consts'
-import { useWatchNode, useDrawer, useNodeName, useFormFieldsPermission } from '../node'
+import { useWatchNode, useDrawer, useNodeName, useFormFieldsPermission } from '../nodeUtils.ts'
 import * as UserApi from '@/api/system/user'
 import { inject, ref, type Ref } from 'vue'
 defineOptions({

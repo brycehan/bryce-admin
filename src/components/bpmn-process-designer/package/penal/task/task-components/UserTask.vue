@@ -218,7 +218,7 @@ import * as PostApi from '@/api/system/post'
 import * as UserApi from '@/api/system/user'
 import * as UserGroupApi from '@/api/bpm/userGroupApi'
 import ProcessExpressionDialog from './ProcessExpressionDialog.vue'
-import { useFormFieldsPermission } from '@/components/simple-process-designer-v2/src/node'
+import { useFormFieldsPermission } from '@/components/simple-process-designer-v2/src/nodeUtils.ts'
 import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, toRaw, watch } from 'vue'
 import { StatusType } from '@/utils/constant'
 

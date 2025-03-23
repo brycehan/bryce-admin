@@ -49,7 +49,7 @@ import {
   COMPARISON_OPERATORS,
 } from '../consts'
 import { getDefaultConditionNodeName } from '../utils'
-import { useFormFieldsAndStartUser } from '../node'
+import { useFormFieldsAndStartUser } from '../nodeUtils.ts'
 import Condition from './components/Condition.vue'
 import { ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'

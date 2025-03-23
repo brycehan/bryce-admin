@@ -65,7 +65,7 @@
 <script setup lang="ts">
 import { Plus } from '@element-plus/icons-vue'
 import { type SimpleFlowNode, NodeType, ConditionType, type RouterSetting } from '../consts'
-import { useWatchNode, useDrawer, useNodeName } from '../node'
+import { useWatchNode, useDrawer, useNodeName } from '../nodeUtils.ts'
 import Condition from './components/Condition.vue'
 import { inject, ref, type Ref } from 'vue'
 import { ElMessage } from 'element-plus'

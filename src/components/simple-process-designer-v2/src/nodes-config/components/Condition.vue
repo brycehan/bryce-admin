@@ -141,7 +141,7 @@ import {
   DEFAULT_CONDITION_GROUP_VALUE
 } from '../../consts'
 import { BpmFormType } from '@/api/bpm/constant'
-import { useFormFieldsAndStartUser } from '../../node'
+import { useFormFieldsAndStartUser } from '../../nodeUtils.ts'
 import { computed, inject, reactive, ref, type Ref } from 'vue'
 
 const props = defineProps({

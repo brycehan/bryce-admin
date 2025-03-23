@@ -62,7 +62,7 @@
 <script setup lang="ts">
 import { inject, ref, type Ref } from 'vue'
 import { type SimpleFlowNode } from '../consts'
-import { useWatchNode, useTaskStatusClass } from '../node'
+import { useWatchNode, useTaskStatusClass } from '../nodeUtils.ts'
 import { dateFormatter, formatPast2 } from '@/utils/formatTime'
 defineOptions({
   name: 'EndEventNode'

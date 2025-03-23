@@ -263,7 +263,7 @@ import {
   useFormFieldsPermission,
   useNodeForm,
   type CopyTaskFormType
-} from '../node'
+} from '../nodeUtils.ts'
 import { defaultProps } from '@/utils/tree'
 defineOptions({
   name: 'CopyTaskNodeConfig'

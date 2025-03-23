@@ -55,7 +55,7 @@
 import { ref, inject} from 'vue'
 import { type SimpleFlowNode, NodeType, NODE_DEFAULT_TEXT } from '../consts'
 import NodeHandler from '../NodeHandler.vue'
-import { useNodeName2, useWatchNode, useTaskStatusClass } from '../node'
+import { useNodeName2, useWatchNode, useTaskStatusClass } from '../nodeUtils.ts'
 import RouterNodeConfig from '../nodes-config/RouterNodeConfig.vue'
 
 defineOptions({

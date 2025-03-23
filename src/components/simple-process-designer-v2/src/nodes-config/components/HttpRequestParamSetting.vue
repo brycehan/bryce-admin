@@ -142,7 +142,7 @@
 </template>
 <script setup lang="ts">
 import { type HttpRequestParam, BPM_HTTP_REQUEST_PARAM_TYPES, BpmHttpRequestParamTypeEnum } from '../../consts'
-import { useFormFieldsAndStartUser } from '../../node'
+import { useFormFieldsAndStartUser } from '../../nodeUtils.ts'
 defineOptions({
   name: 'HttpRequestParamSetting'
 })

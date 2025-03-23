@@ -192,7 +192,7 @@
 </template>
 <script setup lang="ts">
 import { type SimpleFlowNode, NodeType, type TriggerSetting, TRIGGER_TYPES, TriggerTypeEnum } from '../consts'
-import { useWatchNode, useDrawer, useNodeName, useFormFields } from '../node'
+import { useWatchNode, useDrawer, useNodeName, useFormFields } from '../nodeUtils.ts'
 import HttpRequestParamSetting from './components/HttpRequestParamSetting.vue'
 import { computed, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'

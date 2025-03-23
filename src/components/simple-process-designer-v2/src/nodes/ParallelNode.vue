@@ -84,7 +84,7 @@ import { ref, inject, getCurrentInstance, watch } from 'vue'
 import NodeHandler from '../NodeHandler.vue'
 import ProcessNodeTree from '../ProcessNodeTree.vue'
 import { type SimpleFlowNode, NodeType, NODE_DEFAULT_TEXT } from '../consts'
-import { useTaskStatusClass } from '../node'
+import { useTaskStatusClass } from '../nodeUtils.ts'
 import { v4 as uuidv4 } from 'uuid'
 
 const { proxy } = getCurrentInstance() as any

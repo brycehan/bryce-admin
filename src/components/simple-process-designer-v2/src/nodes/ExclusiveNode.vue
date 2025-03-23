@@ -111,7 +111,7 @@ import NodeHandler from '../NodeHandler.vue'
 import ProcessNodeTree from '../ProcessNodeTree.vue'
 import { type SimpleFlowNode, NodeType, ConditionType, DEFAULT_CONDITION_GROUP_VALUE, NODE_DEFAULT_TEXT } from '../consts'
 import { getDefaultConditionNodeName } from '../utils'
-import { useTaskStatusClass } from '../node'
+import { useTaskStatusClass } from '../nodeUtils.ts'
 import ConditionNodeConfig from '../nodes-config/ConditionNodeConfig.vue'
 import { v4 as uuidv4 } from 'uuid'
 

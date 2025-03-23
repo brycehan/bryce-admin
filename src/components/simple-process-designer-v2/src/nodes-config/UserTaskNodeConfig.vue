@@ -496,7 +496,7 @@ import {
   useNodeForm,
   type UserTaskFormType,
   useDrawer
-} from '../node'
+} from '../nodeUtils.ts'
 import { defaultProps } from '@/utils/tree'
 import { cloneDeep } from 'lodash-es'
 import { convertTimeUnit, getApproveTypeText } from '../utils'

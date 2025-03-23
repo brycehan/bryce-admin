@@ -191,7 +191,7 @@ import {
   type ButtonSetting
 } from '@/components/simple-process-designer-v2/src/consts'
 import * as UserApi from '@/api/system/user'
-import { useFormFieldsPermission } from '@/components/simple-process-designer-v2/src/node'
+import { useFormFieldsPermission } from '@/components/simple-process-designer-v2/src/nodeUtils.ts'
 
 defineOptions({ name: 'ElementCustomConfig4UserTask' })
 const props = defineProps({

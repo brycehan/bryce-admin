@@ -4,8 +4,9 @@
 
 <script setup lang="ts">
 import { onMounted, provide, reactive, ref, watch } from 'vue'
-import { useWatchNode } from './node'
+import { useWatchNode } from './nodeUtils.ts'
 import { type SimpleFlowNode } from './consts'
+import SimpleProcessModel from '@/components/simple-process-designer-v2/src/SimpleProcessModel.vue'
 
 defineOptions({
   name: 'SimpleProcessViewer'
@@ -46,4 +47,3 @@ watch(
 provide('tasks', approveTasks)
 provide('processInstance', currentProcessInstance)
 </script>
-p

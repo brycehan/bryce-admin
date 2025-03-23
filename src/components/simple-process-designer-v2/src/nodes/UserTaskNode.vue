@@ -112,7 +112,7 @@
 <script setup lang="ts">
 import { ref, inject, type Ref, computed } from 'vue'
 import { type SimpleFlowNode, NodeType, NODE_DEFAULT_TEXT } from '../consts'
-import { useWatchNode, useNodeName2, useTaskStatusClass } from '../node'
+import { useWatchNode, useNodeName2, useTaskStatusClass } from '../nodeUtils.ts'
 import NodeHandler from '../NodeHandler.vue'
 import UserTaskNodeConfig from '../nodes-config/UserTaskNodeConfig.vue'
 import { dateFormatter, formatPast2 } from '@/utils/formatTime'

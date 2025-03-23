@@ -57,7 +57,7 @@
 import { ref, inject, computed } from 'vue'
 import { type SimpleFlowNode, NodeType, NODE_DEFAULT_TEXT } from '../consts'
 import NodeHandler from '../NodeHandler.vue'
-import { useNodeName2, useWatchNode, useTaskStatusClass } from '../node'
+import { useNodeName2, useWatchNode, useTaskStatusClass } from '../nodeUtils.ts'
 import CopyTaskNodeConfig from '../nodes-config/CopyTaskNodeConfig.vue'
 defineOptions({
   name: 'CopyTaskNode'
