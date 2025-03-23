@@ -9,7 +9,6 @@
 </template>
 <script lang="ts" setup>
 import { TaskStatusEnum } from '@/api/bpm/task'
-// import { type SimpleFlowNode, NodeType } from '@/components/simple-process-designer-v2/src/consts'
 import { type SimpleFlowNode, NodeType } from '@/api/bpm/consts'
 // import { SimpleProcessViewer } from '@/components/simple-process-designer-v2/src/'
 import { ref, watch } from 'vue'
