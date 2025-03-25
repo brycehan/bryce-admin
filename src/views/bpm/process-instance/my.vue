@@ -1,21 +1,6 @@
 <template>
   <el-card shadow="never">
     <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" v-show="showSearch" @keyup.enter="getPage()" @submit.prevent>
-      <el-form-item label="发起人" prop="startUserId">
-        <el-select
-          v-model="state.queryForm.startUserId"
-          placeholder="请选择发起人"
-          clearable
-        >
-          <el-option
-            v-for="user in userList"
-            :key="user.id"
-            :label="user.nickname"
-            :value="user.id"
-          />
-        </el-select>
-      </el-form-item>
-
       <el-form-item label="流程名称" prop="name">
         <el-input v-model="state.queryForm.name" placeholder="请输入流程名称" clearable />
       </el-form-item>
@@ -83,8 +68,6 @@
       <el-table-column type="selection" header-align="center" align="center" width="50" />
       <el-table-column label="流程名称" prop="name" header-align="center" align="center" show-overflow-tooltip min-width="120" />
       <el-table-column label="流程分类" prop="categoryName" header-align="center" align="center" min-width="100" />
-      <el-table-column label="流程发起人" align="center" prop="startUser.nickname" width="120" />
-      <el-table-column label="发起部门" align="center" prop="startUser.deptName" width="120" />
       <el-table-column label="流程状态" header-align="center" align="center" min-width="120">
         <template #default="scope">
           <el-tag v-if="scope.row.status === BpmProcessInstanceStatus.RUNNING" type="primary">审批中</el-tag>
@@ -176,7 +159,7 @@ import { StatusType } from '@/utils/constant.ts'
 
 const state: StateOptions = reactive({
   api: {
-    postPageApi: processInstanceApi.postProcessInstanceManagerPage,
+    postPageApi: processInstanceApi.postProcessInstanceMyPage,
   },
   queryForm: {
     id: '',

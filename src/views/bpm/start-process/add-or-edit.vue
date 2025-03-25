@@ -1,34 +1,57 @@
 <template>
   <el-dialog
     v-model="state.visible"
+    modal-class="modal-dialog-full !my-0"
+    footer-class="flex"
+    :modal="false"
     :title="processDefinition.name"
     :close-on-click-modal="false"
   >
-    <template #title>
-      <div class="flex items-center gap-1">
-        <span> {{ processDefinition.name }}</span>
-        <SvgIcon
-          icon="icon-Partition"
-          class-name="text-sky-700 cursor-pointer"
-          size="20"
-          @click="handleBpmnDetail(processDefinition)" />
-      </div>
-    </template>
-    <el-row v-if="!state.dataForm.id">
-      <el-col :span="24">
-        <form-create
-          :rule="detailForm.rule"
-          v-model:api="fApi"
-          v-model="detailForm.value"
-          :option="detailForm.option"
-          @submit="handleSubmit"
-        />
-      </el-col>
-    </el-row>
-    <!-- 弹窗，流程图 -->
-    <el-dialog title="流程图" v-model="bpmnDetailPreview.visible" width="60%">
-      <my-process-viewer style="height: 600px" key="designer" :xml="bpmnDetailPreview.bpmnXml" />
-    </el-dialog>
+    <!-- 中间主要内容 tab 栏 -->
+    <el-tabs v-model="activeTab">
+      <!-- 表单信息 -->
+      <el-tab-pane label="表单填写" name="form">
+        <div class="form-scroll-area" v-loading="processInstanceStartLoading">
+          <el-scrollbar>
+            <el-row v-if="!state.dataForm.id">
+              <el-col :span="17">
+                <form-create
+                  :rule="detailForm.rule"
+                  v-model:api="fApi"
+                  v-model="detailForm.value"
+                  :option="detailForm.option"
+                  @submit="handleSubmit"
+                />
+              </el-col>
+              <el-col :span="6" :offset="1">
+                <!-- 流程时间线 -->
+                <ProcessInstanceTimeline
+                  ref="timelineRef"
+                  :activity-nodes="activityNodes"
+                  :show-status-icon="false"
+                  @select-user-confirm="selectUserConfirm"
+                />
+              </el-col>
+            </el-row>
+          </el-scrollbar>
+        </div>
+      </el-tab-pane>
+      <!-- 流程图 -->
+      <el-tab-pane label="流程图" name="diagram">
+        <div class="form-scroll-area">
+          <!-- BPMN 流程图预览 -->
+          <ProcessInstanceBpmnViewer
+            :bpmn-xml="bpmnDetailPreview.bpmnXml"
+            v-if="BpmModelType.BPMN === modelType"
+          />
+          <!-- Simple 流程图预览 -->
+<!--          <ProcessInstanceSimpleViewer-->
+<!--            :simple-json="simpleJson"-->
+<!--            v-if="BpmModelType.SIMPLE === modelType"-->
+<!--          />-->
+        </div>
+      </el-tab-pane>
+    </el-tabs>
     <template #footer>
       <el-button type="primary" @click="handleSubmit">发起</el-button>
       <el-button @click="state.visible = false">取消</el-button>
@@ -48,14 +71,16 @@ import * as ProcessInstanceApi from '@/api/bpm/processInstance'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { ElMessage } from 'element-plus'
-import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 import processDefinitionApi from '@/api/bpm/processDefinitionApi'
 import { MyProcessViewer } from '@/components/bpmn-process-designer/package'
+import ProcessInstanceBpmnViewer from '@/views/bpm/process-instance/detail/ProcessInstanceBpmnViewer.vue'
 import { decodeFields, setPreviewConfAndFields } from '@/utils/formCreate'
 import { useRouter } from 'vue-router'
 // import { CandidateStrategy, FieldPermissionType, NodeId } from '@/components/simple-process-designer-v2/src/consts'
 import type { ApprovalNodeInfo } from '@/api/bpm/processInstance'
 import { CandidateStrategy, FieldPermissionType, NodeId } from '@/api/bpm/consts.ts'
+import ProcessInstanceTimeline from '@/views/bpm/process-instance/detail/ProcessInstanceTimeline.vue'
+import { BpmModelType } from '@/api/bpm/constant.ts'
 
 const props = defineProps<{
   processDefinition: any }>()
@@ -72,7 +97,8 @@ const state: StateOptions = reactive({
   }
 })
 
-const dataFormRef = ref()
+const activeTab = ref('form') // 当前的 Tab
+const modelType = ref()
 // 流程实例发起中
 const processInstanceStartLoading = ref(false)
 // 流程表单详情
@@ -96,7 +122,6 @@ const activityNodes = ref<any[]>([])
 
 // 流程图预览
 const bpmnDetailPreview = ref({
-  visible: false,
   bpmnXml: '',
 })
 
@@ -116,6 +141,7 @@ const init = async (row: any, formVariables?: any) => {
   startUserSelectTasks.value = []
   startUserSelectAssignees.value = {}
 
+  modelType.value = row.modelType
   // 情况一：流程表单
   if (row.formType == 0) {
     // 设置表单
@@ -147,6 +173,8 @@ const init = async (row: any, formVariables?: any) => {
     await router.push({ path: row.formCustomCreatePath })
     // 这里暂时无需加载流程图，因为跳出到另外个 Tab；
   }
+
+  handleBpmnDetail(row)
 }
 
 /**
@@ -256,10 +284,7 @@ const selectUserConfirm = (id: string, userList: any[]) => {
  * @param row 当前行数据
  */
 const handleBpmnDetail = (row: any) => {
-  // 详情弹窗显示
-  bpmnDetailPreview.value.visible = true
   // 获取流程图
-  bpmnDetailPreview.value.bpmnXml = ''
   processDefinitionApi.getById(row.id).then((res) => {
     bpmnDetailPreview.value.bpmnXml = res.data.bpmnXml
   })
@@ -269,3 +294,23 @@ defineExpose({
   init
 })
 </script>
+
+<style lang="scss" scoped>
+$wrap-margin-height: 20px;
+$process-header-height: 110px;
+$process-footer-height: 64px;
+
+.form-scroll-area {
+  height: calc(100vh - var(--theme-header-height) - var(--theme-main-tabs-height)
+    - $process-header-height - $process-footer-height - $wrap-margin-height);
+  max-height: calc(100vh - var(--theme-header-height) - var(--theme-main-tabs-height)
+    - $process-header-height - $process-footer-height - $wrap-margin-height);
+  overflow: hidden;
+}
+::v-deep(.modal-dialog-full-margin) {
+  margin-top: 0 !important;
+}
+.modal-dialog-full-margin {
+  margin-top: 0 !important;
+}
+</style>

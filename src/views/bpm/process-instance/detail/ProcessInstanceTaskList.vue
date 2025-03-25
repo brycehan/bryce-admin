@@ -10,7 +10,7 @@
     <el-table-column :formatter="dateFormatter" align="center" label="结束时间" prop="endTime" min-width="140" />
     <el-table-column align="center" label="审批状态" prop="status" min-width="90">
       <template #default="scope">
-        <el-tag :type="getBpmTaskStatusOption(scope.row.status).type">{{ getBpmTaskStatusOption(scope.row.status).label }}</el-tag>
+        <el-tag :type="BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.type">{{ BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.label }}</el-tag>
       </template>
     </el-table-column>
     <el-table-column align="center" label="审批建议" prop="reason" min-width="200">
@@ -37,8 +37,9 @@
 import { dateFormatter, formatPast2 } from '@/utils/formatTime'
 import { setPreviewConfAndFields } from '@/utils/formCreate'
 import * as TaskApi from '@/api/bpm/task'
-import { computed, nextTick, ref, watch } from 'vue'
-import taskApi from '@/api/bpm/task'
+import { nextTick, onMounted, ref } from 'vue'
+import { BpmTaskStatusOptions } from '@/api/bpm/task'
+import FormCreate from '@form-create/element-ui'
 
 defineOptions({ name: 'BpmProcessInstanceTaskList' })
 
@@ -68,20 +69,9 @@ const handleFormDetail = async (row: any) => {
   fApi.value?.fapi?.disabled(true)
 }
 
-/**
- * 获取审批状态
- */
-const getBpmTaskStatusOption: any = computed((value) => {
-  return taskApi.BpmTaskStatusOptions.filter((item) => item.value === value)[0]
+onMounted(() => {
+  TaskApi.getTaskListByProcessInstanceId(props.id as any).then((res) => {
+    tasks.value = res.data
+  })
 })
-
-/** 只有 loading 完成时，才去加载流程列表 */
-watch(
-  () => props.loading,
-  async (value) => {
-    if (value) {
-      tasks.value = await TaskApi.getTaskListByProcessInstanceId(props.id as any).then((res) => res.data)
-    }
-  }
-)
 </script>

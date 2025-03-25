@@ -161,3 +161,26 @@
 .el-input__inner, .el-select__placeholder > span{
   font-size: 1rem;
 }
+
+// 弹窗 main 区域全屏样式
+.modal-dialog-full {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  margin: 10px;
+
+  .el-overlay-dialog {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+
+    .el-dialog {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+    }
+  }
+}

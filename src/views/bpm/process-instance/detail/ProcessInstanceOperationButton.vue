@@ -11,8 +11,8 @@
       v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.APPROVE)"
     >
       <template #reference>
-        <el-button plain type="success" @click="openPopover('approve')">
-          <Icon icon="ep:select" />&nbsp; {{ getButtonDisplayName(OperationButtonType.APPROVE) }}
+        <el-button plain type="success" icon="select" @click="openPopover('approve')">
+          {{ getButtonDisplayName(OperationButtonType.APPROVE) }}
         </el-button>
       </template>
       <!-- 审批表单 -->
@@ -81,8 +81,8 @@
       v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.REJECT)"
     >
       <template #reference>
-        <el-button class="mr-20px" plain type="danger" @click="openPopover('reject')">
-          <Icon icon="ep:close" />&nbsp; {{ getButtonDisplayName(OperationButtonType.REJECT) }}
+        <el-button class="mr-20px" type="danger" icon="close" plain @click="openPopover('reject')">
+          {{ getButtonDisplayName(OperationButtonType.REJECT) }}
         </el-button>
       </template>
       <!-- 审批表单 -->
@@ -127,7 +127,7 @@
     >
       <template #reference>
         <div @click="openPopover('copy')" class="hover-bg-gray-100 rounded-xl p-6px">
-          <Icon :size="14" icon="svg-icon:send" />&nbsp;
+          <svg-icon icon="icon-file-copy" class="pr-1"/>
           {{ getButtonDisplayName(OperationButtonType.COPY) }}
         </div>
       </template>
@@ -185,7 +185,7 @@
     >
       <template #reference>
         <div @click="openPopover('transfer')" class="hover-bg-gray-100 rounded-xl p-6px">
-          <Icon :size="14" icon="fa:share-square-o" />&nbsp;
+          <svg-icon icon="icon-arrowright" class="pr-1"/>
           {{ getButtonDisplayName(OperationButtonType.TRANSFER) }}
         </div>
       </template>
@@ -237,7 +237,7 @@
     >
       <template #reference>
         <div @click="openPopover('delegate')" class="hover-bg-gray-100 rounded-xl p-6px">
-          <Icon :size="14" icon="ep:position" />&nbsp;
+          <svg-icon icon="icon-send" class="pr-1"/>
           {{ getButtonDisplayName(OperationButtonType.DELEGATE) }}
         </div>
       </template>
@@ -289,7 +289,7 @@
     >
       <template #reference>
         <div @click="openPopover('addSign')" class="hover-bg-gray-100 rounded-xl p-6px">
-          <Icon :size="14" icon="ep:plus" />&nbsp;
+          <svg-icon icon="icon-plus" class="pr-1" />
           {{ getButtonDisplayName(OperationButtonType.ADD_SIGN) }}
         </div>
       </template>
@@ -344,7 +344,7 @@
     >
       <template #reference>
         <div @click="openPopover('deleteSign')" class="hover-bg-gray-100 rounded-xl p-6px">
-          <Icon :size="14" icon="ep:semi-select" />&nbsp; 减签
+          <svg-icon icon="icon-minus" class="pr-1" />减签
         </div>
       </template>
       <div class="flex flex-col flex-1 pt-20px px-20px" v-loading="formLoading">
@@ -395,7 +395,7 @@
     >
       <template #reference>
         <div @click="openPopover('return')" class="hover-bg-gray-100 rounded-xl p-6px">
-          <Icon :size="14" icon="ep:back" />&nbsp;
+          <svg-icon icon="icon-arrowleft" class="pr-1" />
           {{ getButtonDisplayName(OperationButtonType.RETURN) }}
         </div>
       </template>
@@ -449,7 +449,7 @@
     >
       <template #reference>
         <div @click="openPopover('cancel')" class="hover-bg-gray-100 rounded-xl p-6px">
-          <Icon :size="14" icon="fa:mail-reply" />&nbsp; 取消
+          <svg-icon icon="icon-rollback" class="pl-1" />取消
         </div>
       </template>
       <div class="flex flex-col flex-1 pt-20px px-20px" v-loading="formLoading">
@@ -490,7 +490,7 @@
         processDefinition?.formType === 10
       "
     >
-      <Icon :size="14" icon="ep:refresh" />&nbsp; 再次提交
+      <el-icon><Refresh /></el-icon> 再次提交
     </div>
   </div>
 

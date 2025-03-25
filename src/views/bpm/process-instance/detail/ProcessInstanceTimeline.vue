@@ -9,22 +9,7 @@
       :icon="getApprovalNodeIcon(activity.status, activity.nodeType)"
       :color="getApprovalNodeColor(activity.status)"
     >
-      <template #dot>
-        <div
-          class="position-absolute left--10px top--6px rounded-full border border-solid border-#dedede w-30px h-30px flex justify-center items-center bg-#3f73f7 p-5px"
-        >
-          <img class="w-full h-full" :src="getApprovalNodeImg(activity.nodeType)" alt="" />
-          <div
-            v-if="showStatusIcon"
-            class="position-absolute top-17px left-17px rounded-full flex items-center p-1px border-2 border-white border-solid"
-            :style="{ backgroundColor: getApprovalNodeColor(activity.status) }"
-          >
-            <el-icon :size="11" color="#fff">
-              <component :is="getApprovalNodeIcon(activity.status, activity.nodeType)" />
-            </el-icon>
-          </div>
-        </div>
-      </template>
+
       <div class="flex flex-col items-start gap2" :id="`activity-task-${activity.id}-${index}`">
         <!-- 第一行：节点名称、时间 -->
         <div class="flex w-full">
@@ -50,16 +35,16 @@
 
           <el-tooltip content="添加用户" placement="left">
             <el-button
-              class="!px-6px"
+              class="!px-[6px]"
               @click="handleSelectUser(activity.id, customApproveUsers[activity.id])"
             >
-              <img class="w-18px text-#ccc" src="@/assets/svgs/bpm/add-user.svg" alt="" />
+              <img class="w-[18px] text-[#ccc]" src="@/assets/svgs/bpm/add-user.svg" alt="" />
             </el-button>
           </el-tooltip>
           <div
             v-for="(user, idx1) in customApproveUsers[activity.id]"
             :key="idx1"
-            class="bg-gray-100 h-35px rounded-3xl flex items-center pr-8px dark:color-gray-600 position-relative"
+            class="bg-gray-100 h-[35px] rounded-3xl flex items-center pr-[8px] dark:color-gray-600 position-relative"
           >
             <el-avatar class="!m-5px" :size="28" v-if="user.avatar" :src="user.avatar" />
             <el-avatar class="!m-5px" :size="28" v-else>
@@ -180,6 +165,21 @@ import conditionSvg from '@/assets/svgs/bpm/condition.svg'
 import parallelSvg from '@/assets/svgs/bpm/parallel.svg'
 import finishSvg from '@/assets/svgs/bpm/finish.svg'
 import { ref } from 'vue'
+
+const activities = [
+  {
+    content: 'Event start',
+    timestamp: '2018-04-15',
+  },
+  {
+    content: 'Approved',
+    timestamp: '2018-04-13',
+  },
+  {
+    content: 'Success',
+    timestamp: '2018-04-11',
+  },
+]
 
 defineOptions({ name: 'BpmProcessInstanceTimeline' })
 withDefaults(

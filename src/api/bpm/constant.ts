@@ -74,18 +74,22 @@ export const BpmAutoApproveType = {
 export const BpmProcessInstanceStatusOptions = [
   {
     label: '审批中',
-    value: 1
+    value: 1,
+    type: 'primary'
   },
   {
     label: '审批通过',
-    value: 2
+    value: 2,
+    type: 'success'
   },
   {
     label: '审批不通过',
-    value: 3
+    value: 3,
+    type: 'danger'
   },
   {
     label: '已取消',
-    value: 4
+    value: 4,
+    type: 'warning'
   }
 ]

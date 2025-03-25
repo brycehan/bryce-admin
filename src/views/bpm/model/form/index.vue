@@ -1,17 +1,18 @@
 <template>
   <el-dialog
     v-model="state.visible"
+    modal-class="modal-dialog-full"
+    :modal="false"
     :title="!state.dataForm.id ? '新增流程' : '修改流程'"
     :close-on-click-modal="false"
-    fullscreen
   >
     <!-- 头部导航栏 -->
     <template #header>
       <el-row>
         <!-- 左侧标题 -->
-        <el-col :span="7" class="title-box">{{ !state.dataForm.id ? '新增流程' : '修改流程' + ' - ' + state.dataForm.name }}</el-col>
+        <el-col :span="6" class="title-box">{{ !state.dataForm.id ? '新增流程' : '修改流程' + ' - ' + state.dataForm.name }}</el-col>
         <!-- 步骤条 -->
-        <el-col :span="10">
+        <el-col :span="12">
           <el-steps :active="active" finish-status="success" simple align-center>
             <el-step>
               <template #icon>1</template>
@@ -32,7 +33,7 @@
           </el-steps>
         </el-col>
         <!-- 右侧按钮 -->
-        <el-col :span="7" class="el-container">
+        <el-col :span="6" class="el-container">
           <el-button type="primary" @click="handleSave()">保存</el-button>
           <el-button :type="active <= 0 ? '' : 'primary'" :disabled="active <= 0" @click="handlePrev()">上一步</el-button>
           <el-button :type="active >= 3 ? '' : 'primary'" :disabled="active >= 3"  @click="handleNext()">下一步</el-button>
