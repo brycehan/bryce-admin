@@ -89,16 +89,16 @@ export const BpmTaskStatusOptions = [
   }
 ]
 
-export const getTaskTodoPage = async (params: any) => {
-  return await request.get('/bpm/task/todo-page', params)
+export const postTaskTodoPage = (params: any) => {
+  return request.get('/bpm/task/todo-page', { params: params})
 }
 
-export const getTaskDonePage = async (params: any) => {
-  return await request.get('/bpm/task/done-page', params)
+export const postTaskDonePage = async (data: any) => {
+  return await request.get('/bpm/task/done-page', { params: data})
 }
 
-export const getTaskManagerPage = async (params: any) => {
-  return await request.get('/bpm/task/manager-page', params)
+export const postTaskManagerPage = async (data: any) => {
+  return await request.post('/bpm/task/manager-page', data)
 }
 
 export const approveTask = async (data: any) => {
@@ -160,9 +160,9 @@ export const getChildrenTaskList = async (id: string) => {
 
 export default {
   BpmTaskStatusOptions,
-  getTaskTodoPage,
-  getTaskDonePage,
-  getTaskManagerPage,
+  postTaskTodoPage,
+  postTaskDonePage,
+  postTaskManagerPage,
   approveTask,
   rejectTask,
   getTaskListByProcessInstanceId,

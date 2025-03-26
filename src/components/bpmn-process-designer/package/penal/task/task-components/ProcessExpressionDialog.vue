@@ -8,7 +8,7 @@
   >
     <el-card shadow="never">
       <el-table v-loading="loading" :data="list" :stripe="true" :show-overflow-tooltip="true">
-        <el-table-column label="名字" align="center" prop="name" />
+        <el-table-column label="名称" align="center" prop="name" />
         <el-table-column label="表达式" align="center" prop="expression" />
         <el-table-column label="操作" align="center">
           <template #default="scope">
@@ -28,7 +28,7 @@
 </template>
 <script setup lang="ts">
 import { StatusType } from '@/utils/constant'
-import { ProcessExpressionApi } from '@/api/bpm/processExpression'
+import ProcessExpressionApi from '@/api/bpm/processExpression'
 import { reactive, ref } from 'vue'
 
 /** BPM 流程 表单 */

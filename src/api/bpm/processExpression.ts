@@ -1,42 +1,48 @@
 import request from '@/utils/request'
-import download from '@/utils/download'
-// BPM 流程表达式 Vo
-export interface ProcessExpressionVo {
-  id: number // 编号
-  name: string // 表达式名字
-  status: number // 表达式状态
-  expression: string // 表达式
+
+/**
+ * 保存流程表达式
+ *
+ * @param data 参数
+ */
+export const saveOrUpdateApi = (data: any) => {
+  if (data.id) {
+    return request.put('/bpm/processExpression', data)
+  } else {
+    return request.post('/bpm/processExpression', data)
+  }
 }
 
-// BPM 流程表达式 API
-export const ProcessExpressionApi = {
-  // 查询BPM 流程表达式分页
-  getProcessExpressionPage: async (params: any) => {
-    return await request.get(`/bpm/process-expression/page`, params)
-  },
+/**
+ * 删除流程表达式
+ *
+ * @param ids ID数组
+ */
+export const deleteByIdsApi = (ids: string[]) => {
+  return request.delete('/bpm/processExpression', { data: { ids } })
+}
 
-  // 查询BPM 流程表达式详情
-  getProcessExpression: async (id: number) => {
-    return await request.get(`/bpm/process-expression/get?id=` + id)
-  },
+/**
+ * 查询流程表达式详情
+ *
+ * @param id ID
+ */
+export const getByIdApi = (id: string) => {
+  return request.get(`/bpm/processExpression/${id}`)
+}
 
-  // 新增BPM 流程表达式
-  createProcessExpression: async (data: any) => {
-    return await request.post(`/bpm/process-expression/save`, data)
-  },
+/**
+ * 流程表达式分页查询
+ *
+ * @param data 分页参数
+ */
+export const postPageApi = (data: any) => {
+  return request.post('/bpm/processExpression/page', data)
+}
 
-  // 修改BPM 流程表达式
-  updateProcessExpression: async (data: any) => {
-    return await request.put(`/bpm/process-expression/update`, data)
-  },
-
-  // 删除BPM 流程表达式
-  deleteProcessExpression: async (id: number) => {
-    return await request.delete(`/bpm/process-expression/delete?id=` + id)
-  },
-
-  // 导出BPM 流程表达式 Excel
-  exportProcessExpression: async (params: any) => {
-    return await download.post(`/bpm/process-expression/export-excel`, params)
-  }
+export default {
+  saveOrUpdateApi,
+  deleteByIdsApi,
+  getByIdApi,
+  postPageApi
 }

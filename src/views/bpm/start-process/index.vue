@@ -35,7 +35,7 @@
 import { nextTick, onMounted, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import CategoryTree from '@/views/bpm/start-process/category-tree.vue'
-import processDefinitionApi from '@/api/bpm/processDefinitionApi'
+import processDefinitionApi from '@/api/bpm/processDefinition.ts'
 import emptyImg from '@/assets/images/empty.png'
 import _ from 'lodash'
 import SvgIcon from '@/components/svg-icon/svg-icon.vue'

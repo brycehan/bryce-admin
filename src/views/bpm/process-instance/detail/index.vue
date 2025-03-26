@@ -330,12 +330,15 @@ const userOptions = ref<any[]>([]) // 用户列表
 /**
  * 初始化
  *
- * @param row 行数据
+ * @param processInstanceId 流程实例的编号
+ * @param activityId 流程活动编号
+ * @param taskId 任务编号
  */
-const init = (row: any) => {
+const init = (processInstanceId: string, activityId?: any, taskId?: any) => {
   // 显示
   visible.value = true
-  getDetail(row.id, null, null)
+  activeTab.value = 'form'
+  getDetail(processInstanceId, null, null)
 }
 
 defineExpose({
@@ -368,16 +371,6 @@ $process-header-height: 194px;
         $process-header-height - 120px);
     overflow: auto;
     flex-direction: column;
-
-    :deep(.box-card) {
-      //height: 100%;
-      //flex: 1;
-
-      .el-card__body {
-        //height: 100%;
-        //padding: 0;
-      }
-    }
   }
 }
 

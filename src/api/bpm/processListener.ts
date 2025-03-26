@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // BPM 流程监听器 Vo
 export interface BpmProcessListenerVo {
   id: number // 编号
-  name: string // 监听器名字
+  name: string // 监听器名称
   type: string // 监听器类型
   status: number // 监听器状态
   event: string // 监听事件
@@ -11,31 +11,49 @@ export interface BpmProcessListenerVo {
   value: string // 监听器值
 }
 
-// BPM 流程监听器 API
-export const ProcessListenerApi = {
-
-  // 查询流程监听器分页
-  getProcessListenerPage: async (params: any) => {
-    return await request.get('/bpm/processListener/page', { params })
-  },
-
-  // 查询流程监听器详情
-  getProcessListener: async (id: number) => {
-    return await request.get(`/bpm/processListener/get?id=` + id)
-  },
-
-  // 新增流程监听器
-  createProcessListener: async (data: any) => {
-    return await request.post('/bpm/processListener', data)
-  },
-
-  // 修改流程监听器
-  updateProcessListener: async (data: any) => {
-    return await request.put('/bpm/processListener', data)
-  },
-
-  // 删除流程监听器
-  deleteProcessListener: async (id: number) => {
-    return await request.delete(`/bpm/processListener/delete?id=` + id)
+/**
+ * 保存流程监听器
+ *
+ * @param data 参数
+ */
+export const saveOrUpdateApi = (data: any) => {
+  if (data.id) {
+    return request.put('/bpm/processListener', data)
+  } else {
+    return request.post('/bpm/processListener', data)
   }
+}
+
+/**
+ * 删除流程监听器
+ *
+ * @param ids ID数组
+ */
+export const deleteByIdsApi = (ids: string[]) => {
+  return request.delete('/bpm/processListener', { data: { ids } })
+}
+
+/**
+ * 查询流程监听器详情
+ *
+ * @param id ID
+ */
+export const getByIdApi = (id: string) => {
+  return request.get(`/bpm/processListener/${id}`)
+}
+
+/**
+ * 流程监听器分页查询
+ *
+ * @param data 分页参数
+ */
+export const postPageApi = (data: any) => {
+  return request.post('/bpm/processListener/page', data)
+}
+
+export default {
+  saveOrUpdateApi,
+  deleteByIdsApi,
+  getByIdApi,
+  postPageApi
 }

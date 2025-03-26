@@ -89,7 +89,7 @@
           />
           <el-table-column align="center" label="审批状态" prop="status" min-width="90">
             <template #default="scope">
-              <dict-tag :type="BpmTypeEnum.BPM_TASK_STATUS" :value="scope.row.status" />
+              <el-tag :type="BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.type">{{ BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.label }}</el-tag>
             </template>
           </el-table-column>
           <el-table-column
@@ -145,6 +145,7 @@ import { dateFormatter, formatPast2 } from '@/utils/formatTime'
 import { BpmProcessInstanceStatus } from '@/api/bpm/constant'
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { BpmTypeEnum } from '@/api/bpm/constant'
+import { BpmTaskStatusOptions } from '@/api/bpm/task.ts'
 
 const props = defineProps({
   xml: {

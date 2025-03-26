@@ -95,8 +95,7 @@
         />
         <el-table-column align="center" label="审批状态" prop="status" min-width="90">
           <template #default="scope">
-<!--            <dict-tag :type="DICT_TYPE.BPM_TASK_STATUS" :value="scope.row.status" />-->
-            <el-tag :type="getBpmTaskStatusOption(scope.row.status).type">{{ getBpmTaskStatusOption(scope.row.status).label }}</el-tag>
+            <el-tag :type="BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.type">{{ BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.label }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column align="center" label="审批建议" prop="reason" min-width="120" />
@@ -116,7 +115,7 @@ import { useWatchNode, useNodeName2, useTaskStatusClass } from '../nodeUtils.ts'
 import NodeHandler from '../NodeHandler.vue'
 import UserTaskNodeConfig from '../nodes-config/UserTaskNodeConfig.vue'
 import { dateFormatter, formatPast2 } from '@/utils/formatTime'
-import taskApi from '@/api/bpm/task'
+import { BpmTaskStatusOptions } from '@/api/bpm/task'
 
 defineOptions({
   name: 'UserTaskNode'
@@ -133,7 +132,7 @@ const emits = defineEmits<{
 }>()
 
 // 是否只读
-const readonly = inject<Boolean>('readonly')
+const readonly = inject<boolean>('readonly')
 const tasks = inject<Ref<any[]>>('tasks', ref([]))
 // 监控节点变化
 const currentNode = useWatchNode(props)
@@ -168,13 +167,6 @@ const findReturnTaskNodes = (
   // 从父节点查找
   emits('find:parentNode', matchNodeList, NodeType.USER_TASK_NODE)
 }
-
-/**
- * 获取审批状态
- */
-const getBpmTaskStatusOption: any = computed((value: any) => {
-  return taskApi.BpmTaskStatusOptions.filter((item) => item.value === value)[0]
-})
 
 // 任务的弹窗显示，用于只读模式
 const dialogVisible = ref(false) // 弹窗可见性

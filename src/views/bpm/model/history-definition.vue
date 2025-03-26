@@ -71,7 +71,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import processDefinitionApi from '@/api/bpm/processDefinitionApi'
+import processDefinitionApi from '@/api/bpm/processDefinition.ts'
 import * as FormApi from '@/api/bpm/form'
 import { crud, type StateOptions } from '@/utils/state'
 import { MyProcessViewer } from '@/components/bpmn-process-designer/package'

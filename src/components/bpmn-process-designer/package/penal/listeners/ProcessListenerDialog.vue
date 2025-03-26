@@ -8,19 +8,16 @@
   >
     <el-card shadow="never">
       <el-table v-loading="loading" :data="list" :stripe="true" :show-overflow-tooltip="true">
-        <el-table-column label="名字" align="center" prop="name" />
+        <el-table-column label="名称" align="center" prop="name" />
         <el-table-column label="类型" align="center" prop="type">
           <template #default="scope">
-            <dict-tag :type="BpmTypeEnum.BPM_PROCESS_LISTENER_TYPE" :value="scope.row.type" />
+            <dict-tag dict-type="bpm_process_listener_type" :value="scope.row.type" />
           </template>
         </el-table-column>
         <el-table-column label="事件" align="center" prop="event" />
         <el-table-column label="值类型" align="center" prop="valueType">
           <template #default="scope">
-            <dict-tag
-              :type="BpmTypeEnum.BPM_PROCESS_LISTENER_VALUE_TYPE"
-              :value="scope.row.valueType"
-            />
+            <dict-tag dict-type="bpm_process_listener_value_type" :value="scope.row.valueType" />
           </template>
         </el-table-column>
         <el-table-column label="值" align="center" prop="value" />
@@ -44,7 +41,7 @@
   </el-dialog>
 </template>
 <script setup lang="ts">
-import { ProcessListenerApi, type BpmProcessListenerVo } from '@/api/bpm/processListener'
+import ProcessListenerApi, {type BpmProcessListenerVo } from '@/api/bpm/processListener'
 import { StatusType } from '@/utils/constant'
 import { BpmTypeEnum } from '@/api/bpm/constant'
 import { reactive, ref } from 'vue'
@@ -76,7 +73,7 @@ defineExpose({ open }) // 提供 open 方法，用于打开弹窗
 const getList = async () => {
   loading.value = true
   try {
-    const data : any = await ProcessListenerApi.getProcessListenerPage(queryParams)
+    const data : any = await ProcessListenerApi.postPageApi(queryParams)
     list.value = data.list
     total.value = data.total
   } finally {

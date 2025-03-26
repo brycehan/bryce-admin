@@ -253,7 +253,7 @@ const props = defineProps({
   value: String, // xml 字符串
   // valueWatch: true, // xml 字符串的 watch 状态
   processId: String, // 流程 key 标识
-  processName: String, // 流程 name 名字
+  processName: String, // 流程 name 名称
   formId: Number, // 流程 form 表单编号
   translations: {
     // 自定义的翻译文件
