@@ -51,6 +51,15 @@ export const postListApi = (data: any) => {
 }
 
 /**
+ * 查询系统用户简单列表
+ *
+ * @param data 参数
+ */
+export const getSimpleList = (data: any) => {
+  return request.get('/system/user/simple-list', { params: data })
+}
+
+/**
  * 更新系统用户状态
  *
  * @param id ID
@@ -175,6 +184,7 @@ export default {
   getByIdApi,
   postPageApi,
   postListApi,
+  getSimpleList,
   patchStatusApi,
   getCheckUsernameUniqueApi,
   getCheckPhoneUniqueApi,

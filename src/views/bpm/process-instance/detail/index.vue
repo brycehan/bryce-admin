@@ -115,7 +115,7 @@
             </el-tab-pane>
           </el-tabs>
 
-          <div class="b-t-solid border-t-1px border-[var(--el-border-color)] mt-[10px]">
+          <div class="b-t-solid border-t-[1px] border-[var(--el-border-color)] mt-[10px]">
             <!-- 操作栏按钮 -->
             <ProcessInstanceOperationButton
               ref="operationButtonRef"

@@ -1,6 +1,6 @@
 <!-- 审批详情的右侧：审批流 -->
 <template>
-  <el-timeline class="pt-20px">
+  <el-timeline class="pt-[20px]">
     <!-- 遍历每个审批节点 -->
     <el-timeline-item
       v-for="(activity, index) in activityNodes"
@@ -17,7 +17,7 @@
           <!-- 信息：时间 -->
           <div
             v-if="activity.status !== TaskStatusEnum.NOT_START"
-            class="text-#a5a5a5 text-13px mt-1 ml-auto"
+            class="text-[#a5a5a5] text-[13px] mt-1 ml-auto"
           >
             {{ getApprovalNodeTime(activity) }}
           </div>
@@ -46,8 +46,8 @@
             :key="idx1"
             class="bg-gray-100 h-[35px] rounded-3xl flex items-center pr-[8px] dark:color-gray-600 position-relative"
           >
-            <el-avatar class="!m-5px" :size="28" v-if="user.avatar" :src="user.avatar" />
-            <el-avatar class="!m-5px" :size="28" v-else>
+            <el-avatar class="!m-[5px]" :size="28" v-if="user.avatar" :src="user.avatar" />
+            <el-avatar class="!m-[5px]" :size="28" v-else>
               {{ user.nickname.substring(0, 1) }}
             </el-avatar>
             {{ user.nickname }}
@@ -62,28 +62,28 @@
             >
               <!-- 信息：头像昵称 -->
               <div
-                class="bg-gray-100 h-35px rounded-3xl flex items-center pr-8px dark:color-gray-600 position-relative"
+                class="bg-gray-100 h-[35px] rounded-3xl flex items-center pr-[8px] dark:color-gray-600 position-relative"
               >
                 <template v-if="task.assigneeUser?.avatar || task.assigneeUser?.nickname">
                   <el-avatar
-                    class="!m-5px"
+                    class="!m-[5px]"
                     :size="28"
                     v-if="task.assigneeUser?.avatar"
                     :src="task.assigneeUser?.avatar"
                   />
-                  <el-avatar class="!m-5px" :size="28" v-else>
+                  <el-avatar class="!m-[5px]" :size="28" v-else>
                     {{ task.assigneeUser?.nickname.substring(0, 1) }}
                   </el-avatar>
                   {{ task.assigneeUser?.nickname }}
                 </template>
                 <template v-else-if="task.ownerUser?.avatar || task.ownerUser?.nickname">
                   <el-avatar
-                    class="!m-5px"
+                    class="!m-[5px]"
                     :size="28"
                     v-if="task.ownerUser?.avatar"
                     :src="task.ownerUser?.avatar"
                   />
-                  <el-avatar class="!m-5px" :size="28" v-else>
+                  <el-avatar class="!m-[5px]" :size="28" v-else>
                     {{ task.ownerUser?.nickname.substring(0, 1) }}
                   </el-avatar>
                   {{ task.ownerUser?.nickname }}
@@ -91,7 +91,7 @@
                 <!-- 信息：任务 ICON -->
                 <div
                   v-if="showStatusIcon && onlyStatusIconShow.includes(task.status)"
-                  class="position-absolute top-19px left-23px rounded-full flex items-center p-1px border-2 border-white border-solid"
+                  class="position-absolute top-[19px] left-[23px] rounded-full flex items-center p-[1px] border-2 border-white border-solid"
                   :style="{ backgroundColor: statusIconMap2[task.status]?.color }"
                 >
                   <Icon :size="11" :icon="statusIconMap2[task.status]?.icon" color="#FFFFFF" />
@@ -104,17 +104,17 @@
                   task.reason &&
                   [NodeType.USER_TASK_NODE, NodeType.END_EVENT_NODE].includes(activity.nodeType)
                 "
-                class="text-#a5a5a5 text-13px mt-1 w-full bg-#f8f8fa p2 rounded-md"
+                class="text-[#a5a5a5] text-[13px] mt-1 w-full bg-#f8f8fa p2 rounded-md"
               >
                 审批意见：{{ task.reason }}
               </div>
               <div
                 v-if="task.signPicUrl && activity.nodeType === NodeType.USER_TASK_NODE"
-                class="text-#a5a5a5 text-13px mt-1 w-full bg-#f8f8fa p2 rounded-md"
+                class="text-[#a5a5a5] text-[13px] mt-1 w-full bg-#f8f8fa p2 rounded-md"
               >
                 签名：
                 <el-image
-                  class="w-90px h-40px ml-5px"
+                  class="w-[90px] h-[40px] ml-[5px]"
                   :src="task.signPicUrl"
                   :preview-src-list="[task.signPicUrl]"
                 />
@@ -125,10 +125,10 @@
           <div
             v-for="(user, idx1) in activity.candidateUsers"
             :key="idx1"
-            class="bg-gray-100 h-35px rounded-3xl flex items-center pr-8px dark:color-gray-600 position-relative"
+            class="bg-gray-100 h-[35px] rounded-3xl flex items-center pr-[8px] dark:color-gray-600 position-relative"
           >
-            <el-avatar class="!m-5px" :size="28" v-if="user.avatar" :src="user.avatar" />
-            <el-avatar class="!m-5px" :size="28" v-else>
+            <el-avatar class="!m-[5px]" :size="28" v-if="user.avatar" :src="user.avatar" />
+            <el-avatar class="!m-[5px]" :size="28" v-else>
               {{ user.nickname.substring(0, 1) }}
             </el-avatar>
             {{ user.nickname }}
@@ -136,7 +136,7 @@
             <!-- 信息：任务 ICON -->
             <div
               v-if="showStatusIcon"
-              class="position-absolute top-20px left-24px rounded-full flex items-center p-1px border-2 border-white border-solid"
+              class="position-absolute top-[20px] left-[24px] rounded-full flex items-center p-[1px] border-2 border-white border-solid"
               :style="{ backgroundColor: statusIconMap2['-1']?.color }"
             >
               <Icon :size="11" :icon="statusIconMap2['-1']?.icon" color="#FFFFFF" />

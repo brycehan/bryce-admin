@@ -3,13 +3,13 @@
     <div class="position-relative">
       <Vue3Signature class="b b-solid b-gray" ref="signature" w="900px" h="400px" />
       <el-button
-        class="pos-absolute bottom-20px right-10px"
+        class="pos-absolute bottom-[20px] right-[10px]"
         type="primary"
         text
         size="small"
         @click="signature.clear()"
       >
-        <Icon icon="ep:delete" class="mr-5px" />
+        <Icon icon="ep:delete" class="mr-[5px]" />
         清除
       </el-button>
     </div>

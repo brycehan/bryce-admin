@@ -1,5 +1,5 @@
 <template>
-  <el-form label-width="120px">
+  <el-form label-width="130px">
     <el-form-item label="规则类型" prop="candidateStrategy">
       <el-select
         v-model="userTaskForm.candidateStrategy"
@@ -156,10 +156,22 @@
         userTaskForm.candidateStrategy == CandidateStrategy.START_USER_MULTI_LEVEL_DEPT_LEADER ||
         userTaskForm.candidateStrategy == CandidateStrategy.FORM_DEPT_LEADER
       "
-      :label="deptLevelLabel!"
       prop="deptLevel"
       span="24"
     >
+      <template #label>
+        <div class="flex items-center">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="deptLevelLabel!"
+            placement="top"
+          >
+            <icon icon="ep:info-filled" />
+          </el-tooltip>
+          <span class="ml-0.5">部门负责人来源</span>
+        </div>
+      </template>
       <el-select v-model="deptLevel" clearable @change="updateElementTask">
         <el-option
           v-for="(item, index) in MULTI_LEVEL_DEPT"
@@ -182,7 +194,7 @@
         @change="updateElementTask"
       />
       <el-button
-        class="!w-1/1 mt-5px"
+        class="!w-1/1 mt-[5px]"
         type="success"
         icon="select"
         size="small"
@@ -221,6 +233,8 @@ import ProcessExpressionDialog from './ProcessExpressionDialog.vue'
 import { useFormFieldsPermission } from '@/components/simple-process-designer-v2/src/nodeUtils.ts'
 import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, toRaw, watch } from 'vue'
 import { StatusType } from '@/utils/constant'
+import { ElTreeSelect } from 'element-plus'
+import { Icon } from '@iconify/vue/offline'
 
 defineOptions({ name: 'UserTask' })
 const props = defineProps({
@@ -254,13 +268,13 @@ const deptFieldOnFormOptions = computed(() => {
 
 const deptLevel = ref(1)
 const deptLevelLabel = computed(() => {
-  let label = '部门负责人来源'
+  let label = '部门负责人来源，'
   if (userTaskForm.value.candidateStrategy == CandidateStrategy.MULTI_LEVEL_DEPT_LEADER) {
-    label = label + '(指定部门向上)'
+    label = label + '指定部门向上'
   } else if (userTaskForm.value.candidateStrategy == CandidateStrategy.FORM_DEPT_LEADER) {
-    label = label + '(表单内部门向上)'
+    label = label + '表单内部门向上'
   } else {
-    label = label + '(发起人部门向上)'
+    label = label + '发起人部门向上'
   }
   return label
 })
@@ -293,7 +307,7 @@ const resetTaskForm = () => {
         .split(',')
         .map((item: any) => {
           // 如果数字超出了最大安全整数范围，则将其作为字符串处理
-          let num = Number(item)
+          const num = Number(item)
           return num > Number.MAX_SAFE_INTEGER || num < -Number.MAX_SAFE_INTEGER ? item : num
         })
       deptLevel.value = +candidateParamStr.split('|')[1]
@@ -309,7 +323,7 @@ const resetTaskForm = () => {
     } else {
       userTaskForm.value.candidateParam = candidateParamStr.split(',').map((item: any) => {
         // 如果数字超出了最大安全整数范围，则将其作为字符串处理
-        let num = Number(item)
+        const num = Number(item)
         return num > Number.MAX_SAFE_INTEGER || num < -Number.MAX_SAFE_INTEGER ? item : num
       })
     }
@@ -371,17 +385,13 @@ const updateElementTask = () => {
       : userTaskForm.value.candidateParam
 
   // 特殊处理多级部门情况
-  if (
-    userTaskForm.value.candidateStrategy == CandidateStrategy.MULTI_LEVEL_DEPT_LEADER ||
-    userTaskForm.value.candidateStrategy == CandidateStrategy.FORM_DEPT_LEADER
-  ) {
+  if (userTaskForm.value.candidateStrategy == CandidateStrategy.MULTI_LEVEL_DEPT_LEADER ||
+    userTaskForm.value.candidateStrategy == CandidateStrategy.FORM_DEPT_LEADER) {
     candidateParam += '|' + deptLevel.value
   }
   // 特殊处理发起人部门负责人、发起人连续部门负责人
-  if (
-    userTaskForm.value.candidateStrategy == CandidateStrategy.START_USER_DEPT_LEADER ||
-    userTaskForm.value.candidateStrategy == CandidateStrategy.START_USER_MULTI_LEVEL_DEPT_LEADER
-  ) {
+  if (userTaskForm.value.candidateStrategy == CandidateStrategy.START_USER_DEPT_LEADER ||
+    userTaskForm.value.candidateStrategy == CandidateStrategy.START_USER_MULTI_LEVEL_DEPT_LEADER) {
     candidateParam = deptLevel.value + ''
   }
 
@@ -422,10 +432,11 @@ const updateSkipExpression = () => {
 
 // 打开监听器弹窗
 const processExpressionDialogRef = ref()
-const openProcessExpressionDialog = async () => {
+const openProcessExpressionDialog = () => {
   processExpressionDialogRef.value.open()
 }
 const selectProcessExpression = (expression: any) => {
+  debugger
   userTaskForm.value.candidateParam = [expression.expression]
   updateElementTask()
 }
@@ -451,15 +462,16 @@ watch(
 
 onMounted(async () => {
   // 获得角色列表
-  // roleOptions.value = await RoleApi.getSimpleList({status: StatusType.ENABLE})
+  roleOptions.value = await RoleApi.getSimpleList({status: StatusType.ENABLE}).then((res) => res.data)
   // // 获得部门列表
-  // const deptOptions = await DeptApi.getSimpleList({status: StatusType.ENABLE})
-  // deptTreeOptions.value = handleTree(deptOptions, 'id')
+  const deptOptions = await DeptApi.getSimpleList({status: StatusType.ENABLE}).then((res) => res.data)
+  debugger
+  deptTreeOptions.value = handleTree(deptOptions, 'id')
+  debugger
   // // 获得岗位列表
   // postOptions.value = await PostApi.getSimpleList({status: StatusType.ENABLE})
   // // 获得用户列表
-  // userOptions.value = await UserApi.getSimpleList({status: StatusType.ENABLE})
-  // todo api 实现
+  userOptions.value = await UserApi.getSimpleList({status: StatusType.ENABLE}).then((res) => res.data)
   // 获得用户组列表
   UserGroupApi.getSimpleList({status: StatusType.ENABLE}).then((res) => {
     userGroupOptions.value = res.data

@@ -39,3 +39,19 @@ export const getByIdApi = (id: string) => {
 export const postListApi = (data: any) => {
   return request.post('/system/dept/list', data)
 }
+
+/**
+ * 查询系统部门列表，用于下拉框
+ *
+ * @param params 参数
+ */
+export const getSimpleList = (params: any) => {
+  return request.get('/system/dept/simple-list', { params })
+}
+
+export default {
+  saveOrUpdateApi,
+  deleteByIdsApi,
+  getByIdApi,
+  postListApi
+}

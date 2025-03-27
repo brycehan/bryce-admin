@@ -63,8 +63,8 @@ export const postExportExcelApi = (data: any) => {
 /**
  * 系统角色列表查询
  */
-export const getRoleListApi = () => {
-  return request.get('/system/role/list')
+export const getSimpleList = (data: any) => {
+  return request.get('/system/role/simple-list', { params: data})
 }
 
 /**
@@ -120,4 +120,20 @@ export const deleteAssignUserApi = (roleId: string, data: any) => {
  */
 export const getCheckCodeUniqueApi = (code: string, id: number) => {
   return request.get('/system/role/checkCodeUnique', { params: { id, code } })
+}
+
+export default {
+  saveOrUpdateApi,
+  deleteByIdsApi,
+  getByIdApi,
+  postPageApi,
+  patchStatusApi,
+  postExportExcelApi,
+  getSimpleList,
+  getMenuApi,
+  putDataScopeApi,
+  postAssignUserPageApi,
+  postAssignUserSaveApi,
+  deleteAssignUserApi,
+  getCheckCodeUniqueApi
 }

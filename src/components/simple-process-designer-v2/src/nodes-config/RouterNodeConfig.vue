@@ -25,11 +25,11 @@
     </template>
     <div>
       <el-form label-position="top">
-        <el-card class="mb-15px" v-for="(item, index) in routerGroups" :key="index">
+        <el-card class="mb-[15px]" v-for="(item, index) in routerGroups" :key="index">
           <template #header>
             <div class="flex flex-items-center">
               <el-text size="large">路由{{ index + 1 }}</el-text>
-              <el-select class="ml-15px" v-model="item.nodeId" style="width: 180px">
+              <el-select class="ml-[15px]" v-model="item.nodeId" style="width: 180px">
                 <el-option
                   v-for="node in nodeOptions"
                   :key="node.value"

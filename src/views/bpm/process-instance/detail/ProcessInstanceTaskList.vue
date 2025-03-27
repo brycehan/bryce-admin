@@ -16,7 +16,7 @@
     <el-table-column align="center" label="审批建议" prop="reason" min-width="200">
       <template #default="scope">
         {{ scope.row.reason }}
-        <el-button class="ml-10px" size="small" v-if="scope.row.formId > 0" @click="handleFormDetail(scope.row)">
+        <el-button class="ml-[10px]" size="small" v-if="scope.row.formId > 0" @click="handleFormDetail(scope.row)">
           <Icon icon="ep:document" /> 查看表单
         </el-button>
       </template>

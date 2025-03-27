@@ -81,7 +81,7 @@
                     trigger: 'blur'
                   }"
                 >
-                  <el-select class="w-160px!" v-model="item.key" placeholder="请选择表单字段">
+                  <el-select class="!w-[160px]" v-model="item.key" placeholder="请选择表单字段">
                     <el-option
                       v-for="(field, fIdx) in formFields"
                       :key="fIdx"
@@ -101,7 +101,7 @@
                     trigger: 'blur'
                   }"
                 >
-                  <el-input class="w-160px" v-model="item.value" placeholder="请求返回字段" />
+                  <el-input class="w-[160px]" v-model="item.value" placeholder="请求返回字段" />
                 </el-form-item>
               </div>
               <div class="mr-1 pt-1 cursor-pointer">
@@ -117,7 +117,7 @@
               text
               @click="addHttpResponseSetting(configForm.httpRequestSetting.response!)"
             >
-              <Icon icon="ep:plus" class="mr-5px" />添加一行
+              <Icon icon="ep:plus" class="mr-[5px]" />添加一行
             </el-button>
           </el-form-item>
         </div>
@@ -135,7 +135,7 @@
             <div class="mr-2 flex items-center">
               <el-form-item>
                 <el-select
-                  class="w-160px!"
+                  class="!w-[160px]"
                   :model-value="key"
                   @update:model-value="(newKey: any) => updateFormFieldKey(key, newKey)"
                   placeholder="请选择表单字段"
@@ -162,7 +162,7 @@
                 }"
               >
                 <el-input
-                  class="w-160px"
+                  class="w-[160px]"
                   v-model="configForm.normalFormSetting.updateFormFields![key]"
                   placeholder="请输入"
                   :disabled="!key"
@@ -176,7 +176,7 @@
             </div>
           </div>
           <el-button type="primary" text @click="addFormFieldSetting()">
-            <Icon icon="ep:plus" class="mr-5px" />添加修改字段
+            <Icon icon="ep:plus" class="mr-[5px]" />添加修改字段
           </el-button>
         </div>
       </el-form>

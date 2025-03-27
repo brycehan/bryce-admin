@@ -317,7 +317,7 @@ const handleXlsxUpload = () => {
  * @param row 当前行数据
  */
 const handleStatusChange = (row: any) => {
-  let text = row.status === 1 ? '启用' : '停用'
+  const text = row.status === 1 ? '启用' : '停用'
   modal
     .confirm(`确定要${text}“${row.username}”用户吗？`)
     .then(() => {

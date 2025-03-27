@@ -1,6 +1,6 @@
 <template>
   <div class="simple-process-model-container position-relative">
-    <div class="position-absolute top-0px right-0px bg-#fff">
+    <div class="position-absolute top-0 right-0 bg-[#fff]">
 <!--      <el-row type="flex" justify="end">-->
 <!--        <el-button-group key="scale-control" size="default">-->
 <!--          <el-button v-if="!readonly" size="default" @click="exportJson">-->
@@ -21,7 +21,7 @@
 <!--          />-->
 <!--          <el-button size="default" :icon="ScaleToOriginal" @click="processReZoom()" />-->
 <!--          <el-button size="default" :plain="true" :icon="ZoomOut" @click="zoomOut()" />-->
-<!--          <el-button size="default" class="w-80px"> {{ scaleValue }}% </el-button>-->
+<!--          <el-button size="default" class="w-[80px]"> {{ scaleValue }}% </el-button>-->
 <!--          <el-button size="default" :plain="true" :icon="ZoomIn" @click="zoomIn()" />-->
 <!--        </el-button-group>-->
 <!--      </el-row>-->

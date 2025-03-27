@@ -10,11 +10,11 @@
             trigger: 'blur'
           }"
         >
-          <el-input class="w-160px" v-model="item.key" />
+          <el-input class="w-[160px]" v-model="item.key" />
         </el-form-item>
       </div>
       <div class="mr-2">
-        <el-select class="w-100px!" v-model="item.type">
+        <el-select class="!w-[100px]" v-model="item.type">
           <el-option
             v-for="types in BPM_HTTP_REQUEST_PARAM_TYPES"
             :key="types.value"
@@ -34,7 +34,7 @@
         >
           <el-input
             v-if="item.type === BpmHttpRequestParamTypeEnum.FIXED_VALUE"
-            class="w-160px"
+            class="w-[160px]"
             v-model="item.value"
           />
         </el-form-item>
@@ -48,7 +48,7 @@
         >
           <el-select
             v-if="item.type === BpmHttpRequestParamTypeEnum.FROM_FORM"
-            class="w-160px!"
+            class="!w-[160px]"
             v-model="item.value"
           >
             <el-option
@@ -66,7 +66,7 @@
       </div>
     </div>
     <el-button type="primary" text @click="addHttpRequestParam(props.header)">
-      <Icon icon="ep:plus" class="mr-5px" />添加一行
+      <Icon icon="ep:plus" class="mr-[5px]" />添加一行
     </el-button>
   </el-form-item>
   <el-form-item label="请求体">
@@ -80,11 +80,11 @@
             trigger: 'blur'
           }"
         >
-          <el-input class="w-160px" v-model="item.key" />
+          <el-input class="w-[160px]" v-model="item.key" />
         </el-form-item>
       </div>
       <div class="mr-2">
-        <el-select class="w-100px!" v-model="item.type">
+        <el-select class="!w-[100px]" v-model="item.type">
           <el-option
             v-for="types in BPM_HTTP_REQUEST_PARAM_TYPES"
             :key="types.value"
@@ -104,7 +104,7 @@
         >
           <el-input
             v-if="item.type === BpmHttpRequestParamTypeEnum.FIXED_VALUE"
-            class="w-160px"
+            class="w-[160px]"
             v-model="item.value"
           />
         </el-form-item>
@@ -118,7 +118,7 @@
         >
           <el-select
             v-if="item.type === BpmHttpRequestParamTypeEnum.FROM_FORM"
-            class="w-160px!"
+            class="!w-[160px]"
             v-model="item.value"
           >
             <el-option
@@ -136,7 +136,7 @@
       </div>
     </div>
     <el-button type="primary" text @click="addHttpRequestParam(props.body)">
-      <Icon icon="ep:plus" class="mr-5px" />添加一行
+      <Icon icon="ep:plus" class="mr-[5px]" />添加一行
     </el-button>
   </el-form-item>
 </template>

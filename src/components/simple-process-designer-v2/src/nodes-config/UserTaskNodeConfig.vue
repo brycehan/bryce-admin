@@ -26,7 +26,7 @@
       </div>
     </template>
     <div class="flex flex-items-center mb-3">
-      <span class="font-size-16px mr-3">审批类型 :</span>
+      <span class="font-size-[16px] mr-3">审批类型 :</span>
       <el-radio-group v-model="approveType">
         <el-radio
           v-for="(item, index) in APPROVE_TYPE"
@@ -744,8 +744,8 @@ const showUserTaskNodeConfig = (node: SimpleFlowNode) => {
   configForm.value.timeoutHandlerEnable = node.timeoutHandler!.enable
   if (node.timeoutHandler?.enable && node.timeoutHandler?.timeDuration) {
     const strTimeDuration = node.timeoutHandler.timeDuration
-    let parseTime = strTimeDuration.slice(2, strTimeDuration.length - 1)
-    let parseTimeUnit = strTimeDuration.slice(strTimeDuration.length - 1)
+    const parseTime = strTimeDuration.slice(2, strTimeDuration.length - 1)
+    const parseTimeUnit = strTimeDuration.slice(strTimeDuration.length - 1)
     configForm.value.timeDuration = parseInt(parseTime)
     timeUnit.value = convertTimeUnit(parseTimeUnit)
   }
