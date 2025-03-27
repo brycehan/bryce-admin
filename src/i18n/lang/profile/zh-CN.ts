@@ -7,7 +7,7 @@ export default {
       nickname: '用户昵称',
       phone: '手机号码',
       email: '用户邮箱',
-      affiliation: '所属机构',
+      affiliation: '所属部门',
       role: '所属角色',
       createTime: '创建时间',
     },

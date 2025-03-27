@@ -37,7 +37,7 @@
         <el-table-column label="账号" prop="username" header-align="center" align="center" />
         <el-table-column label="姓名" prop="nickname" header-align="center" align="center" />
         <el-table-column label="手机号码" prop="phone" header-align="center" align="center" />
-        <el-table-column label="机构" prop="orgName" header-align="center" align="center" />
+        <el-table-column label="部门" prop="deptName" header-align="center" align="center" />
         <dict-table-column label="状态" prop="status" dict-type="sys_status" />
         <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
       </el-table>

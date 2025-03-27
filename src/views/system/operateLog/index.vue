@@ -130,7 +130,7 @@ const state: StateOptions = reactive({
     requestUri: '',
     status: '',
     username: '',
-    orgId: '',
+    deptId: '',
     operatedTime: ''
   },
   range: {

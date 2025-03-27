@@ -26,7 +26,7 @@
           <li>
             <svg-icon icon="icon-apartment" /> {{ $t('profile.personal.affiliation') }}
             <span class="li-text"
-              >{{ userInfo.orgName }} / {{ replaceComma(userInfo.postNameList, '、') }}</span
+              >{{ userInfo.deptName }} / {{ replaceComma(userInfo.postNameList, '、') }}</span
             >
           </li>
           <li>

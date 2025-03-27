@@ -59,8 +59,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="机构名称">
-            {{ state.dataForm.orgName }}
+          <el-form-item label="部门名称">
+            {{ state.dataForm.deptName }}
           </el-form-item>
         </el-col>
       </el-row>
@@ -103,7 +103,7 @@ const state: StateOptions = reactive({
     location: '',
     userId: '',
     username: '',
-    orgName: '',
+    deptName: '',
     createdTime: ''
   }
 })

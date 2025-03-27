@@ -21,6 +21,8 @@ import SelectUser from '@/components/select-user'
 import WangEditor from '@/components/wang-editor'
 import 'default-passive-events'
 import { i18n } from '@/i18n'
+import { Icon, addCollection } from '@iconify/vue/offline';
+import ElementPlusIconsJSON from '@iconify-json/ep/icons.json'
 
 const app = createApp(App)
 
@@ -41,6 +43,11 @@ app.use(DictTag)
 app.use(RightToolbar)
 app.use(SelectUser)
 app.use(WangEditor)
+
+// 添加离线图标库
+addCollection(ElementPlusIconsJSON)
+
+app.component('Icon', Icon)
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)

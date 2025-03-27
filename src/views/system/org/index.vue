@@ -8,14 +8,14 @@
       @keyup.enter="getList()"
       @submit.prevent
     >
-      <el-form-item label="机构名称" prop="name">
-        <el-input v-model="state.queryForm.name" placeholder="请输入机构名称" clearable />
+      <el-form-item label="部门名称" prop="name">
+        <el-input v-model="state.queryForm.name" placeholder="请输入部门名称" clearable />
       </el-form-item>
       <el-form-item label="状态" prop="status">
         <dict-select
           v-model="state.queryForm.status"
           dict-type="sys_status"
-          placeholder="机构状态"
+          placeholder="部门状态"
           clearable
         />
       </el-form-item>
@@ -25,7 +25,7 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'system:org:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
+      <el-button v-auth="'system:dept:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
         >新增</el-button
       >
       <el-button plain @click="toggleExpandAll()">
@@ -54,7 +54,7 @@
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="240">
         <template #default="scope">
           <el-button
-            v-auth="'system:org:update'"
+            v-auth="'system:dept:update'"
             type="primary"
             icon="edit"
             text
@@ -62,7 +62,7 @@
             >修改</el-button
           >
           <el-button
-            v-auth="'system:org:update'"
+            v-auth="'system:dept:update'"
             type="primary"
             icon="plus"
             text
@@ -71,7 +71,7 @@
           >
           <el-button
             v-if="scope.row.parentId != 0"
-            v-auth="'system:org:delete'"
+            v-auth="'system:dept:delete'"
             type="danger"
             icon="delete"
             text
@@ -89,7 +89,7 @@
 <script setup lang="ts">
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
-import { deleteByIdsApi, postListApi } from '@/api/system/org'
+import { deleteByIdsApi, postListApi } from '@/api/system/dept'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'

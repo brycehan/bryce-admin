@@ -35,7 +35,7 @@ watch(categoryName, (value) => {
 })
 
 /**
- * 获取机构列表
+ * 获取部门列表
  */
 const getCategoryList = () => {
   categoryApi.postListApi({}).then((response) => {

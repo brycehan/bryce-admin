@@ -1,41 +1,41 @@
 import request from '@/utils/request'
 
 /**
- * 保存系统机构
+ * 保存系统部门
  *
  * @param data 参数
  */
 export const saveOrUpdateApi = (data: any) => {
   if (data.id) {
-    return request.put('/system/org', data)
+    return request.put('/system/dept', data)
   } else {
-    return request.post('/system/org', data)
+    return request.post('/system/dept', data)
   }
 }
 
 /**
- * 删除系统机构
+ * 删除系统部门
  *
  * @param ids 参数
  */
 export const deleteByIdsApi = (ids: string[]) => {
-  return request.delete('/system/org', { data: { ids } })
+  return request.delete('/system/dept', { data: { ids } })
 }
 
 /**
- * 查询系统机构详情
+ * 查询系统部门详情
  *
  * @param id ID
  */
 export const getByIdApi = (id: string) => {
-  return request.get(`/system/org/${id}`)
+  return request.get(`/system/dept/${id}`)
 }
 
 /**
- * 查询系统机构列表
+ * 查询系统部门列表
  *
  * @param data 参数
  */
 export const postListApi = (data: any) => {
-  return request.post('/system/org/list', data)
+  return request.post('/system/dept/list', data)
 }

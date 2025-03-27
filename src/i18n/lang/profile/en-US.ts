@@ -7,7 +7,7 @@ export default {
       nickname: 'User nickname',
       phone: 'Phone number',
       email: 'User email',
-      affiliation: 'Affiliation',
+      affiliation: 'Affiliation department',
       role: 'Role',
       createTime: 'Creation time',
     },

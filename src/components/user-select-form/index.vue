@@ -3,8 +3,8 @@
     <el-row v-loading="loading">
       <el-col :span="6">
         <el-tree
-          ref="orgTreeRef"
-          :data="orgData"
+          ref="deptTreeRef"
+          :data="deptData"
           :expand-on-click-node="false"
           :props="{ label: 'name', children: 'children' }"
           highlight-current
@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import * as OrgApi from '@/api/system/org'
+import * as DeptApi from '@/api/system/dept'
 import * as UserApi from '@/api/system/user'
 import { ElMessage } from 'element-plus'
 
@@ -48,11 +48,11 @@ const emit = defineEmits<{ submit: [userList: any[]]}>()
 const visible = ref(false)
 // 表单的加载中
 const loading = ref(false)
-// 机构数据
-const orgData = ref<any[]>([])
+// 部门数据
+const deptData = ref<any[]>([])
 // 所有用户列表
 const userList = ref<any[]>([])
-// 选中机构左侧过滤后的用户列表
+// 选中部门左侧过滤后的用户列表
 const filteredUserList = ref<any[]>([])
 // 选中的用户列表
 const selectedUserIdList = ref<any[]>([])
@@ -66,7 +66,7 @@ const transferUserList = computed(() => {
     return selectedUserIdList.value.includes(user.id)
   })
 
-  // 获取当前机构过滤后的未选择用户
+  // 获取当前部门过滤后的未选择用户
   const filteredUnselectedUsers = filteredUserList.value.filter((user: any) => {
     return !selectedUserIdList.value.includes(user.id)
   })
@@ -82,48 +82,48 @@ const transferUserList = computed(() => {
  * 重复表单
  */
 const resetForm = () => {
-  orgData.value = []
+  deptData.value = []
   userList.value = []
   selectedUserIdList.value = []
 }
 
 /**
- * 获取机构列表中指定机构及所有子机构的ID列表
+ * 获取部门列表中指定部门及所有子部门的ID列表
  *
- * @param orgId 指定机构ID
- * @param deptList 机构列表
+ * @param deptId 指定部门ID
+ * @param deptList 部门列表
  */
-const getOrgIdAndChildOrgIds = (orgId: number, deptList: any[]) => {
+const getDeptIdAndChildDeptIds = (deptId: number, deptList: any[]) => {
   // 获取当前部门及所有子部门id列表
-  const ids = [orgId]
-  const children = deptList.filter((item: any) => item.parentId === orgId)
+  const ids = [deptId]
+  const children = deptList.filter((item: any) => item.parentId === deptId)
   children.forEach((item: any) => {
-    ids.push(...getOrgIdAndChildOrgIds(item.id, deptList))
+    ids.push(...getDeptIdAndChildDeptIds(item.id, deptList))
   })
 
   return ids
 }
 
 /**
- * 根据指定的机构ID过滤用户列表
+ * 根据指定的部门ID过滤用户列表
  *
- * @param orgId 指定的机构ID
+ * @param deptId 指定的部门ID
  */
-const filterUserListByOrgId = (orgId?: any) => {
+const filterUserListByDeptId = (deptId?: any) => {
   loading.value = true
   try {
-    // 如果没有选择机构，则显示所有用户
-    if (!orgId) {
+    // 如果没有选择部门，则显示所有用户
+    if (!deptId) {
       filteredUserList.value = userList.value
       return
     }
 
-    // 直接使用已保存的机构列表，获取当前机构及所有子机构的id列表
-    const orgIds = getOrgIdAndChildOrgIds(orgId, orgData.value)
+    // 直接使用已保存的部门列表，获取当前部门及所有子部门的id列表
+    const deptIds = getDeptIdAndChildDeptIds(deptId, deptData.value)
 
-    // 过滤用户列表，只显示当前机构及所有子机构的用户
+    // 过滤用户列表，只显示当前部门及所有子部门的用户
     filteredUserList.value = userList.value.filter((user: any) => {
-      return orgIds.includes(user.orgId)
+      return deptIds.includes(user.deptId)
     })
   } finally {
     loading.value = false
@@ -137,9 +137,9 @@ const filterUserListByOrgId = (orgId?: any) => {
  */
 const open = (selectedList: any[]) => {
   resetForm()
-  // 加载机构数据
-  OrgApi.postListApi({}).then((res) => {
-    orgData.value = res.data
+  // 加载部门数据
+  DeptApi.postListApi({}).then((res) => {
+    deptData.value = res.data
   })
   // 加载用户数据
   UserApi.postListApi({}).then((res) => {
@@ -153,12 +153,12 @@ const open = (selectedList: any[]) => {
 }
 
 /**
- * 机构树节点点击事件
+ * 部门树节点点击事件
  *
  * @param row 节点数据
  */
 const handleNodeClick = (row: { [key: string]: any }) => {
-  filterUserListByOrgId(row.id)
+  filterUserListByDeptId(row.id)
 }
 
 /**

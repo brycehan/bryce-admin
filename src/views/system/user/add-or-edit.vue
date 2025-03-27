@@ -54,10 +54,10 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="所属机构" prop="orgId">
+          <el-form-item label="所属部门" prop="deptId">
             <el-tree-select
-              v-model="state.dataForm.orgId"
-              :data="orgList"
+              v-model="state.dataForm.deptId"
+              :data="deptList"
               value-key="id"
               check-strictly
               :props="{ label: 'name', children: 'children' }"
@@ -131,7 +131,7 @@ import {
   getCheckPhoneUniqueApi,
   getCheckEmailUniqueApi
 } from '@/api/system/user'
-import { postListApi as orgListApi } from '@/api/system/org'
+import { postListApi as deptListApi } from '@/api/system/dept'
 import { getRoleListApi as roleListApi } from '@/api/system/role'
 import { getListApi as postListApi } from '@/api/system/post'
 import type { StateOptions } from '@/utils/state'
@@ -158,7 +158,7 @@ const state: StateOptions = reactive({
     phone: '',
     email: '',
     sort: 0,
-    orgId: '',
+    deptId: '',
     status: 1,
     remark: '',
     roleIds: [],
@@ -167,7 +167,7 @@ const state: StateOptions = reactive({
 })
 
 const dataFormRef = ref()
-const orgList = ref([])
+const deptList = ref([])
 const roleList = ref<any[]>([])
 const postList = ref<any[]>([])
 
@@ -278,15 +278,15 @@ const init = (id?: string) => {
       state.dataForm.password = res.data
     })
   }
-  getOrgList()
+  getDeptList()
   getRoleList()
   getPostList()
 }
 
-/** 获取机构列表 */
-const getOrgList = () => {
-  orgListApi({}).then((response) => {
-    orgList.value = response.data
+/** 获取部门列表 */
+const getDeptList = () => {
+  deptListApi({}).then((response) => {
+    deptList.value = response.data
   })
 }
 

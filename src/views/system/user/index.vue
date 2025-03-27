@@ -3,7 +3,7 @@
     <!-- 部门数据 -->
     <el-col :span="4" :xs="24">
       <el-card shadow="never">
-        <org-tree @node-click="handleOrgClick" />
+        <dept-tree @node-click="handleDeptClick" />
       </el-card>
     </el-col>
     <!-- 用户数据 -->
@@ -93,7 +93,7 @@
             min-width="90"
             v-if="columns[1].visible"
           />
-          <el-table-column label="所属机构" prop="orgName" header-align="center" align="center" show-overflow-tooltip min-width="110" v-if="columns[2].visible" />
+          <el-table-column label="所属部门" prop="deptName" header-align="center" align="center" show-overflow-tooltip min-width="110" v-if="columns[2].visible" />
           <el-table-column
             label="手机号码"
             prop="phone"
@@ -214,7 +214,7 @@ import ImportData from '@/views/system/user/import-data.vue'
 import { deleteByIdsApi, patchStatusApi, postExportExcelApi, postPageApi } from '@/api/system/user'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import OrgTree from '@/views/system/user/org-tree.vue'
+import DeptTree from '@/views/system/user/dept-tree.vue'
 import { ElMessage } from 'element-plus'
 import ResetPassword from '@/views/system/user/reset-password.vue'
 import AssignRole from '@/views/system/user/assign-role.vue'
@@ -232,7 +232,7 @@ const state: StateOptions = reactive({
     gender: '',
     type: '',
     phone: '',
-    orgId: '',
+    deptId: '',
     status: ''
   },
   range: {
@@ -277,8 +277,8 @@ const {
   handleSortChange
 } = crud(state)
 
-const handleOrgClick = (orgId: any) => {
-  state.queryForm.orgId = orgId
+const handleDeptClick = (deptId: any) => {
+  state.queryForm.deptId = deptId
   getPage()
 }
 

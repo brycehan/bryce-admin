@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="visible"
-    :title="!dataForm.id ? '新增机构' : '修改机构'"
+    :title="!dataForm.id ? '新增部门' : '修改部门'"
     :close-on-click-modal="false"
   >
     <el-form
@@ -11,17 +11,17 @@
       label-width="100"
       class="mr-4"
     >
-      <el-form-item label="上级机构" prop="parentId" v-if="dataForm.parentId != 0">
+      <el-form-item label="上级部门" prop="parentId" v-if="dataForm.parentId != 0">
           <el-tree-select
             v-model="dataForm.parentId"
-            ref="orgTreeRef"
-            :data="orgList"
+            ref="deptTreeRef"
+            :data="deptList"
             :props="{ label: 'name', children: 'children' }"
             node-key="id"
             :render-after-expand="false"
             check-on-click-node
             check-strictly
-            placeholder="请选择上级机构"
+            placeholder="请选择上级部门"
             filterable
             clearable
           ></el-tree-select>
@@ -29,7 +29,7 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="名称" prop="name">
-            <el-input v-model="dataForm.name" placeholder="机构名称" />
+            <el-input v-model="dataForm.name" placeholder="部门名称" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -73,14 +73,14 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import { ElMessage, type FormRules } from 'element-plus'
-import { getByIdApi, saveOrUpdateApi, postListApi } from '@/api/system/org'
+import { getByIdApi, saveOrUpdateApi, postListApi } from '@/api/system/dept'
 import { ElTreeSelect } from 'element-plus'
 const emit = defineEmits(['refreshPage'])
 
 const visible = ref(false)
 const dataFormRef = ref()
-const orgList = ref([])
-const orgTreeRef = ref()
+const deptList = ref([])
+const deptTreeRef = ref()
 
 const dataForm = reactive({
   id: '',
@@ -120,36 +120,36 @@ const init = (row: any, isAdd: boolean) => {
   if (isAdd) {
     handleTreeDefault(row)
   } else {
-    getOrg(row)
+    getDept(row)
   }
 }
 
 /**
- * 获取机构信息
+ * 获取部门信息
  *
  * @param row
  */
-const getOrg = (row: any) => {
+const getDept = (row: any) => {
   getByIdApi(row.id).then((response) => {
     Object.assign(dataForm, response.data)
 
-    orgTreeRef.value.setCurrentKey(dataForm.parentId)
+    deptTreeRef.value.setCurrentKey(dataForm.parentId)
   })
 }
 
 /**
- * 机构树列表
+ * 部门树列表
  */
-const getOrgList = () => {
+const getDeptList = () => {
   postListApi({}).then((response) => {
-    orgList.value = response.data
+    deptList.value = response.data
   })
 }
 
 /**
- * 上级机构树，设置默认值
+ * 上级部门树，设置默认值
  *
- * @param row 机构父数据
+ * @param row 部门父数据
  */
 const handleTreeDefault = (row: any) => {
   if (row) {
@@ -175,8 +175,8 @@ const handleSubmit = () => {
 }
 
 onMounted(() => {
-  // 机构树列表
-  getOrgList()
+  // 部门树列表
+  getDeptList()
 })
 
 defineExpose({
