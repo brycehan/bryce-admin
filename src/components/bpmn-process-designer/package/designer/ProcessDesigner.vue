@@ -175,21 +175,15 @@
       <!-- <div id="js-properties-panel" class="panel"></div> -->
       <!-- <div class="my-process-designer__canvas" ref="bpmn-canvas"></div> -->
     </div>
-    <Dialog
+    <el-dialog
       title="预览"
       v-model="previewModelVisible"
       width="80%"
-      :scroll="true"
-      max-height="600px"
     >
-      <!-- append-to-body -->
-      <div v-highlight>
-        <code class="hljs">
-          <!-- 高亮代码块 -->
-          {{ previewResult }}
-        </code>
-      </div>
-    </Dialog>
+    <el-scrollbar height="70vh">
+      <pre class="!h-[unset] !max-h-[unset]"><code class="hljs" v-html="previewResult"></code></pre>
+    </el-scrollbar>
+    </el-dialog>
   </div>
 </template>
 
@@ -225,10 +219,14 @@ import flowableModdleExtension from './plugins/extension-moddle/flowable'
 // import xml2js from 'fast-xml-parser'
 import { XmlNode, XmlNodeType, parseXmlString } from 'steady-xml'
 // 代码高亮插件
-// import hljs from 'highlight.js/lib/highlight'
-// import 'highlight.js/styles/github-gist.css'
-// hljs.registerLanguage('xml', 'highlight.js/lib/languages/xml')
-// hljs.registerLanguage('json', 'highlight.js/lib/languages/json')
+import hljs from 'highlight.js/lib/core'
+import 'highlight.js/styles/github.css'
+import xml from 'highlight.js/lib/languages/xml'
+import json from 'highlight.js/lib/languages/json'
+
+hljs.registerLanguage('xml', xml)
+hljs.registerLanguage('json', json)
+
 // const eventName = reactive({
 //   name: ''
 // })
@@ -278,10 +276,6 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
-  keyboard: {
-    type: Boolean,
-    default: true
-  },
   prefix: {
     type: String,
     default: 'camunda'
@@ -327,6 +321,7 @@ const additionalModules = computed(() => {
   if (Object.prototype.toString.call(props.additionalModel) == '[object Array]') {
     Modules.push(...(props.additionalModel as any[]))
   } else {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     props.additionalModel && Modules.push(props.additionalModel)
   }
 
@@ -370,7 +365,7 @@ const moddleExtensions = computed(() => {
 
   // 插入用户自定义模块
   if (props.moddleExtension) {
-    for (let key in props.moddleExtension) {
+    for (const key in props.moddleExtension) {
       Extensions[key] = props.moddleExtension[key]
     }
   }
@@ -391,9 +386,8 @@ console.log(additionalModules, 'additionalModules()')
 console.log(moddleExtensions, 'moddleExtensions()')
 const initBpmnModeler = () => {
   if (bpmnModeler) return
-  let data = document.getElementById('bpmnCanvas')
+  const data = document.getElementById('bpmnCanvas')
   console.log(data, 'data')
-  console.log(props.keyboard, 'props.keyboard')
   console.log(additionalModules, 'additionalModules()')
   console.log(moddleExtensions, 'moddleExtensions()')
 
@@ -408,7 +402,6 @@ const initBpmnModeler = () => {
     // propertiesPanel: {
     // parent: '#js-properties-panel'
     // },
-    keyboard: props.keyboard ? { bindTo: document } : null,
     // additionalModules: additionalModules.value,
     additionalModules: additionalModules.value as any[],
     moddleExtensions: moddleExtensions.value
@@ -435,9 +428,9 @@ const initModelListeners = () => {
   // 注册需要的监听事件, 将. 替换为 - , 避免解析异常
   props.events.forEach((event: any) => {
     EventBus.on(event, function (eventObj: any) {
-      let eventName = event.replace(/\./g, '-')
+      const eventName = event.replace(/\./g, '-')
       // eventName.name = eventName
-      let element = eventObj ? eventObj.element : null
+      const element = eventObj ? eventObj.element : null
       console.log(eventName, 'eventName')
       console.log(element, 'element')
       emit('element-click', element, eventObj)
@@ -449,7 +442,7 @@ const initModelListeners = () => {
     try {
       recoverable.value = bpmnModeler.get('commandStack').canRedo()
       revocable.value = bpmnModeler.get('commandStack').canUndo()
-      let { xml } = await bpmnModeler.saveXML({ format: true })
+      const { xml } = await bpmnModeler.saveXML({ format: true })
       emit('commandStack-changed', event)
       emit('input', xml)
       emit('change', xml)
@@ -469,13 +462,13 @@ const initModelListeners = () => {
 const createNewDiagram = async (xml: any) => {
   console.log(xml, 'xml')
   // 将字符串转换成图显示出来
-  let newId = props.processId || `Process_${new Date().getTime()}`
-  let newName = props.processName || `业务流程_${new Date().getTime()}`
-  let xmlString = xml || DefaultEmptyXML(newId, newName, props.prefix)
+  const newId = props.processId || `Process_${new Date().getTime()}`
+  const newName = props.processName || `业务流程_${new Date().getTime()}`
+  const xmlString = xml || DefaultEmptyXML(newId, newName, props.prefix)
   try {
     // console.log(xmlString, 'xmlString')
     // console.log(this.bpmnModeler.importXML);
-    let { warnings } = await bpmnModeler.importXML(xmlString)
+    const { warnings } = await bpmnModeler.importXML(xmlString)
     console.log(warnings, 'warnings')
     if (warnings && warnings.length) {
       warnings.forEach((warn: any) => console.warn(warn))
@@ -495,7 +488,7 @@ const downloadProcess = async (type: string) => {
       if (err) {
         console.error(`[Process Designer Warn ]: ${err.message || err}`)
       }
-      let { href, filename } = setEncoded(type.toUpperCase(), xml)
+      const { href, filename } = setEncoded(type.toUpperCase(), xml)
       downloadFunc(href, filename)
     } else {
       const { err, svg } = await bpmnModeler.saveSVG()
@@ -503,7 +496,7 @@ const downloadProcess = async (type: string) => {
       if (err) {
         return console.error(err)
       }
-      let { href, filename } = setEncoded('SVG', svg)
+      const { href, filename } = setEncoded('SVG', svg)
       downloadFunc(href, filename)
     }
   } catch (e: any) {
@@ -512,7 +505,7 @@ const downloadProcess = async (type: string) => {
   // 文件下载方法
   function downloadFunc(href: any, filename: any) {
     if (href && filename) {
-      let a = document.createElement('a')
+      const a = document.createElement('a')
       a.download = filename //指定下载的文件名
       a.href = href //  URL对象
       a.click() // 模拟点击
@@ -540,7 +533,7 @@ const importLocalFile = () => {
   const reader = new FileReader()
   reader.readAsText(file)
   reader.onload = function () {
-    let xmlStr = this.result
+    const xmlStr = this.result
     createNewDiagram(xmlStr)
     emit('save', xmlStr)
   }
@@ -559,6 +552,7 @@ const downloadProcessAsSvg = () => {
 const processSimulation = () => {
   simulationStatus.value = !simulationStatus.value
   console.log(bpmnModeler.get('toggleMode', 'strict'), "bpmnModeler.get('toggleMode')")
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   props.simulation && bpmnModeler.get('toggleMode', 'strict').toggleMode()
 }
 const processRedo = () => {
@@ -568,7 +562,7 @@ const processUndo = () => {
   bpmnModeler.get('commandStack').undo()
 }
 const processZoomIn = (zoomStep = 0.1) => {
-  let newZoom = Math.floor(defaultZoom.value * 100 + zoomStep * 100) / 100
+  const newZoom = Math.floor(defaultZoom.value * 100 + zoomStep * 100) / 100
   if (newZoom > 4) {
     throw new Error('[Process Designer Warn ]: The zoom ratio cannot be greater than 4')
   }
@@ -576,7 +570,7 @@ const processZoomIn = (zoomStep = 0.1) => {
   bpmnModeler.get('canvas').zoom(defaultZoom.value)
 }
 const processZoomOut = (zoomStep = 0.1) => {
-  let newZoom = Math.floor(defaultZoom.value * 100 - zoomStep * 100) / 100
+  const newZoom = Math.floor(defaultZoom.value * 100 - zoomStep * 100) / 100
   if (newZoom < 0.2) {
     throw new Error('[Process Designer Warn ]: The zoom ratio cannot be less than 0.2')
   }
@@ -613,8 +607,7 @@ const elementsAlign = (align: any) => {
 const previewProcessXML = () => {
   console.log(bpmnModeler.saveXML, 'bpmnModeler')
   bpmnModeler.saveXML({ format: true }).then(({ xml }: {xml: any}) => {
-    // console.log(xml, 'xml111111')
-    previewResult.value = xml
+    previewResult.value = hljs.highlight(xml, { language: 'xml', ignoreIllegals: true }).value
     previewType.value = 'xml'
     previewModelVisible.value = true
   })
@@ -622,7 +615,9 @@ const previewProcessXML = () => {
 const previewProcessJson = () => {
   bpmnModeler.saveXML({ format: true }).then(({ xml }: {xml: any}) => {
     const rootNodes = new XmlNode(XmlNodeType.Root, parseXmlString(xml))
-    previewResult.value = rootNodes.parent?.toJSON() as unknown as string
+    // 设置tab为两个空格
+    const jsonStr = JSON.stringify(rootNodes.parent?.toJSON(), null, 2)
+    previewResult.value = hljs.highlight(jsonStr, { language: 'json', ignoreIllegals: true }).value
     previewType.value = 'json'
     previewModelVisible.value = true
   })

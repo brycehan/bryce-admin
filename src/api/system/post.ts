@@ -53,8 +53,8 @@ export const postExportExcelApi = (data: any) => {
 /**
  * 查询系统岗位列表
  */
-export const getListApi = () => {
-  return request.get('/system/post/list')
+export const getSimpleList = () => {
+  return request.get('/system/post/simple-list')
 }
 
 /**
@@ -65,4 +65,14 @@ export const getListApi = () => {
  */
 export const getCheckCodeUniqueApi = (code: string, id: number) => {
   return request.get('/system/post/checkCodeUnique', { params: { id, code } })
+}
+
+export default {
+  saveOrUpdateApi,
+  deleteByIdsApi,
+  getByIdApi,
+  postPageApi,
+  postExportExcelApi,
+  getSimpleList,
+  getCheckCodeUniqueApi
 }

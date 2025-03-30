@@ -463,14 +463,12 @@ watch(
 onMounted(async () => {
   // 获得角色列表
   roleOptions.value = await RoleApi.getSimpleList({status: StatusType.ENABLE}).then((res) => res.data)
-  // // 获得部门列表
+  // 获得部门列表
   const deptOptions = await DeptApi.getSimpleList({status: StatusType.ENABLE}).then((res) => res.data)
-  debugger
   deptTreeOptions.value = handleTree(deptOptions, 'id')
-  debugger
-  // // 获得岗位列表
-  // postOptions.value = await PostApi.getSimpleList({status: StatusType.ENABLE})
-  // // 获得用户列表
+  // 获得岗位列表
+  postOptions.value = await PostApi.getSimpleList().then((res) => res.data)
+  // 获得用户列表
   userOptions.value = await UserApi.getSimpleList({status: StatusType.ENABLE}).then((res) => res.data)
   // 获得用户组列表
   UserGroupApi.getSimpleList({status: StatusType.ENABLE}).then((res) => {

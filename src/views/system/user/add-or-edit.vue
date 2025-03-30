@@ -131,13 +131,13 @@ import {
   getCheckPhoneUniqueApi,
   getCheckEmailUniqueApi
 } from '@/api/system/user'
-import { postListApi as deptListApi } from '@/api/system/dept'
+import deptApi from '@/api/system/dept'
 import roleApi from '@/api/system/role'
-import { getListApi as postListApi } from '@/api/system/post'
+import postApi from '@/api/system/post'
+import { getValueByParamKeyApi } from '@/api/system/param'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { emailRegExp, phoneRegExp } from '@/utils/tool'
-import { getValueByParamKeyApi } from '@/api/system/param'
 import constant, { StatusType } from '@/utils/constant'
 import type { FormRules, ElTreeSelect } from 'element-plus'
 
@@ -287,7 +287,7 @@ const init = (id?: string) => {
  * 获取部门列表
   */
 const getDeptList = () => {
-  deptListApi({}).then((response) => {
+  deptApi.postListApi({}).then((response) => {
     deptList.value = response.data
   })
 }
@@ -305,7 +305,7 @@ const getRoleList = () => {
  * 获取岗位列表
  */
 const getPostList = () => {
-  postListApi().then((response) => {
+  postApi.getSimpleList().then((response: any) => {
     postList.value = response.data
   })
 }

@@ -6,7 +6,6 @@
       v-model="xmlString"
       :value="xmlString"
       v-bind="controlForm"
-      keyboard
       ref="processDesigner"
       @init-finished="initModeler"
       :additionalModel="controlForm.additionalModel"

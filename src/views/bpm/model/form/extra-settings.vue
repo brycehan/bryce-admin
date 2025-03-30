@@ -12,7 +12,7 @@
       <el-checkbox v-model="dataForm.allowCancelRunningProcess">允许撤销审批中的申请</el-checkbox>
     </el-form-item>
     <el-form-item label="流程编码" prop="processIdRule">
-      <el-row gutter="10" style="line-height: normal">
+      <el-row :gutter="10" style="line-height: normal">
         <el-col :span="7">
           <el-input v-model="dataForm.processIdRule.prefix" clearable placeholder="前缀" :disabled="!dataForm.processIdRule.enable">
             <template #prepend>
@@ -175,7 +175,7 @@ const formField = ref<Array<{ field: string; title: string }>>([])
  * 自定义标题表单字段选项
  */
 const formFieldOptions4Title = computed(() => {
-  let formFieldCopy = formField.value.map((item: any) => {
+  const formFieldCopy = formField.value.map((item: any) => {
     return {
       label: item.title,
       value: item.field,

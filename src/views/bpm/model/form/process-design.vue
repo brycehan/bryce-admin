@@ -1,5 +1,5 @@
 <template>
-    <bpm-model-editor
+  <bpm-model-editor
       v-if="modelData.type === BpmModelType.BPMN"
       :model-id="modelData.id"
       :model-key="modelData.key"
