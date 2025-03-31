@@ -127,7 +127,7 @@ const handleUserSelectSubmit = (users: any[]) => {
  * 重置表单
  */
 const resetFields = () => {
-  dataFormRef.value.resetFields()
+  dataFormRef.value?.resetFields()
 }
 
 /**

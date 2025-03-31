@@ -33,7 +33,7 @@ const constantRoutes: RouteRecordRaw[] = [
     // this generates a separate chunk (About.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import('@/views/404.vue')
-  }
+  },
 ]
 
 /**
@@ -54,7 +54,31 @@ const asyncRoute: RouteRecordRaw = {
         cache: true,
         breadcrumb: ['profile.title'],
       }
-    }
+    },
+    {
+      path: '/bpm/model/add',
+      name: 'BpmModelAdd',
+      component: () => import('@/views/bpm/model/form/index.vue'),
+      meta: {
+        title: '创建流程',
+        i18n: false,
+        cache: false,
+        breadcrumb: ['流程管理', '流程模型', '创建流程'],
+        activeMenu: '/bpm/model/index'
+      }
+    },
+    {
+      path: '/bpm/model/edit/:id',
+      name: 'BpmModelEdit',
+      component: () => import('@/views/bpm/model/form/index.vue'),
+      meta: {
+        title: '修改流程',
+        i18n: false,
+        cache: false,
+        breadcrumb: ['流程管理', '流程模型', '修改流程'],
+        activeMenu: '/bpm/model/index'
+      }
+    },
   ]
 }
 

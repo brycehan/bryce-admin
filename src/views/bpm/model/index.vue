@@ -116,9 +116,6 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
-
-    <!-- 弹窗，新增 / 修改 -->
-    <AddOrEdit ref="addOrEditRef" @refresh-page="getPage" />
     <!-- 弹窗，表单详情 -->
     <el-dialog title="表单详情" v-model="formDetailPreview.visible" width="60%">
       <form-create :rule="formDetailPreview.rule" :option="formDetailPreview.rule" />
@@ -132,7 +129,6 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import AddOrEdit from './form/index.vue'
 import modelApi from '@/api/bpm/model'
 import * as FormApi from '@/api/bpm/form'
 import type { StateOptions } from "@/utils/state";
@@ -144,6 +140,7 @@ import { auth } from '@/utils/tool'
 import modal from '@/utils/modal'
 import { ElMessage } from 'element-plus'
 import HistoryDefinition from '@/views/bpm/model/history-definition.vue'
+import { useRouter } from 'vue-router'
 
 const state: StateOptions = reactive({
   api: {
@@ -155,7 +152,6 @@ const state: StateOptions = reactive({
 })
 
 const queryFormRef = ref()
-const addOrEditRef = ref()
 // 显示搜索条件
 const showSearch = ref(true)
 
@@ -170,6 +166,7 @@ const formDetailPreview = ref({
 const historyDefinitionVisible = ref(false)
 const historyDefinitionTitle = ref('')
 const historyDefinitionRow = ref()
+const router = useRouter()
 
 const {
   getPage,
@@ -195,12 +192,16 @@ const handleResetQuery = () => {
 }
 
 /**
- * 新增/修改 弹窗
+ * 打开新增/修改 页面
  *
  * @param row 当前行数据
  */
 const handleAddOrEdit = (row?: any) => {
-  addOrEditRef.value.init(row?.id)
+  if (row) {
+    router.push({ name: 'BpmModelEdit', params: { id: row?.id } })
+  } else {
+    router.push({ name: 'BpmModelAdd' })
+  }
 }
 
 /**

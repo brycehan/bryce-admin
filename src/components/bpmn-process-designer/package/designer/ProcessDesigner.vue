@@ -248,7 +248,10 @@ const emit = defineEmits([
 ])
 
 const props = defineProps({
-  value: String, // xml 字符串
+  modelValue: {
+    type: String,
+    default: () => ''
+  },
   // valueWatch: true, // xml 字符串的 watch 状态
   processId: String, // 流程 key 标识
   processName: String, // 流程 name 名称
@@ -306,6 +309,7 @@ const previewResult = ref('')
 const previewType = ref('xml')
 const recoverable = ref(false)
 const revocable = ref(false)
+
 const additionalModules = computed(() => {
   console.log(props.additionalModel, 'additionalModel')
   const Modules: any[] = []
@@ -626,8 +630,9 @@ const previewProcessJson = () => {
 /* methods */
 onMounted(() => {
   initBpmnModeler()
-  createNewDiagram(props.value)
+  createNewDiagram(props.modelValue)
 })
+
 onBeforeUnmount(() => {
   if (bpmnModeler) bpmnModeler.destroy()
   emit('destroy', bpmnModeler)

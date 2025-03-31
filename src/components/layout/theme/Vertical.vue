@@ -5,7 +5,7 @@
       <Logo v-if="appStore.theme.showLogo"/>
       <el-scrollbar>
         <el-menu
-          :default-active="route.path"
+          :default-active="activeMenu"
           :collapse="!appStore.sidebarOpened"
           :unique-opened="appStore.theme.uniqueOpened"
           :collapse-transition="false"
@@ -34,19 +34,32 @@ import Logo from '@/components/layout/logo/index.vue'
 import MenuItem from '@/components/layout/menu-item/index.vue'
 import Header from '@/components/layout/header/index.vue'
 import Main from '@/components/layout/main/index.vue'
-import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { computed, unref } from 'vue'
 import { useRouterStore } from '@/stores/modules/router'
 
-const route = useRoute()
 const appStore = useAppStore()
 const routerStore = useRouterStore()
+const { currentRoute } = useRouter()
 
 const sidebarClass = computed(() => {
   const sidebarOpened = appStore.sidebarOpened ? 'aside-expend' : 'aside-compress'
   const isDark = appStore.theme.sidebarStyle === 'dark' ? 'sidebar-dark' : ''
   return `${sidebarOpened} ${isDark}`
 })
+
+/**
+ * 激活菜单
+ */
+const activeMenu = computed(() => {
+  const { meta, path } = unref(currentRoute)
+  // if set path, the sidebar will highlight the path you set
+  if (meta.activeMenu) {
+    return meta.activeMenu
+  }
+  return path
+})
+
 </script>
 
 <style lang="scss" scoped>

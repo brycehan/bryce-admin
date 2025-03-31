@@ -3,13 +3,11 @@
     <!-- 流程设计器，负责绘制流程等 -->
     <MyProcessDesigner
       key="designer"
-      v-model="xmlString"
-      :value="xmlString"
+      v-model="modelData.bpmnXml"
       v-bind="controlForm"
       ref="processDesigner"
       @init-finished="initModeler"
       :additionalModel="controlForm.additionalModel"
-      :model="model"
       @save="save"
       :process-id="modelKey"
       :process-name="modelName"
@@ -32,7 +30,6 @@ import { MyProcessDesigner, MyProcessPenal } from '@/components/bpmn-process-des
 import CustomContentPadProvider from '@/components/bpmn-process-designer/package/designer/plugins/content-pad'
 // 自定义左侧菜单（修改 默认任务 为 用户任务）
 import CustomPaletteProvider from '@/components/bpmn-process-designer/package/designer/plugins/palette'
-import { type BpmModelVo } from '@/api/bpm/model'
 import { inject, onBeforeUnmount, provide, type Ref, ref, shallowRef } from 'vue'
 import { ElMessage } from 'element-plus'
 
@@ -69,7 +66,7 @@ const controlForm = ref({
   headerButtonSize: 'mini',
   additionalModel: [CustomContentPadProvider, CustomPaletteProvider]
 })
-const model = ref<BpmModelVo>() // 流程模型的信息
+const model = ref<any>() // 流程模型的信息
 
 /**
  * 初始化 modeler

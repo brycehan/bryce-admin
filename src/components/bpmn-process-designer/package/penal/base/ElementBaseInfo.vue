@@ -7,7 +7,7 @@
           <el-input
             v-model="needProps.id"
             placeholder="请输入流标标识"
-            :disabled="needProps.id !== undefined && needProps.id.length > 0"
+            readonly
             @change="handleKeyUpdate"
           />
         </el-form-item>
@@ -17,6 +17,7 @@
             placeholder="请输入流程名称"
             clearable
             @change="handleNameUpdate"
+            readonly
           />
         </el-form-item>
       </div>

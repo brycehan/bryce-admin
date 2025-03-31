@@ -144,8 +144,9 @@ import { ZoomOut, ZoomIn, ScaleToOriginal } from '@element-plus/icons-vue'
 import { dateFormatter, formatPast2 } from '@/utils/formatTime'
 import { BpmProcessInstanceStatus } from '@/api/bpm/constant'
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { BpmTypeEnum } from '@/api/bpm/constant'
 import { BpmTaskStatusOptions } from '@/api/bpm/task.ts'
+
+defineOptions({ name: 'MyProcessViewer' })
 
 const props = defineProps({
   xml: {
@@ -180,7 +181,7 @@ const processReZoom = () => {
 
 /** Zoom：放大 */
 const processZoomIn = (zoomStep = 0.1) => {
-  let newZoom = Math.floor(defaultZoom.value * 100 + zoomStep * 100) / 100
+  const newZoom = Math.floor(defaultZoom.value * 100 + zoomStep * 100) / 100
   if (newZoom > 4) {
     throw new Error('[Process Designer Warn ]: The zoom ratio cannot be greater than 4')
   }
@@ -190,7 +191,7 @@ const processZoomIn = (zoomStep = 0.1) => {
 
 /** Zoom：缩小 */
 const processZoomOut = (zoomStep = 0.1) => {
-  let newZoom = Math.floor(defaultZoom.value * 100 - zoomStep * 100) / 100
+  const newZoom = Math.floor(defaultZoom.value * 100 - zoomStep * 100) / 100
   if (newZoom < 0.2) {
     throw new Error('[Process Designer Warn ]: The zoom ratio cannot be less than 0.2')
   }

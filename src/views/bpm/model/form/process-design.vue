@@ -1,15 +1,17 @@
 <template>
-  <bpm-model-editor
-      v-if="modelData.type === BpmModelType.BPMN"
-      :model-id="modelData.id"
-      :model-key="modelData.key"
-      :model-name="modelData.name"
-      @success="handleDesignSuccess"
-    />
+  <template v-if="modelData.type === BpmModelType.BPMN">
+    <bpm-model-editor
+        v-if="showDesigner"
+        :model-id="modelData.id"
+        :model-key="modelData.key"
+        :model-name="modelData.name"
+        @success="handleDesignSuccess"
+      />
+  </template>
 </template>
 
 <script setup lang="ts">
-import { inject, nextTick, type Ref } from 'vue'
+import { computed, inject, nextTick, type Ref } from 'vue'
 import BpmModelEditor from '@/components/bpmn-process-designer/index.vue'
 import { BpmModelType } from '@/api/bpm/constant'
 
@@ -17,6 +19,23 @@ import { BpmModelType } from '@/api/bpm/constant'
 const modelData = defineModel<any>()
 
 const processData = inject('processData') as Ref
+
+/**
+ * 表单校验
+ */
+const validate = () => {
+  if (processData.value) {
+    return true
+  }
+  throw new Error('请设计流程')
+}
+
+/**
+ * 重置表单
+ */
+const resetFields = () => {
+  processData.value = null
+}
 
 /**
  * 处理设计器保存成功
@@ -39,21 +58,11 @@ const handleDesignSuccess = async (data?: any) => {
 }
 
 /**
- * 重置表单
+ * 是否显示设计器
  */
-const resetFields = () => {
-  // processData.value = null
-}
-
-/**
- * 表单校验
- */
-const validate = () => {
-  if (processData.value) {
-    return true
-  }
-  throw new Error('请设计流程')
-}
+const showDesigner = computed(() => {
+  return Boolean(modelData.value?.key && modelData.value?.name)
+})
 
 defineExpose({
   validate,
