@@ -127,7 +127,7 @@
     >
       <template #reference>
         <div @click="openPopover('copy')" class="hover-bg-gray-100 rounded-xl p-[6px]">
-          <svg-icon icon="icon-file-copy" class="pr-1"/>
+          <icon icon="brc:icon-file-copy" class="pr-1"/>
           {{ getButtonDisplayName(OperationButtonType.COPY) }}
         </div>
       </template>
@@ -185,7 +185,7 @@
     >
       <template #reference>
         <div @click="openPopover('transfer')" class="hover-bg-gray-100 rounded-xl p-[6px]">
-          <svg-icon icon="icon-arrowright" class="pr-1"/>
+          <icon icon="brc:icon-arrowright" class="pr-1"/>
           {{ getButtonDisplayName(OperationButtonType.TRANSFER) }}
         </div>
       </template>
@@ -237,7 +237,7 @@
     >
       <template #reference>
         <div @click="openPopover('delegate')" class="hover-bg-gray-100 rounded-xl p-[6px]">
-          <svg-icon icon="icon-send" class="pr-1"/>
+          <icon icon="brc:icon-send" class="pr-1"/>
           {{ getButtonDisplayName(OperationButtonType.DELEGATE) }}
         </div>
       </template>
@@ -289,7 +289,7 @@
     >
       <template #reference>
         <div @click="openPopover('addSign')" class="hover-bg-gray-100 rounded-xl p-[6px]">
-          <svg-icon icon="icon-plus" class="pr-1" />
+          <icon icon="brc:icon-plus" class="pr-1" />
           {{ getButtonDisplayName(OperationButtonType.ADD_SIGN) }}
         </div>
       </template>
@@ -344,7 +344,7 @@
     >
       <template #reference>
         <div @click="openPopover('deleteSign')" class="hover-bg-gray-100 rounded-xl p-[6px]">
-          <svg-icon icon="icon-minus" class="pr-1" />减签
+          <icon icon="brc:icon-minus" class="pr-1" />减签
         </div>
       </template>
       <div class="flex flex-col flex-1 pt-[20px] px-[20px]" v-loading="formLoading">
@@ -395,7 +395,7 @@
     >
       <template #reference>
         <div @click="openPopover('return')" class="hover-bg-gray-100 rounded-xl p-[6px]">
-          <svg-icon icon="icon-arrowleft" class="pr-1" />
+          <icon icon="brc:icon-arrowleft" class="pr-1" />
           {{ getButtonDisplayName(OperationButtonType.RETURN) }}
         </div>
       </template>
@@ -449,7 +449,7 @@
     >
       <template #reference>
         <div @click="openPopover('cancel')" class="hover-bg-gray-100 rounded-xl p-[6px]">
-          <svg-icon icon="icon-rollback" class="pl-1" />取消
+          <icon icon="brc:icon-rollback" class="pl-1" />取消
         </div>
       </template>
       <div class="flex flex-col flex-1 pt-[20px] px-[20px]" v-loading="formLoading">
@@ -513,7 +513,6 @@ import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import SignDialog from './SignDialog.vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/modules/auth'
-import { Icon } from '@iconify/vue/offline'
 
 defineOptions({ name: 'ProcessInstanceBtnContainer' })
 

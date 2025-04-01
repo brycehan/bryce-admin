@@ -1,6 +1,8 @@
 <template>
-  <el-dropdown trigger="click" @command="componentSizeChange">
-    <SvgIcon icon="icon-font-size" />
+  <el-dropdown @command="componentSizeChange">
+    <div class="el-dropdown-text">
+      <icon icon="ion:text" />
+    </div>
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item command="large" :disabled="componentSize === 'large'">大型</el-dropdown-item>
@@ -14,7 +16,6 @@
 <script setup lang="ts">
 import { useAppStore } from '@/stores/modules/app'
 import { computed, onMounted } from 'vue'
-import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 
 const appStore = useAppStore()
 
@@ -43,3 +44,21 @@ const componentSizeChange = (componentSize: string) => {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.el-dropdown-text {
+  width: 40px;
+  height: var(--theme-header-height);
+  line-height: var(--theme-header-height);
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  color: var(--theme-header-text-color);
+  font-size: 16px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+</style>

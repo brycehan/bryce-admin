@@ -49,7 +49,6 @@
 import ProcessNodeTree from './ProcessNodeTree.vue'
 import { type SimpleFlowNode, NodeType, NODE_DEFAULT_TEXT } from './consts'
 import { useWatchNode } from './nodeUtils.ts'
-import { ZoomOut, ZoomIn, ScaleToOriginal } from '@element-plus/icons-vue'
 import { isString } from '@/utils/is'
 import download from '@/utils/download'
 import { provide, ref } from 'vue'
@@ -77,7 +76,7 @@ const emits = defineEmits<{
 const processNodeTree = useWatchNode(props)
 
 provide('readonly', props.readonly)
-let scaleValue = ref(100)
+const scaleValue = ref(100)
 const MAX_SCALE_VALUE = 200
 const MIN_SCALE_VALUE = 50
 

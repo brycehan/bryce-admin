@@ -20,6 +20,8 @@ export const useAppStore = defineStore(
     const theme = storage.getTheme()
     // 字典列表
     const dictList = ref<any>([])
+    // 图标json
+    const iconJsons = ref<any>([])
 
     /**
      * 切换侧边栏展开状态
@@ -70,6 +72,7 @@ export const useAppStore = defineStore(
       locale,
       theme,
       dictList,
+      iconJsons,
       toggleSidebarOpened,
       setComponentSize,
       setLanguage,

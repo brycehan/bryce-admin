@@ -42,7 +42,7 @@
             /> -->
             <el-button class="align align-bottom" @click="elementsAlign('left')">
               <template #icon>
-                <svg-icon icon="icon-align-left"/>
+                <icon icon="brc:icon-align-left"/>
               </template>
             </el-button>
 
@@ -55,7 +55,7 @@
             /> -->
             <el-button class="align align-top" @click="elementsAlign('right')">
               <template #icon>
-                <svg-icon icon="icon-align-left" />
+                <icon icon="brc:icon-align-left" />
               </template>
             </el-button>
           </el-tooltip>
@@ -67,7 +67,7 @@
             /> -->
             <el-button class="align align-left" @click="elementsAlign('top')">
               <template #icon>
-                <svg-icon icon="icon-align-left"/>
+                <icon icon="brc:icon-align-left"/>
               </template>
             </el-button>
           </el-tooltip>
@@ -79,7 +79,7 @@
             /> -->
             <el-button class="align align-right" @click="elementsAlign('bottom')">
               <template #icon>
-                <svg-icon icon="icon-align-left"/>
+                <icon icon="brc:icon-align-left"/>
               </template>
             </el-button>
           </el-tooltip>
@@ -92,7 +92,7 @@
             <!-- class="align align-center" -->
             <el-button class="align align-center" @click="elementsAlign('center')">
               <template #icon>
-                <svg-icon icon="icon-align-center"/>
+                <icon icon="brc:icon-align-center"/>
               </template>
             </el-button>
           </el-tooltip>
@@ -104,7 +104,7 @@
             /> -->
             <el-button class="align align-middle" @click="elementsAlign('middle')">
               <template #icon>
-                <svg-icon icon="icon-align-center"/>
+                <icon icon="brc:icon-align-center"/>
               </template>
             </el-button>
           </el-tooltip>
@@ -118,7 +118,7 @@
             /> -->
             <el-button :disabled="defaultZoom < 0.2" @click="processZoomOut()">
               <template #icon>
-                <svg-icon icon="icon-zoomout"/>
+                <icon icon="brc:icon-zoomout"/>
               </template>
             </el-button>
           </el-tooltip>
@@ -131,7 +131,7 @@
             /> -->
             <el-button :disabled="defaultZoom > 4" @click="processZoomIn()">
               <template #icon>
-                <svg-icon icon="icon-zoomin"/>
+                <icon icon="brc:icon-zoomin"/>
               </template>
             </el-button>
           </el-tooltip>

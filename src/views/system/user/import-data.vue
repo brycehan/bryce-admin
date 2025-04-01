@@ -22,7 +22,7 @@
         :auto-upload="false"
         drag
         >
-          <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+        <icon class="el-icon el-icon--upload" icon="ep:upload-filled"/>
           <div class="el-upload__text">
             将文件拖到此处，或<em>点击上传</em>
           </div>
@@ -49,7 +49,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { getImportTemplateApi, importUrl } from '@/api/system/user'
-import { UploadFilled } from '@element-plus/icons-vue'
 import { ElMessageBox, type UploadProps } from 'element-plus'
 import { useAuthStore } from '@/stores/modules/auth'
 import { handleBeforeUpload } from '@/utils/tool'

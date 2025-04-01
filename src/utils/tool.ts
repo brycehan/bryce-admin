@@ -96,18 +96,6 @@ export const convertSizeFormat = (size: number): string => {
 }
 
 /**
- * 获取svg图标（id）列表
- */
-export const getIconList = (): string[] => {
-  const list: string[] = []
-  const icons = document.querySelectorAll('svg symbol[id^="icon-"]')
-  for (let i = 0; i < icons.length; i++) {
-    list.push(icons[i].id)
-  }
-  return list
-}
-
-/**
  * 获取字典数据列表
  *
  * @param dictList 全部字典列表

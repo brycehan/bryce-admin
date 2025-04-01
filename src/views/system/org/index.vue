@@ -30,10 +30,10 @@
       >
       <el-button plain @click="toggleExpandAll()">
         <template v-if="!isExpandAll">
-          全部展开 <el-icon class="ml-1"> <arrow-down /></el-icon>
+          全部展开 <icon icon="ep:arrow-down" class="ml-1"/>
         </template>
         <template v-else>
-          全部收起 <el-icon class="ml-1"> <arrow-up /></el-icon>
+          全部收起 <icon icon="ep:arrow-up" class="ml-1"/>
         </template>
       </el-button>
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getList" />
@@ -92,7 +92,6 @@ import AddOrEdit from './add-or-edit.vue'
 import { deleteByIdsApi, postListApi } from '@/api/system/dept'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 
 const state: StateOptions = reactive({
   api: {

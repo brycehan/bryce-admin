@@ -6,7 +6,7 @@
     :class="titleSpanClass"
   >
     <template #title>
-      <SvgIcon v-if="showIcon" :icon="menu.meta.icon" />
+      <icon v-if="showIcon" :icon="menu.meta.icon" class="mr-1"/>
       <span>{{ menu.meta.title }}</span>
     </template>
     <menu-item v-for="item in menu.children" :key="item.path" :menu="item" />
@@ -17,7 +17,7 @@
     :index="menu.path"
     @click="handleClick(menu)"
   >
-    <SvgIcon v-if="showIcon" :icon="menu.meta.icon" />
+    <icon v-if="showIcon" :icon="menu.meta.icon" class="mr-1"/>
     <template #title>
       {{ menu.meta.title }}
     </template>
@@ -27,7 +27,6 @@
 <script setup lang="ts">
 import { computed, type PropType } from 'vue'
 import { useRouter } from 'vue-router'
-import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 import { isExternalLink, replaceLinkParam } from '@/utils/tool'
 import { useAppStore } from '@/stores/modules/app'
 import MenuItem from '@/components/layout/menu-item/index.vue'

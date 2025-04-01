@@ -4,9 +4,7 @@
       <el-col :span="24">
         <el-descriptions :column="3" border>
           <template #title>
-            <el-icon>
-              <Monitor />
-            </el-icon>
+            <icon icon="ep:monitor"/>
             <span class="ml-1">基本信息</span>
           </template>
           <el-descriptions-item label="Redis版本">{{
@@ -49,9 +47,7 @@
     <el-row class="mt-6">
       <el-col :span="12">
         <div class="disk-header">
-          <el-icon>
-            <PieChart />
-          </el-icon>
+          <icon icon="ep:pie-chart"/>
           <span class="ml-1">命令统计</span>
         </div>
         <el-divider content-position="right"></el-divider>
@@ -61,9 +57,7 @@
       </el-col>
       <el-col :span="12">
         <div class="disk-header">
-          <el-icon>
-            <Odometer />
-          </el-icon>
+          <icon icon="ep:odometer"/>
           <span class="ml-1">内存信息</span>
         </div>
         <el-divider></el-divider>
@@ -78,7 +72,6 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import { getInfoApi } from '@/api/monitor/cache'
-import { Monitor, Odometer, PieChart } from '@element-plus/icons-vue'
 import modal from '@/utils/modal'
 import * as echarts from 'echarts'
 const data = reactive({

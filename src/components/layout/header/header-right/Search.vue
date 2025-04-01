@@ -1,6 +1,6 @@
 <template>
-  <div class="header-right-search">
-    <svg-icon icon="icon-search" @click="openSearch" />
+  <div class="header-right-search" @click="openSearch">
+    <icon icon="ion:search" />
     <el-dialog
       v-model="visible"
       width="280px"
@@ -22,12 +22,13 @@
           clearable
         >
           <template #default="{ item }">
-            <svg-icon :icon="item.meta.icon" />
-            {{ item.meta.title }}
+            <div class="flex items-center gap-0.5">
+              <icon :icon="item.meta.icon" />
+              <span> {{ item.meta.title }} </span>
+            </div>
           </template>
         </el-autocomplete>
       </div>
-
     </el-dialog>
   </div>
 </template>
@@ -110,6 +111,20 @@ const handleBlur = () => {
 
 <style lang="scss" scoped>
 .header-right-search {
+  width: 40px;
+  height: var(--theme-header-height);
+  line-height: var(--theme-header-height);
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  color: var(--theme-header-text-color);
+  font-size: 16px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
   .search-container {
     width: 600px;
     height: 380px;

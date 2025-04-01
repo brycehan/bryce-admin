@@ -14,7 +14,7 @@
           <div class="w-1/3 flex items-center justify-items-stretch gap-2 pt-2" v-for="item in process" :key="item.id">
             <el-avatar shape="circle" :size="30" :src="item.icon || emptyImg"/>
             <el-tooltip effect="dark" content="流程图预览" placement="top">
-              <SvgIcon icon="icon-Partition" class-name="text-sky-700 cursor-pointer" size="16" @click="handleBpmnDetail(item)" />
+              <icon icon="ion:ios-git-network" class="text-sky-700 cursor-pointer" size="16" @click="handleBpmnDetail(item)" />
             </el-tooltip>
             <span class="cursor-pointer" style="color: #1890ff" @click="handleAddOrEdit(item)"> {{ item.name }} </span>
           </div>
@@ -38,7 +38,6 @@ import CategoryTree from '@/views/bpm/start-process/category-tree.vue'
 import processDefinitionApi from '@/api/bpm/processDefinition.ts'
 import emptyImg from '@/assets/images/empty.png'
 import _ from 'lodash'
-import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 import { MyProcessViewer } from '@/components/bpmn-process-designer/package'
 
 const addOrEditRef = ref()

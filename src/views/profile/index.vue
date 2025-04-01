@@ -8,33 +8,33 @@
         </div>
         <ul>
           <li>
-            <svg-icon icon="icon-user" /> {{ $t('profile.personal.account') }}
+            <icon icon="brc:icon-user" /> {{ $t('profile.personal.account') }}
             <span class="li-text">{{ authStore.user.username }}</span>
           </li>
           <li>
-            <svg-icon icon="icon-idcard" /> {{ $t('profile.personal.nickname') }}
+            <icon icon="brc:icon-idcard" /> {{ $t('profile.personal.nickname') }}
             <span class="li-text">{{ authStore.user.nickname }}</span>
           </li>
           <li>
-            <svg-icon icon="icon-phone" /> {{ $t('profile.personal.phone') }}
+            <icon icon="brc:icon-phone" /> {{ $t('profile.personal.phone') }}
             <span class="li-text">{{ authStore.user.phone }}</span>
           </li>
           <li>
-            <svg-icon icon="icon-mail" /> {{ $t('profile.personal.email') }}
+            <icon icon="brc:icon-mail" /> {{ $t('profile.personal.email') }}
             <span class="li-text">{{ authStore.user.email }}</span>
           </li>
           <li>
-            <svg-icon icon="icon-apartment" /> {{ $t('profile.personal.affiliation') }}
+            <icon icon="brc:icon-apartment" /> {{ $t('profile.personal.affiliation') }}
             <span class="li-text"
               >{{ userInfo.deptName }} / {{ replaceComma(userInfo.postNameList, '、') }}</span
             >
           </li>
           <li>
-            <svg-icon icon="icon-tag" /> {{ $t('profile.personal.role') }}
+            <icon icon="brc:icon-tag" /> {{ $t('profile.personal.role') }}
             <span class="li-text">{{ userInfo.roleNameList }}</span>
           </li>
           <li>
-            <svg-icon icon="icon-calendar-check" /> {{ $t('profile.personal.createTime') }}
+            <icon icon="brc:icon-calendar-check" /> {{ $t('profile.personal.createTime') }}
             <span class="li-text">{{ userInfo.createdTime }}</span>
           </li>
         </ul>

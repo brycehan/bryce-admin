@@ -1,11 +1,13 @@
 <template>
-  <el-dropdown trigger="click" @command="handleLanguageChange">
-    <SvgIcon icon="icon-languages" />
+  <el-dropdown @command="handleLanguageChange">
+    <div class="el-dropdown-text">
+      <icon icon="ion:language" />
+    </div>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item v-for="language in languages" :key="language" :command="language" :disabled="locale === language"
-          >{{ messages[language].langName }}</el-dropdown-item
-        >
+        <el-dropdown-item v-for="language in languages" :key="language" :command="language" :disabled="locale === language">
+          {{ messages[language].langName }}
+        </el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
@@ -13,7 +15,6 @@
 
 <script setup lang="ts">
 import { useAppStore } from '@/stores/modules/app'
-import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 import { messages } from '@/i18n'
 import { useI18n } from 'vue-i18n'
 
@@ -31,3 +32,21 @@ const handleLanguageChange = (language: string) => {
   locale.value = language
 }
 </script>
+
+<style lang="scss" scoped>
+.el-dropdown-text {
+  width: 40px;
+  height: var(--theme-header-height);
+  line-height: var(--theme-header-height);
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  color: var(--theme-header-text-color);
+  font-size: 16px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+</style>

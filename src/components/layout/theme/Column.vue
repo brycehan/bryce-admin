@@ -14,7 +14,7 @@
             :class="{ active: menuPath === menu.path }"
             @click="handleMenu(menu)"
           >
-            <svg-icon :icon="menu.meta?.icon" />
+            <icon :icon="menu.meta?.icon" />
             <span class="title">{{ menu.meta?.title }}</span>
           </div>
         </div>
@@ -120,9 +120,9 @@ const handleMenu = (menu: any) => {
  * @returns 路由对象
  */
 const findLeafRoute: any = (routes: RouteRecordRaw[]): any => {
-  if (!routes || routes.length === 0) return null
-  for (let menu of routes) {
-    if (menu.children && menu.children.length > 0) {
+  if (!Array.isArray(routes) || routes.length === 0) return null
+  for (const menu of routes) {
+    if (Array.isArray(menu.children) && menu.children.length > 0) {
       return findLeafRoute(menu.children)
     } else {
       return menu

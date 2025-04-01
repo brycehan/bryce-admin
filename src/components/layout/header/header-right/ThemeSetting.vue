@@ -1,11 +1,10 @@
 <template>
-  <div class="theme-setting">
-    <SvgIcon icon="icon-ellipsis-v" @click="handleThemeSetting"></SvgIcon>
+  <div class="theme-setting" @click="handleThemeSetting" >
+    <icon icon="ion:ellipsis-vertical" />
   </div>
 </template>
 
 <script setup lang="ts">
-import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 import emitter from '@/utils/emitter'
 
 const handleThemeSetting = () => {
@@ -14,6 +13,18 @@ const handleThemeSetting = () => {
 </script>
 <style lang="scss" scoped>
 .theme-setting {
+  width: 40px;
+  height: var(--theme-header-height);
+  line-height: var(--theme-header-height);
   display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  color: var(--theme-header-text-color);
+  font-size: 16px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
 }
 </style>

@@ -2,7 +2,6 @@ import axios from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useAuthStore } from '@/stores/modules/auth'
 import qs from 'qs'
-import { Warning } from '@element-plus/icons-vue'
 import errorMessage from '@/utils/errorMessage'
 import { useAppStore } from '@/stores/modules/app'
 
@@ -83,7 +82,7 @@ request.interceptors.response.use(
     // 警告提示
     if (code >= 600 && code <= 999) {
       ElMessage.warning(message)
-      return Promise.reject(new Warning(message))
+      return Promise.reject(new Error(message))
     }
 
     // 错误提示

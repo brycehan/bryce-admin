@@ -19,14 +19,12 @@
     <el-dropdown class="tabs-action" trigger="click" placement="bottom-end" @command="onClose">
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item :icon="Close" command="close">{{ $t('main.tabs.close') }}</el-dropdown-item>
-          <el-dropdown-item :icon="CircleClose" command="closeOthers">{{ $t('main.tabs.closeOthers') }}</el-dropdown-item>
-          <el-dropdown-item :icon="CircleCloseFilled" command="closeAll">{{ $t('main.tabs.closeAll') }}</el-dropdown-item>
+          <el-dropdown-item :icon="Close" command="close">{{ t('main.tabs.close') }}</el-dropdown-item>
+          <el-dropdown-item :icon="CircleClose" command="closeOthers">{{ t('main.tabs.closeOthers') }}</el-dropdown-item>
+          <el-dropdown-item :icon="CircleCloseFilled" command="closeAll">{{ t('main.tabs.closeAll') }}</el-dropdown-item>
         </el-dropdown-menu>
       </template>
-      <el-icon>
-        <ArrowDown />
-      </el-icon>
+      <icon icon="ep:arrow-down"/>
     </el-dropdown>
   </div>
 </template>
@@ -34,7 +32,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ArrowDown, Close, CircleClose, CircleCloseFilled } from '@element-plus/icons-vue'
+import { Close, CircleClose, CircleCloseFilled } from '@element-plus/icons-vue'
 import { closeTab, closeOthersTabs, closeAllTabs } from '@/utils/tabs'
 import { useTabsStore } from '@/stores/modules/tabs'
 import { useRouterStore } from '@/stores/modules/router'
@@ -123,6 +121,7 @@ const isAffix = (tab: any) => {
  * @param tab 标签页对象
  */
 const tabClick = (tab: any) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   tab.props.name && router.push(tab.props.name)
 }
 

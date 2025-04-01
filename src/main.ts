@@ -3,7 +3,6 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import '@/assets/styles/index.scss'
-import '@/assets/js/iconfont.js'
 
 import App from './App.vue'
 import pinia from '@/stores'
@@ -21,8 +20,11 @@ import SelectUser from '@/components/select-user'
 import WangEditor from '@/components/wang-editor'
 import 'default-passive-events'
 import { i18n } from '@/i18n'
-import { Icon, addCollection } from '@iconify/vue/offline';
+import { addCollection } from '@iconify/vue/offline'
+import Icon from '@/components/icon'
+import IonIconsJSON from '@iconify-json/ion/icons.json'
 import ElementPlusIconsJSON from '@iconify-json/ep/icons.json'
+import BrcIconsJSON from '@/assets/js/brc-icons.json'
 
 const app = createApp(App)
 
@@ -45,10 +47,12 @@ app.use(SelectUser)
 app.use(WangEditor)
 
 // 添加离线图标库
+addCollection(IonIconsJSON)
 addCollection(ElementPlusIconsJSON)
+addCollection(BrcIconsJSON)
 
-app.component('Icon', Icon)
-
+// 注册图标
+app.use(Icon)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }

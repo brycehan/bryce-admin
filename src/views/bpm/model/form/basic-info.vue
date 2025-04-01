@@ -13,9 +13,7 @@
       <div class="flex items-center w-full">
         <el-input v-model="dataForm.key" class="shrink-0 mr-2" :disabled="!!dataForm.id" clearable placeholder="请输入流程标识，以字母或下划线开头"/>
         <el-tooltip effect="dark" :content="dataForm.id ? '流程标识不可修改！': '新建后，流程标识不可修改！'" placement="top">
-          <el-icon class="tooltip-icon">
-            <QuestionFilled />
-          </el-icon>
+          <icon icon="ep:question-filled"/>
         </el-tooltip>
       </div>
     </el-form-item>
@@ -50,7 +48,6 @@
 <script setup lang="ts">
 import { type PropType, reactive, ref, watch } from 'vue'
 import type { FormRules } from 'element-plus'
-import { QuestionFilled } from '@element-plus/icons-vue'
 
 const props = defineProps({
   categoryList: {

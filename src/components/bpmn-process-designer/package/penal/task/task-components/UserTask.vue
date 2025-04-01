@@ -234,7 +234,6 @@ import { useFormFieldsPermission } from '@/components/simple-process-designer-v2
 import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, toRaw, watch } from 'vue'
 import { StatusType } from '@/utils/constant'
 import { ElTreeSelect } from 'element-plus'
-import { Icon } from '@iconify/vue/offline'
 
 defineOptions({ name: 'UserTask' })
 const props = defineProps({

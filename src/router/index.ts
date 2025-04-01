@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { createRouter, createWebHashHistory, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { isExternalLink } from '@/utils/tool'
@@ -98,7 +97,7 @@ export const dashboardMenu = [
     id: -1,
     name: 'Dashboard',
     url: null,
-    icon: 'icon-appstore',
+    icon: 'ion:grid-outline',
     type: 'C',
     visible: 1,
     children: [
@@ -106,7 +105,7 @@ export const dashboardMenu = [
         id: -11,
         name: '首页',
         url: 'dashboard/index',
-        icon: 'icon-home',
+        icon: 'ion:home-outline',
         type: 'M',
         visible: 1,
         affix: true,
@@ -123,7 +122,7 @@ export const demoMenu = [
     id: -2,
     name: 'Demo',
     url: null,
-    icon: 'icon-windows',
+    icon: 'ion:apps-outline',
     type: 'C',
     visible: 1,
     children: [
@@ -131,7 +130,7 @@ export const demoMenu = [
         id: -21,
         name: 'Icon 图标',
         url: 'demo/icons/index',
-        icon: 'icon-unorderedlist',
+        icon: 'ion:list-outline',
         type: 'M',
         visible: 1,
       },
@@ -139,7 +138,7 @@ export const demoMenu = [
         id: -22,
         name: '二维码生成',
         url: 'demo/qrcode/index',
-        icon: 'icon-unorderedlist',
+        icon: 'ion:qr-code-outline',
         type: 'M',
         visible: 1,
       },
@@ -147,7 +146,7 @@ export const demoMenu = [
         id: -23,
         name: '页面打印',
         url: 'demo/printJs/index',
-        icon: 'icon-unorderedlist',
+        icon: 'ion:print-outline',
         type: 'M',
         visible: 1,
       },
@@ -155,7 +154,7 @@ export const demoMenu = [
         id: -24,
         name: '图片裁剪',
         url: 'demo/cropper/index',
-        icon: 'icon-unorderedlist',
+        icon: 'ion:cut-outline',
         type: 'M',
         visible: 1,
       },
@@ -163,7 +162,7 @@ export const demoMenu = [
         id: -25,
         name: 'Markdown',
         url: 'demo/markdown/index',
-        icon: 'icon-unorderedlist',
+        icon: 'ion:logo-markdown',
         type: 'M',
         visible: 1,
       },
@@ -171,7 +170,7 @@ export const demoMenu = [
         id: -26,
         name: 'ECharts图表',
         url: 'demo/echarts/index',
-        icon: 'icon-unorderedlist',
+        icon: 'ion:bar-chart-outline',
         type: 'M',
         visible: 1,
       }
@@ -179,9 +178,9 @@ export const demoMenu = [
   }
 ]
 
+// 创建路由，hash模式， history模式 参数一样的写法
 export const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL), // hash模式
-  // history: createWebHistory(import.meta.env.BASE_URL), // history模式
   routes: constantRoutes
 })
 
@@ -189,7 +188,7 @@ export const router = createRouter({
 const whiteList = ['/login']
 
 // 路由跳转前
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, _from, next) => {
   NProgress.start()
 
   const authStore = useAuthStore()

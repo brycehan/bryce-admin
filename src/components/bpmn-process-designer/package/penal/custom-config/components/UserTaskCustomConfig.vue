@@ -32,7 +32,7 @@
       >
         <div class="flex-col">
           <div v-for="(item, index) in REJECT_HANDLER_TYPES" :key="index">
-            <el-radio :key="item.value" :value="item.value" :label="item.label" />
+            <el-radio :key="item.value" :value="item.value">{{ item.label }}</el-radio>
           </div>
         </div>
       </el-radio-group>
@@ -57,7 +57,7 @@
       <el-radio-group v-model="assignEmptyHandlerType" @change="updateAssignEmptyHandlerType">
         <div class="flex-col">
           <div v-for="(item, index) in ASSIGN_EMPTY_HANDLER_TYPES" :key="index">
-            <el-radio :key="item.value" :value="item.value" :label="item.label" />
+            <el-radio :key="item.value" :value="item.value">{{ item.label }}</el-radio>
           </div>
         </div>
       </el-radio-group>
@@ -88,7 +88,7 @@
     <el-radio-group v-model="assignStartUserHandlerType" @change="updateAssignStartUserHandlerType">
       <div class="flex-col">
         <div v-for="(item, index) in ASSIGN_START_USER_HANDLER_TYPES" :key="index">
-          <el-radio :key="item.value" :value="item.value" :label="item.label" />
+          <el-radio :key="item.value" :value="item.value">{{ item.label }}</el-radio>
         </div>
       </div>
     </el-radio-group>
@@ -291,7 +291,7 @@ const resetCustomConfigList = () => {
     )?.[0] || bpmnInstances().moddle.create(`${prefix}:AssignEmptyUserIds`, { value: '' })
   assignEmptyUserIds.value = assignEmptyUserIdsEl.value.value?.split(',').map((item: any) => {
     // 如果数字超出了最大安全整数范围，则将其作为字符串处理
-    let num = Number(item)
+    const num = Number(item)
     return num > Number.MAX_SAFE_INTEGER || num < -Number.MAX_SAFE_INTEGER ? item : num
   })
 
@@ -416,6 +416,7 @@ const updateElementExtensions = () => {
 watch(
   () => props.id,
   (val) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     val &&
       val.length &&
       nextTick(() => {

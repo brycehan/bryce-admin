@@ -4,9 +4,7 @@
       <el-col :span="24">
         <el-descriptions :column="2" border>
           <template #title>
-            <el-icon>
-              <Monitor />
-            </el-icon>
+            <icon icon="ep:monitor"/>
             <span class="ml-1">服务器信息</span>
           </template>
           <el-descriptions-item label="操作系统">{{ data.sys.osName }}</el-descriptions-item>
@@ -20,9 +18,7 @@
     <el-row class="mt-6 descriptions-row">
       <el-descriptions :column="2" border>
         <template #title>
-          <el-icon>
-            <Cpu />
-          </el-icon>
+          <icon icon="ep:cpu"/>
           <span class="ml-1">CPU</span>
         </template>
         <el-descriptions-item label="CPU 型号">{{ data.cpu.cpuModel }}</el-descriptions-item>
@@ -33,9 +29,7 @@
       </el-descriptions>
       <el-descriptions :column="2" border>
         <template #title>
-          <el-icon>
-            <Tickets />
-          </el-icon>
+          <icon icon="ep:tickets"/>
           <span class="ml-1">系统内存</span>
         </template>
         <el-descriptions-item label="内存总量" width="100">{{
@@ -52,9 +46,7 @@
       <el-col :span="24">
         <el-descriptions :column="2" border>
           <template #title>
-            <el-icon>
-              <CoffeeCup />
-            </el-icon>
+            <icon icon="ep:coffee-cup"/>
             <span class="ml-1">JVM信息</span>
           </template>
           <el-descriptions-item label="名称" width="100">{{ data.jvm.name }}</el-descriptions-item>
@@ -80,9 +72,7 @@
     <el-row class="mt-6">
       <el-col :span="24">
         <div class="disk-header mb-5">
-          <el-icon>
-            <MessageBox />
-          </el-icon>
+          <icon icon="ep:message-box"/>
           <span class="ml-1">磁盘信息</span>
         </div>
         <el-table :data="data.disks" class="w-full" border>
@@ -102,7 +92,6 @@
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue'
 import { getServerInfoApi } from '@/api/monitor/server'
-import { CoffeeCup, Cpu, MessageBox, Monitor, Tickets } from '@element-plus/icons-vue'
 import modal from '@/utils/modal'
 
 const data = reactive({

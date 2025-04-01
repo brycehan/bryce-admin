@@ -3,9 +3,7 @@
     <el-form-item prop="allowCancelRunningProcess">
       <template #label>
         <el-tooltip effect="dark" content="第一个审批节点通过后，提交人仍可撤销申请" placement="top">
-          <el-icon class="tooltip-icon">
-            <QuestionFilled />
-          </el-icon>
+          <icon icon="ep:question-filled"/>
         </el-tooltip>
         <span>提交人权限</span>
       </template>
@@ -55,9 +53,7 @@
     <el-form-item prop="autoApprovalType">
       <template #label>
         <el-tooltip effect="dark" content="同一审批人在流程中重复出现时的情况" placement="top">
-          <el-icon class="tooltip-icon">
-            <QuestionFilled />
-          </el-icon>
+          <icon icon="ep:question-filled"/>
         </el-tooltip>
         <span>自动去重</span>
       </template>
@@ -73,9 +69,7 @@
         <el-radio :value="true">
           自定义标题
           <el-tooltip effect="dark" content="输入字符 '{' 即可插入表单字段" placement="top">
-            <el-icon class="tooltip-icon">
-              <QuestionFilled />
-            </el-icon>
+            <icon icon="ep:question-filled"/>
           </el-tooltip>
         </el-radio>
       </el-radio-group>
@@ -105,7 +99,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import { dayjs, type FormRules } from 'element-plus'
-import { QuestionFilled } from '@element-plus/icons-vue'
 import { BpmProcessVariableEnum } from '@/api/bpm/constant'
 
 // 创建本地数据副本

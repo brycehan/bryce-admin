@@ -31,9 +31,9 @@
           v-model="state.dataForm.type"
           :disabled="!!state.dataForm.id"
         >
-          <el-radio label="C">目录</el-radio>
-          <el-radio label="M">菜单</el-radio>
-          <el-radio label="B">按钮</el-radio>
+          <el-radio value="C">目录</el-radio>
+          <el-radio value="M">菜单</el-radio>
+          <el-radio value="B">按钮</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-row>
@@ -64,20 +64,22 @@
           <template #reference>
             <el-input v-model="state.dataForm.icon" placeholder="请选择图标" clearable>
               <template #prefix>
-                <svg-icon :icon="state.dataForm.icon ? state.dataForm.icon : 'icon-search'" />
+                <icon :icon="state.dataForm.icon ? state.dataForm.icon : 'brc:icon-search'" />
               </template>
             </el-input>
           </template>
           <div class="icon-popover-icon-inner">
             <el-scrollbar class="icon-popover-icon-list" height="250">
-              <el-button
-                v-for="(item, index) in iconList"
-                :key="index"
-                :class="{ 'is-active': state.dataForm.icon === item }"
-                @click="handleIcon(item)"
-              >
-                <svg-icon :icon="item" size="20px" />
-              </el-button>
+              <template v-for="(coll, k) in iconCollections">
+                <el-button
+                  v-for="(item, index) in Object.keys(coll.icons)"
+                  :key="`${k}-${index}`"
+                  :class="{ 'is-active': state.dataForm.icon === item }"
+                  @click="handleIcon(coll.prefix, item)"
+                >
+                  <icon :icon="`${coll.prefix}:${item}`" size="20" />
+                </el-button>
+              </template>
             </el-scrollbar>
           </div>
         </el-popover>
@@ -87,15 +89,13 @@
           <el-form-item prop="openStyle">
             <template #label>
               <el-tooltip effect="dark" content="选择是外部则地址需要以`http(s)://`开头" placement="top">
-                <el-icon class="tooltip-icon">
-                  <QuestionFilled />
-                </el-icon>
+                <icon icon="ep:question-filled"/>
               </el-tooltip>
               <span>打开方式</span>
             </template>
             <el-radio-group v-model="state.dataForm.openStyle">
-              <el-radio :label="false">内部</el-radio>
-              <el-radio :label="true">外部</el-radio>
+              <el-radio :value="false">内部</el-radio>
+              <el-radio :value="true">外部</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -104,9 +104,7 @@
           <el-form-item prop="url">
             <template #label>
               <el-tooltip effect="dark" content="访问的路由地址，如：`system/user/index`，或外网地址则以`http(s)://`开头" placement="top">
-                <el-icon class="tooltip-icon">
-                  <QuestionFilled />
-                </el-icon>
+                <icon icon="ep:question-filled"/>
               </el-tooltip>
               <span>访问地址</span>
             </template>
@@ -120,9 +118,7 @@
           <el-form-item prop="status" v-if="state.dataForm.type === 'C' || state.dataForm.type === 'M'">
             <template #label>
               <el-tooltip effect="dark" content="选择隐藏则路由将不会出现在侧边栏，但仍然可以访问" placement="top">
-                <el-icon class="tooltip-icon">
-                  <QuestionFilled />
-                </el-icon>
+                <icon icon="ep:question-filled"/>
               </el-tooltip>
               <span>显示状态</span>
             </template>
@@ -131,9 +127,7 @@
           <el-form-item prop="authority" v-if="state.dataForm.type === 'M' || state.dataForm.type === 'B'">
             <template #label>
               <el-tooltip effect="dark" content="控制器中定义的权限字符，如：@PreAuthorize(`@auth.hasAuthority('system:user:page')`)" placement="top">
-                <el-icon class="tooltip-icon">
-                  <QuestionFilled />
-                </el-icon>
+                <icon icon="ep:question-filled"/>
               </el-tooltip>
               <span>权限标识</span>
             </template>
@@ -144,9 +138,7 @@
         <el-form-item prop="status">
           <template #label>
             <el-tooltip effect="dark" content="选择停用则菜单将不会出现在侧边栏，也不能被访问" placement="top">
-              <el-icon class="tooltip-icon">
-                <QuestionFilled />
-              </el-icon>
+              <icon icon="ep:question-filled"/>
             </el-tooltip>
             <span>菜单状态</span>
           </template>
@@ -172,10 +164,7 @@ import {
 } from '@/api/system/menu'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import SvgIcon from '@/components/svg-icon/svg-icon.vue'
-import { getIconList } from '@/utils/tool'
 import { ElTreeSelect, type FormRules } from 'element-plus'
-import { QuestionFilled } from '@element-plus/icons-vue'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -202,9 +191,9 @@ const state: StateOptions = reactive({
 })
 
 const menuList = ref([] as any[])
-const iconList = ref<string[]>([])
 const menuTreeRef = ref()
 const iconPopoverRef = ref()
+const iconCollections = ref<any[]>([])
 
 const dataFormRef = ref()
 
@@ -254,7 +243,7 @@ const { handleSaveOrUpdate } = crud(state)
  *
  * @param id 菜单ID
  */
-const init = (id?: string) => {
+const init = async (id?: string) => {
   state.visible = true
   state.dataForm.id = ''
 
@@ -270,8 +259,21 @@ const init = (id?: string) => {
   if (id) {
     getData(id)
   }
-  // icon 列表
-  iconList.value = getIconList()
+  await addIcons()
+}
+
+const addIcons = async () => {
+  try {
+    // 使用 Promise.all 并行加载图标数据
+    const [ionIcons, elementPlusIcons] = await Promise.all([
+      import('@iconify-json/ion/icons.json'),
+      import('@iconify-json/ep/icons.json')
+    ]);
+    // 将加载的图标数据添加到 iconCollections
+    iconCollections.value.push(ionIcons.default, elementPlusIcons.default);
+  } catch (error) {
+    console.error('加载图标数据失败:', error);
+  }
 }
 
 /**
@@ -279,7 +281,7 @@ const init = (id?: string) => {
  *
  * @param row 当前行数据
  */
-const initAdd = (row?: any) => {
+const initAdd = async (row?: any) => {
   state.visible = true
   state.dataForm.id = null
 
@@ -295,8 +297,7 @@ const initAdd = (row?: any) => {
     handleTreeInitAdd(row)
   }
 
-  // icon 列表
-  iconList.value = getIconList()
+  await addIcons()
 }
 
 /**
@@ -354,9 +355,11 @@ const handleTreeInitAdd = (data: any) => {
 /**
  * 图标点击事件
  *
+ * @param prefix 图标前缀
+ * @param icon 图标名称
  */
-const handleIcon = (icon: string) => {
-  state.dataForm.icon = icon
+const handleIcon = (prefix: string, icon: string) => {
+  state.dataForm.icon = `${prefix}:${icon}`
   iconPopoverRef.value.hide()
 }
 

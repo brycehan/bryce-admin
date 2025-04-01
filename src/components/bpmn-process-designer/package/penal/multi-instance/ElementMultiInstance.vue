@@ -7,7 +7,7 @@
     >
       <div class="flex-col">
         <div v-for="(item, index) in APPROVE_METHODS" :key="index">
-          <el-radio :value="item.value" :label="item.value">
+          <el-radio :value="item.value">
             {{ item.label }}
           </el-radio>
           <el-form-item prop="approveRatio">

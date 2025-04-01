@@ -4,7 +4,7 @@
     <languages />
     <component-size />
     <a href="https://github.com/brycehan/bryce-admin" target="_blank">
-      <svg-icon icon="icon-github-fill" class="block-icon"></svg-icon>
+      <icon icon="ion:logo-github" />
     </a>
     <search />
     <fullscreen />
@@ -14,7 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import SvgIcon from '@/components/svg-icon/svg-icon.vue'
 import User from './User.vue'
 import ComponentSize from './ComponentSize.vue'
 import Fullscreen from './Fullscreen.vue'
@@ -30,25 +29,20 @@ import Languages from '@/components/layout/header/header-right/Languages.vue'
   align-items: center;
   justify-content: flex-end;
 
-  ::v-deep(.svg-icon) {
+  a {
+    width: 40px;
+    height: var(--theme-header-height);
+    line-height: var(--theme-header-height);
     display: flex;
     cursor: pointer;
-    line-height: var(--theme-header-height);
-    height: var(--theme-header-height);
-    padding: 0 12px;
     align-items: center;
-
-    svg {
-      color: var(--theme-header-text-color) !important;
-      font-size: 16px;
-    }
+    justify-content: center;
+    color: var(--theme-header-text-color);
+    font-size: 16px;
 
     &:hover {
       background-color: rgba(0, 0, 0, 0.1);
     }
   }
-}
-.block-icon {
-  display: block;
 }
 </style>

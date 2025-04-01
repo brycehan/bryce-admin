@@ -3,16 +3,14 @@
     <div class="avatar-wrapper">
       <el-avatar shape="circle" :size="30" :src="authStore.user.avatar || avatarImg"></el-avatar>
       <span>{{ username }}</span>
-      <el-icon class="el-icon--right">
-        <arrow-down />
-      </el-icon>
+      <icon icon="ep:arrow-down" class="ml-1"/>
     </div>
     <template #dropdown>
       <el-dropdown-menu>
         <router-link to="/profile">
-          <el-dropdown-item>{{ $t('profile.title') }}</el-dropdown-item>
+          <el-dropdown-item>{{ t('profile.title') }}</el-dropdown-item>
         </router-link>
-        <el-dropdown-item divided @click="logout">{{ $t('login.signOut') }}</el-dropdown-item>
+        <el-dropdown-item divided @click="logout">{{ t('login.signOut') }}</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
@@ -20,13 +18,14 @@
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/modules/auth'
-import { ArrowDown } from '@element-plus/icons-vue'
 import avatarImg from '@/assets/images/user1-128x128.jpg'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const authStore = useAuthStore()
 
 const username = computed(() => authStore.user.username)
+const { t } = useI18n()
 
 const logout = () => {
   authStore.logout().then(() => {

@@ -68,7 +68,6 @@ import AddOrEdit from './add-or-edit.vue'
 import { postPageApi, deleteByIdsApi } from '@/api/bpm/processExpression'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
-import { Icon } from '@iconify/vue/offline'
 
 const state: StateOptions = reactive({
   api: {

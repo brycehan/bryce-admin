@@ -30,10 +30,10 @@
       >
       <el-button plain @click="toggleExpandAll()">
         <template v-if="!isExpandAll">
-          全部展开 <el-icon class="ml-1"> <arrow-down /></el-icon>
+          全部展开 <icon class="ml-1" icon="ep:arrow-down"/>
         </template>
         <template v-else>
-          全部收起 <el-icon class="ml-1"> <arrow-up /></el-icon>
+          全部收起 <icon class="ml-1" icon="ep:arrow-up"/>
         </template>
       </el-button>
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getList" />
@@ -58,7 +58,7 @@
       />
       <el-table-column label="图标" prop="icon" header-align="center" align="center" min-width="70">
         <template #default="scope">
-          <svg-icon :icon="scope.row.icon" />
+          <icon :icon="scope.row.icon" />
         </template>
       </el-table-column>
       <el-table-column label="类型" prop="type" header-align="center" align="center" min-width="75">
@@ -135,7 +135,6 @@ import AddOrEdit from './add-or-edit.vue'
 import { postListApi, deleteByIdsApi } from '@/api/system/menu'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 
 const state: StateOptions = reactive({
   api: {

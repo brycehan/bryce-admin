@@ -49,7 +49,7 @@
               >
                 <el-row>
                   <el-col v-for="(dict, index) in CANDIDATE_STRATEGY" :key="index" :span="8">
-                    <el-radio :value="dict.value" :label="dict.value">
+                    <el-radio :value="dict.value">
                       {{ dict.label }}
                     </el-radio>
                   </el-col>
@@ -209,7 +209,7 @@
                     :key="index"
                     class="flex items-center"
                   >
-                    <el-radio :value="item.value" :label="item.value">
+                    <el-radio :value="item.value">
                       {{ item.label }}
                     </el-radio>
                     <el-form-item prop="approveRatio">
@@ -235,7 +235,7 @@
               <el-radio-group v-model="configForm.rejectHandlerType">
                 <div class="flex-col">
                   <div v-for="(item, index) in REJECT_HANDLER_TYPES" :key="index">
-                    <el-radio :key="item.value" :value="item.value" :label="item.label" />
+                    <el-radio :key="item.value" :value="item.value">{{ item.label }}</el-radio>
                   </div>
                 </div>
               </el-radio-group>
@@ -321,7 +321,7 @@
               <el-radio-group v-model="configForm.assignEmptyHandlerType">
                 <div class="flex-col">
                   <div v-for="(item, index) in ASSIGN_EMPTY_HANDLER_TYPES" :key="index">
-                    <el-radio :key="item.value" :value="item.value" :label="item.label" />
+                    <el-radio :key="item.value" :value="item.value">{{ item.label }}</el-radio>
                   </div>
                 </div>
               </el-radio-group>
@@ -353,7 +353,7 @@
               <el-radio-group v-model="configForm.assignStartUserHandlerType">
                 <div class="flex-col">
                   <div v-for="(item, index) in ASSIGN_START_USER_HANDLER_TYPES" :key="index">
-                    <el-radio :key="item.value" :value="item.value" :label="item.label" />
+                    <el-radio :key="item.value" :value="item.value">{{ item.label }}</el-radio>
                   </div>
                 </div>
               </el-radio-group>
@@ -462,7 +462,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref, inject, computed, reactive } from 'vue'
+import { ref, type Ref, computed, reactive } from 'vue'
 import {
   type SimpleFlowNode,
   APPROVE_TYPE,

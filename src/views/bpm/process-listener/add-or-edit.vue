@@ -50,9 +50,7 @@
             content="例如：com.brycehan.boot.bpm.common.listener.BpmTriggerTaskDelegate"
             placement="top"
           >
-            <el-icon class="tooltip-icon">
-              <QuestionFilled />
-            </el-icon>
+            <icon icon="ep:question-filled"/>
           </el-tooltip>
           <span>类路径</span>
         </template>
@@ -61,9 +59,7 @@
       <el-form-item prop="value" v-else>
         <template #label>
           <el-tooltip effect="dark" content="例如：${ days > 3 }" placement="top">
-            <el-icon class="tooltip-icon">
-              <QuestionFilled />
-            </el-icon>
+            <icon icon="ep:question-filled"/>
           </el-tooltip>
           <span>表达式</span>
         </template>
@@ -86,7 +82,6 @@ import { getByIdApi, saveOrUpdateApi } from '@/api/bpm/processListener'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import type { FormRules } from 'element-plus'
-import { QuestionFilled } from '@element-plus/icons-vue'
 
 const emit = defineEmits(['refreshPage'])
 
