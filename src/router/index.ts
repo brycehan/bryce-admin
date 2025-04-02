@@ -206,6 +206,7 @@ router.beforeEach(async (to, _from, next) => {
           await authStore.getCurrentUser()
           await authStore.getAuthoritySet()
           await appStore.getDictList()
+          await appStore.initIcons()
         } catch (error) {
           console.error('router.beforeEach', error)
 

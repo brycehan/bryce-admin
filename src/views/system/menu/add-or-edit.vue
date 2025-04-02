@@ -54,35 +54,7 @@
         prop="icon"
         class="popover-container icon-list"
       >
-        <el-popover
-          ref="iconPopoverRef"
-          placement="top-start"
-          trigger="click"
-          width="40%"
-          popper-class="icon-popover"
-        >
-          <template #reference>
-            <el-input v-model="state.dataForm.icon" placeholder="请选择图标" clearable>
-              <template #prefix>
-                <icon :icon="state.dataForm.icon ? state.dataForm.icon : 'brc:icon-search'" />
-              </template>
-            </el-input>
-          </template>
-          <div class="icon-popover-icon-inner">
-            <el-scrollbar class="icon-popover-icon-list" height="250">
-              <template v-for="(coll, k) in iconCollections">
-                <el-button
-                  v-for="(item, index) in Object.keys(coll.icons)"
-                  :key="`${k}-${index}`"
-                  :class="{ 'is-active': state.dataForm.icon === item }"
-                  @click="handleIcon(coll.prefix, item)"
-                >
-                  <icon :icon="`${coll.prefix}:${item}`" size="20" />
-                </el-button>
-              </template>
-            </el-scrollbar>
-          </div>
-        </el-popover>
+        <popover-icon v-model="state.dataForm.icon" />
       </el-form-item>
       <el-row v-if="state.dataForm.type === 'M'">
         <el-col :span="12">
@@ -110,7 +82,6 @@
             </template>
             <el-input v-model="state.dataForm.url" placeholder="请输入地址" />
           </el-form-item>
-
         </el-col>
       </el-row>
       <el-row>
@@ -155,7 +126,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { defineAsyncComponent, reactive, ref } from 'vue'
 import {
   getByIdApi,
   saveOrUpdateApi,
@@ -190,11 +161,13 @@ const state: StateOptions = reactive({
   }
 })
 
+// 异步加载
+const PopoverIcon = defineAsyncComponent(() =>
+  import('./popover-icon.vue')
+)
+
 const menuList = ref([] as any[])
 const menuTreeRef = ref()
-const iconPopoverRef = ref()
-const iconCollections = ref<any[]>([])
-
 const dataFormRef = ref()
 
 /**
@@ -259,21 +232,6 @@ const init = async (id?: string) => {
   if (id) {
     getData(id)
   }
-  await addIcons()
-}
-
-const addIcons = async () => {
-  try {
-    // 使用 Promise.all 并行加载图标数据
-    const [ionIcons, elementPlusIcons] = await Promise.all([
-      import('@iconify-json/ion/icons.json'),
-      import('@iconify-json/ep/icons.json')
-    ]);
-    // 将加载的图标数据添加到 iconCollections
-    iconCollections.value.push(ionIcons.default, elementPlusIcons.default);
-  } catch (error) {
-    console.error('加载图标数据失败:', error);
-  }
 }
 
 /**
@@ -296,8 +254,6 @@ const initAdd = async (row?: any) => {
   if (row) {
     handleTreeInitAdd(row)
   }
-
-  await addIcons()
 }
 
 /**
@@ -353,17 +309,6 @@ const handleTreeInitAdd = (data: any) => {
 }
 
 /**
- * 图标点击事件
- *
- * @param prefix 图标前缀
- * @param icon 图标名称
- */
-const handleIcon = (prefix: string, icon: string) => {
-  state.dataForm.icon = `${prefix}:${icon}`
-  iconPopoverRef.value.hide()
-}
-
-/**
  * 表单提交
  */
 const handleSubmit = () => {
@@ -394,22 +339,3 @@ defineExpose({
   initAdd
 })
 </script>
-
-<style scoped lang="scss">
-.popover-container {
-  ::v-deep(.el-input__suffix) {
-    cursor: pointer;
-  }
-}
-
-.icon-popover-icon-list {
-  width: 100%;
-  max-height: 260px;
-
-  .el-button {
-    margin: 15px 0 0 10px;
-    height: 30px;
-    width: 30px;
-  }
-}
-</style>
