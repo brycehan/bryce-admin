@@ -11,7 +11,7 @@
           :id-edit-disabled="idEditDisabled"
           :business-object="elementBusinessObject"
           :type="elementType"
-          :model="model"
+          v-model="model"
         />
       </el-collapse-item>
       <el-collapse-item name="condition" v-if="elementType === 'Process'" key="message">
@@ -88,6 +88,7 @@ import { nextTick, onBeforeUnmount, provide, ref, watch } from 'vue'
 
 defineOptions({ name: 'MyPropertiesPanel' })
 
+const model = defineModel<any>()
 /**
  * 侧边栏
  * @Author MiyueFE
@@ -110,8 +111,7 @@ const props = defineProps({
   idEditDisabled: {
     type: Boolean,
     default: false
-  },
-  model: Object // 流程模型的数据
+  }
 })
 
 const activeTab = ref('base')

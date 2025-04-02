@@ -1,11 +1,11 @@
 <template>
   <div class="panel-tab__content">
-    <el-form label-width="90px" :model="needProps" :rules="rules">
+    <el-form label-width="90px" :model="needProps">
       <div v-if="needProps.type == 'bpmn:Process'">
         <!-- 如果是 Process 信息的时候，使用自定义表单 -->
-        <el-form-item label="流程标识" prop="id">
+        <el-form-item label="流程标识" prop="key">
           <el-input
-            v-model="needProps.id"
+            v-model="model.key"
             placeholder="请输入流标标识"
             readonly
             @change="handleKeyUpdate"
@@ -13,7 +13,7 @@
         </el-form-item>
         <el-form-item label="流程名称" prop="name">
           <el-input
-            v-model="needProps.name"
+            v-model="model.name"
             placeholder="请输入流程名称"
             clearable
             @change="handleNameUpdate"
@@ -33,16 +33,13 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onBeforeUnmount, reactive, ref, toRaw, watch } from 'vue'
+import { onBeforeUnmount, ref, toRaw, watch } from 'vue'
 
 defineOptions({ name: 'ElementBaseInfo' })
 
+const model = defineModel<any>()
 const props = defineProps({
   businessObject: {
-    type: Object,
-    default: () => {}
-  },
-  model: {
     type: Object,
     default: () => {}
   }
@@ -52,13 +49,9 @@ const bpmnElement = ref()
 const elementBaseInfo = ref<any>({})
 // 流程表单的下拉框的数据
 // const forms = ref([])
-// 流程模型的校验
-const rules = reactive({
-  id: [{ required: true, message: '流程标识不能为空', trigger: 'blur' }],
-  name: [{ required: true, message: '流程名称不能为空', trigger: 'blur' }]
-})
 
 const bpmnInstances = () => (window as any)?.bpmnInstances
+
 const resetBaseInfo = () => {
   console.log(window, 'window')
   console.log(bpmnElement.value, 'bpmnElement')
@@ -73,15 +66,10 @@ const resetBaseInfo = () => {
   // console.log(elementBaseInfo.value, 'elementBaseInfo22222222222')
 }
 const handleKeyUpdate = (value: any) => {
-  // 校验 value 的值，只有 XML NCName 通过的情况下，才进行赋值。否则，会导致流程图报错，无法绘制的问题
+  // 校验 value 的值，只有 XML NCName 通过的情况下，才进行赋值。
   if (!value) {
     return
   }
-  if (!value.match(/[a-zA-Z_][-_.0-9a-zA-Z$]*/)) {
-    console.log('key 不满足 XML NCName 规则，所以不进行赋值')
-    return
-  }
-  console.log('key 满足 XML NCName 规则，所以进行赋值')
 
   // 在 BPMN 的 XML 中，流程标识 key，其实对应的是 id 节点
   elementBaseInfo.value['id'] = value
@@ -90,6 +78,7 @@ const handleKeyUpdate = (value: any) => {
     updateBaseInfo('id')
   }, 100)
 }
+
 const handleNameUpdate = (value: any) => {
   console.log(elementBaseInfo, 'elementBaseInfo')
   if (!value) {
@@ -106,6 +95,7 @@ const handleNameUpdate = (value: any) => {
 // this.elementBaseInfo['documentation'] = value;
 // this.updateBaseInfo('documentation');
 // }
+
 const updateBaseInfo = (key: any) => {
   console.log(key, 'key')
   // 触发 elementBaseInfo 对应的字段
@@ -121,7 +111,6 @@ const updateBaseInfo = (key: any) => {
   needProps.value = { ...elementBaseInfo.value, ...needProps.value }
 
   if (key === 'id') {
-    // console.log('jinru')
     console.log(window, 'window')
     console.log(bpmnElement.value, 'bpmnElement')
     console.log(toRaw(bpmnElement.value), 'bpmnElement')
@@ -148,12 +137,12 @@ watch(
 )
 
 watch(
-  () => props.model?.key,
+  () => model.value.key,
   (val) => {
     // 针对上传的 bpmn 流程图时，保证 key 和 name 的更新
     if (val) {
-      handleKeyUpdate(props.model.key)
-      handleNameUpdate(props.model.name)
+      handleKeyUpdate(model.value.key)
+      handleNameUpdate(model.value.name)
     }
   },
   {
@@ -161,25 +150,6 @@ watch(
   }
 )
 
-// watch(
-//   () => ({ ...props }),
-//   (oldVal, newVal) => {
-//     console.log(oldVal, 'oldVal')
-//     console.log(newVal, 'newVal')
-//     if (newVal) {
-//       needProps.value = newVal
-//     }
-//   },
-//   {
-//     immediate: true
-//   }
-// )
-// 'model.key': {
-//   immediate: false,
-//   handler: function (val) {
-//     this.handleKeyUpdate(val)
-//   }
-// }
 onBeforeUnmount(() => {
   bpmnElement.value = null
 })

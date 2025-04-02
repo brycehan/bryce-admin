@@ -28,8 +28,8 @@ import { ElMessage } from 'element-plus'
 
 const authStore = useAuthStore()
 
-let loginFormRef = ref()
-let loading = ref(false)
+const loginFormRef = ref()
+const loading = ref(false)
 
 const loginForm = reactive({
   phone: '15853155402',

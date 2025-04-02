@@ -75,7 +75,8 @@ const dataRules = reactive<FormRules>({
   ],
   key: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 30, message: '长度为2~30个字符', trigger: 'blur' }
+    { min: 2, max: 30, message: '长度为2~30个字符', trigger: 'blur' },
+    { pattern: /^[a-zA-Z_][-_.0-9a-zA-Z]*$/, message: '有效英文字母或下划线'}
   ],
   category: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   type: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
