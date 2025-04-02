@@ -17,7 +17,7 @@
 
     <!--字段列表-->
     <!--    <div class="element-property list-property">-->
-    <!--      <el-divider><Icon icon="ep:coin" /> 表单字段</el-divider>-->
+    <!--      <el-divider><icon icon="ep:coin" /> 表单字段</el-divider>-->
     <!--      <el-table :data="fieldList" max-height="240" fit border>-->
     <!--        <el-table-column label="序号" type="index" width="50px" />-->
     <!--        <el-table-column label="字段名称" prop="label" min-width="80px" show-overflow-tooltip />-->
@@ -95,7 +95,7 @@
     <!--      <template v-if="formFieldForm.type === 'enum'">-->
     <!--        <el-divider key="enum-divider" />-->
     <!--        <p class="listener-filed__title" key="enum-title">-->
-    <!--          <span><Icon icon="ep:menu" />枚举值列表：</span>-->
+    <!--          <span><icon icon="ep:menu" />枚举值列表：</span>-->
     <!--          <el-button type="primary" @click="openFieldOptionForm(null, -1, 'enum')"-->
     <!--            >添加枚举值</el-button-->
     <!--          >-->
@@ -128,7 +128,7 @@
     <!--      &lt;!&ndash; 校验规则 &ndash;&gt;-->
     <!--      <el-divider key="validation-divider" />-->
     <!--      <p class="listener-filed__title" key="validation-title">-->
-    <!--        <span><Icon icon="ep:menu" />约束条件列表：</span>-->
+    <!--        <span><icon icon="ep:menu" />约束条件列表：</span>-->
     <!--        <el-button type="primary" @click="openFieldOptionForm(null, -1, 'constraint')"-->
     <!--          >添加约束</el-button-->
     <!--        >-->
@@ -160,7 +160,7 @@
     <!--      &lt;!&ndash; 表单属性 &ndash;&gt;-->
     <!--      <el-divider key="property-divider" />-->
     <!--      <p class="listener-filed__title" key="property-title">-->
-    <!--        <span><Icon icon="ep:menu" />字段属性列表：</span>-->
+    <!--        <span><icon icon="ep:menu" />字段属性列表：</span>-->
     <!--        <el-button type="primary" @click="openFieldOptionForm(null, -1, 'property')"-->
     <!--          >添加属性</el-button-->
     <!--        >-->

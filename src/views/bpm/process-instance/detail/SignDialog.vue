@@ -9,7 +9,7 @@
         size="small"
         @click="signature.clear()"
       >
-        <Icon icon="ep:delete" class="mr-[5px]" />
+        <icon icon="ep:delete" class="mr-[5px]" />
         清除
       </el-button>
     </div>

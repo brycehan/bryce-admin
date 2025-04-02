@@ -30,7 +30,7 @@
           <div class="node-text" v-else>
             {{ NODE_DEFAULT_TEXT.get(NodeType.USER_TASK_NODE) }}
           </div>
-          <Icon icon="ep:arrow-right-bold" v-if="!readonly" />
+          <icon icon="ep:arrow-right-bold" v-if="!readonly" />
         </div>
         <div v-if="!readonly" class="node-toolbar">
           <div class="toolbar-icon"

@@ -1,16 +1,12 @@
 <template>
   <div class="switch-container">
     <span>{{ title }}</span>
-    <el-switch :model-value="modelValue" :disabled="disabled" @change="handleChange($event)"/>
+    <el-switch v-model="model" :disabled="disabled" @change="handleChange($event)"/>
   </div>
 </template>
 
 <script setup lang="ts">
 defineProps({
-  modelValue: {
-    type: Boolean,
-    required: true
-  },
   title: {
     type: String,
     required: true
@@ -20,9 +16,9 @@ defineProps({
   }
 })
 
-const emit = defineEmits(['update:modelValue', 'change'])
+const model = defineModel()
+const emit = defineEmits(['change'])
 const handleChange = (val: boolean) => {
-  emit('update:modelValue', val)
   emit('change', val)
 }
 </script>

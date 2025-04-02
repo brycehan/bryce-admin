@@ -4,10 +4,10 @@
 <!--      <el-row type="flex" justify="end">-->
 <!--        <el-button-group key="scale-control" size="default">-->
 <!--          <el-button v-if="!readonly" size="default" @click="exportJson">-->
-<!--            <Icon icon="ep:download" /> 导出-->
+<!--            <icon icon="ep:download" /> 导出-->
 <!--          </el-button>-->
 <!--          <el-button v-if="!readonly" size="default" @click="importJson">-->
-<!--            <Icon icon="ep:upload" />导入-->
+<!--            <icon icon="ep:upload" />导入-->
 <!--          </el-button>-->
 <!--          &lt;!&ndash; 用于打开本地文件&ndash;&gt;-->
 <!--          <input-->

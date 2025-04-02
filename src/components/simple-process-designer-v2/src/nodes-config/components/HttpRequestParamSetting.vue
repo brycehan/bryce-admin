@@ -62,11 +62,11 @@
         </el-form-item>
       </div>
       <div class="mr-1 flex items-center">
-        <Icon icon="ep:delete" :size="18" @click="deleteHttpRequestParam(props.header, index)" />
+        <icon icon="ep:delete" :size="18" @click="deleteHttpRequestParam(props.header, index)" />
       </div>
     </div>
     <el-button type="primary" text @click="addHttpRequestParam(props.header)">
-      <Icon icon="ep:plus" class="mr-[5px]" />添加一行
+      <icon icon="ep:plus" class="mr-[5px]" />添加一行
     </el-button>
   </el-form-item>
   <el-form-item label="请求体">
@@ -132,11 +132,11 @@
         </el-form-item>
       </div>
       <div class="mr-1 flex items-center">
-        <Icon icon="ep:delete" :size="18" @click="deleteHttpRequestParam(props.body, index)" />
+        <icon icon="ep:delete" :size="18" @click="deleteHttpRequestParam(props.body, index)" />
       </div>
     </div>
     <el-button type="primary" text @click="addHttpRequestParam(props.body)">
-      <Icon icon="ep:plus" class="mr-[5px]" />添加一行
+      <icon icon="ep:plus" class="mr-[5px]" />添加一行
     </el-button>
   </el-form-item>
 </template>

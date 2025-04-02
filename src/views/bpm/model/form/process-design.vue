@@ -1,10 +1,10 @@
 <template>
-  <template v-if="modelData.type === BpmModelType.BPMN">
+  <template v-if="model.type === BpmModelType.BPMN">
     <bpm-model-editor
         v-if="showDesigner"
-        :model-id="modelData.id"
-        :model-key="modelData.key"
-        :model-name="modelData.name"
+        :model-id="model.id"
+        :model-key="model.key"
+        :model-name="model.name"
         @success="handleDesignSuccess"
       />
   </template>
@@ -16,7 +16,7 @@ import BpmModelEditor from '@/components/bpmn-process-designer/index.vue'
 import { BpmModelType } from '@/api/bpm/constant'
 
 // 创建本地数据副本
-const modelData = defineModel<any>()
+const model = defineModel<any>()
 
 const processData = inject('processData') as Ref
 
@@ -46,14 +46,14 @@ const handleDesignSuccess = async (data?: any) => {
   if (data) {
     // 创建新的对象以触发响应式更新
     const newModelData = {
-      ...modelData.value,
-      bpmnXml: modelData.value.type === BpmModelType.BPMN ? data : null,
-      simpleModel: modelData.value.type === BpmModelType.BPMN ? null : data
+      ...model.value,
+      bpmnXml: model.value.type === BpmModelType.BPMN ? data : null,
+      simpleModel: model.value.type === BpmModelType.BPMN ? null : data
     }
     // 使用emit更新父组件的数据
     await nextTick()
     //更新表单的模型数据部分
-    modelData.value = newModelData
+    model.value = newModelData
   }
 }
 
@@ -61,7 +61,7 @@ const handleDesignSuccess = async (data?: any) => {
  * 是否显示设计器
  */
 const showDesigner = computed(() => {
-  return Boolean(modelData.value?.key && modelData.value?.name)
+  return Boolean(model.value?.key && model.value?.name)
 })
 
 defineExpose({

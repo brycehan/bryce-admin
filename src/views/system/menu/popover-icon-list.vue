@@ -14,7 +14,7 @@
               :xl="2"
               :span="2"
             >
-              <el-button :type="value === item? 'primary': ''" class="my-1 h-[25px]">
+              <el-button :type="model === item? 'primary': ''" class="my-1 h-[25px]">
                 <icon :icon="item" />
               </el-button>
             </el-col>
@@ -23,29 +23,13 @@
     </div>
 </template>
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useAppStore } from '@/stores/modules/app'
 
-const props = defineProps({
-  modelValue: {
-    type: String,
-    default: ''
-  }
-})
-
-const emit = defineEmits(['update:modelValue', 'hide']);
+const emit = defineEmits(['hide']);
 
 const appStore = useAppStore()
 
-// 用计算属性中转
-const value = computed({
-  get() {
-    return props.modelValue
-  },
-  set(newValue) {
-    emit('update:modelValue', newValue)
-  }
-})
+const model = defineModel()
 
 /**
  * 图标点击事件

@@ -101,10 +101,10 @@
               </el-form-item>
             </div>
             <div class="mr-1 flex items-center" v-if="equation.rules.length > 1">
-              <Icon icon="ep:delete" :size="18" @click="deleteConditionRule(equation, rIdx)" />
+              <icon icon="ep:delete" :size="18" @click="deleteConditionRule(equation, rIdx)" />
             </div>
             <div class="flex items-center">
-              <Icon icon="ep:plus" :size="18" @click="addConditionRule(equation, rIdx)" />
+              <icon icon="ep:plus" :size="18" @click="addConditionRule(equation, rIdx)" />
             </div>
           </div>
         </el-card>

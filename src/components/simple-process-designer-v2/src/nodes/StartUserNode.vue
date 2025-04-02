@@ -32,7 +32,7 @@
           <div class="node-text" v-else>
             {{ NODE_DEFAULT_TEXT.get(NodeType.START_USER_NODE) }}
           </div>
-          <Icon icon="ep:arrow-right-bold" v-if="!readonly" />
+          <icon icon="ep:arrow-right-bold" v-if="!readonly" />
         </div>
       </div>
       <!-- 传递子节点给添加节点组件。会在子节点前面添加节点 -->
@@ -117,7 +117,7 @@ const props = defineProps({
     default: () => null
   }
 })
-const readonly = inject<Boolean>('readonly') // 是否只读
+const readonly = inject<boolean>('readonly') // 是否只读
 const tasks = inject<Ref<any[]>>('tasks', ref([]))
 // 定义事件，更新父组件。
 const emits = defineEmits<{

@@ -40,17 +40,17 @@
       <!-- 第一步：基本信息 -->
       <basic-info
         v-if="active === 0"
-        v-model="state.dataForm"
+        v-model="dataForm"
         :category-list="categoryList"
         :user-list="userList"
         ref="basicInfoRef"
       />
       <!-- 第二步：设计表单 -->
-      <form-design v-if="active === 1" v-model="state.dataForm" :form-list="formList" ref="formDesignRef" />
+      <form-design v-if="active === 1" v-model="dataForm" :form-list="formList" ref="formDesignRef" />
       <!-- 第三步：设计流程 -->
       <process-design v-if="active === 2" v-model="dataForm" ref="processDesignRef" />
       <!-- 第四步：更多设置 -->
-      <extra-settings v-show="active === 3" v-model="state.dataForm" ref="extraSettingsRef" />
+      <extra-settings v-show="active === 3" v-model="dataForm" ref="extraSettingsRef" />
     </div>
   </el-card>
 </template>
@@ -94,13 +94,16 @@ const state: StateOptions = reactive({
     visible: DictSysShowHide.SHOW,
     startUserIds: [],
     managerUserIds: [],
-    // 表单信息
+    // 设计表单
     formType: BpmFormType.NORMAL,
     formId: '',
     formConf: '',
     formFields: '',
     formCustomCreatePath: '',
     formCustomViewPath: '',
+    // 设计流程
+    bpmnXml: '',
+    simpleModel: '',
     // 更多设置
     icon: '',
     allowCancelRunningProcess: true,
@@ -146,49 +149,7 @@ const categoryList = ref<any[]>([])
 const userList = ref([])
 const formList = ref([])
 
-const { getData, handleSaveOrUpdate } = crud(state)
-
-/**
- * 重置表单
- */
-const resetFields = () => {
-  basicInfoRef.value?.resetFields()
-  state.dataForm.id = ''
-  state.dataForm.name = ''
-  state.dataForm.key = ''
-  state.dataForm.category = ''
-  state.dataForm.description = ''
-  state.dataForm.type = BpmModelType.BPMN
-  state.dataForm.startUserIds = []
-  state.dataForm.managerUserIds = []
-  // 表单信息
-  state.dataForm.formType = BpmFormType.NORMAL
-  state.dataForm.formId = ''
-  state.dataForm.formConf = ''
-  state.dataForm.formFields = ''
-  state.dataForm.formCustomCreatePath = ''
-  state.dataForm.formCustomViewPath = ''
-  // 更多设置
-  state.dataForm.icon = ''
-  state.dataForm.allowCancelRunningProcess = true
-  state.dataForm.processIdRule = {
-    enable: false,
-    prefix: '',
-    infix: '',
-    postfix: '',
-    length: 5
-  }
-  state.dataForm.autoApprovalType = BpmAutoApproveType.NONE
-  state.dataForm.titleSetting = {
-    enable: false,
-    title: ''
-  }
-  state.dataForm.summarySetting = {
-    enable: false,
-    summary: []
-  }
-  initProcessData()
-}
+const { getData } = crud(state)
 
 /**
  * 初始化流程数据

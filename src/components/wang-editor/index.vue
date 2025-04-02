@@ -2,7 +2,7 @@
   <div class="editor-wrapper">
     <!-- 工具栏 -->
     <Toolbar
-      class="toolbar-container"
+      style="border-bottom: 1px solid #ccc"
       :editor="editorRef"
       :default-config="toolbarConfig"
       :mode="mode"
@@ -10,12 +10,11 @@
     <!-- 编辑器 -->
     <Editor
       :style="style"
-      :model-value="modelValue"
+      v-model="model"
       :default-config="editorConfig"
       :mode="mode"
       :readOnly="readOnly"
       @on-created="handleCreated"
-      @on-change="handleChange"
     />
   </div>
 </template>
@@ -30,11 +29,9 @@ import { useAuthStore } from '@/stores/modules/auth'
 
 const authStore = useAuthStore()
 
+const model = defineModel()
+
 const props = defineProps({
-  modelValue: {
-    type: String,
-    required: true
-  },
   mode: {
     type: String,
     default: 'default' // 可选值：[default | simple]
@@ -45,15 +42,13 @@ const props = defineProps({
   },
   style: {
     type: String,
-    default: 'height: 300px;'
+    default: 'height: 300px; overflow-y: hidden;'
   },
   readOnly: {
     type: Boolean,
     default: false
   }
 })
-
-const emit = defineEmits(['update:modelValue'])
 
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef()
@@ -99,23 +94,12 @@ const handleCreated = (editor: IDomEditor) => {
   editorRef.value = editor // 记录 editor 实例
   editorRef.value.setHtml(editor.getHtml())
 }
-
-/**
- * 编辑器change事件触发
- */
-const handleChange = (editor: IDomEditor) => {
-  emit('update:modelValue', editor.getHtml())
-}
 </script>
 
 <style lang="scss">
 .editor-wrapper {
   border: 1px solid #ccc;
   z-index: 100; // 根据需要
-}
-
-.toolbar-container {
-  border-bottom: 1px solid #ccc;
 }
 
 .w-e-text-placeholder {

@@ -138,7 +138,7 @@
       </el-form>
       <el-divider />
       <p class="listener-filed__title">
-        <span><Icon icon="ep:menu" />注入字段：</span>
+        <span><icon icon="ep:menu" />注入字段：</span>
         <el-button type="primary" @click="openListenerFieldForm(null)" >添加字段</el-button>
       </p>
       <el-table
@@ -340,7 +340,7 @@ const openListenerFieldForm = (field: any, index?: any) => {
 // 保存监听器注入字段
 const saveListenerFiled = async () => {
   // debugger
-  let validateStatus = await listenerFieldFormRef.value.validate()
+  const validateStatus = await listenerFieldFormRef.value.validate()
   if (!validateStatus) return // 验证不通过直接返回
   if (editingListenerFieldIndex.value === -1) {
     fieldsListOfListener.value.push(listenerFieldForm.value)
@@ -386,7 +386,7 @@ const removeListener = (index: any) => {
 // 保存监听器配置
 const saveListenerConfig = async () => {
   // debugger
-  let validateStatus = await listenerFormRef.value.validate()
+  const validateStatus = await listenerFormRef.value.validate()
   if (!validateStatus) return // 验证不通过直接返回
   const listenerObject = createListenerObject(listenerForm.value, false, prefix)
   if (editingListenerIndex.value === -1) {
@@ -435,6 +435,7 @@ const selectProcessListener = (listener: any) => {
 watch(
   () => props.id,
   (val) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     val &&
       val.length &&
       nextTick(() => {

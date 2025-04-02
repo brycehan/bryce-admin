@@ -1,18 +1,18 @@
 <template>
   <div class="settings-container">
-    <el-drawer v-model="visible" :title="$t('settings.title')" :destroy-on-close="true" :size="280">
+    <el-drawer v-model="visible" :title="t('settings.title')" :destroy-on-close="true" :size="280">
       <el-scrollbar class="settings-content">
         <el-space direction="vertical" style="align-items: flex-start">
           <!-- 侧边栏 -->
           <el-space>
-            <el-tooltip effect="dark" :content="$t('settings.sidebar.dark')" placement="top">
+            <el-tooltip effect="dark" :content="t('settings.sidebar.dark')" placement="top">
               <div
                 class="settings-box-item item-left-dark"
                 :class="theme.sidebarStyle === 'dark' ? 'active' : ''"
                 @click="handleSidebarTheme('dark')"
               ></div>
             </el-tooltip>
-            <el-tooltip effect="dark" :content="$t('settings.sidebar.light')" placement="top">
+            <el-tooltip effect="dark" :content="t('settings.sidebar.light')" placement="top">
               <div
                 class="settings-box-item item-left-light"
                 :class="theme.sidebarStyle === 'light' ? 'active' : ''"
@@ -22,14 +22,14 @@
           </el-space>
           <!-- 顶栏 -->
           <el-space direction="horizontal">
-            <el-tooltip effect="dark" :content="$t('settings.header.light')" placement="top">
+            <el-tooltip effect="dark" :content="t('settings.header.light')" placement="top">
               <div
                 class="settings-box-item item-top-light"
                 :class="{ active: theme?.headerStyle === 'light' }"
                 @click="handleHeaderTheme('light')"
               ></div>
             </el-tooltip>
-            <el-tooltip effect="dark" :content="$t('settings.header.primary')" placement="top">
+            <el-tooltip effect="dark" :content="t('settings.header.primary')" placement="top">
               <div
                 class="settings-box-item item-top-primary"
                 :class="{ active: theme?.headerStyle === 'primary' }"
@@ -50,17 +50,17 @@
           </el-space>
         </el-space>
 
-        <el-divider content-position="left">{{ $t('settings.layout.title') }}</el-divider>
+        <el-divider content-position="left">{{ t('settings.layout.title') }}</el-divider>
         <!-- 布局切换 -->
         <el-space>
-          <el-tooltip effect="dark" :content="$t('settings.layout.vertical')" placement="top">
+          <el-tooltip effect="dark" :content="t('settings.layout.vertical')" placement="top">
             <div
               class="settings-box-item item-vertical"
               :class="theme.layout === 'vertical' ? 'active' : ''"
               @click="handleLayoutTheme('vertical')"
             ></div>
           </el-tooltip>
-          <el-tooltip effect="dark" :content="$t('settings.layout.column')" placement="top">
+          <el-tooltip effect="dark" :content="t('settings.layout.column')" placement="top">
             <div
               class="settings-box-item item-column"
               :class="theme.layout === 'column' ? 'active' : ''"
@@ -70,7 +70,7 @@
               <div class="column-sub-menu"></div>
             </div>
           </el-tooltip>
-          <el-tooltip effect="dark" :content="$t('settings.layout.horizontal')" placement="top">
+          <el-tooltip effect="dark" :content="t('settings.layout.horizontal')" placement="top">
             <div
               class="settings-box-item item-horizontal"
               :class="theme.layout === 'horizontal' ? 'active' : ''"
@@ -79,36 +79,36 @@
           </el-tooltip>
         </el-space>
 
-        <el-divider content-position="left">{{ $t('settings.interface.title') }}</el-divider>
+        <el-divider content-position="left">{{ t('settings.interface.title') }}</el-divider>
 
         <switch-item
           v-model="theme.uniqueOpened"
-          :title="$t('settings.interface.uniqueOpened')"
+          :title="t('settings.interface.uniqueOpened')"
           @change="handleOtherTheme"
         />
-        <switch-item v-model="theme.showLogo" :title="$t('settings.interface.showLogo')" @change="handleOtherTheme" />
+        <switch-item v-model="theme.showLogo" :title="t('settings.interface.showLogo')" @change="handleOtherTheme" />
         <switch-item
           v-model="theme.showBreadcrumb"
-          :title="$t('settings.interface.showBreadcrumb')"
+          :title="t('settings.interface.showBreadcrumb')"
           @change="handleOtherTheme"
         />
         <switch-item
           v-model="theme.showTabsView"
-          :title="$t('settings.interface.showTagsView')"
+          :title="t('settings.interface.showTagsView')"
           @change="handleOtherTheme"
         />
         <switch-item
           v-model="theme.isTabsCache"
-          :title="$t('settings.interface.showTagsViewCache')"
+          :title="t('settings.interface.showTagsViewCache')"
           @change="handleOtherTheme"
         />
 
         <el-divider />
 
         <el-space direction="vertical" class="config-content">
-          <el-alert :title="$t('settings.tips')" type="warning" :closable="false" />
-          <el-button type="primary" icon="CopyDocument" @click="handleCopyConfig">{{ $t('settings.button.copyConfig') }}</el-button>
-          <el-button type="info" icon="RefreshRight" @click="handleResetConfig">{{ $t('settings.button.reset') }}</el-button>
+          <el-alert :title="t('settings.tips')" type="warning" :closable="false" />
+          <el-button type="primary" icon="CopyDocument" @click="handleCopyConfig">{{ t('settings.button.copyConfig') }}</el-button>
+          <el-button type="info" icon="RefreshRight" @click="handleResetConfig">{{ t('settings.button.reset') }}</el-button>
         </el-space>
       </el-scrollbar>
     </el-drawer>

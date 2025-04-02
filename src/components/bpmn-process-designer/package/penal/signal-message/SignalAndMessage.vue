@@ -1,7 +1,7 @@
 <template>
   <div class="panel-tab__content">
     <div class="panel-tab__content--title">
-      <span><Icon icon="ep:menu" style="margin-right: 8px; color: #555" />消息列表</span>
+      <span><icon icon="ep:menu" style="margin-right: 8px; color: #555" />消息列表</span>
       <el-button type="primary" icon="plus" @click="openModel('message')" >创建新消息</el-button>
     </div>
     <el-table :data="messageList" border>
@@ -13,7 +13,7 @@
       class="panel-tab__content--title"
       style="padding-top: 8px; margin-top: 8px; border-top: 1px solid #eee"
     >
-      <span><Icon icon="ep:menu" style="margin-right: 8px; color: #555" />信号列表</span>
+      <span><icon icon="ep:menu" style="margin-right: 8px; color: #555" />信号列表</span>
       <el-button type="primary" icon="plus" @click="openModel('signal')" >创建新信号</el-button>
     </div>
     <el-table :data="signalList" border>

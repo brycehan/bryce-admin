@@ -117,7 +117,7 @@
               text
               @click="addHttpResponseSetting(configForm.httpRequestSetting.response!)"
             >
-              <Icon icon="ep:plus" class="mr-[5px]" />添加一行
+              <icon icon="ep:plus" class="mr-[5px]" />添加一行
             </el-button>
           </el-form-item>
         </div>
@@ -171,12 +171,12 @@
             </div>
             <div class="mr-1 pt-1 cursor-pointer">
               <el-form-item>
-                <Icon icon="ep:delete" :size="18" @click="deleteFormFieldSetting(key)" />
+                <icon icon="ep:delete" :size="18" @click="deleteFormFieldSetting(key)" />
               </el-form-item>
             </div>
           </div>
           <el-button type="primary" text @click="addFormFieldSetting()">
-            <Icon icon="ep:plus" class="mr-[5px]" />添加修改字段
+            <icon icon="ep:plus" class="mr-[5px]" />添加修改字段
           </el-button>
         </div>
       </el-form>

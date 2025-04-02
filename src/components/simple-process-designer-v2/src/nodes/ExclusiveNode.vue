@@ -73,7 +73,7 @@
                 v-if="index != 0 && index + 1 !== currentNode.conditionNodes?.length"
                 @click="moveNode(index, -1)"
               >
-                <Icon icon="ep:arrow-left" />
+                <icon icon="ep:arrow-left" />
               </div>
 
               <div
@@ -81,7 +81,7 @@
                 v-if="currentNode.conditionNodes && index < currentNode.conditionNodes.length - 2"
                 @click="moveNode(index, 1)"
               >
-                <Icon icon="ep:arrow-right" />
+                <icon icon="ep:arrow-right" />
               </div>
             </div>
             <NodeHandler v-model:child-node="item.childNode" :current-node="item" />
@@ -136,7 +136,7 @@ const emits = defineEmits<{
   ]
 }>()
 // 是否只读
-const readonly = inject<Boolean>('readonly')
+const readonly = inject<boolean>('readonly')
 const currentNode = ref<SimpleFlowNode>(props.flowNode)
 watch(
   () => props.flowNode,
@@ -172,7 +172,7 @@ const addCondition = () => {
   const conditionNodes = currentNode.value.conditionNodes
   if (conditionNodes) {
     const len = conditionNodes.length
-    let lastIndex = len - 1
+    const lastIndex = len - 1
     const conditionData: SimpleFlowNode = {
       id: 'Flow_' + uuidv4(),
       name: '条件' + len,

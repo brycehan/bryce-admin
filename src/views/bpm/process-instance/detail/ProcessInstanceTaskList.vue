@@ -17,7 +17,7 @@
       <template #default="scope">
         {{ scope.row.reason }}
         <el-button class="ml-[10px]" size="small" v-if="scope.row.formId > 0" @click="handleFormDetail(scope.row)">
-          <Icon icon="ep:document" /> 查看表单
+          <icon icon="ep:document" /> 查看表单
         </el-button>
       </template>
     </el-table-column>

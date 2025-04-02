@@ -1,5 +1,5 @@
 <template>
-  <vue-markdown-editor :model-value="modelValue" :height="height" @change="handleChange" />
+  <vue-markdown-editor v-model="model" :height="height" />
 </template>
 
 <script setup lang="ts">
@@ -14,21 +14,12 @@ VueMarkdownEditor.use(githubTheme, {
   Hljs: hljs
 })
 
+const model = defineModel()
+
 const props = defineProps({
-  modelValue: {
-    type: String,
-    required: true
-  },
   height: {
     type: String,
     default: '400px'
   }
 })
-
-// 编辑器 change 事件触发
-const emit = defineEmits(['update:modelValue'])
-
-const handleChange = (text: string, html: string) => {
-  emit('update:modelValue', text)
-}
 </script>

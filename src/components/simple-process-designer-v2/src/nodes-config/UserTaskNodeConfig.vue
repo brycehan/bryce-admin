@@ -392,7 +392,7 @@
                 v-if="btnDisplayNameEdit[index]"
               />
               <el-button v-else text @click="changeBtnDisplayName(index)"
-                >{{ item.displayName }} &nbsp;<Icon icon="ep:edit"
+                >{{ item.displayName }} &nbsp;<icon icon="ep:edit"
               /></el-button>
             </div>
             <div class="button-setting-item-label">

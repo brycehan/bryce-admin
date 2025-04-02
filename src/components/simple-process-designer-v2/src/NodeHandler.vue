@@ -59,7 +59,7 @@
           </div>
         </div>
         <template #reference>
-          <div class="add-icon"><Icon icon="ep:plus" /></div>
+          <div class="add-icon"><icon icon="ep:plus" /></div>
         </template>
       </el-popover>
     </div>
@@ -101,7 +101,7 @@ const props = defineProps({
 })
 const emits = defineEmits(['update:childNode'])
 
-const readonly = inject<Boolean>('readonly') // 是否只读
+const readonly = inject<boolean>('readonly') // 是否只读
 
 const addNode = (type: number) => {
   // 校验：条件分支、包容分支后面，不允许直接添加并行分支

@@ -23,7 +23,7 @@
       </el-col>
     </el-row>
     <el-form-item label="内容" prop="content">
-      <WangEditor v-model="state.dataForm.content" placeholder="请输入内容" />
+      <wang-editor v-model="state.dataForm.content" placeholder="请输入内容" />
     </el-form-item>
   </el-form>
   <el-button @click="state.visible = false">取消</el-button>
@@ -35,20 +35,18 @@ import { onMounted, reactive, ref } from 'vue'
 import { getByIdApi, saveOrUpdateApi } from '@/api/system/notice'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import WangEditor from '@/components/wang-editor/index.vue'
 import { ElMessage, type FormRules } from 'element-plus'
 
-const emit = defineEmits(['refreshPage', 'update:modelValue'])
+const emit = defineEmits(['refreshPage'])
 
 const props = defineProps({
-  modelValue: {
-    type: Boolean,
-    required: true
-  },
   noticeId: {
     type: String
   }
 })
+
+const model = defineModel()
+
 const state: StateOptions = reactive({
   api: {
     saveOrUpdateApi,
@@ -121,7 +119,7 @@ const handleSubmit = () => {
  */
 const handleSaveOrUpdate = () => {
   saveOrUpdateApi(state.dataForm).then(() => {
-    emit('update:modelValue', false)
+    model.value = false
     emit('refreshPage')
     ElMessage.success('操作成功')
   })
