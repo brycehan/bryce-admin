@@ -39,16 +39,16 @@
     <div class="form-container">
       <!-- 第一步：基本信息 -->
       <basic-info
-        v-if="active === 0"
+        v-show="active === 0"
         v-model="dataForm"
         :category-list="categoryList"
         :user-list="userList"
         ref="basicInfoRef"
       />
       <!-- 第二步：设计表单 -->
-      <form-design v-if="active === 1" v-model="dataForm" :form-list="formList" ref="formDesignRef" />
+      <form-design v-show="active === 1" v-model="dataForm" :form-list="formList" ref="formDesignRef" />
       <!-- 第三步：设计流程 -->
-      <process-design v-if="active === 2" v-model="dataForm" ref="processDesignRef" />
+      <process-design v-show="active === 2" v-model="dataForm" ref="processDesignRef" />
       <!-- 第四步：更多设置 -->
       <extra-settings v-show="active === 3" v-model="dataForm" ref="extraSettingsRef" />
     </div>
@@ -201,34 +201,31 @@ watch(
 /**
  * 校验基本信息
  */
-const validateBasicInfo = async () => {
-  await basicInfoRef.value?.validate()
+const validateBasicInfo = () => {
+  return basicInfoRef.value?.validate()
 }
 
 /**
  * 校验设计的表单
  */
-const validateForm = async () => {
-  await formDesignRef.value?.validate()
+const validateForm = () => {
+  return formDesignRef.value?.validate()
 }
 
 /**
  * 校验设计的流程
  */
 const validateProcessDesign = () => {
-  processDesignRef.value?.validate()
+  return processDesignRef.value?.validate()
 }
 
 /**
  * 保存前校验所有步骤的数据
  */
 const validateAllSteps = async () => {
-  validateBasicInfo()
+  return validateBasicInfo()
     .then(() => validateForm())
     .then(() => validateProcessDesign())
-    .catch((error) => {
-      console.error(error)
-    })
 }
 
 const tabsStore = useTabsStore()
@@ -238,48 +235,37 @@ const router = useRouter()
  * 表单保存
  */
 const handleSave = async () => {
-  try {
-    // 校验所有步骤的数据
-    await validateAllSteps()
+  Promise.resolve()
+    // 验证所有步骤的数据
+    .then(() => validateAllSteps())
+    // 保存数据
+    .then(() => modelApi.saveOrUpdateApi(state.dataForm))
+    // 处理结果
+    .then((res: any) => {
+      // 修改场景
+      if (state.dataForm.id) return
 
-    if (state.dataForm.id) {
-      // 更新场景
-      await modelApi.saveOrUpdateApi(state.dataForm)
-      // 询问是否发布流程
-      modal
-        .confirm('修改流程成功，是否发布流程？')
-        .then(() => {
-          return handleDeploy()
-        })
-        .catch(() => {})
-    } else {
       // 新增场景
-      modelApi
-        .saveOrUpdateApi(state.dataForm)
-        .then((res: any) => {
-          if (_.size(res.data) != 36) {
-            console.debug('保存失败')
-            return
-          }
-
-          state.dataForm.id = res.data
-          ElMessage.success('保存成功')
-        })
-        .then(() => {
-          // 询问是否发布流程
-          return handleDirectDeploy()
-        })
-        .then(() => {
-          // 关闭当前页签
-          tabsStore.deleteView(unref(router.currentRoute))
-          // 跳转到流程列表页
-          router.push({ path: '/bpm/model/index' })
-        })
-    }
-  } catch (error: any) {
-    console.error('保存失败', error)
-    ElMessage.warning(error.message || '请完善所有步骤的必填信息')
-  }
+      if (_.size(res.data) != 36) {
+        throw new Error('保存失败')
+      }
+      state.dataForm.id = res.data
+    })
+    // 询问是否发布流程
+    .then(() => modal.confirm('保存成功，是否发布流程？'))
+    // 直接发布流程
+    .then(() => handleDirectDeploy())
+    .then(() => {
+      // 关闭当前页签
+      tabsStore.deleteView(unref(router.currentRoute))
+      // 跳转到流程列表页
+      router.push({ path: '/bpm/model/index' })
+    })
+    .catch(error => {
+      if (error === 'cancel') return
+      console.error(error)
+      ElMessage.warning(error.message || '请完善所有步骤的必填信息')
+    })
 }
 
 /**
@@ -287,45 +273,25 @@ const handleSave = async () => {
  */
 const handleDeploy = () => {
   return (
-    Promise.resolve()
-      // 确认对话框处理
-      .then(() => {
-        if (state.dataForm.id) {
-          return modal.confirm('是否确认发布该流程？')
-        } else {
-          return Promise.resolve(null)
-        }
-      })
+    // 确认对话框处理
+    modal.confirm('是否确认发布该流程？')
       // 验证所有步骤的数据
-      .then(() => {
-        return validateAllSteps()
-      })
+      .then(() => validateAllSteps())
       // 数据保存处理
-      .then(async () => {
-        const data = await modelApi.saveOrUpdateApi(state.dataForm).then((res) => res.data)
-        if (!state.dataForm.id && data && data.id) {
-          // 添加
-          state.dataForm.id = data.id
-        }
-        if (!state.dataForm.id) {
-          throw new Error('发布失败')
-        }
-      })
+      .then(() => modelApi.saveOrUpdateApi(state.dataForm))
       // 部署流程
-      .then(() => {
-        return modelApi.deployModelApi(state.dataForm.id)
-      })
+      .then(() => modelApi.deployModelApi(state.dataForm.id))
       // 处理成功结果
+      .then(() => ElMessage.success('发布成功'))
       .then(() => {
-        ElMessage.success('发布成功')
+        // 关闭当前页签
+        tabsStore.deleteView(unref(router.currentRoute))
+        // 跳转到流程列表页
+        router.push({ path: '/bpm/model/index' })
       })
       // 统一错误处理
       .catch((error: any) => {
         console.error(error)
-        const message = error.message === '用户取消发布' ? '' : error.message || '发布失败'
-        if (message) {
-          ElMessage.warning(message)
-        }
       })
   )
 }
@@ -335,30 +301,14 @@ const handleDeploy = () => {
  */
 const handleDirectDeploy = () => {
   return (
-    Promise.resolve(state.dataForm.id)
-      // 确认对话框处理
-      .then((value) => {
-        if (value) {
-          return modal.confirm('是否确认发布该流程？')
-        }
-      })
+    Promise.resolve()
       // 部署流程
-      .then((res) => {
-        console.log('部署流程', res)
-        return modelApi.deployModelApi(state.dataForm.id)
-      })
+      .then(() => modelApi.deployModelApi(state.dataForm.id))
       // 处理成功结果
-      .then(() => {
-        ElMessage.success('发布成功')
-      })
+      .then(() => ElMessage.success('发布成功'))
       // 统一错误处理
       .catch((error: any) => {
-        debugger
-        console.error('handleDirectDeploy', error)
-        const message = error === 'cancel' ? '' : error.message || '发布失败'
-        if (message) {
-          ElMessage.warning(message)
-        }
+        console.error(error)
       })
   )
 }
@@ -367,7 +317,7 @@ const handleDirectDeploy = () => {
  * 下一步
  */
 const handleNext = async () => {
-  console.log('active.value', active.value)
+  console.debug('active.value', active.value)
   try {
     if (active.value >= 0) {
       await validateBasicInfo()
@@ -376,7 +326,7 @@ const handleNext = async () => {
       await validateForm()
     }
     if (active.value >= 2) {
-      // await validateProcessDesign()
+      await validateProcessDesign()
     }
 
     if (active.value++ > 3) active.value = 3

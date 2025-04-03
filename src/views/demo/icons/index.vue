@@ -27,8 +27,6 @@
 import { useClipboard } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
 import { computed, onMounted, ref } from 'vue'
-import IonIconsJSON from '@iconify-json/ion/icons.json'
-import ElementPlusIconsJSON from '@iconify-json/ep/icons.json'
 import BrcIconsJSON from '@/assets/js/brc-icons.json'
 
 const { copy } = useClipboard()
@@ -57,6 +55,6 @@ const handleCopy = (prefix: string, icon: string) => {
 }
 
 onMounted(() => {
-  iconCollections.value.push(IonIconsJSON, BrcIconsJSON, ElementPlusIconsJSON)
+  iconCollections.value.push(BrcIconsJSON)
 })
 </script>

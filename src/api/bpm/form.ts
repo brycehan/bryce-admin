@@ -81,3 +81,11 @@ export const postPageApi = (data: any) => {
 export const postListApi = async (data: any) => {
     return await request.post('/bpm/form/list', data)
 }
+
+export default {
+    saveOrUpdateApi,
+    deleteByIdsApi,
+    getByIdApi,
+    postPageApi,
+    postListApi
+}

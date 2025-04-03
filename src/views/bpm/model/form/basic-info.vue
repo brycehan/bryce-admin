@@ -47,7 +47,7 @@
 
 <script setup lang="ts">
 import { type PropType, reactive, ref, watch } from 'vue'
-import type { FormRules } from 'element-plus'
+import type { FormInstance, FormRules } from 'element-plus'
 
 const props = defineProps({
   categoryList: {
@@ -63,7 +63,7 @@ const props = defineProps({
 // 创建本地数据副本
 const dataForm = defineModel<any>()
 
-const dataFormRef = ref()
+const dataFormRef = ref<FormInstance>()
 const userSelectFormRef = ref()
 
 const selectedManagerUsers = ref<any[]>([])
@@ -131,8 +131,8 @@ const resetFields = () => {
 /**
  * 表单校验
  */
-const validate = async () => {
-  await dataFormRef.value.validate()
+const validate = (): Promise<boolean> => {
+  return dataFormRef.value!.validate()
 }
 
 defineExpose({

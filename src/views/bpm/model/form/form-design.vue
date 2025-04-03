@@ -53,19 +53,19 @@
        <div class="form-group-icon"></div>
        <span class="form-group-title">表单预览</span>
      </div>
-      <form-create :modelValue="formPreview.formData" :option="formPreview.option" :rule="formPreview.rule" />
+      <form-create :option="formPreview.option" :rule="formPreview.rule" />
     </div>
   </el-form>
 </template>
 
 <script setup lang="ts">
-import { type PropType, reactive, ref, watch } from 'vue'
+import { onMounted, type PropType, reactive, ref, watch } from 'vue'
 import type { FormRules } from 'element-plus'
-import * as FormApi from '@/api/bpm/form'
+import FormApi from '@/api/bpm/form'
 import { setPreviewConfAndFields } from '@/utils/formCreate'
 import FormCreate from '@form-create/element-ui'
 
-const props = defineProps({
+defineProps({
   formList: {
     type: Array as PropType<any[]>,
     required: true
@@ -76,7 +76,6 @@ const props = defineProps({
 const dataForm = defineModel<any>()
 // 表单预览数据
 const formPreview = reactive({
-  formData: {},
   rule: [],
   option: {
     submitBtn: false,
@@ -85,27 +84,12 @@ const formPreview = reactive({
   }
 })
 
-const formData = ref({})
-
 const dataFormRef = ref()
 
 const dataRules = reactive<FormRules>({
   formId: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
   ],
-})
-
-watch(() => dataForm.value.formId, async (newFormId) => {
-  if (newFormId) {
-    const form = await FormApi.getByIdApi(newFormId)
-    setPreviewConfAndFields(formPreview, form.data.conf, form.data.fields)
-    // 设置只读
-    formPreview.rule.forEach((item: any) => {
-      item.props = { ...item.props, disabled: true }
-    })
-  } else {
-    formPreview.rule = []
-  }
 })
 
 /**
@@ -118,9 +102,35 @@ const resetFields = () => {
 /**
  * 表单校验
  */
-const validate = async () => {
-  await dataFormRef.value.validate()
+const validate = () => {
+  return dataFormRef.value!.validate()
 }
+
+/**
+ * 初始化表单预览
+ *
+ * @param formId 表单ID
+ */
+const initPreview = async (formId: string) => {
+  if (formId) {
+    const form = await FormApi.getByIdApi(formId)
+    setPreviewConfAndFields(formPreview, form.data.conf, form.data.fields)
+    // 设置只读
+    formPreview.rule.forEach((item: any) => {
+      item.props = { ...item.props, disabled: true }
+    })
+  } else {
+    formPreview.rule = []
+  }
+}
+
+watch(() => dataForm.value.formId, async (newFormId) => {
+  await initPreview(newFormId)
+})
+
+onMounted(() => {
+  initPreview(dataForm.value.formId)
+})
 
 defineExpose({
   validate,

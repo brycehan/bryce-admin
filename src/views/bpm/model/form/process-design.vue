@@ -1,13 +1,15 @@
 <template>
-  <template v-if="model.type === BpmModelType.BPMN">
-    <bpm-model-editor
+  <div class="w-full h-min-[500px]">
+    <template v-if="model.type === BpmModelType.BPMN">
+      <bpm-model-editor
         v-if="showDesigner"
         :model-id="model.id"
         :model-key="model.key"
         :model-name="model.name"
         @success="handleDesignSuccess"
       />
-  </template>
+    </template>
+  </div>
 </template>
 
 <script setup lang="ts">
