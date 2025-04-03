@@ -1,44 +1,12 @@
 import request from '@/utils/request'
+import type { FormVo } from '@/types/modules/bpm'
 
-/**
- * 表单Vo
- */
-export type FormVo = {
-    /**
-     * 主键
-     */
-    id: number
-    /**
-     * 名称
-     */
-    name: string
-    /**
-     * 配置
-     */
-    conf: string
-    /**
-     * 字段数组
-     */
-    fields: string[]
-    /**
-     * 状态
-     */
-    status: number
-    /**
-     * 备注
-     */
-    remark: string
-    /**
-     * 创建时间
-     */
-    createTime: string
-}
 /**
  * 保存表单定义
  *
  * @param data 参数
  */
-export const saveOrUpdateApi = (data: any) => {
+export const saveOrUpdateApi = (data: FormVo) => {
     if (data.id) {
         return request.put('/bpm/form', data)
     } else {

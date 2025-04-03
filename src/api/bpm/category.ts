@@ -1,11 +1,12 @@
 import request from '@/utils/request'
+import type { CategoryVo } from '@/types/modules/bpm'
 
 /**
  * 保存流程分类
  *
  * @param data 参数
  */
-export const saveOrUpdateApi = (data: any) => {
+export const saveOrUpdateApi = (data: CategoryVo) => {
     if (data.id) {
         return request.put('/bpm/category', data)
     } else {

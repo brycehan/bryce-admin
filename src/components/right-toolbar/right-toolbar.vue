@@ -69,7 +69,7 @@ const value = ref([] as any[])
 onMounted(() => {
   if (props.showColumnType === 'transfer') {
     // 显隐列初始默认隐藏列
-    for (let i in props.columns) {
+    for (const i in props.columns) {
       if (props.columns[i].visible === false) {
         value.value.push(parseInt(i))
       }
@@ -97,7 +97,7 @@ const handleRefresh = () => {
  * @param data 穿梭框隐藏的数据
  */
 const handleTransferChange = (data: any[]) => {
-  for (let i in props.columns) {
+  for (const i in props.columns) {
     const key = props.columns[i].key
     props.columns[i].visible = !data.includes(key)
   }
