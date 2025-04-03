@@ -76,7 +76,7 @@ import ProcessInstanceBpmnViewer from '@/views/bpm/process-instance/detail/Proce
 import { decodeFields, setPreviewConfAndFields } from '@/utils/formCreate'
 import { useRouter } from 'vue-router'
 // import { CandidateStrategy, FieldPermissionType, NodeId } from '@/components/simple-process-designer-v2/src/consts'
-import type { ApprovalNodeInfo } from '@/api/bpm/processInstance'
+import type { ApprovalNodeInfo } from '@/types/modules/bpm'
 import { CandidateStrategy, FieldPermissionType, NodeId } from '@/api/bpm/consts.ts'
 import ProcessInstanceTimeline from '@/views/bpm/process-instance/detail/ProcessInstanceTimeline.vue'
 import { BpmModelType } from '@/api/bpm/constant.ts'

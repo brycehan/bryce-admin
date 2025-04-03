@@ -37,9 +37,10 @@
 import FcDesigner from '@form-create/designer'
 import type { StateOptions } from '@/utils/state'
 import { reactive, ref } from 'vue'
-import { type FormVo, getByIdApi, saveOrUpdateApi } from '@/api/bpm/form'
+import { getByIdApi, saveOrUpdateApi } from '@/api/bpm/form'
 import { ElMessage, type FormRules } from 'element-plus'
 import { encodeConf, encodeFields, setConfAndFields } from '@/utils/formCreate'
+import type { FormDto } from '@/types/modules/bpm'
 
 defineOptions({
   name: 'BpmFormEditor'
@@ -147,7 +148,7 @@ const handleSubmit = async () => {
 
   // 开始提交请求
   formLoading.value = true
-  const data = state.dataForm as FormVo
+  const data = state.dataForm as FormDto
 
   // 表单配置
   data.conf = encodeConf(designerRef)

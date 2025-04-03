@@ -1,37 +1,12 @@
 import request from '@/utils/request'
-
-export type BpmProcessDefinitionVo = {
-    id: string
-    version: number
-    deploymentTIme: string
-    suspensionState: number
-    formType?: number
-}
-
-export type BpmModelVo = {
-    id: number
-    formName: string
-    key: string
-    name: string
-    description: string
-    category: string
-    formType: number
-    formId: number
-    formCustomCreatePath: string
-    formCustomViewPath: string
-    processDefinition: BpmProcessDefinitionVo
-    status: number
-    remark: string
-    createTime: string
-    bpmnXml: string
-}
+import type { ModelDto } from '@/types/modules/bpm'
 
 /**
  * 保存流程模型信息
  *
  * @param data 参数
  */
-export const saveOrUpdateApi = (data: any) => {
+export const saveOrUpdateApi = (data: ModelDto) => {
     if (data.id) {
         return request.put('/bpm/model', data)
     } else {

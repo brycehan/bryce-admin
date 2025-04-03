@@ -165,6 +165,7 @@ import conditionSvg from '@/assets/svgs/bpm/condition.svg'
 import parallelSvg from '@/assets/svgs/bpm/parallel.svg'
 import finishSvg from '@/assets/svgs/bpm/finish.svg'
 import { ref } from 'vue'
+import type { ApprovalNodeInfo } from '@/types/modules/bpm'
 
 const activities = [
   {
@@ -184,7 +185,7 @@ const activities = [
 defineOptions({ name: 'BpmProcessInstanceTimeline' })
 withDefaults(
   defineProps<{
-    activityNodes: ProcessInstanceApi.ApprovalNodeInfo[] // 审批节点信息
+    activityNodes: ApprovalNodeInfo[] // 审批节点信息
     showStatusIcon?: boolean // 是否显示头像右下角状态图标
   }>(),
   {
@@ -275,7 +276,7 @@ const getApprovalNodeColor = (taskStatus: number) => {
   return statusIconMap[taskStatus]?.color
 }
 
-const getApprovalNodeTime = (node: ProcessInstanceApi.ApprovalNodeInfo) => {
+const getApprovalNodeTime = (node: ApprovalNodeInfo) => {
   if (node.nodeType === NodeType.START_USER_NODE && node.startTime) {
     return `${formatDate(node.startTime)}`
   }

@@ -1,22 +1,12 @@
 import request from '@/utils/request'
-
-// BPM 流程监听器 Vo
-export interface BpmProcessListenerVo {
-  id: number // 编号
-  name: string // 监听器名称
-  type: string // 监听器类型
-  status: number // 监听器状态
-  event: string // 监听事件
-  valueType: string // 监听器值类型
-  value: string // 监听器值
-}
+import type { BpmProcessListenerDto } from '@/types/modules/bpm'
 
 /**
  * 保存流程监听器
  *
  * @param data 参数
  */
-export const saveOrUpdateApi = (data: any) => {
+export const saveOrUpdateApi = (data: BpmProcessListenerDto) => {
   if (data.id) {
     return request.put('/bpm/processListener', data)
   } else {

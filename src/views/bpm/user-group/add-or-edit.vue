@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { getByIdApi, saveOrUpdateApi } from '@/api/bpm/userGroupApi'
+import { getByIdApi, saveOrUpdateApi } from '@/api/bpm/userGroup.ts'
 import * as userApi from '@/api/system/user'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";

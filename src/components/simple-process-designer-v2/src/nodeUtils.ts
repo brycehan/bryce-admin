@@ -3,7 +3,7 @@ import * as RoleApi from '@/api/system/role'
 import * as DeptApi from '@/api/system/dept'
 import * as PostApi from '@/api/system/post'
 import * as UserApi from '@/api/system/user'
-import * as UserGroupApi from '@/api/bpm/userGroupApi'
+import * as UserGroupApi from '@/api/bpm/userGroup.ts'
 import {
   type SimpleFlowNode,
   CandidateStrategy,

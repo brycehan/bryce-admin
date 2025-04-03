@@ -1,11 +1,12 @@
 import request from '@/utils/request'
+import type { UserGroupDto } from '@/types/modules/bpm'
 
 /**
  * 保存用户组
  *
  * @param data 参数
  */
-export const saveOrUpdateApi = (data: any) => {
+export const saveOrUpdateApi = (data: UserGroupDto) => {
     if (data.id) {
         return request.put('/bpm/userGroup', data)
     } else {

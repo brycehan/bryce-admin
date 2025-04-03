@@ -7,8 +7,8 @@ import {
 } from '@/api/auth/auth'
 import { getAuthorityApi } from '@/api/system/menu'
 import storage from '@/utils/storage'
-import type { Auth } from '@/api/auth/auth'
 import { ref } from 'vue'
+import type { LoginDto, LoginVo } from '@/types/modules/auth'
 
 export const useAuthStore = defineStore('authStore', () => {
     // 用户信息
@@ -45,10 +45,10 @@ export const useAuthStore = defineStore('authStore', () => {
      *
      * @param loginDto 登录参数
      */
-    const loginByAccount = async (loginDto: Auth.LoginDto) => {
+    const loginByAccount = async (loginDto: LoginDto) => {
       const { code, data, message } = await postLoginByAccountApi(loginDto)
       if (code == 200) {
-        const token = (data as Auth.LoginVo).accessToken as string || ''
+        const token = (data as LoginVo).accessToken as string || ''
         setToken(token)
       } else {
         return Promise.reject(message)
@@ -63,7 +63,7 @@ export const useAuthStore = defineStore('authStore', () => {
     const loginByPhone = async (loginDto: any) => {
       const { code, data, message } = await postLoginByPhoneApi(loginDto)
       if (code == 200) {
-        const token = (data as Auth.LoginVo).accessToken as string
+        const token = (data as LoginVo).accessToken as string
         setToken(token)
       } else {
         return Promise.reject(message)

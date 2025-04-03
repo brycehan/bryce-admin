@@ -1,4 +1,5 @@
 // BPM 模块
+
 export enum BpmTypeEnum {
   // ========== BPM 模块 ==========
   BPM_MODEL_TYPE = 'bpm_model_type',
@@ -71,7 +72,7 @@ export const BpmAutoApproveType = {
 /**
  * BPM 流程实例状态
  */
-export const BpmProcessInstanceStatusOptions = [
+export const BpmProcessInstanceStatusOptions: { label: string, value: number, type: 'info' | 'primary' | 'success' | 'danger' | 'warning'}[] = [
   {
     label: '审批中',
     value: 1,

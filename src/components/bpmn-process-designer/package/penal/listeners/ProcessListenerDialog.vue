@@ -41,17 +41,18 @@
   </el-dialog>
 </template>
 <script setup lang="ts">
-import ProcessListenerApi, {type BpmProcessListenerVo } from '@/api/bpm/processListener'
+import ProcessListenerApi from '@/api/bpm/processListener'
 import { StatusType } from '@/utils/constant'
 import { BpmTypeEnum } from '@/api/bpm/constant'
 import { reactive, ref } from 'vue'
+import type { BpmProcessListenerDto } from '@/types/modules/bpm'
 
 /** BPM 流程 表单 */
 defineOptions({ name: 'ProcessListenerDialog' })
 
 const dialogVisible = ref(false) // 弹窗的是否展示
 const loading = ref(true) // 列表的加载中
-const list = ref<BpmProcessListenerVo[]>([]) // 列表的数据
+const list = ref<BpmProcessListenerDto[]>([]) // 列表的数据
 const total = ref(0) // 列表的总页数
 const queryParams = reactive({
   pageNo: 1,

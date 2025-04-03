@@ -10,7 +10,7 @@ export const useAppStore = defineStore(
     // sidebar 是否展开
     const sidebarOpened = ref<boolean>(true)
     // 组件大小
-    const componentSize = ref<string>('default')
+    const componentSize = ref<'default' | 'small' | 'large'>('default')
 
     // 国际化语言
     const language = ref<string>('')
@@ -35,7 +35,7 @@ export const useAppStore = defineStore(
      *
      * @param size 组件大小
      */
-    const setComponentSize = (size: string) => {
+    const setComponentSize = (size: 'default' | 'small' | 'large') => {
       componentSize.value = size
     }
 

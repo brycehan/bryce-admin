@@ -1,69 +1,6 @@
 import request from '@/utils/request'
 
 /**
- * 流程任务
- */
-export type Task = {
-    id: string
-    name: string
-}
-
-/**
- * 流程实例信息
- */
-export type ProcessInstanceVo = {
-    id: number
-    name: string
-    processDefinitionId: string
-    category: string
-    result: number
-    tasks: Task[]
-    fields: string[]
-    status: number
-    remark: string
-    businessKey: string
-    createTime: string
-    endTime: string
-    processDefinition?: any
-}
-
-/**
- * 用户信息
- */
-export type User = {
-    id: number
-    nickname: string
-    avatar: string
-}
-
-/**
- * 审批任务信息
- */
-export type ApprovalTaskInfo = {
-    id: number
-    ownerUser: User
-    assigneeUser: User
-    status: number
-    reason: string
-    signPicUrl: string
-}
-
-/**
- * 审批节点信息
- */
-export type ApprovalNodeInfo = {
-    id: number
-    name: string
-    nodeType: any
-    candidateStrategy?: any
-    status: number
-    startTime?: Date
-    endTime?: Date
-    candidateUsers?: User[]
-    tasks: ApprovalTaskInfo[]
-}
-
-/**
  * 查询流程实例分页
  *
  * @param data 参数

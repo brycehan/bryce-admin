@@ -1,12 +1,12 @@
 import request from '@/utils/request'
-import type { FormVo } from '@/types/modules/bpm'
+import type { FormDto } from '@/types/modules/bpm'
 
 /**
  * 保存表单定义
  *
  * @param data 参数
  */
-export const saveOrUpdateApi = (data: FormVo) => {
+export const saveOrUpdateApi = (data: FormDto) => {
     if (data.id) {
         return request.put('/bpm/form', data)
     } else {

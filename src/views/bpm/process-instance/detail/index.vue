@@ -84,9 +84,7 @@
             <el-tab-pane label="流程图" name="diagram">
               <div class="form-scroll-area">
                 <ProcessInstanceSimpleViewer
-                  v-show="
-                    processDefinition.modelType && processDefinition.modelType === BpmModelType.SIMPLE
-                  "
+                  v-show="processDefinition.modelType === BpmModelType.SIMPLE"
                   :loading="processInstanceLoading"
                   :model-view="processModelView"
                 />
@@ -153,6 +151,7 @@ import { nextTick, onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { FieldPermissionType } from '@/api/bpm/consts'
 import FormCreate from '@form-create/element-ui'
+import type { ApprovalNodeInfo } from '@/types/modules/bpm'
 
 defineOptions({ name: 'BpmProcessInstanceDetail' })
 
@@ -292,7 +291,7 @@ const getProcessModelView = (processInstanceId: string) => {
 }
 
 // 审批节点信息
-const activityNodes = ref<ProcessInstanceApi.ApprovalNodeInfo[]>([])
+const activityNodes = ref<ApprovalNodeInfo[]>([])
 /**
  * 设置表单权限
  */
