@@ -2,7 +2,6 @@
   <div class="process-panel__container" :style="{ width: `${width}px`, maxHeight: '600px' }">
     <el-collapse v-model="activeTab" v-if="isReady">
       <el-collapse-item name="base">
-        <!-- class="panel-tab__title" -->
         <template #title>
           <icon icon="ep:info-filled" />
           常规</template

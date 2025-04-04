@@ -74,7 +74,7 @@
 			<right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
-      v-loading="state.loading"
+      v-loading="state.loading as boolean"
       :data="state.data"
       :border="true"
       style="width: 100%"
@@ -164,7 +164,7 @@ import * as CategoryApi from '@/api/bpm/category.ts'
 import processInstanceApi from '@/api/bpm/processInstance'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
-import { BpmFormType, BpmProcessInstanceStatus, BpmProcessInstanceStatusOptions } from '@/api/bpm/constant'
+import { BpmProcessInstanceStatus, BpmProcessInstanceStatusOptions } from '@/api/bpm/constant'
 import { setPreviewConfAndFields } from '@/utils/formCreate'
 import FormCreate from '@form-create/element-ui'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -172,7 +172,7 @@ import HistoryDefinition from '@/views/bpm/model/history-definition.vue'
 import * as UserApi from '@/api/system/user'
 import { formatPast2 } from '@/utils/formatTime'
 import Detail from '@/views/bpm/process-instance/detail/index.vue'
-import { StatusType } from '@/utils/constant.ts'
+import { StatusEnum } from '@/enums/system.ts'
 
 const state: StateOptions = reactive({
   api: {
@@ -265,7 +265,7 @@ const handleCancel = async (row: any) => {
  * 流程分类列表
  */
 const handleCategoryList = () => {
-  CategoryApi.postListApi({status: StatusType.ENABLE}).then((res: any) => {
+  CategoryApi.postListApi({ status: StatusEnum.ENABLE }).then((res: any) => {
     categoryList.value = res.data
   })
 }

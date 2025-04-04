@@ -1,35 +1,29 @@
 <template>
-  <el-form
-    ref="dataFormRef"
-    :model="dataForm"
-    :rules="dataRules"
-    label-width="100"
-    class="w-xl"
-  >
+  <el-form ref="dataFormRef" :model="dataForm" :rules="dataRules" label-width="100" class="w-xl">
     <el-form-item label="流程名称" prop="name">
       <el-input v-model="dataForm.name" :disabled="!!dataForm.id" clearable placeholder="请输入流程名称" />
     </el-form-item>
     <el-form-item label="流程标识" prop="key">
       <div class="flex items-center w-full">
-        <el-input v-model="dataForm.key" class="shrink-0 mr-2" :disabled="!!dataForm.id" clearable placeholder="请输入流程标识，以字母或下划线开头"/>
-        <el-tooltip effect="dark" :content="dataForm.id ? '流程标识不可修改！': '新建后，流程标识不可修改！'" placement="top">
-          <icon icon="ep:question-filled"/>
+        <el-input
+          v-model="dataForm.key"
+          class="shrink-0 mr-2"
+          :disabled="!!dataForm.id"
+          clearable
+          placeholder="请输入流程标识，以字母或下划线开头"
+        />
+        <el-tooltip
+          effect="dark"
+          :content="dataForm.id ? '流程标识不可修改！' : '新建后，流程标识不可修改！'"
+          placement="top"
+        >
+          <icon icon="ep:question-filled" />
         </el-tooltip>
       </div>
     </el-form-item>
     <el-form-item label="流程分类" prop="category">
-      <el-select
-        v-model="dataForm.category"
-        placeholder="请选择岗位"
-        class="w-full"
-        clearable
-      >
-        <el-option
-          v-for="category in categoryList"
-          :key="category.id"
-          :label="category.name"
-          :value="category.id"
-        />
+      <el-select v-model="dataForm.category" placeholder="请选择岗位" class="w-full" clearable>
+        <el-option v-for="category in categoryList" :key="category.id" :label="category.name" :value="category.id" />
       </el-select>
     </el-form-item>
     <el-form-item label="流程描述" prop="description">
@@ -38,11 +32,10 @@
     <el-form-item label="是否可见" prop="visible">
       <dict-radio-group v-model="dataForm.visible" dict-type="sys_show_hide" />
     </el-form-item>
-<!--    <el-form-item label="谁可以发起" prop="startUserIds">-->
-<!--      <el-input v-model="dataForm.startUserIds" placeholder="请输入可发起人" />-->
-<!--    </el-form-item>-->
+    <!--    <el-form-item label="谁可以发起" prop="startUserIds">-->
+    <!--      <el-input v-model="dataForm.startUserIds" placeholder="请输入可发起人" />-->
+    <!--    </el-form-item>-->
   </el-form>
-
 </template>
 
 <script setup lang="ts">
@@ -76,22 +69,25 @@ const dataRules = reactive<FormRules>({
   key: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
     { min: 2, max: 30, message: '长度为2~30个字符', trigger: 'blur' },
-    { pattern: /^[a-zA-Z_][-_.0-9a-zA-Z]*$/, message: '有效英文字母或下划线'}
+    { pattern: /^[a-zA-Z_][-_.0-9a-zA-Z]*$/, message: '有效英文字母或下划线' }
   ],
-  category: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  type: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
+  category: [{ required: true, message: '必填项不能为空', trigger: 'change' }],
+  type: [{ required: true, message: '必填项不能为空', trigger: 'blur' }]
   // managerUserIds: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
 })
 
 // 初始化选中的管理员
-watch(() => dataForm.value, (newValue) => {
-  if (newValue.managerUserIds?.length) {
-    selectedManagerUsers.value = props.userList.filter((user: any) => newValue.managerUserIds.includes(user.id))
-  } else {
-    selectedManagerUsers.value = []
-  }
-}, { immediate: true })
-
+watch(
+  () => dataForm.value,
+  (newValue) => {
+    if (newValue.managerUserIds?.length) {
+      selectedManagerUsers.value = props.userList.filter((user: any) => newValue.managerUserIds.includes(user.id))
+    } else {
+      selectedManagerUsers.value = []
+    }
+  },
+  { immediate: true }
+)
 
 /**
  * 移除指定管理员
@@ -115,7 +111,7 @@ const openManagerUserSelect = () => {
  * @param users 用户集合
  */
 const handleUserSelectSubmit = (users: any[]) => {
-  dataForm.value =  {
+  dataForm.value = {
     ...dataForm.value,
     managerUserIds: users?.map((user: any) => user.id)
   }

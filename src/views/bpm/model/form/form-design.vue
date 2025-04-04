@@ -88,15 +88,15 @@ const dataFormRef = ref()
 
 const dataRules = reactive<FormRules>({
   formId: [
-    { required: true, message: '必填项不能为空', trigger: 'blur' },
+    { required: true, message: '必填项不能为空', trigger: 'change' },
   ],
 })
 
 /**
- * 重置表单
+ * 清除表单校验错误消息
  */
-const resetFields = () => {
-  dataFormRef.value.resetFields()
+const clearValidate = () => {
+  dataFormRef.value!.clearValidate()
 }
 
 /**
@@ -134,7 +134,7 @@ onMounted(() => {
 
 defineExpose({
   validate,
-  resetFields
+  clearValidate
 })
 </script>
 

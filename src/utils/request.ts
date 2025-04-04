@@ -4,6 +4,7 @@ import { useAuthStore } from '@/stores/modules/auth'
 import qs from 'qs'
 import errorMessage from '@/utils/errorMessage'
 import { useAppStore } from '@/stores/modules/app'
+import { ResponseType } from '@/enums/system.ts'
 
 /**
  * axios实例
@@ -53,6 +54,7 @@ request.interceptors.response.use(
   async (response) => {
     // 未设置状态码，则默认成功状态
     const code = response.data.code || 200;
+    const type = response.data.type || 2;
     // 获取错误信息
     const message = errorMessage[code] || response.data.message || errorMessage['default']
 
@@ -80,7 +82,7 @@ request.interceptors.response.use(
     }
 
     // 警告提示
-    if (code >= 600 && code <= 999) {
+    if (type === ResponseType.WARNING) {
       ElMessage.warning(message)
       return Promise.reject(new Error(message))
     }

@@ -42,7 +42,7 @@
 </template>
 <script setup lang="ts">
 import ProcessListenerApi from '@/api/bpm/processListener'
-import { StatusType } from '@/utils/constant'
+import { StatusEnum } from '@/enums/system'
 import { BpmTypeEnum } from '@/api/bpm/constant'
 import { reactive, ref } from 'vue'
 import type { BpmProcessListenerDto } from '@/types/modules/bpm'
@@ -58,7 +58,7 @@ const queryParams = reactive({
   pageNo: 1,
   pageSize: 10,
   type: '',
-  status: StatusType.ENABLE
+  status: StatusEnum.ENABLE
 })
 
 /** 打开弹窗 */

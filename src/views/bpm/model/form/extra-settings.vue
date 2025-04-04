@@ -2,10 +2,12 @@
   <el-form ref="dataFormRef" :model="dataForm" :rules="dataRules" label-width="100" class="w-2xl">
     <el-form-item prop="allowCancelRunningProcess">
       <template #label>
-        <el-tooltip effect="dark" content="第一个审批节点通过后，提交人仍可撤销申请" placement="top">
-          <icon icon="ep:question-filled"/>
-        </el-tooltip>
-        <span>提交人权限</span>
+        <div class="flex items-center">
+          <el-tooltip effect="dark" content="第一个审批节点通过后，提交人仍可撤销申请" placement="top">
+            <icon icon="ep:question-filled" class="mr-1"/>
+          </el-tooltip>
+          <span>提交人权限</span>
+        </div>
       </template>
       <el-checkbox v-model="dataForm.allowCancelRunningProcess">允许撤销审批中的申请</el-checkbox>
     </el-form-item>
@@ -52,24 +54,26 @@
     </el-form-item>
     <el-form-item prop="autoApprovalType">
       <template #label>
-        <el-tooltip effect="dark" content="同一审批人在流程中重复出现时的情况" placement="top">
-          <icon icon="ep:question-filled"/>
-        </el-tooltip>
-        <span>自动去重</span>
+        <div class="flex items-center">
+          <el-tooltip effect="dark" content="同一审批人在流程中重复出现时的情况" placement="top">
+            <icon icon="ep:question-filled" class="mr-1" />
+          </el-tooltip>
+          <span>自动去重</span>
+        </div>
       </template>
-      <el-radio-group v-model="dataForm.autoApprovalType" class="el-radio-group-column">
+      <el-radio-group v-model="dataForm.autoApprovalType" class="flex flex-col !items-start">
         <el-radio :value="0">不自动通过</el-radio>
         <el-radio :value="1">仅审批一次，后续重复的审批节点均自动通过</el-radio>
         <el-radio :value="2">仅针对连续审批的节点自动通过</el-radio>
       </el-radio-group>
     </el-form-item>
     <el-form-item label="标题设置">
-      <el-radio-group v-model="dataForm.titleSetting.enable" class="el-radio-group-column">
+      <el-radio-group v-model="dataForm.titleSetting.enable" class="flex flex-col !items-start">
         <el-radio :value="false">系统默认 <el-text type="info" class="ml-1">展示流程名称</el-text></el-radio>
         <el-radio :value="true">
           自定义标题
           <el-tooltip effect="dark" content="输入字符 '{' 即可插入表单字段" placement="top">
-            <icon icon="ep:question-filled"/>
+            <icon icon="ep:question-filled" class="ml-1" />
           </el-tooltip>
         </el-radio>
       </el-radio-group>
@@ -85,7 +89,7 @@
       />
     </el-form-item>
     <el-form-item label="摘要设置">
-      <el-radio-group v-model="dataForm.summarySetting.enable" class="el-radio-group-column">
+      <el-radio-group v-model="dataForm.summarySetting.enable" class="flex flex-col !items-start">
         <el-radio :value="false">系统默认 <el-text type="info" class="ml-1">展示表单前 3 个字段</el-text> </el-radio>
         <el-radio :value="true">自定义摘要</el-radio>
       </el-radio-group>

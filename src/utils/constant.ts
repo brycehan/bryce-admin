@@ -28,19 +28,3 @@ export default {
   SYSTEM_USER_INIT_PASSWORD : "system.user.init.password"
 
 }
-
-// Dict 字典
-
-/**
- * 字典系统显示隐藏类型
- */
-export const DictSysShowHide = {
-  SHOW: 1, // 显示
-  HIDE: 0, // 隐藏
-}
-
-// 通用状态枚举
-export const StatusType = {
-  ENABLE: 1, // 开启
-  DISABLE: 0 // 停用
-}

@@ -69,11 +69,11 @@ import FormDesign from '@/views/bpm/model/form/form-design.vue'
 import ProcessDesign from '@/views/bpm/model/form/process-design.vue'
 import ExtraSettings from '@/views/bpm/model/form/extra-settings.vue'
 import { BpmAutoApproveType, BpmFormType, BpmModelType } from '@/api/bpm/constant'
-import { DictSysShowHide } from '@/utils/constant'
 import modal from '@/utils/modal'
 import { useRoute, useRouter } from 'vue-router'
 import _ from 'lodash'
 import { useTabsStore } from '@/stores/modules/tabs.ts'
+import { StatusEnum, SysShowHide } from '@/enums/system.ts'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -91,7 +91,7 @@ const state: StateOptions = reactive({
     category: '',
     description: '',
     type: BpmModelType.BPMN,
-    visible: DictSysShowHide.SHOW,
+    visible: SysShowHide.SHOW,
     startUserIds: [],
     managerUserIds: [],
     // 设计表单
@@ -179,7 +179,7 @@ const init = async () => {
     // resetFields()
   }
   // 获取分类列表
-  const categoryListRes = await CategoryApi.postListApi({})
+  const categoryListRes = await CategoryApi.postListApi({status: StatusEnum.ENABLE})
   categoryList.value = categoryListRes.data
   // 获取表单列表
   const formListRes = await FormApi.postListApi({})
@@ -206,26 +206,47 @@ const validateBasicInfo = () => {
 }
 
 /**
- * 校验设计的表单
+ * 校验设计表单
  */
 const validateForm = () => {
   return formDesignRef.value?.validate()
 }
 
 /**
- * 校验设计的流程
+ * 校验设计流程
  */
 const validateProcessDesign = () => {
   return processDesignRef.value?.validate()
 }
 
 /**
- * 保存前校验所有步骤的数据
+ * 清除设计表单校验错误消息
+ */
+const clearValidate = () => {
+  return formDesignRef.value?.clearValidate()
+}
+
+/**
+ * 校验所有步骤的数据
  */
 const validateAllSteps = async () => {
   return validateBasicInfo()
     .then(() => validateForm())
     .then(() => validateProcessDesign())
+}
+
+/**
+ * 校验当前步骤的数据
+ */
+const validateCurrentStep = async () => {
+  switch (active.value) {
+    case 0:
+      return validateBasicInfo()
+    case 1:
+      return validateForm()
+    case 2:
+      return validateProcessDesign()
+  }
 }
 
 const tabsStore = useTabsStore()
@@ -262,9 +283,12 @@ const handleSave = async () => {
       router.push({ path: '/bpm/model/index' })
     })
     .catch(error => {
+      debugger
       if (error === 'cancel') return
-      console.error(error)
-      ElMessage.warning(error.message || '请完善所有步骤的必填信息')
+      validateCurrentStep()
+        .then(() => {
+          if (error.name != 'Error') ElMessage.warning('请完善所有步骤的必填信息')
+        })
     })
 }
 
@@ -319,13 +343,14 @@ const handleDirectDeploy = () => {
 const handleNext = async () => {
   console.debug('active.value', active.value)
   try {
-    if (active.value >= 0) {
+    if (active.value === 0) {
       await validateBasicInfo()
+      clearValidate()
     }
-    if (active.value >= 1) {
+    if (active.value === 1) {
       await validateForm()
     }
-    if (active.value >= 2) {
+    if (active.value === 2) {
       await validateProcessDesign()
     }
 

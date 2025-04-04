@@ -39,6 +39,7 @@ import processDefinitionApi from '@/api/bpm/processDefinition.ts'
 import emptyImg from '@/assets/images/empty.png'
 import _ from 'lodash'
 import { MyProcessViewer } from '@/components/bpmn-process-designer/package'
+import { SysShowHide } from '@/enums/system.ts'
 
 const addOrEditRef = ref()
 const processCategoryList = ref<any>()
@@ -59,7 +60,7 @@ const handleCategoryClick = (categoryId: any) => {
  * 获取分类列表
  */
 const getProcessDefinitionList = () => {
-  processDefinitionApi.postListApi({}).then((response) => {
+  processDefinitionApi.postListApi({ visible: SysShowHide.SHOW }).then((response) => {
     processCategoryList.value = _.groupBy(response.data || [], 'category')
     console.log(_.groupBy(response.data || [], 'category'))
   })

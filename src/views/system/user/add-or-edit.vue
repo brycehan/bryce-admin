@@ -138,8 +138,9 @@ import { getValueByParamKeyApi } from '@/api/system/param'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { emailRegExp, phoneRegExp } from '@/utils/tool'
-import constant, { StatusType } from '@/utils/constant'
+import constant from '@/utils/constant'
 import type { FormRules, ElTreeSelect } from 'element-plus'
+import { StatusEnum } from '@/enums/system.ts'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -296,7 +297,7 @@ const getDeptList = () => {
  * 获取角色列表
  */
 const getRoleList = () => {
-  roleApi.getSimpleList({ status: StatusType.ENABLE}).then((response: any) => {
+  roleApi.getSimpleList({ status: StatusEnum.ENABLE}).then((response: any) => {
     roleList.value = response.data
   })
 }

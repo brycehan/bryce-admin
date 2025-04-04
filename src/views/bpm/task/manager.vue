@@ -107,7 +107,7 @@ import HistoryDefinition from '@/views/bpm/model/history-definition.vue'
 import * as UserApi from '@/api/system/user'
 import { formatPast2 } from '@/utils/formatTime'
 import Detail from '@/views/bpm/process-instance/detail/index.vue'
-import { StatusType } from '@/utils/constant.ts'
+import { StatusEnum } from '@/enums/system.ts'
 
 const state: StateOptions = reactive({
   api: {
@@ -187,7 +187,7 @@ const handleDetail = (row: any) => {
  * 流程分类列表
  */
 const handleCategoryList = () => {
-  CategoryApi.postListApi({status: StatusType.ENABLE}).then((res: any) => {
+  CategoryApi.postListApi({status: StatusEnum.ENABLE}).then((res: any) => {
     categoryList.value = res.data
   })
 }

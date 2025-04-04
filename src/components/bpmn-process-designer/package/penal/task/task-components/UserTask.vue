@@ -232,7 +232,7 @@ import * as UserGroupApi from '@/api/bpm/userGroup.ts'
 import ProcessExpressionDialog from './ProcessExpressionDialog.vue'
 import { useFormFieldsPermission } from '@/api/bpm/nodeUtils.ts'
 import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, toRaw, watch } from 'vue'
-import { StatusType } from '@/utils/constant'
+import { StatusEnum } from '@/enums/system'
 import { ElTreeSelect } from 'element-plus'
 
 defineOptions({ name: 'UserTask' })
@@ -461,16 +461,16 @@ watch(
 
 onMounted(async () => {
   // 获得角色列表
-  roleOptions.value = await RoleApi.getSimpleList({status: StatusType.ENABLE}).then((res) => res.data)
+  roleOptions.value = await RoleApi.getSimpleList({status: StatusEnum.ENABLE}).then((res) => res.data)
   // 获得部门列表
-  const deptOptions = await DeptApi.getSimpleList({status: StatusType.ENABLE}).then((res) => res.data)
+  const deptOptions = await DeptApi.getSimpleList({status: StatusEnum.ENABLE}).then((res) => res.data)
   deptTreeOptions.value = handleTree(deptOptions, 'id')
   // 获得岗位列表
   postOptions.value = await PostApi.getSimpleList().then((res) => res.data)
   // 获得用户列表
-  userOptions.value = await UserApi.getSimpleList({status: StatusType.ENABLE}).then((res) => res.data)
+  userOptions.value = await UserApi.getSimpleList({status: StatusEnum.ENABLE}).then((res) => res.data)
   // 获得用户组列表
-  UserGroupApi.getSimpleList({status: StatusType.ENABLE}).then((res) => {
+  UserGroupApi.getSimpleList({status: StatusEnum.ENABLE}).then((res) => {
     userGroupOptions.value = res.data
   })
 })
