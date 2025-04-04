@@ -13,7 +13,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@form-create/designer": "^3.2.10",
+    "@form-create/designer": "^3.2.11",
     "@kangc/v-md-editor": "^2.3.18",
     "@vueuse/core": "^10.9.0",
     "@wangeditor/editor": "^5.1.23",

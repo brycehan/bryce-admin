@@ -189,9 +189,9 @@ import {
   APPROVE_TYPE,
   ApproveType,
   type ButtonSetting
-} from '@/components/simple-process-designer-v2/src/consts'
+} from '@/api/bpm/consts'
 import * as UserApi from '@/api/system/user'
-import { useFormFieldsPermission } from '@/components/simple-process-designer-v2/src/nodeUtils.ts'
+import { useFormFieldsPermission } from '@/api/bpm/nodeUtils.ts'
 
 defineOptions({ name: 'ElementCustomConfig4UserTask' })
 const props = defineProps({

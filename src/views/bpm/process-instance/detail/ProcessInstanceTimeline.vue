@@ -155,7 +155,7 @@
 import { formatDate } from '@/utils/formatTime'
 import * as ProcessInstanceApi from '@/api/bpm/processInstance'
 import { TaskStatusEnum } from '@/api/bpm/task'
-import { NodeType, CandidateStrategy } from '@/components/simple-process-designer-v2/src/consts'
+import { NodeType, CandidateStrategy } from '@/api/bpm/consts'
 import { isEmpty } from '@/utils/is'
 import { Check, Close, Loading, Clock, Minus, Delete } from '@element-plus/icons-vue'
 import starterSvg from '@/assets/svgs/bpm/starter.svg'

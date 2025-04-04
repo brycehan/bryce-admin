@@ -67,8 +67,8 @@ import {
   TimeUnitType,
   TIME_UNIT_TYPES,
   TIMEOUT_HANDLER_TYPES,
-} from '@/components/simple-process-designer-v2/src/consts'
-import { convertTimeUnit } from '@/components/simple-process-designer-v2/src/utils'
+} from '@/api/bpm/consts'
+import { convertTimeUnit } from '@/api/bpm/utils'
 
 defineOptions({ name: 'ElementCustomConfig4BoundaryEventTimer' })
 const props = defineProps({
@@ -240,6 +240,7 @@ const updateElementExtensions = () => {
 watch(
   () => props.id,
   (val) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     val &&
       val.length &&
       nextTick(() => {

@@ -108,7 +108,7 @@
 
 <script lang="ts" setup>
 import { ref, inject, toRaw, onBeforeUnmount, watch, nextTick } from 'vue'
-import { ApproveMethodType, APPROVE_METHODS } from '@/components/simple-process-designer-v2/src/consts'
+import { ApproveMethodType, APPROVE_METHODS } from '@/api/bpm/consts'
 
 defineOptions({ name: 'ElementMultiInstance' })
 

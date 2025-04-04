@@ -507,7 +507,7 @@ import { computed, reactive, ref, watch } from 'vue'
 import {
   OPERATION_BUTTON_NAME,
   OperationButtonType
-} from '@/components/simple-process-designer-v2/src/consts'
+} from '@/api/bpm/consts'
 import { BpmFormType, BpmProcessInstanceStatus } from '@/api/bpm/constant'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import SignDialog from './SignDialog.vue'

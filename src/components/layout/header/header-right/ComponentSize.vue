@@ -29,7 +29,7 @@ onMounted(() => {
  * 设置组件大小
  * @param componentSize
  */
-const componentSizeChange = (componentSize: string) => {
+const componentSizeChange = (componentSize: 'default' | 'small' | 'large') => {
   appStore.setComponentSize(componentSize)
   switch (componentSize) {
     case 'large':
