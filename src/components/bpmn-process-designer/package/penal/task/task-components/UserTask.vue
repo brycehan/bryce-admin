@@ -86,7 +86,7 @@
           :key="item.id"
           :label="item.nickname"
           :value="item.id"
-        />
+        >{{ item.nickname }}</el-option>
       </el-select>
     </el-form-item>
     <el-form-item
@@ -300,7 +300,7 @@ const resetTaskForm = () => {
       // 特殊：流程表达式，只有一个 input 输入框
       userTaskForm.value.candidateParam = [candidateParamStr]
     } else if (userTaskForm.value.candidateStrategy == CandidateStrategy.MULTI_LEVEL_DEPT_LEADER) {
-      // 特殊：多级不部门负责人，需要通过'|'分割
+      // 特殊：多级不同部门的负责人，需要通过'|'分割
       userTaskForm.value.candidateParam = candidateParamStr
         .split('|')[0]
         .split(',')
@@ -378,6 +378,7 @@ const changeCandidateStrategy = () => {
 
 /** 选中某个 options 时候，更新 bpmn 图  */
 const updateElementTask = () => {
+  debugger
   let candidateParam =
     userTaskForm.value.candidateParam instanceof Array
       ? userTaskForm.value.candidateParam.join(',')
@@ -388,7 +389,7 @@ const updateElementTask = () => {
     userTaskForm.value.candidateStrategy == CandidateStrategy.FORM_DEPT_LEADER) {
     candidateParam += '|' + deptLevel.value
   }
-  // 特殊处理发起人部门负责人、发起人连续部门负责人
+  // 特殊处理发起人部门的负责人、发起人连续部门负责人
   if (userTaskForm.value.candidateStrategy == CandidateStrategy.START_USER_DEPT_LEADER ||
     userTaskForm.value.candidateStrategy == CandidateStrategy.START_USER_MULTI_LEVEL_DEPT_LEADER) {
     candidateParam = deptLevel.value + ''
@@ -460,6 +461,7 @@ watch(
 )
 
 onMounted(async () => {
+
   // 获得角色列表
   roleOptions.value = await RoleApi.getSimpleList({status: StatusEnum.ENABLE}).then((res) => res.data)
   // 获得部门列表
@@ -467,8 +469,20 @@ onMounted(async () => {
   deptTreeOptions.value = handleTree(deptOptions, 'id')
   // 获得岗位列表
   postOptions.value = await PostApi.getSimpleList().then((res) => res.data)
+
   // 获得用户列表
-  userOptions.value = await UserApi.getSimpleList({status: StatusEnum.ENABLE}).then((res) => res.data)
+  UserApi.getSimpleList({status: StatusEnum.ENABLE})
+    .then((res) => {
+      userOptions.value = res.data
+    })
+    .then(() => {
+      // 数据类型不同导致不显示用户的 nickname ，string 和 number
+      // 强制清空并重新赋值 candidateParam，触发 el-select 重新解析 label
+      const temp = [...userTaskForm.value.candidateParam];
+      userTaskForm.value.candidateParam = [];
+      userTaskForm.value.candidateParam = temp.map((item: any) => item + '');
+    })
+
   // 获得用户组列表
   UserGroupApi.getSimpleList({status: StatusEnum.ENABLE}).then((res) => {
     userGroupOptions.value = res.data
