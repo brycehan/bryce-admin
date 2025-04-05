@@ -53,6 +53,7 @@ declare module 'vue' {
     ElementOtherConfig: typeof import('./../components/bpmn-process-designer/package/penal/other/ElementOtherConfig.vue')['default']
     ElementProperties: typeof import('./../components/bpmn-process-designer/package/penal/properties/ElementProperties.vue')['default']
     ElementTask: typeof import('./../components/bpmn-process-designer/package/penal/task/ElementTask.vue')['default']
+    ElEmpty: typeof import('element-plus/es')['ElEmpty']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElHeader: typeof import('element-plus/es')['ElHeader']

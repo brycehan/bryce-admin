@@ -1,6 +1,6 @@
 <!-- 审批详情的右侧：审批流 -->
 <template>
-  <el-timeline class="pt-[20px]">
+  <el-timeline class="pt-[20px] !mx-4">
     <!-- 遍历每个审批节点 -->
     <el-timeline-item
       v-for="(activity, index) in activityNodes"
@@ -94,7 +94,7 @@
                   class="position-absolute top-[19px] left-[23px] rounded-full flex items-center p-[1px] border-2 border-white border-solid"
                   :style="{ backgroundColor: statusIconMap2[task.status]?.color }"
                 >
-                  <Icon :size="11" :icon="statusIconMap2[task.status]?.icon" color="#FFFFFF" />
+                  <icon :size="11" :icon="statusIconMap2[task.status]?.icon" color="#FFFFFF" />
                 </div>
               </div>
             </div>
@@ -133,13 +133,13 @@
             </el-avatar>
             {{ user.nickname }}
 
-            <!-- 信息：任务 ICON -->
+            <!-- 信息：任务图标 -->
             <div
               v-if="showStatusIcon"
               class="position-absolute top-[20px] left-[24px] rounded-full flex items-center p-[1px] border-2 border-white border-solid"
               :style="{ backgroundColor: statusIconMap2['-1']?.color }"
             >
-              <Icon :size="11" :icon="statusIconMap2['-1']?.icon" color="#FFFFFF" />
+              <icon :size="11" :icon="statusIconMap2['-1']?.icon" color="#FFFFFF" />
             </div>
           </div>
         </div>
@@ -153,34 +153,12 @@
 
 <script lang="ts" setup>
 import { formatDate } from '@/utils/formatTime'
-import * as ProcessInstanceApi from '@/api/bpm/processInstance'
 import { TaskStatusEnum } from '@/api/bpm/task'
 import { NodeType, CandidateStrategy } from '@/api/bpm/consts'
 import { isEmpty } from '@/utils/is'
 import { Check, Close, Loading, Clock, Minus, Delete } from '@element-plus/icons-vue'
-import starterSvg from '@/assets/svgs/bpm/starter.svg'
-import auditorSvg from '@/assets/svgs/bpm/auditor.svg'
-import copySvg from '@/assets/svgs/bpm/copy.svg'
-import conditionSvg from '@/assets/svgs/bpm/condition.svg'
-import parallelSvg from '@/assets/svgs/bpm/parallel.svg'
-import finishSvg from '@/assets/svgs/bpm/finish.svg'
 import { ref } from 'vue'
 import type { ApprovalNodeInfo } from '@/types/modules/bpm'
-
-const activities = [
-  {
-    content: 'Event start',
-    timestamp: '2018-04-15',
-  },
-  {
-    content: 'Approved',
-    timestamp: '2018-04-13',
-  },
-  {
-    content: 'Success',
-    timestamp: '2018-04-11',
-  },
-]
 
 defineOptions({ name: 'BpmProcessInstanceTimeline' })
 withDefaults(
@@ -235,29 +213,15 @@ const statusIconMap = {
   '7': { color: '#00b32a', icon: Check }
 } as any
 
-const nodeTypeSvgMap = {
-  // 结束节点
-  [NodeType.END_EVENT_NODE]: { color: '#909398', svg: finishSvg },
-  // 发起人节点
-  [NodeType.START_USER_NODE]: { color: '#909398', svg: starterSvg },
-  // 审批人节点
-  [NodeType.USER_TASK_NODE]: { color: '#ff943e', svg: auditorSvg },
-  // 抄送人节点
-  [NodeType.COPY_TASK_NODE]: { color: '#3296fb', svg: copySvg },
-  // 条件分支节点
-  [NodeType.CONDITION_NODE]: { color: '#14bb83', svg: conditionSvg },
-  // 并行分支节点
-  [NodeType.PARALLEL_BRANCH_NODE]: { color: '#14bb83', svg: parallelSvg }
-} as any
-
 // 只有只有状态是 -1、0、1 才展示头像右小角状态小icon
 const onlyStatusIconShow = [-1, 0, 1]
 
-// timeline时间线上icon图标
-const getApprovalNodeImg = (nodeType: any) => {
-  return nodeTypeSvgMap[nodeType]?.svg
-}
-
+/**
+ * 审批节点图标
+ *
+ * @param taskStatus 审批节点状态
+ * @param nodeType 节点类型
+ */
 const getApprovalNodeIcon = (taskStatus: number, nodeType: any) => {
   if (taskStatus == TaskStatusEnum.NOT_START) {
     return statusIconMap[taskStatus]?.icon
@@ -272,10 +236,20 @@ const getApprovalNodeIcon = (taskStatus: number, nodeType: any) => {
   }
 }
 
+/**
+ * 审批节点颜色
+ *
+ * @param taskStatus 审批节点状态
+ */
 const getApprovalNodeColor = (taskStatus: number) => {
   return statusIconMap[taskStatus]?.color
 }
 
+/**
+ * 审批节点时间
+ *
+ * @param node 审批节点信息
+ */
 const getApprovalNodeTime = (node: ApprovalNodeInfo) => {
   if (node.nodeType === NodeType.START_USER_NODE && node.startTime) {
     return `${formatDate(node.startTime)}`

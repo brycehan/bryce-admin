@@ -20,6 +20,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import * as categoryApi from '@/api/bpm/category'
+import { StatusEnum } from '@/enums/system.ts'
 
 const categoryName = ref()
 const categoryList = ref()
@@ -38,7 +39,7 @@ watch(categoryName, (value) => {
  * 获取部门列表
  */
 const getCategoryList = () => {
-  categoryApi.postListApi({}).then((response) => {
+  categoryApi.postListApi({ status: StatusEnum.ENABLE }).then((response) => {
     categoryList.value = response.data || []
   })
 }

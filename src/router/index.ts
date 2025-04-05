@@ -78,6 +78,30 @@ const asyncRoute: RouteRecordRaw = {
         activeMenu: '/bpm/model/index'
       }
     },
+    {
+      path: '/bpm/process-instance/manager/:id',
+      name: 'BpmProcessInstanceManagerDetail',
+      component: () => import('@/views/bpm/process-instance/detail/index.vue'),
+      meta: {
+        title: '流程详情',
+        i18n: false,
+        cache: false,
+        breadcrumb: ['审批中心', '流程实例', '流程详情'],
+        activeMenu: '/bpm/process-instance/manager'
+      }
+    },
+    {
+      path: '/bpm/process-instance/my/:id',
+      name: 'BpmProcessInstanceMyDetail',
+      component: () => import('@/views/bpm/process-instance/detail/index.vue'),
+      meta: {
+        title: '流程详情',
+        i18n: false,
+        cache: false,
+        breadcrumb: ['审批中心', '我的流程', '流程详情'],
+        activeMenu: '/bpm/process-instance/my'
+      }
+    },
   ]
 }
 

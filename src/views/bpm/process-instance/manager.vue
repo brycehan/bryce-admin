@@ -119,7 +119,7 @@
         </template>
       </el-table-column>
       <el-table-column label="流程编号" align="center" prop="id" min-width="320px" />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="220">
+      <el-table-column label="操作" fixed="right" header-align="center" align="left" min-width="220">
         <template #default="scope">
           <el-button v-auth="'bpm:process-instance:info'" type="primary" icon="View" link @click="handleDetail(scope.row)">详情</el-button>
           <el-button
@@ -145,8 +145,6 @@
       @current-change="handleCurrentChange"
     />
 
-    <!-- 弹窗，新增 / 修改 -->
-    <detail ref="detailRef"/>
     <!-- 弹窗，表单详情 -->
     <el-dialog title="表单详情" v-model="formDetailPreview.visible" width="60%">
       <form-create :rule="formDetailPreview.rule" :option="formDetailPreview.rule" />
@@ -165,14 +163,13 @@ import processInstanceApi from '@/api/bpm/processInstance'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
 import { BpmProcessInstanceStatus, BpmProcessInstanceStatusOptions } from '@/api/bpm/constant'
-import { setPreviewConfAndFields } from '@/utils/formCreate'
 import FormCreate from '@form-create/element-ui'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import HistoryDefinition from '@/views/bpm/model/history-definition.vue'
 import * as UserApi from '@/api/system/user'
 import { formatPast2 } from '@/utils/formatTime'
-import Detail from '@/views/bpm/process-instance/detail/index.vue'
 import { StatusEnum } from '@/enums/system.ts'
+import { router } from '@/router'
 
 const state: StateOptions = reactive({
   api: {
@@ -188,7 +185,6 @@ const state: StateOptions = reactive({
 })
 
 const queryFormRef = ref()
-const detailRef = ref()
 const userList = ref<any[]>([])
 // 显示搜索条件
 const showSearch = ref(true)
@@ -244,7 +240,7 @@ const handleUserList = () => {
  * @param row 当前行数据
  */
 const handleDetail = (row: any) => {
-  detailRef.value.init(row.id)
+  router.push({ name: 'BpmProcessInstanceManagerDetail', params: { id: row.id } })
 }
 
 /** 取消按钮操作 */

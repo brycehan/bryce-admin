@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, reactive, ref } from 'vue'
+import { nextTick, reactive, ref, unref } from 'vue'
 import {
   getByIdApi,
   saveOrUpdateApi,
@@ -69,7 +69,6 @@ import FormCreate from '@form-create/element-ui'
 import type { ApiAttrs } from '@form-create/element-ui/types/config'
 import * as ProcessInstanceApi from '@/api/bpm/processInstance'
 import type { StateOptions } from '@/utils/state'
-import { crud } from '@/utils/state'
 import { ElMessage } from 'element-plus'
 import processDefinitionApi from '@/api/bpm/processDefinition.ts'
 import ProcessInstanceBpmnViewer from '@/views/bpm/process-instance/detail/ProcessInstanceBpmnViewer.vue'
@@ -79,6 +78,7 @@ import type { ApprovalNodeInfo } from '@/types/modules/bpm'
 import { CandidateStrategy, FieldPermissionType, NodeId } from '@/api/bpm/consts.ts'
 import ProcessInstanceTimeline from '@/views/bpm/process-instance/detail/ProcessInstanceTimeline.vue'
 import { BpmModelType } from '@/api/bpm/constant.ts'
+import { useTabsStore } from '@/stores/modules/tabs.ts'
 
 const props = defineProps<{
   processDefinition: any }>()
@@ -124,8 +124,7 @@ const bpmnDetailPreview = ref({
 })
 
 const router = useRouter()
-
-const { getData, handleSaveOrUpdate } = crud(state)
+const tabsStore = useTabsStore()
 
 /**
  * 初始化详情数据
@@ -262,8 +261,10 @@ const handleSubmit = async () => {
     })
     // 提示
     ElMessage.success('发起流程成功')
-    // 跳转回去
-
+    // 关闭当前页签
+    tabsStore.deleteView(unref(router.currentRoute))
+    // 跳转到我的流程页面
+    await router.push({ path: '/bpm/process-instance/my' })
   } finally {
     processInstanceStartLoading.value = false
   }
