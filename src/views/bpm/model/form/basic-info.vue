@@ -41,6 +41,7 @@
 <script setup lang="ts">
 import { type PropType, reactive, ref, watch } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
+import { getCheckKeyUniqueApi } from '@/api/bpm/model.ts'
 
 const props = defineProps({
   categoryList: {
@@ -61,6 +62,24 @@ const userSelectFormRef = ref()
 
 const selectedManagerUsers = ref<any[]>([])
 
+/**
+ * 校验手机号码是否唯一
+ *
+ * @param _rule 校验规则
+ * @param value 校验值
+ * @param callback 回调
+ */
+const checkKeyUnique = (_rule: any, value: any, callback: any) => {
+  // 后端校验唯一
+  getCheckKeyUniqueApi(value, dataForm.value?.id).then((res) => {
+    if (res.data) {
+      callback()
+    } else {
+      callback(new Error('此流程标识已使用'))
+    }
+  })
+}
+
 const dataRules = reactive<FormRules>({
   name: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
@@ -69,7 +88,8 @@ const dataRules = reactive<FormRules>({
   key: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
     { min: 2, max: 30, message: '长度为2~30个字符', trigger: 'blur' },
-    { pattern: /^[a-zA-Z_][-_.0-9a-zA-Z]*$/, message: '有效英文字母或下划线' }
+    { pattern: /^[a-zA-Z_][-_.0-9a-zA-Z]*$/, message: '有效英文字母或下划线' },
+    { validator: checkKeyUnique, trigger: 'blur' }
   ],
   category: [{ required: true, message: '必填项不能为空', trigger: 'change' }],
   type: [{ required: true, message: '必填项不能为空', trigger: 'blur' }]

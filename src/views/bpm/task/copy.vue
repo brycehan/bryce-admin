@@ -30,26 +30,30 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="流程名称" prop="processInstance.name" header-align="center" align="center" show-overflow-tooltip min-width="120" />
-      <el-table-column label="发起人" align="center" prop="processInstance.startUser.nickname" width="120" />
+      <el-table-column label="流程名称" prop="processInstanceName" header-align="center" align="center" show-overflow-tooltip min-width="120" />
+      <el-table-column label="发起人" align="center" prop="createUser.nickname" width="120" />
       <el-table-column
         label="发起时间"
         align="center"
-        prop="createTime"
+        prop="processInstanceStartTime"
         width="180"
       />
-      <el-table-column align="center" label="当前任务" prop="name" width="180" />
+      <el-table-column align="center" label="抄送节点" prop="activityName" width="180" />
+      <el-table-column align="center" label="抄送人" min-width="100">
+        <template #default="scope"> {{ scope.row.createUser?.nickname || '系统' }} </template>
+      </el-table-column>
+      <el-table-column align="center" label="抄送意见" prop="reason" min-width="150" show-overflow-tooltip />
       <el-table-column
-        label="创建时间"
-        prop="createTime"
+        label="抄送时间"
+        prop="createdTime"
         align="center"
-        width="180"
+        min-width="180"
       />
       <el-table-column label="流程编号" align="center" prop="processInstanceId" min-width="120" show-overflow-tooltip />
       <el-table-column label="任务编号" align="center" prop="id" min-width="120" show-overflow-tooltip/>
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="90">
         <template #default="scope">
-          <el-button v-auth="'bpm:process-instance:info'" type="primary" icon="Edit" link @click="handleDetail(scope.row)">办理</el-button>
+          <el-button v-auth="'bpm:process-instance:info'" type="primary" icon="View" link @click="handleDetail(scope.row)">详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -63,8 +67,6 @@
       @current-change="handleCurrentChange"
     />
 
-    <!-- 弹窗，新增 / 修改 -->
-    <detail ref="detailRef"/>
     <!-- 弹窗，表单详情 -->
     <el-dialog title="表单详情" v-model="formDetailPreview.visible" width="60%">
       <form-create :rule="formDetailPreview.rule" :option="formDetailPreview.rule" />
@@ -82,14 +84,11 @@ import * as CategoryApi from '@/api/bpm/category.ts'
 import processInstanceCopyApi from '@/api/bpm/processInstanceCopy'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
-import { BpmProcessInstanceStatus, BpmProcessInstanceStatusOptions } from '@/api/bpm/constant'
-import { setPreviewConfAndFields } from '@/utils/formCreate'
 import FormCreate from '@form-create/element-ui'
 import HistoryDefinition from '@/views/bpm/model/history-definition.vue'
 import * as UserApi from '@/api/system/user'
-import { formatPast2 } from '@/utils/formatTime'
-import Detail from '@/views/bpm/process-instance/detail/index.vue'
 import { StatusEnum } from '@/enums/system.ts'
+import { router } from '@/router'
 
 const state: StateOptions = reactive({
   api: {
@@ -105,7 +104,6 @@ const state: StateOptions = reactive({
 })
 
 const queryFormRef = ref()
-const detailRef = ref()
 const userList = ref<any[]>([])
 // 显示搜索条件
 const showSearch = ref(true)
@@ -161,7 +159,7 @@ const handleUserList = () => {
  * @param row 当前行数据
  */
 const handleDetail = (row: any) => {
-  detailRef.value.init(row.processInstanceId)
+  router.push({ name: 'BpmTaskCopyDetail', params: { id: row.processInstanceId } })
 }
 
 /**

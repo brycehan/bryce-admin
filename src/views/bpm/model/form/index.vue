@@ -356,8 +356,8 @@ const handleNext = async () => {
 
     if (active.value++ > 3) active.value = 3
   } catch (error: any) {
-    console.error('步骤切换失败', error)
-    ElMessage.warning('请先完善当前步骤必填信息')
+    console.error('handleNext', error)
+    ElMessage.warning('请完善当前步骤必填信息')
   }
 }
 

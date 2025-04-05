@@ -60,11 +60,22 @@ export const patchState = (id: string, state: number) => {
     return request.patch(`/bpm/model/${id}/${state}`)
 }
 
+/**
+ * 校验Key是否唯一
+ *
+ * @param key 流程标识
+ * @param id 模型ID
+ */
+export const getCheckKeyUniqueApi = (key: string, id: string) => {
+  return request.get('/bpm/model/checkKeyUnique', { params: { id, key } })
+}
+
 export default {
-    saveOrUpdateApi,
-    deleteByIdsApi,
-    getByIdApi,
-    postPageApi,
-    deployModelApi,
-    patchState,
+  saveOrUpdateApi,
+  deleteByIdsApi,
+  getByIdApi,
+  postPageApi,
+  deployModelApi,
+  patchState,
+  getCheckKeyUniqueApi
 }

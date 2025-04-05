@@ -40,7 +40,7 @@
     </el-row>
     <el-table
       v-if="refreshTable"
-      v-loading="state.loading"
+      v-loading="state.loading as boolean"
       :default-expand-all="isExpandAll"
       :data="state.data"
       row-key="id"

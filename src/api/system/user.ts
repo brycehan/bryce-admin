@@ -160,11 +160,11 @@ export const deleteAssignRoleApi = (userId: string, data: any) => {
 /**
  * 校验用户账号是否唯一
  *
- * @param rule 校验规则
+ * @param _rule 校验规则
  * @param value 校验值
  * @param callback 回调
  */
-export const checkUsernameUnique = (rule: any, value: any, callback: any) => {
+export const checkUsernameUnique = (_rule: any, value: any, callback: any) => {
   getCheckUsernameUniqueApi(value)
     .then((res) => {
       if (res.data) {
@@ -174,7 +174,7 @@ export const checkUsernameUnique = (rule: any, value: any, callback: any) => {
       }
     })
     .catch((error) => {
-      console.log(error)
+      console.error(error)
     })
 }
 

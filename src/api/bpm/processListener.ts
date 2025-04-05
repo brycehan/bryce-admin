@@ -8,9 +8,9 @@ import type { BpmProcessListenerDto } from '@/types/modules/bpm'
  */
 export const saveOrUpdateApi = (data: BpmProcessListenerDto) => {
   if (data.id) {
-    return request.put('/bpm/processListener', data)
+    return request.put('/bpm/process-listener', data)
   } else {
-    return request.post('/bpm/processListener', data)
+    return request.post('/bpm/process-listener', data)
   }
 }
 
@@ -20,7 +20,7 @@ export const saveOrUpdateApi = (data: BpmProcessListenerDto) => {
  * @param ids ID数组
  */
 export const deleteByIdsApi = (ids: string[]) => {
-  return request.delete('/bpm/processListener', { data: { ids } })
+  return request.delete('/bpm/process-listener', { data: { ids } })
 }
 
 /**
@@ -29,7 +29,7 @@ export const deleteByIdsApi = (ids: string[]) => {
  * @param id ID
  */
 export const getByIdApi = (id: string) => {
-  return request.get(`/bpm/processListener/${id}`)
+  return request.get(`/bpm/process-listener/${id}`)
 }
 
 /**
@@ -38,7 +38,7 @@ export const getByIdApi = (id: string) => {
  * @param data 分页参数
  */
 export const postPageApi = (data: any) => {
-  return request.post('/bpm/processListener/page', data)
+  return request.post('/bpm/process-listener/page', data)
 }
 
 export default {

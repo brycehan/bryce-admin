@@ -19,12 +19,12 @@
       <el-form-item label="数据范围" prop="dataScope">
         <dict-select v-model="dataForm.dataScopeType" dict-type="sys_data_scope" placeholder="请选择数据范围" class="w-full" clearable/>
       </el-form-item>
-      <el-form-item v-show="dataForm.dataScopeType == 1" label="数据权限">
+      <el-form-item v-if="dataForm.dataScopeType == 1" label="数据权限">
         <el-checkbox v-model="deptExpandAll" @change="handleTreeExpand($event)">{{deptExpandAll ? '全部收起' : '全部展开'}}</el-checkbox>
         <el-checkbox v-model="deptCheckAll" @change="handleTreeCheckAll($event)">全选/全不选</el-checkbox>
         <el-checkbox v-model="deptCheckStrictly" @change="handleTreeCheckStrictly($event)">父子联动</el-checkbox>
       </el-form-item>
-      <el-form-item v-show="dataForm.dataScopeType == 1">
+      <el-form-item v-if="dataForm.dataScopeType == 1">
        <el-card shadow="never" class="w-full">
          <el-tree
            ref="deptTreeRef"
@@ -50,7 +50,7 @@
 import { reactive, ref } from 'vue'
 import { getByIdApi, putDataScopeApi } from '@/api/system/role'
 import { postListApi as deptListApi } from '@/api/system/dept'
-import { ElMessage, type FormRules } from 'element-plus'
+import { type CheckboxValueType, ElMessage, type FormRules } from 'element-plus'
 
 const visible = ref(false)
 const dataForm = reactive({
@@ -124,14 +124,12 @@ const getDeptList = () => {
  * 表单提交
  */
 const handleSubmit = () => {
-  dataForm.deptIds = deptTreeRef.value.getCheckedKeys()
+  dataForm.deptIds = deptTreeRef.value?.getCheckedKeys()
 
   dataFormRef.value.validate((valid: boolean) => {
-    if (!valid) {
-      return false
-    }
+    if (!valid) return false
 
-    if (dataForm.deptIds.length === 0) {
+    if (dataForm.dataScopeType === 1 && dataForm.deptIds.length === 0) {
       ElMessage.error('请至少选择一个部门')
       return false
     }
@@ -168,8 +166,8 @@ const handleTreeCheckAll = (val: any) => {
  *
  * @param val true 父子联动 false 不联动
  */
-const handleTreeCheckStrictly = (val: boolean) => {
-  deptCheckStrictly.value = val
+const handleTreeCheckStrictly = (val: CheckboxValueType) => {
+  deptCheckStrictly.value = val as boolean
 }
 
 defineExpose({

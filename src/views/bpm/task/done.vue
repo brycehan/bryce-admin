@@ -23,7 +23,7 @@
 			<right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
-      v-loading="state.loading"
+      v-loading="state.loading as boolean"
       :data="state.data"
       :border="true"
       style="width: 100%"
@@ -52,7 +52,7 @@
       />
       <el-table-column align="center" label="审批状态" prop="status" min-width="120">
         <template #default="scope">
-          <el-tag :type="BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.type">{{ BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.label }}</el-tag>
+          <el-tag :type="BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.type as any">{{ BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.label }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" label="审批建议" prop="reason" min-width="180" />
@@ -79,8 +79,6 @@
       @current-change="handleCurrentChange"
     />
 
-    <!-- 弹窗，新增 / 修改 -->
-    <detail ref="detailRef"/>
     <!-- 弹窗，表单详情 -->
     <el-dialog title="表单详情" v-model="formDetailPreview.visible" width="60%">
       <form-create :rule="formDetailPreview.rule" :option="formDetailPreview.rule" />
@@ -98,14 +96,12 @@ import * as CategoryApi from '@/api/bpm/category.ts'
 import taskApi, { BpmTaskStatusOptions } from '@/api/bpm/task.ts'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
-import { BpmProcessInstanceStatus, BpmProcessInstanceStatusOptions } from '@/api/bpm/constant'
-import { setPreviewConfAndFields } from '@/utils/formCreate'
 import FormCreate from '@form-create/element-ui'
 import HistoryDefinition from '@/views/bpm/model/history-definition.vue'
 import * as UserApi from '@/api/system/user'
 import { formatPast2 } from '@/utils/formatTime'
-import Detail from '@/views/bpm/process-instance/detail/index.vue'
 import { StatusEnum } from '@/enums/system.ts'
+import { router } from '@/router'
 
 const state: StateOptions = reactive({
   api: {
@@ -121,7 +117,6 @@ const state: StateOptions = reactive({
 })
 
 const queryFormRef = ref()
-const detailRef = ref()
 const userList = ref<any[]>([])
 // 显示搜索条件
 const showSearch = ref(true)
@@ -177,7 +172,7 @@ const handleUserList = () => {
  * @param row 当前行数据
  */
 const handleDetail = (row: any) => {
-  detailRef.value.init(row.processInstanceId)
+  router.push({ name: 'BpmTaskDoneDetail', params: { id: row.processInstanceId } })
 }
 
 /**

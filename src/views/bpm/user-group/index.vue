@@ -24,12 +24,12 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'bpm:userGroup:save'" type="primary" icon="Plus" plain @click="handleAddOrEdit()">新增</el-button>
-      <el-button v-auth="'bpm:userGroup:delete'" type="danger" icon="Delete" plain @click="handleDeleteBatch('name', '组名')">删除</el-button>
+      <el-button v-auth="'bpm:user-group:save'" type="primary" icon="Plus" plain @click="handleAddOrEdit()">新增</el-button>
+      <el-button v-auth="'bpm:user-group:delete'" type="danger" icon="Delete" plain @click="handleDeleteBatch('name', '组名')">删除</el-button>
 			<right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
-      v-loading="state.loading"
+      v-loading="state.loading as boolean"
       :data="state.data"
       :border="true"
       style="width: 100%"
@@ -42,8 +42,8 @@
       <dict-table-column label="状态" prop="status" dict-type="sys_status" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="170">
         <template #default="scope">
-          <el-button v-auth="'bpm:userGroup:update'" type="primary" icon="Edit" link @click="handleAddOrEdit(scope.row)">修改</el-button>
-          <el-button v-auth="'bpm:userGroup:delete'" type="danger" icon="Delete" link @click="handleDeleteBatch('name', '组名', scope.row)">删除</el-button>
+          <el-button v-auth="'bpm:user-group:update'" type="primary" icon="Edit" link @click="handleAddOrEdit(scope.row)">修改</el-button>
+          <el-button v-auth="'bpm:user-group:delete'" type="danger" icon="Delete" link @click="handleDeleteBatch('name', '组名', scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

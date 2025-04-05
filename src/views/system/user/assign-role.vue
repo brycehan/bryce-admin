@@ -4,7 +4,7 @@
     <el-button type="danger" icon="Delete" @click="handleDeleteBatch()">删除</el-button>
   </el-row>
   <el-table
-    v-loading="state.loading"
+    v-loading="state.loading as boolean"
     :data="state.data"
     :border="true"
     style="width: 100%"

@@ -24,12 +24,12 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'bpm:processExpression:save'" type="primary" icon="Plus" plain @click="handleAddOrEdit()">新增</el-button>
-      <el-button v-auth="'bpm:processExpression:delete'" type="danger" icon="Delete" plain @click="handleDeleteBatch('name', '流程实例的名称')">删除</el-button>
+      <el-button v-auth="'bpm:process-expression:save'" type="primary" icon="Plus" plain @click="handleAddOrEdit()">新增</el-button>
+      <el-button v-auth="'bpm:process-expression:delete'" type="danger" icon="Delete" plain @click="handleDeleteBatch('name', '流程实例的名称')">删除</el-button>
 			<right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
-      v-loading="state.loading"
+      v-loading="state.loading as boolean"
       :data="state.data"
       :border="true"
       style="width: 100%"
@@ -42,8 +42,8 @@
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="170" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="170">
         <template #default="scope">
-          <el-button v-auth="'bpm:processExpression:update'" type="primary" icon="Edit" link @click="handleAddOrEdit(scope.row)">修改</el-button>
-          <el-button v-auth="'bpm:processExpression:delete'" type="danger" icon="Delete" link @click="handleDeleteBatch('name', '流程实例的名称', scope.row)">删除</el-button>
+          <el-button v-auth="'bpm:process-expression:update'" type="primary" icon="Edit" link @click="handleAddOrEdit(scope.row)">修改</el-button>
+          <el-button v-auth="'bpm:process-expression:delete'" type="danger" icon="Delete" link @click="handleDeleteBatch('name', '流程实例的名称', scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

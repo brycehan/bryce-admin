@@ -102,6 +102,54 @@ const asyncRoute: RouteRecordRaw = {
         activeMenu: '/bpm/process-instance/my'
       }
     },
+    {
+      path: '/bpm/task/manager/:id',
+      name: 'BpmTaskManagerDetail',
+      component: () => import('@/views/bpm/process-instance/detail/index.vue'),
+      meta: {
+        title: '流程详情',
+        i18n: false,
+        cache: false,
+        breadcrumb: ['审批中心', '流程任务', '流程详情'],
+        activeMenu: '/bpm/task/manager'
+      }
+    },
+    {
+      path: '/bpm/task/todo/:id',
+      name: 'BpmTaskTodoDetail',
+      component: () => import('@/views/bpm/process-instance/detail/index.vue'),
+      meta: {
+        title: '流程详情',
+        i18n: false,
+        cache: false,
+        breadcrumb: ['审批中心', '待办任务', '流程详情'],
+        activeMenu: '/bpm/task/todo'
+      }
+    },
+    {
+      path: '/bpm/task/done/:id',
+      name: 'BpmTaskDoneDetail',
+      component: () => import('@/views/bpm/process-instance/detail/index.vue'),
+      meta: {
+        title: '流程详情',
+        i18n: false,
+        cache: false,
+        breadcrumb: ['审批中心', '已办任务', '流程详情'],
+        activeMenu: '/bpm/task/done'
+      }
+    },
+    {
+      path: '/bpm/task/copy/:id',
+      name: 'BpmTaskCopyDetail',
+      component: () => import('@/views/bpm/process-instance/detail/index.vue'),
+      meta: {
+        title: '流程详情',
+        i18n: false,
+        cache: false,
+        breadcrumb: ['审批中心', '抄送我的', '流程详情'],
+        activeMenu: '/bpm/task/copy'
+      }
+    },
   ]
 }
 

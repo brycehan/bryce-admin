@@ -8,9 +8,9 @@ import type { UserGroupDto } from '@/types/modules/bpm'
  */
 export const saveOrUpdateApi = (data: UserGroupDto) => {
     if (data.id) {
-        return request.put('/bpm/userGroup', data)
+        return request.put('/bpm/user-group', data)
     } else {
-        return request.post('/bpm/userGroup', data)
+        return request.post('/bpm/user-group', data)
     }
 }
 
@@ -20,7 +20,7 @@ export const saveOrUpdateApi = (data: UserGroupDto) => {
  * @param ids ID数组
  */
 export const deleteByIdsApi = (ids: string[]) => {
-    return request.delete('/bpm/userGroup', { data: { ids } })
+    return request.delete('/bpm/user-group', { data: { ids } })
 }
 
 /**
@@ -29,7 +29,7 @@ export const deleteByIdsApi = (ids: string[]) => {
  * @param id ID
  */
 export const getByIdApi = (id: string) => {
-    return request.get(`/bpm/userGroup/${id}`)
+    return request.get(`/bpm/user-group/${id}`)
 }
 
 /**
@@ -38,7 +38,7 @@ export const getByIdApi = (id: string) => {
  * @param data 分页参数
  */
 export const postPageApi = (data: any) => {
-    return request.post('/bpm/userGroup/page', data)
+    return request.post('/bpm/user-group/page', data)
 }
 
 /**
@@ -47,7 +47,7 @@ export const postPageApi = (data: any) => {
  * @param data 查询参数
  */
 export const getSimpleList = (data: any) => {
-    return request.get('/bpm/userGroup/simple-list', { params: data})
+    return request.get('/bpm/user-group/simple-list', { params: data})
 }
 
 export default {

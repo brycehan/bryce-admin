@@ -7,9 +7,9 @@ import request from '@/utils/request'
  */
 export const saveOrUpdateApi = (data: any) => {
   if (data.id) {
-    return request.put('/bpm/processExpression', data)
+    return request.put('/bpm/process-expression', data)
   } else {
-    return request.post('/bpm/processExpression', data)
+    return request.post('/bpm/process-expression', data)
   }
 }
 
@@ -19,7 +19,7 @@ export const saveOrUpdateApi = (data: any) => {
  * @param ids ID数组
  */
 export const deleteByIdsApi = (ids: string[]) => {
-  return request.delete('/bpm/processExpression', { data: { ids } })
+  return request.delete('/bpm/process-expression', { data: { ids } })
 }
 
 /**
@@ -28,7 +28,7 @@ export const deleteByIdsApi = (ids: string[]) => {
  * @param id ID
  */
 export const getByIdApi = (id: string) => {
-  return request.get(`/bpm/processExpression/${id}`)
+  return request.get(`/bpm/process-expression/${id}`)
 }
 
 /**
@@ -37,7 +37,7 @@ export const getByIdApi = (id: string) => {
  * @param data 分页参数
  */
 export const postPageApi = (data: any) => {
-  return request.post('/bpm/processExpression/page', data)
+  return request.post('/bpm/process-expression/page', data)
 }
 
 export default {
