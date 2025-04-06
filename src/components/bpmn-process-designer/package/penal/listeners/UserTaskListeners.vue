@@ -309,6 +309,7 @@ import {
 } from './utilSelf'
 import ProcessListenerDialog from '@/components/bpmn-process-designer/package/penal/listeners/ProcessListenerDialog.vue'
 import { inject, nextTick, ref, watch } from 'vue'
+import _ from 'lodash'
 
 defineOptions({ name: 'UserTaskListeners' })
 
@@ -480,12 +481,7 @@ const selectProcessListener = (listener: any) => {
 watch(
   () => props.id,
   (val) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    val &&
-      val.length &&
-      nextTick(() => {
-        resetListenersList()
-      })
+      if(_.isLength(val)) nextTick(() => resetListenersList())
   },
   { immediate: true }
 )

@@ -112,23 +112,20 @@
             @click="handleDeleteBatch('jobName', '任务名称', scope.row)"
             >删除</el-button
           >
-          <el-dropdown
-                  v-auth="['quartz:job:run', 'quartz:job:info', 'quartz:jobLog:page']"
-                  @command="(command: string) => handleCommand(command, scope.row)"
+          <el-dropdown @command="(command: string) => handleCommand(command, scope.row)">
+            <el-button type="success" class="btn-more-link" icon="d-arrow-right" text>更多</el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item v-if="auth('quartz:job:run')" command="runOnce" icon="caretRight"
+                  >执行一次</el-dropdown-item
                 >
-                  <el-button type="success" class="btn-more-link" icon="d-arrow-right" text>更多</el-button>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item v-if="auth('quartz:job:run')" command="runOnce" icon="caretRight"
-                        >执行一次</el-dropdown-item
-                      >
-                      <el-dropdown-item v-if="auth('quartz:job:info')" command="view" icon="view"
-                        >任务详情</el-dropdown-item>
-                      <el-dropdown-item v-if="auth('quartz:jobLog:page')" command="jobLog" icon="operation"
-                        >调度日志</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
+                <el-dropdown-item command="view" icon="view"
+                  >任务详情</el-dropdown-item>
+                <el-dropdown-item v-if="auth('quartz:jobLog:page')" command="jobLog" icon="operation"
+                  >调度日志</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </template>
       </el-table-column>
     </el-table>

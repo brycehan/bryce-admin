@@ -228,6 +228,7 @@
 <script lang="ts" setup>
 import { inject, nextTick, onMounted, ref, toRaw, watch } from 'vue'
 import * as FormApi from '@/api/bpm/form'
+import _ from 'lodash'
 
 defineOptions({ name: 'ElementForm' })
 
@@ -321,9 +322,7 @@ const openFieldForm = (field: any, index: any) => {
     // this.$set(this.formFieldForm, "typeType", !this.fieldType[field.type] ? "custom" : field.type);
     formFieldForm.value['typeType'] = !fieldType.value[field.type] ? 'custom' : field.type
     // 初始化枚举值列表
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    field.type === 'enum' &&
-      (fieldEnumList.value = JSON.parse(JSON.stringify(FieldObject?.values || [])))
+    if (field.type === 'enum') (fieldEnumList.value = JSON.parse(JSON.stringify(FieldObject?.values || [])))
     // 初始化约束条件列表
     fieldConstraintsList.value = JSON.parse(
       JSON.stringify(FieldObject?.validation?.constraints || [])
@@ -371,15 +370,9 @@ const saveFieldOption = () => {
       fieldEnumList.value.push(fieldOptionForm.value)
     }
   } else {
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    fieldOptionType.value === 'property' &&
-      fieldPropertiesList.value.splice(formFieldOptionIndex.value, 1, fieldOptionForm.value)
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    fieldOptionType.value === 'constraint' &&
-      fieldConstraintsList.value.splice(formFieldOptionIndex.value, 1, fieldOptionForm.value)
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    fieldOptionType.value === 'enum' &&
-      fieldEnumList.value.splice(formFieldOptionIndex.value, 1, fieldOptionForm.value)
+    if (fieldOptionType.value === 'property') fieldPropertiesList.value.splice(formFieldOptionIndex.value, 1, fieldOptionForm.value)
+    if (fieldOptionType.value === 'constraint') fieldConstraintsList.value.splice(formFieldOptionIndex.value, 1, fieldOptionForm.value)
+    if (fieldOptionType.value === 'enum') fieldEnumList.value.splice(formFieldOptionIndex.value, 1, fieldOptionForm.value)
   }
   fieldOptionModelVisible.value = false
   fieldOptionForm.value = {}
@@ -388,10 +381,8 @@ const saveFieldOption = () => {
 const saveField = () => {
   const { id, type, label, defaultValue, datePattern } = formFieldForm.value
   const Field = bpmnInstances().moddle.create(`${prefix}:FormField`, { id, type, label })
-  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-  defaultValue && (Field.defaultValue = defaultValue)
-  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-  datePattern && (Field.datePattern = datePattern)
+  if (defaultValue) (Field.defaultValue = defaultValue)
+  if (datePattern) (Field.datePattern = datePattern)
   // 构建属性
   if (fieldPropertiesList.value && fieldPropertiesList.value.length) {
     const fieldPropertyList = fieldPropertiesList.value.map((fp) => {
@@ -474,12 +465,7 @@ onMounted(async () => {
 watch(
   () => props.id,
   (val) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    val &&
-      val.length &&
-      nextTick(() => {
-        resetFormList()
-      })
+      if(_.isLength(val)) nextTick(() => resetFormList())
   },
   { immediate: true }
 )

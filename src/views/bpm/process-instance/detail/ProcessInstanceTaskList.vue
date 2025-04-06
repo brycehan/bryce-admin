@@ -10,7 +10,7 @@
     <el-table-column :formatter="dateFormatter" align="center" label="结束时间" prop="endTime" min-width="140" />
     <el-table-column align="center" label="审批状态" prop="status" min-width="90">
       <template #default="scope">
-        <el-tag :type="BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.type">{{ BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.label }}</el-tag>
+        <el-tag :type="BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.type as any">{{ BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.label }}</el-tag>
       </template>
     </el-table-column>
     <el-table-column align="center" label="审批建议" prop="reason" min-width="200">
@@ -29,9 +29,9 @@
   </el-table>
 
   <!-- 弹窗：表单 -->
-  <Dialog title="表单详情" v-model="taskFormVisible" width="600">
+  <el-dialog title="表单详情" v-model="taskFormVisible" width="600">
     <form-create ref="fApi" v-model="taskForm.value" :option="taskForm.option" :rule="taskForm.rule" />
-  </Dialog>
+  </el-dialog>
 </template>
 <script lang="ts" setup>
 import { dateFormatter, formatPast2 } from '@/utils/formatTime'

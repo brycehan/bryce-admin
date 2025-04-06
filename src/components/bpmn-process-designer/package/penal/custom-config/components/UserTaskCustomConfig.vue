@@ -192,6 +192,7 @@ import {
 } from '@/api/bpm/consts'
 import * as UserApi from '@/api/system/user'
 import { useFormFieldsPermission } from '@/api/bpm/nodeUtils.ts'
+import _ from 'lodash'
 
 defineOptions({ name: 'ElementCustomConfig4UserTask' })
 const props = defineProps({
@@ -416,12 +417,7 @@ const updateElementExtensions = () => {
 watch(
   () => props.id,
   (val) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    val &&
-      val.length &&
-      nextTick(() => {
-        resetCustomConfigList()
-      })
+    if (_.isLength(val)) nextTick(() => resetCustomConfigList())
   },
   { immediate: true }
 )

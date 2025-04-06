@@ -29,8 +29,8 @@
       </el-col>
       <!-- 右侧按钮 -->
       <el-col :span="6" class="el-container">
-        <el-button type="success" v-if="route.params.id" @click="handleDeploy">发布</el-button>
-        <el-button type="primary" @click="handleSave">保存</el-button>
+        <el-button type="success" v-auth="['bpm:model:deploy']" v-if="route.params.id" @click="handleDeploy">发布</el-button>
+        <el-button type="primary" v-auth="['bpm:model:save', 'bpm:model:update']" @click="handleSave">保存</el-button>
         <el-button :type="active <= 0 ? '' : 'primary'" :disabled="active <= 0" @click="handlePrev()">上一步</el-button>
         <el-button :type="active >= 3 ? '' : 'primary'" :disabled="active >= 3" @click="handleNext()">下一步</el-button>
       </el-col>

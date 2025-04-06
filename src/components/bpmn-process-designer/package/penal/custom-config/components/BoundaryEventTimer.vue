@@ -69,6 +69,7 @@ import {
   TIMEOUT_HANDLER_TYPES,
 } from '@/api/bpm/consts'
 import { convertTimeUnit } from '@/api/bpm/utils'
+import _ from 'lodash'
 
 defineOptions({ name: 'ElementCustomConfig4BoundaryEventTimer' })
 const props = defineProps({
@@ -240,12 +241,7 @@ const updateElementExtensions = () => {
 watch(
   () => props.id,
   (val) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    val &&
-      val.length &&
-      nextTick(() => {
-        resetElement()
-      })
+      if (_.isLength(val)) nextTick(() => resetElement())
   },
   { immediate: true }
 )

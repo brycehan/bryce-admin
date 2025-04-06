@@ -82,7 +82,6 @@
         <template #default="scope"> {{ scope.row.duration }}毫秒 </template>
       </el-table-column>
       <el-table-column
-        v-auth="'system:operateLog:info'"
         label="操作"
         fixed="right"
         header-align="center"

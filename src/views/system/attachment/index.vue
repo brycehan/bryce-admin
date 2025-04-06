@@ -91,10 +91,9 @@
         <template #default="scope">
 <!--          &lt;!&ndash; 公共访问权限，浏览器有下载进度条 &ndash;&gt;-->
 <!--          <a :href="scope.row.url" download v-if="scope.row.accessType === 0" class="download-a">-->
-<!--            <el-button v-auth="'system:attachment:info'" type="primary"  icon="download" text>下载</el-button>-->
+<!--            <el-button type="primary"  icon="download" text>下载</el-button>-->
 <!--          </a>-->
           <el-button
-            v-auth="'system:attachment:info'"
             type="primary"
             icon="download"
             text

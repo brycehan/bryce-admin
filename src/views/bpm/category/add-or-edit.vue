@@ -41,6 +41,7 @@ import { getByIdApi, saveOrUpdateApi } from '@/api/bpm/category'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
 import type { FormRules } from 'element-plus'
+import _ from 'lodash'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -101,6 +102,12 @@ const init = (id?: string) => {
  * 表单提交
  */
 const handleSubmit = () => {
+  debugger
+  console.log(_.isEmpty(''))
+  console.log(_.isEmpty(String('')))
+  console.log(_.isEmpty(String('')))
+  console.log(_.isLength(''))
+  console.log(_.isLength(String('')))
   dataFormRef.value.validate((valid: boolean) => {
     if (!valid) {
       return false

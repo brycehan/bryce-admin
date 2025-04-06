@@ -1,6 +1,13 @@
 <template>
   <el-card shadow="never">
-    <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" v-show="showSearch" @keyup.enter="getPage()" @submit.prevent>
+    <el-form
+      ref="queryFormRef"
+      :model="state.queryForm"
+      :inline="true"
+      v-show="showSearch"
+      @keyup.enter="getPage()"
+      @submit.prevent
+    >
       <el-form-item label="流程名称" prop="name">
         <el-input v-model="state.queryForm.name" placeholder="请输入流程名称" clearable />
       </el-form-item>
@@ -13,9 +20,16 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'bpm:processDefinitionInfo:save'" type="primary" icon="Plus" plain @click="handleAddOrEdit()">新增</el-button>
-      <el-button v-auth="'bpm:processDefinitionInfo:delete'" type="danger" icon="Delete" plain @click="handleDeleteBatch('key', '流程KEY')">删除</el-button>
-			<right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <el-button v-auth="'bpm:model:save'" type="primary" icon="Plus" plain @click="handleAddOrEdit()">新增</el-button>
+      <el-button
+        v-auth="'bpm:model:delete'"
+        type="danger"
+        icon="Delete"
+        plain
+        @click="handleDeleteBatch('key', '流程KEY')"
+        >删除
+      </el-button>
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -25,8 +39,22 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="流程名称" prop="name" header-align="center" align="center" show-overflow-tooltip min-width="120" />
-      <el-table-column label="流程KEY" prop="key" header-align="center" align="center" show-overflow-tooltip min-width="120"/>
+      <el-table-column
+        label="流程名称"
+        prop="name"
+        header-align="center"
+        align="center"
+        show-overflow-tooltip
+        min-width="120"
+      />
+      <el-table-column
+        label="流程KEY"
+        prop="key"
+        header-align="center"
+        align="center"
+        show-overflow-tooltip
+        min-width="120"
+      />
       <el-table-column label="分类名称" prop="categoryName" header-align="center" align="center" min-width="100" />
       <el-table-column label="表单信息" header-align="center" align="center" min-width="120">
         <template #default="scope">
@@ -63,7 +91,7 @@
           {{ scope.row.processDefinition?.deploymentTime }}
         </template>
       </el-table-column>
-      <el-table-column label="版本" prop="version" header-align="center" align="center" min-width="70" >
+      <el-table-column label="版本" prop="version" header-align="center" align="center" min-width="70">
         <template #default="scope">
           <div v-if="scope.row.processDefinition?.version">
             <el-tag type="primary">v{{ scope.row.processDefinition?.version }}</el-tag>
@@ -71,36 +99,39 @@
         </template>
       </el-table-column>
       <el-table-column label="创建时间" prop="createTime" header-align="center" align="center" min-width="170" />
-      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="220">
+      <el-table-column
+        label="操作"
+        v-auth="['bpm:model:update', 'bpm:model:delete', 'bpm:model:deploy', 'bpm:model:history']"
+        fixed="right"
+        header-align="center"
+        align="center"
+        min-width="220"
+      >
         <template #default="scope">
-          <el-button v-auth="'bpm:model:update'" type="primary" icon="Edit" link @click="handleAddOrEdit(scope.row)">修改</el-button>
-          <el-button v-auth="'bpm:model:delete'" type="success" icon="Promotion" link @click="handleDeploy(scope.row)">发布</el-button>
-          <el-dropdown
-            v-auth="['bpm:model:update']"
-            @command="(command: string) => handleCommand(command, scope.row)"
-          >
+          <el-button v-auth="'bpm:model:update'" type="primary" icon="Edit" link @click="handleAddOrEdit(scope.row)">
+            修改
+          </el-button>
+          <el-button v-auth="'bpm:model:delete'" type="success" icon="Promotion" link @click="handleDeploy(scope.row)">
+            发布
+          </el-button>
+          <el-dropdown v-auth="['bpm:model:update']" @command="(command: string) => handleCommand(command, scope.row)">
             <el-button type="info" class="btn-more-link" icon="d-arrow-right" text>更多</el-button>
             <template #dropdown>
               <el-dropdown-menu>
-<!--                <el-dropdown-item v-if="auth('bpm:model:update')" command="handleAssignRole" icon="CopyDocument"-->
-<!--                >复制</el-dropdown-item-->
-<!--                >-->
-                <el-dropdown-item v-if="auth('bpm:process-definition:page')" command="handleHistoryDefinition" icon="Notebook"
-                >历史</el-dropdown-item
-                >
-<!--                <el-dropdown-item v-if="auth('bpm:model:update')" command="handleReport" icon="Histogram"-->
-<!--                >报表</el-dropdown-item-->
-<!--                >-->
-                <el-dropdown-item v-if="auth('bpm:model:update') && scope.row.processDefinition" command="handleState" icon="SwitchButton"
-                >{{ scope.row.processDefinition.suspensionState === 1 ? '启用' : '停用' }}</el-dropdown-item
-                >
                 <el-dropdown-item
-                  v-if="auth('bpm:model:delete')"
-                  command="handleDeleteBatch"
-                  icon="Delete"
-                >删除</el-dropdown-item
-                >
-
+                  command="handleHistoryDefinition"
+                  icon="Notebook"
+                  >历史
+                </el-dropdown-item>
+                <el-dropdown-item
+                  v-if="auth('bpm:model:deploy') && scope.row.processDefinition"
+                  command="handleState"
+                  icon="SwitchButton"
+                  >{{ scope.row.processDefinition.suspensionState === 1 ? '启用' : '停用' }}
+                </el-dropdown-item>
+                <el-dropdown-item v-if="auth('bpm:model:delete')" command="handleDeleteBatch" icon="Delete"
+                  >删除
+                </el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -121,7 +152,12 @@
       <form-create :rule="formDetailPreview.rule" :option="formDetailPreview.rule" />
     </el-dialog>
     <!-- 弹窗，历史流程 -->
-    <el-drawer v-if="historyDefinitionVisible" v-model="historyDefinitionVisible" :title="historyDefinitionTitle" :size="1000">
+    <el-drawer
+      v-if="historyDefinitionVisible"
+      v-model="historyDefinitionVisible"
+      :title="historyDefinitionTitle"
+      :size="1000"
+    >
       <HistoryDefinition :row="historyDefinitionRow" />
     </el-drawer>
   </el-card>
@@ -131,8 +167,8 @@
 import { onMounted, reactive, ref } from 'vue'
 import modelApi from '@/api/bpm/model'
 import * as FormApi from '@/api/bpm/form'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 import { BpmFormType } from '@/api/bpm/constant'
 import { setPreviewConfAndFields } from '@/utils/formCreate'
 import FormCreate from '@form-create/element-ui'
@@ -147,8 +183,7 @@ const state: StateOptions = reactive({
     postPageApi: modelApi.postPageApi,
     deleteByIdsApi: modelApi.deleteByIdsApi
   },
-  queryForm: {
-  },
+  queryForm: {}
 })
 
 const queryFormRef = ref()
@@ -159,7 +194,7 @@ const showSearch = ref(true)
 const formDetailPreview = ref({
   visible: false,
   rule: [],
-  option: {},
+  option: {}
 })
 
 // 历史流程
@@ -168,13 +203,7 @@ const historyDefinitionTitle = ref('')
 const historyDefinitionRow = ref()
 const router = useRouter()
 
-const {
-  getPage,
-  handleSizeChange,
-  handleCurrentChange,
-  handleDeleteBatch,
-  handleSelectionChange,
-} = crud(state)
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } = crud(state)
 
 /**
  * 重置按钮操作
@@ -184,7 +213,7 @@ const handleResetQuery = () => {
     state.range[key] = []
   }
 
-  if(queryFormRef.value) {
+  if (queryFormRef.value) {
     queryFormRef.value.resetFields()
   }
 
@@ -210,7 +239,8 @@ const handleAddOrEdit = (row?: any) => {
  * @param row 当前行数据
  */
 const handleDeploy = (row: any) => {
-  modal.confirm(`确定要发布“${row.name}”流程吗？`)
+  modal
+    .confirm(`确定要发布“${row.name}”流程吗？`)
     .then(() => {
       return modelApi.deployModelApi(row.id)
     })

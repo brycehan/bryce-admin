@@ -32,7 +32,7 @@
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="240">
         <template #default="scope">
           <el-button v-auth="'bpm:form:update'" type="primary" icon="Edit" link @click="openFormEditor(scope.row)">修改</el-button>
-          <el-button v-auth="'bpm:form:info'" type="info" icon="view" text @click="handleInfo(scope.row.id)">详情</el-button>
+          <el-button type="info" icon="view" text @click="handleInfo(scope.row.id)">详情</el-button>
           <el-button v-auth="'bpm:form:delete'" type="danger" icon="Delete" link @click="handleDeleteBatch('name', '表单名', scope.row)">删除</el-button>
         </template>
       </el-table-column>

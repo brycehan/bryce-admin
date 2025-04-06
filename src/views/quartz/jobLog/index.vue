@@ -62,7 +62,7 @@
       <el-table-column label="执行时间" prop="createdTime" header-align="center" align="center" min-width="185" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="100">
         <template #default="scope">
-          <el-button v-auth="'quartz:jobLog:info'" type="info" icon="view" text @click="handleInfo(scope.row.id)"
+          <el-button type="info" icon="view" text @click="handleInfo(scope.row.id)"
             >详情</el-button
           >
         </template>

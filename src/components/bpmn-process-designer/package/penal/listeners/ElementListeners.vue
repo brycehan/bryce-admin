@@ -262,6 +262,7 @@ import {
   initListenerForm2
 } from './utilSelf'
 import ProcessListenerDialog from './ProcessListenerDialog.vue'
+import _ from 'lodash'
 
 defineOptions({ name: 'ElementListeners' })
 
@@ -435,12 +436,7 @@ const selectProcessListener = (listener: any) => {
 watch(
   () => props.id,
   (val) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    val &&
-      val.length &&
-      nextTick(() => {
-        resetListenersList()
-      })
+      if(_.isLength(val)) nextTick(() => resetListenersList())
   },
   { immediate: true }
 )

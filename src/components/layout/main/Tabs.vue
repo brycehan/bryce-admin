@@ -5,7 +5,7 @@
         v-model="activeTabName"
         class="tabs-item-style"
         @tab-click="tabClick"
-        @tab-remove="tabRemove"
+        @tab-remove="tabRemove as any"
       >
         <el-tab-pane
           v-for="tab in tabsStore.visitedViews"
@@ -121,8 +121,7 @@ const isAffix = (tab: any) => {
  * @param tab 标签页对象
  */
 const tabClick = (tab: any) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-  tab.props.name && router.push(tab.props.name)
+  if (tab.props.name) router.push(tab.props.name)
 }
 
 /**

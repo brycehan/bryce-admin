@@ -17,7 +17,7 @@ export default {
       const hasPermissions = authStore.authoritySet.some((v: string) => roleSuperAdmin === v || v === value || value.includes(v))
 
       if (!hasPermissions) {
-        el.parentNode && el.parentNode.removeChild(el)
+        el.parentNode?.removeChild(el)
       }
     } else {
          throw new Error('请设置操作权限标签值')
