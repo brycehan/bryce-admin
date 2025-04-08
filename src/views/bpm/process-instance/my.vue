@@ -104,7 +104,7 @@
       <el-table-column label="流程编号" align="center" prop="id" min-width="320px" />
       <el-table-column label="操作" fixed="right" header-align="center" align="left" min-width="220">
         <template #default="scope">
-          <el-button v-auth="'bpm:process-instance:info'" type="primary" icon="View" link @click="handleDetail(scope.row)">详情</el-button>
+          <el-button type="primary" icon="View" link @click="handleDetail(scope.row)">详情</el-button>
           <el-button
             type="primary"
             icon="CloseBold"

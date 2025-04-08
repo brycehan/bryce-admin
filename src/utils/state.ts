@@ -177,9 +177,11 @@ export const crud = (options: StateOptions) => {
    * @param id ID
    */
   const getData = (id: string) => {
-    state.api.getByIdApi(id).then((res: any) => {
-      Object.assign(state.dataForm, res.data)
-    })
+    return (
+      state.api.getByIdApi(id).then((res: any) => {
+        Object.assign(state.dataForm, res.data)
+      })
+    )
   }
 
   /**

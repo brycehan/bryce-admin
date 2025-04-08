@@ -58,7 +58,9 @@
       />
       <el-table-column label="图标" prop="icon" header-align="center" align="center" min-width="70">
         <template #default="scope">
-          <icon :icon="scope.row.icon" />
+          <div class="flex justify-center">
+            <icon :icon="scope.row.icon" />
+          </div>
         </template>
       </el-table-column>
       <el-table-column label="类型" prop="type" header-align="center" align="center" min-width="75">

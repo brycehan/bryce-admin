@@ -465,7 +465,7 @@ onMounted(async () => {
 watch(
   () => props.id,
   (val) => {
-      if(_.isLength(val)) nextTick(() => resetFormList())
+      if(_.isString(val) && val.length) nextTick(() => resetFormList())
   },
   { immediate: true }
 )

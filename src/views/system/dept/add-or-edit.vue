@@ -28,8 +28,8 @@
       </el-form-item>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="名称" prop="name">
-            <el-input v-model="dataForm.name" placeholder="部门名称" />
+          <el-form-item label="部门名称" prop="name">
+            <el-input v-model="dataForm.name" placeholder="请输出部门名称" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -41,7 +41,18 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="负责人" prop="leader">
-            <el-input v-model="dataForm.leader" placeholder="负责人" />
+            <el-select
+              v-model="dataForm.leaderUserId"
+              placeholder="请选择负责人"
+              clearable
+            >
+              <el-option
+                v-for="user in userList"
+                :key="user.id"
+                :label="user.nickname"
+                :value="user.id"
+              />
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -75,12 +86,10 @@ import { onMounted, reactive, ref } from 'vue'
 import { ElMessage, type FormRules } from 'element-plus'
 import { getByIdApi, saveOrUpdateApi, postListApi } from '@/api/system/dept'
 import { ElTreeSelect } from 'element-plus'
-const emit = defineEmits(['refreshPage'])
+import userApi from '@/api/system/user'
+import { StatusEnum } from '@/enums/system.ts'
 
-const visible = ref(false)
-const dataFormRef = ref()
-const deptList = ref([])
-const deptTreeRef = ref()
+const emit = defineEmits(['refreshPage'])
 
 const dataForm = reactive({
   id: '',
@@ -88,7 +97,7 @@ const dataForm = reactive({
   code: '',
   parentId: null,
   ancestor: '',
-  leader: '',
+  leaderUserId: '',
   contactNumber: '',
   email: '',
   sort: 0,
@@ -100,6 +109,12 @@ const dataRules = reactive<FormRules>({
   parentId: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }]
 })
+
+const visible = ref(false)
+const dataFormRef = ref()
+const deptList = ref([])
+const deptTreeRef = ref()
+const userList = ref<any[]>([])
 
 /**
  * 初始化表单
@@ -147,6 +162,17 @@ const getDeptList = () => {
 }
 
 /**
+ * 获取岗位列表
+ */
+const getUserList = () => {
+  userApi
+    .getSimpleList({ status: StatusEnum.ENABLE })
+    .then((response: any) => {
+      userList.value = response.data
+    })
+}
+
+/**
  * 上级部门树，设置默认值
  *
  * @param row 部门父数据
@@ -177,6 +203,7 @@ const handleSubmit = () => {
 onMounted(() => {
   // 部门树列表
   getDeptList()
+  getUserList()
 })
 
 defineExpose({

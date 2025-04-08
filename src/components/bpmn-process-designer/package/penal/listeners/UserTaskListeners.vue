@@ -481,7 +481,7 @@ const selectProcessListener = (listener: any) => {
 watch(
   () => props.id,
   (val) => {
-      if(_.isLength(val)) nextTick(() => resetListenersList())
+      if(_.isString(val) && val.length) nextTick(() => resetListenersList())
   },
   { immediate: true }
 )

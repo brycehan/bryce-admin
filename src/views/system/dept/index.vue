@@ -47,7 +47,8 @@
       :border="true"
       style="width: 100%"
     >
-      <el-table-column label="名称" prop="name" header-align="center" align="center" min-width="180" />
+      <el-table-column label="部门名称" prop="name" header-align="center" align="center" min-width="180" />
+      <el-table-column label="负责人" prop="leaderName" header-align="center" align="center" min-width="180" />
       <el-table-column label="排序" prop="sort" header-align="center" align="center" min-width="100"/>
       <dict-table-column label="状态" prop="status" dict-type="sys_status" min-width="80" />
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165"/>

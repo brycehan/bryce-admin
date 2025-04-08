@@ -221,11 +221,9 @@ const initFormOnChanged = (element: any) => {
 
   try {
     console.log(`
-                ----------
         select element changed:
                   id:  ${activatedElement.id}
                 type:  ${activatedElement.businessObject.$type}
-                ----------
                 `)
     console.log('businessObject: ', activatedElement.businessObject)
     bpmnInstances().bpmnElement = activatedElement
@@ -233,7 +231,8 @@ const initFormOnChanged = (element: any) => {
     elementId.value = activatedElement.id
     elementType.value = activatedElement.type.split(':')[1] || ''
     elementBusinessObject.value = JSON.parse(JSON.stringify(activatedElement.businessObject))
-    conditionFormVisible.value = !!(
+
+    conditionFormVisible.value = (
       elementType.value === 'SequenceFlow' &&
       activatedElement.source &&
       activatedElement.source.type.indexOf('StartEvent') === -1

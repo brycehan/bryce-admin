@@ -202,6 +202,7 @@ const dataRules = reactive<FormRules>({
   url: [{ min: 0, max: 255, message: '长度不能超过255个字符', trigger: 'blur' }],
   authority: [
     { min: 0, max: 100, message: '长度不能超过100个字符', trigger: 'blur' },
+    { pattern: /^(?!ROLE_).*$/, message: '不能以 ROLE_ 开头', trigger: 'blur' },
     { validator: checkAuthorityUnique, trigger: 'blur' }
   ],
   icon: [{ min: 0, max: 100, message: '长度不能超过100个字符', trigger: 'blur' }],

@@ -53,7 +53,7 @@
       <el-table-column label="任务编号" align="center" prop="id" min-width="120" show-overflow-tooltip/>
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="90">
         <template #default="scope">
-          <el-button v-auth="'bpm:process-instance:info'" type="primary" icon="View" link @click="handleDetail(scope.row)">详情</el-button>
+          <el-button type="primary" icon="View" link @click="handleDetail(scope.row)">详情</el-button>
         </template>
       </el-table-column>
     </el-table>

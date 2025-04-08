@@ -42,7 +42,7 @@ defineOptions({
   name: 'SelectUserForm'
 })
 
-const emit = defineEmits<{ submit: [userList: any[]]}>()
+const emit = defineEmits<{ confirm: [id: number, userList: any[]]}>()
 
 // 弹窗是否展示
 const visible = ref(false)
@@ -56,7 +56,8 @@ const userList = ref<any[]>([])
 const filteredUserList = ref<any[]>([])
 // 选中的用户列表
 const selectedUserIdList = ref<any[]>([])
-
+// 活动ID
+const activityId = ref()
 /**
  * 所有用户列表
  */
@@ -133,9 +134,11 @@ const filterUserListByDeptId = (deptId?: any) => {
 /**
  * 打开弹窗
  *
+ * @param id 部门ID
  * @param selectedList 已选用户列表
  */
-const open = (selectedList: any[]) => {
+const open = (id: number, selectedList: any[]) => {
+  activityId.value = id
   resetForm()
   // 加载部门数据
   DeptApi.postListApi({}).then((res) => {
@@ -173,7 +176,7 @@ const handleSubmit = () => {
   })
   debugger
   // 发送提交事件
-  emit('submit', selectedUsers)
+  emit('confirm', activityId.value, selectedUsers)
 }
 
 defineExpose({

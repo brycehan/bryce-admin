@@ -174,7 +174,7 @@ withDefaults(
 // 审批节点
 const statusIconMap2 = {
   // 未开始
-  '-1': { color: '#909398', icon: 'ep-clock' },
+  '-1': { color: '#909398', icon: 'ep:clock' },
   // 待审批
   '0': { color: '#00b32a', icon: 'ep:loading' },
   // 审批中
@@ -272,7 +272,7 @@ const emit = defineEmits<{
 }>()
 const customApproveUsers: any = ref({}) // key：activityId，value：用户列表
 // 选择完成
-const handleUserSelectConfirm = (activityId: string, userList: any[]) => {
+const handleUserSelectConfirm = (activityId: number, userList: any[]) => {
   customApproveUsers.value[activityId] = userList || []
   emit('selectUserConfirm', activityId, userList)
 }

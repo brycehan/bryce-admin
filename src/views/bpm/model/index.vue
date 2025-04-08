@@ -111,14 +111,15 @@
           <el-button v-auth="'bpm:model:update'" type="primary" icon="Edit" link @click="handleAddOrEdit(scope.row)">
             修改
           </el-button>
-          <el-button v-auth="'bpm:model:delete'" type="success" icon="Promotion" link @click="handleDeploy(scope.row)">
+          <el-button v-auth="'bpm:model:deploy'" type="success" icon="Promotion" link @click="handleDeploy(scope.row)">
             发布
           </el-button>
-          <el-dropdown v-auth="['bpm:model:update']" @command="(command: string) => handleCommand(command, scope.row)">
+          <el-dropdown v-auth="['bpm:model:history', 'bpm:model:deploy', 'bpm:model:delete']" @command="(command: string) => handleCommand(command, scope.row)">
             <el-button type="info" class="btn-more-link" icon="d-arrow-right" text>更多</el-button>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item
+                  v-if="auth('bpm:model:history')"
                   command="handleHistoryDefinition"
                   icon="Notebook"
                   >历史
@@ -129,8 +130,11 @@
                   icon="SwitchButton"
                   >{{ scope.row.processDefinition.suspensionState === 1 ? '启用' : '停用' }}
                 </el-dropdown-item>
-                <el-dropdown-item v-if="auth('bpm:model:delete')" command="handleDeleteBatch" icon="Delete"
-                  >删除
+                <el-dropdown-item v-if="auth('ROLE_SUPER_ADMIN')" command="handleClean" icon="Delete">
+                  清理
+                </el-dropdown-item>
+                <el-dropdown-item v-if="auth('bpm:model:delete')" command="handleDeleteBatch" icon="Delete">
+                  删除
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -251,6 +255,26 @@ const handleDeploy = (row: any) => {
       getPage()
     })
 }
+
+/**
+ * 清理
+ *
+ * @param row 当前行数据
+ */
+const handleClean = (row: any) => {
+  modal
+    .confirm(`确定要清理“${row.name}”流程吗？`)
+    .then(() => {
+      return modelApi.cleanById(row.id)
+    })
+    .then(() => {
+      ElMessage.success('清理成功')
+    })
+    .then(() => {
+      getPage()
+    })
+}
+
 /**
  * 处理命令
  *
@@ -261,6 +285,9 @@ const handleCommand = (command: string, row: any) => {
   switch (command) {
     case 'handleDeleteBatch':
       handleDeleteBatch('key', '流程KEY', row)
+      break
+    case 'handleClean':
+      handleClean(row)
       break
     case 'handleHistoryDefinition':
       handleHistoryDefinition(row)

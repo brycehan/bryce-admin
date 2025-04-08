@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, provide, reactive, ref, toRefs, unref, watch } from 'vue'
+import { nextTick, onMounted, provide, reactive, ref, toRefs, unref, watch } from 'vue'
 import * as CategoryApi from '@/api/bpm/category'
 import * as FormApi from '@/api/bpm/form'
 import * as UserApi from '@/api/system/user'
@@ -74,6 +74,7 @@ import { useRoute, useRouter } from 'vue-router'
 import _ from 'lodash'
 import { useTabsStore } from '@/stores/modules/tabs.ts'
 import { StatusEnum, SysShowHide } from '@/enums/system.ts'
+import { useAuthStore } from '@/stores/modules/auth.ts'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -92,6 +93,7 @@ const state: StateOptions = reactive({
     description: '',
     type: BpmModelType.BPMN,
     visible: SysShowHide.SHOW,
+    startUserType: undefined,
     startUserIds: [],
     managerUserIds: [],
     // 设计表单
@@ -151,6 +153,8 @@ const formList = ref([])
 
 const { getData } = crud(state)
 
+const authStore = useAuthStore()
+
 /**
  * 初始化流程数据
  */
@@ -171,12 +175,22 @@ const init = async () => {
   const id = route.params.id as string
   state.dataForm.id = ''
 
+  // 加载用户数据
+  await UserApi.postListApi({}).then((res: any) => {
+    userList.value = res.data
+    console.log('user data')
+  })
+  await nextTick()
   // id 存在则为修改
   if (id) {
-    getData(id)
+    getData(id).then(() => {
+      state.dataForm.startUserType = state.dataForm.startUserIds?.length > 0 ? 1 : 0
+    })
   } else {
-    // 重置表单数据
-    // resetFields()
+    // 新增场景
+    state.dataForm.startUserType = 0  // 全体
+    debugger
+    state.dataForm.managerUserIds.push(authStore.user.id)
   }
   // 获取分类列表
   const categoryListRes = await CategoryApi.postListApi({status: StatusEnum.ENABLE})
@@ -184,10 +198,6 @@ const init = async () => {
   // 获取表单列表
   const formListRes = await FormApi.postListApi({})
   formList.value = formListRes.data
-  // 加载用户数据
-  UserApi.postListApi({}).then((res: any) => {
-    userList.value = res.data
-  })
 
   // 设置 active 切换到第一步
   active.value = 0

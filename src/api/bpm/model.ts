@@ -61,6 +61,15 @@ export const patchState = (id: string, state: number) => {
 }
 
 /**
+ * 清除流程模型
+ *
+ * @param id 模型ID
+ */
+export const cleanById = (id: string) => {
+  return request.delete(`/bpm/model/clean/${id}`)
+}
+
+/**
  * 校验Key是否唯一
  *
  * @param key 流程标识
@@ -72,10 +81,11 @@ export const getCheckKeyUniqueApi = (key: string, id: string) => {
 
 export default {
   saveOrUpdateApi,
-  deleteByIdsApi,
+  cleanById,
   getByIdApi,
   postPageApi,
   deployModelApi,
   patchState,
+  deleteByIdsApi,
   getCheckKeyUniqueApi
 }

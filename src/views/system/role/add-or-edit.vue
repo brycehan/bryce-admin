@@ -80,7 +80,7 @@ import { reactive, ref } from 'vue'
 import { getByIdApi, saveOrUpdateApi, getMenuApi, getCheckCodeUniqueApi } from '@/api/system/role'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import { ElMessage, type FormRules } from 'element-plus'
+import { type CheckboxValueType, ElMessage, type FormRules } from 'element-plus'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -133,6 +133,7 @@ const dataRules = reactive<FormRules>({
   code: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
     { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' },
+    { pattern: /^[A-Z_]+$/, message: '必须是大写字母或下划线', trigger: 'blur' },
     { validator: checkCodeUnique, trigger: 'blur' }
   ],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
@@ -238,8 +239,8 @@ const handleTreeCheckAll = (val: any) => {
  *
  * @param val true 父子联动 false 不联动
  */
-const handleTreeCheckStrictly = (val: boolean) => {
-  menuCheckStrictly.value = val
+const handleTreeCheckStrictly = (val: CheckboxValueType) => {
+  menuCheckStrictly.value = val as boolean
 }
 
 defineExpose({

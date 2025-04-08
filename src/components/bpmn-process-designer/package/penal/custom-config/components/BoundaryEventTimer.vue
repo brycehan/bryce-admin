@@ -241,7 +241,7 @@ const updateElementExtensions = () => {
 watch(
   () => props.id,
   (val) => {
-      if (_.isLength(val)) nextTick(() => resetElement())
+      if (_.isString(val) && val.length) nextTick(() => resetElement())
   },
   { immediate: true }
 )
