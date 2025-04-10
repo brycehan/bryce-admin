@@ -33,19 +33,19 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'quartz:job:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
+      <el-button v-auth:has-authority="'quartz:job:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
         >新增</el-button
       >
       <el-button
-        v-auth="'quartz:job:delete'"
+        v-auth:has-authority="'quartz:job:delete'"
         type="danger"
         plain
         icon="Delete"
         @click="handleDeleteBatch('jobName', '任务名称')"
         >删除</el-button
       >
-      <el-button v-auth="'quartz:job:export'" type="success" plain icon="Download" @click="handleDownloadExcel()">导出</el-button>
-      <el-button v-auth="'quartz:jobLog:page'" type="info" plain icon="operation" @click="handleJobLog()">日志</el-button>
+      <el-button v-auth:has-authority="'quartz:job:export'" type="success" plain icon="Download" @click="handleDownloadExcel()">导出</el-button>
+      <el-button v-auth:has-authority="'quartz:jobLog:page'" type="info" plain icon="operation" @click="handleJobLog()">日志</el-button>
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
@@ -97,7 +97,7 @@
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="255">
         <template #default="scope">
           <el-button
-            v-auth="'quartz:job:update'"
+            v-auth:has-authority="'quartz:job:update'"
             type="primary"
             icon="edit"
             text
@@ -105,7 +105,7 @@
             >修改</el-button
           >
           <el-button
-            v-auth="'quartz:job:delete'"
+            v-auth:has-authority="'quartz:job:delete'"
             type="danger"
             icon="delete"
             text
@@ -116,12 +116,12 @@
             <el-button type="success" class="btn-more-link" icon="d-arrow-right" text>更多</el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item v-if="auth('quartz:job:run')" command="runOnce" icon="caretRight"
+                <el-dropdown-item v-if="authHasAuthority('quartz:job:run')" command="runOnce" icon="caretRight"
                   >执行一次</el-dropdown-item
                 >
                 <el-dropdown-item command="view" icon="view"
                   >任务详情</el-dropdown-item>
-                <el-dropdown-item v-if="auth('quartz:jobLog:page')" command="jobLog" icon="operation"
+                <el-dropdown-item v-if="authHasAuthority('quartz:jobLog:page')" command="jobLog" icon="operation"
                   >调度日志</el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -154,7 +154,7 @@ import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
-import { auth } from '@/utils/tool'
+import { authHasAuthority } from '@/utils/tool'
 import Info from '@/views/quartz/job/info.vue'
 import modal from '@/utils/modal'
 

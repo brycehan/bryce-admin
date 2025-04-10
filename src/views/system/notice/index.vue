@@ -36,11 +36,11 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'system:notice:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
+      <el-button v-auth:has-authority="'system:notice:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
         >新增</el-button
       >
       <el-button
-        v-auth="'system:notice:delete'"
+        v-auth:has-authority="'system:notice:delete'"
         type="danger"
         plain
         icon="Delete"
@@ -72,7 +72,7 @@
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="180">
         <template #default="scope">
           <el-button
-            v-auth="'system:notice:update'"
+            v-auth:has-authority="'system:notice:update'"
             type="primary"
             icon="edit"
             text
@@ -80,7 +80,7 @@
             >修改</el-button
           >
           <el-button
-            v-auth="'system:notice:delete'"
+            v-auth:has-authority="'system:notice:delete'"
             type="danger"
             icon="delete"
             text

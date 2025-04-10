@@ -44,21 +44,21 @@
           </el-form-item>
         </el-form>
         <el-row class="mb-2">
-          <el-button v-auth="'system:user:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
+          <el-button v-auth:has-authority="'system:user:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
             >新增
           </el-button>
           <el-button
-            v-auth="'system:user:delete'"
+            v-auth:has-authority="'system:user:delete'"
             type="danger"
             plain
             icon="Delete"
             @click="handleDeleteBatch('username', '账号')"
             >删除</el-button
           >
-          <el-button v-auth="'system:user:import'" type="info" plain icon="Upload" @click="handleXlsxUpload()"
+          <el-button v-auth:has-authority="'system:user:import'" type="info" plain icon="Upload" @click="handleXlsxUpload()"
             >导入</el-button
           >
-          <el-button v-auth="'system:user:export'" type="success" plain icon="Download" @click="handleDownloadExcel()"
+          <el-button v-auth:has-authority="'system:user:export'" type="success" plain icon="Download" @click="handleDownloadExcel()"
             >导出</el-button
           >
           <right-toolbar v-model:showSearch="showSearch" :columns="columns" @refresh-page="getPage" />
@@ -144,7 +144,7 @@
             <template #default="scope">
               <div v-if="!scope.row.superAdmin">
                 <el-button
-                  v-auth="'system:user:update'"
+                  v-auth:has-authority="'system:user:update'"
                   type="primary"
                   icon="edit"
                   text
@@ -152,7 +152,7 @@
                   >修改
                 </el-button>
                 <el-button
-                  v-auth="'system:user:delete'"
+                  v-auth:has-authority="'system:user:delete'"
                   type="danger"
                   icon="delete"
                   text
@@ -160,19 +160,19 @@
                   >删除
                 </el-button>
                 <el-dropdown
-                  v-auth="['system:user:resetPassword', 'system:user:update']"
+                  v-auth:has-any-authority="['system:user:resetPassword', 'system:user:update']"
                   @command="(command: string) => handleCommand(command, scope.row)"
                 >
                   <el-button type="success" class="btn-more-link" icon="d-arrow-right" text>更多</el-button>
                   <template #dropdown>
                     <el-dropdown-menu>
                       <el-dropdown-item
-                        v-if="auth('system:user:resetPassword')"
+                        v-if="authHasAuthority('system:user:resetPassword')"
                         command="handleResetPassword"
                         icon="key"
                         >重置密码</el-dropdown-item
                       >
-                      <el-dropdown-item v-if="auth('system:user:update')" command="handleAssignRole" icon="plus"
+                      <el-dropdown-item v-if="authHasAuthority('system:user:update')" command="handleAssignRole" icon="plus"
                         >分配角色</el-dropdown-item
                       >
                     </el-dropdown-menu>
@@ -218,7 +218,7 @@ import DeptTree from '@/views/system/user/dept-tree.vue'
 import { ElMessage } from 'element-plus'
 import ResetPassword from '@/views/system/user/reset-password.vue'
 import AssignRole from '@/views/system/user/assign-role.vue'
-import { auth } from '@/utils/tool'
+import { authHasAuthority } from '@/utils/tool'
 import modal from '@/utils/modal'
 
 const state: StateOptions = reactive({

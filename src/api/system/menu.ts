@@ -52,8 +52,8 @@ export const postListApi = (data: any) => {
 /**
  * 获取登录用户的权限集合
  */
-export async function getAuthorityApi() {
-  return request.get('/system/menu/authority')
+export async function getPermissionApi() {
+  return request.get('/system/menu/permission')
 }
 
 /**

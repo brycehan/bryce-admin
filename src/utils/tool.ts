@@ -2,6 +2,7 @@ import constant from '@/utils/constant'
 import { ElMessage, type UploadProps, type UploadRawFile } from 'element-plus'
 import { useAuthStore } from '@/stores/modules/auth'
 import { useAppStore } from '@/stores/modules/app'
+import _ from 'lodash'
 
 /**
  * 获取默认语言
@@ -155,7 +156,7 @@ export const handleBeforeUpload: UploadProps['beforeUpload'] = (file: UploadRawF
  * @param value 待判断的字符串
  */
 export const isNumeric = (value: string) => {
-  return !isNaN(parseFloat(value)) && isFinite(Number(value));
+  return !isNaN(parseFloat(value)) && isFinite(Number(value))
 }
 
 /**
@@ -169,15 +170,86 @@ export const convertInteger = (value: string) => {
 
 /**
  * 权限验证
- * 用于slot下 v-auth 无效下使用
+ * 用于slot下 v-auth:has-authority 无效下使用
  *
- * @param authority 权限标识
- * authority 例如 'system:user:save' 或 ['system:user:save', 'system:user:update']
+ * @param authority 权限标识 例如 'system:user:save'
  */
-export const auth = (authority : any) => {
+export const authHasAuthority = (authority: string | string[]) => {
+  if (authority.length === 0) return false
+
   const authStore = useAuthStore()
   const roleSuperAdmin = 'ROLE_SUPER_ADMIN'
-  return authStore.authoritySet.some((v: string) =>  roleSuperAdmin === v || v === authority || authority.includes(v))
+
+  // 判断是否是字符串时
+  if (_.isString(authority)) {
+    return authStore.authoritySet.some((v: string) => v === roleSuperAdmin || v === authority)
+  }
+
+  // 是数组时
+  const authSet = new Set(authStore.authoritySet)
+  return authority.every((v: string) => authSet.has(roleSuperAdmin) || authSet.has(v))
+}
+
+/**
+ * 权限验证
+ * 用于slot下 v-auth:has-any-authority 无效下使用
+ *
+ * @param authority 权限标识 例如 'system:user:save' 或 ['system:user:save', 'system:user:update']
+ */
+export const authHasAnyAuthority = (authority: string | string[]) => {
+  if (authority.length === 0) return false
+
+  const authStore = useAuthStore()
+  const roleSuperAdmin = 'ROLE_SUPER_ADMIN'
+
+  // 判断是否是字符串时
+  if (_.isString(authority)) {
+    return authStore.authoritySet.some((v: string) => v === roleSuperAdmin || v === authority)
+  }
+
+  // 是数组时
+  return authStore.authoritySet.some((v: string) => v === roleSuperAdmin || authority.includes(v))
+}
+
+/**
+ * 判断是否拥有指定的角色
+ *
+ * @param role 角色编码
+ */
+export const authHasRole = (role: string | string[]) => {
+  if (role.length === 0) return false
+
+  const authStore = useAuthStore()
+  const roleSuperAdmin = 'SUPER_ADMIN'
+
+  // 判断是否是字符串时
+  if (_.isString(role)) {
+    return authStore.roleSet.some((v: string) => v === roleSuperAdmin || v === role)
+  }
+
+  // 是数组时
+  const authSet = new Set(authStore.roleSet)
+  return role.every((v: string) => authSet.has(roleSuperAdmin) || authSet.has(v))
+}
+
+/**
+ * 判断是否拥有任一指定的角色
+ *
+ * @param role 角色编码
+ */
+export const authHasAnyRole = (role: string | string[]) => {
+  if (role.length === 0) return false
+
+  const authStore = useAuthStore()
+  const roleSuperAdmin = 'SUPER_ADMIN'
+
+  // 判断是否是字符串时
+  if (_.isString(role)) {
+    return authStore.roleSet.some((v: string) => v === roleSuperAdmin || v === role)
+  }
+
+  // 是数组时
+  return authStore.roleSet.some((v: string) => v === roleSuperAdmin || role.includes(v))
 }
 
 /**
@@ -189,5 +261,3 @@ export const phoneRegExp = /^1[3-9]\d{9}$/
  * 邮箱正则表达式
  */
 export const emailRegExp = /^([A-Za-z0-9_\-.\u4e00-\u9fa5])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,8})$/
-
-

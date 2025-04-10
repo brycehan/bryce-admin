@@ -101,15 +101,15 @@ const props = defineProps({
   },
   prefix: {
     type: String,
-    default: 'camunda'
+    default: () => 'camunda'
   },
   width: {
     type: Number,
-    default: 480
+    default: () => 480
   },
   idEditDisabled: {
     type: Boolean,
-    default: false
+    default: () => false
   }
 })
 

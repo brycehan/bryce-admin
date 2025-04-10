@@ -109,7 +109,7 @@
             type="primary"
             icon="CloseBold"
             v-if="scope.row.status === 1"
-            v-auth="'bpm:process-instance:cancel'"
+            v-auth:has-authority="'bpm:process-instance:cancel'"
             link
             @click="handleCancel(scope.row)"
           >

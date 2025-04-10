@@ -10,7 +10,7 @@
     >
       <el-upload
         ref="uploadRef"
-        v-auth="'system:attachment:save'"
+        v-auth:has-authority="'system:attachment:save'"
         :headers="headers"
         :action="`${constant.uploadUrl}?accessType=${accessType}`"
         :disabled="isUploading"

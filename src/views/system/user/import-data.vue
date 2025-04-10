@@ -10,7 +10,7 @@
     >
       <el-upload
         ref="uploadRef"
-        v-auth="'system:user:import'"
+        v-auth:has-authority="'system:user:import'"
         :limit="1"
         accept=".xlsx,.xls,.csv"
         :headers="headers"

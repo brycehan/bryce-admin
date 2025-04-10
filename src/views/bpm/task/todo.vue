@@ -49,7 +49,7 @@
       <el-table-column label="任务编号" align="center" prop="id" min-width="120" show-overflow-tooltip/>
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="90">
         <template #default="scope">
-          <el-button v-auth="'bpm:task:update'" type="primary" icon="Edit" link @click="handleDetail(scope.row)">办理</el-button>
+          <el-button v-auth:has-authority="'bpm:task:update'" type="primary" icon="Edit" link @click="handleDetail(scope.row)">办理</el-button>
         </template>
       </el-table-column>
     </el-table>

@@ -5,7 +5,7 @@ import {
   getCurrentUserApi,
   getLogoutApi
 } from '@/api/auth/auth'
-import { getAuthorityApi } from '@/api/system/menu'
+import { getPermissionApi } from '@/api/system/menu'
 import storage from '@/utils/storage'
 import { ref } from 'vue'
 import type { LoginDto, LoginVo } from '@/types/modules/auth'
@@ -21,6 +21,8 @@ export const useAuthStore = defineStore('authStore', () => {
     } as any
     // 权限集合
     const authoritySet = ref<string[]>([])
+  // 角色集合
+    const roleSet = ref<string[]>([])
     // 访问token
     const accessToken = ref<string>('')
 
@@ -89,8 +91,9 @@ export const useAuthStore = defineStore('authStore', () => {
      * 获取权限
      */
     const getAuthoritySet = async () => {
-      const { data } = await getAuthorityApi()
-      authoritySet.value = data || []
+      const { data } = await getPermissionApi()
+      roleSet.value = data.roleSet || []
+      authoritySet.value = data.authoritySet || []
     }
 
     /**
@@ -103,6 +106,7 @@ export const useAuthStore = defineStore('authStore', () => {
 
     return {
       user,
+      roleSet,
       authoritySet,
       accessToken,
       loginByAccount,

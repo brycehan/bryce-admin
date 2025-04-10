@@ -40,11 +40,11 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'system:param:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
+      <el-button v-auth:has-authority="'system:param:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
         >新增</el-button
       >
       <el-button
-        v-auth="'system:param:delete'"
+        v-auth:has-authority="'system:param:delete'"
         type="danger"
         plain
         icon="Delete"
@@ -52,7 +52,7 @@
         >删除</el-button
       >
       <el-button
-        v-auth="'system:param:export'"
+        v-auth:has-authority="'system:param:export'"
         type="success"
         plain
         icon="Download"
@@ -107,7 +107,7 @@
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="180">
         <template #default="scope">
           <el-button
-            v-auth="'system:param:update'"
+            v-auth:has-authority="'system:param:update'"
             type="primary"
             icon="edit"
             text
@@ -115,7 +115,7 @@
             >修改</el-button
           >
           <el-button
-            v-auth="'system:param:delete'"
+            v-auth:has-authority="'system:param:delete'"
             type="danger"
             icon="delete"
             text

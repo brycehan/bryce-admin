@@ -40,7 +40,7 @@
     </el-form>
     <el-row class="mb-2">
       <el-button
-        v-auth="'system:dictType:save'"
+        v-auth:has-authority="'system:dictType:save'"
         type="primary"
         plain
         icon="Plus"
@@ -48,7 +48,7 @@
         >新增</el-button
       >
       <el-button
-        v-auth="'system:dictType:delete'"
+        v-auth:has-authority="'system:dictType:delete'"
         type="danger"
         plain
         icon="Delete"
@@ -56,7 +56,7 @@
         >删除</el-button
       >
       <el-button
-        v-auth="'system:dictType:export'"
+        v-auth:has-authority="'system:dictType:export'"
         type="success"
         plain
         icon="Download"
@@ -81,7 +81,7 @@
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="255">
         <template #default="scope">
           <el-button
-            v-auth="'system:dictData:page'"
+            v-auth:has-authority="'system:dictData:page'"
             type="primary"
             icon="setting"
             text
@@ -89,7 +89,7 @@
             >字典配置</el-button
           >
           <el-button
-            v-auth="'system:dictType:update'"
+            v-auth:has-authority="'system:dictType:update'"
             type="primary"
             icon="edit"
             text
@@ -97,7 +97,7 @@
             >修改</el-button
           >
           <el-button
-            v-auth="'system:dictType:delete'"
+            v-auth:has-authority="'system:dictType:delete'"
             type="danger"
             icon="delete"
             text

@@ -28,18 +28,18 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'system:post:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
+      <el-button v-auth:has-authority="'system:post:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
         >新增</el-button
       >
       <el-button
-        v-auth="'system:post:delete'"
+        v-auth:has-authority="'system:post:delete'"
         type="danger"
         plain
         icon="Delete"
         @click="handleDeleteBatch('code', '岗位编码')"
         >删除</el-button
       >
-      <el-button v-auth="'system:user:export'" type="success" plain icon="Download" @click="handleDownloadExcel()">导出</el-button>
+      <el-button v-auth:has-authority="'system:user:export'" type="success" plain icon="Download" @click="handleDownloadExcel()">导出</el-button>
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
@@ -66,7 +66,7 @@
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="170">
         <template #default="scope">
           <el-button
-            v-auth="'system:post:update'"
+            v-auth:has-authority="'system:post:update'"
             type="primary"
             icon="edit"
             text
@@ -74,7 +74,7 @@
             >修改</el-button
           >
           <el-button
-            v-auth="'system:post:delete'"
+            v-auth:has-authority="'system:post:delete'"
             type="danger"
             icon="delete"
             text

@@ -20,9 +20,9 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'bpm:model:save'" type="primary" icon="Plus" plain @click="handleAddOrEdit()">新增</el-button>
+      <el-button v-auth:has-authority="'bpm:model:save'" type="primary" icon="Plus" plain @click="handleAddOrEdit()">新增</el-button>
       <el-button
-        v-auth="'bpm:model:delete'"
+        v-auth:has-authority="'bpm:model:delete'"
         type="danger"
         icon="Delete"
         plain
@@ -101,39 +101,39 @@
       <el-table-column label="创建时间" prop="createTime" header-align="center" align="center" min-width="170" />
       <el-table-column
         label="操作"
-        v-auth="['bpm:model:update', 'bpm:model:delete', 'bpm:model:deploy', 'bpm:model:history']"
+        v-auth:has-any-authority="['bpm:model:update', 'bpm:model:delete', 'bpm:model:deploy', 'bpm:model:history']"
         fixed="right"
         header-align="center"
         align="center"
         min-width="220"
       >
         <template #default="scope">
-          <el-button v-auth="'bpm:model:update'" type="primary" icon="Edit" link @click="handleAddOrEdit(scope.row)">
+          <el-button v-auth:has-authority="'bpm:model:update'" type="primary" icon="Edit" link @click="handleAddOrEdit(scope.row)">
             修改
           </el-button>
-          <el-button v-auth="'bpm:model:deploy'" type="success" icon="Promotion" link @click="handleDeploy(scope.row)">
+          <el-button v-auth:has-authority="'bpm:model:deploy'" type="success" icon="Promotion" link @click="handleDeploy(scope.row)">
             发布
           </el-button>
-          <el-dropdown v-auth="['bpm:model:history', 'bpm:model:deploy', 'bpm:model:delete']" @command="(command: string) => handleCommand(command, scope.row)">
+          <el-dropdown v-auth:has-any-authority="['bpm:model:history', 'bpm:model:deploy', 'bpm:model:delete']" @command="(command: string) => handleCommand(command, scope.row)">
             <el-button type="info" class="btn-more-link" icon="d-arrow-right" text>更多</el-button>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item
-                  v-if="auth('bpm:model:history')"
+                  v-if="authHasAuthority('bpm:model:history')"
                   command="handleHistoryDefinition"
                   icon="Notebook"
                   >历史
                 </el-dropdown-item>
                 <el-dropdown-item
-                  v-if="auth('bpm:model:deploy') && scope.row.processDefinition"
+                  v-if="authHasAuthority('bpm:model:deploy') && scope.row.processDefinition"
                   command="handleState"
                   icon="SwitchButton"
                   >{{ scope.row.processDefinition.suspensionState === 1 ? '启用' : '停用' }}
                 </el-dropdown-item>
-                <el-dropdown-item v-if="auth('ROLE_SUPER_ADMIN')" command="handleClean" icon="Delete">
+                <el-dropdown-item v-if="authHasRole('SUPER_ADMIN')" command="handleClean" icon="Delete">
                   清理
                 </el-dropdown-item>
-                <el-dropdown-item v-if="auth('bpm:model:delete')" command="handleDeleteBatch" icon="Delete">
+                <el-dropdown-item v-if="authHasAuthority('bpm:model:delete')" command="handleDeleteBatch" icon="Delete">
                   删除
                 </el-dropdown-item>
               </el-dropdown-menu>
@@ -176,7 +176,7 @@ import { crud } from '@/utils/state'
 import { BpmFormType } from '@/api/bpm/constant'
 import { setPreviewConfAndFields } from '@/utils/formCreate'
 import FormCreate from '@form-create/element-ui'
-import { auth } from '@/utils/tool'
+import { authHasAuthority, authHasRole } from '@/utils/tool'
 import modal from '@/utils/modal'
 import { ElMessage } from 'element-plus'
 import HistoryDefinition from '@/views/bpm/model/history-definition.vue'
@@ -263,7 +263,7 @@ const handleDeploy = (row: any) => {
  */
 const handleClean = (row: any) => {
   modal
-    .confirm(`确定要清理“${row.name}”流程吗？`)
+    .confirm(`确定要清理“${row.name}”流程数据吗，不可恢复？`)
     .then(() => {
       return modelApi.cleanById(row.id)
     })

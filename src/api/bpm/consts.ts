@@ -126,6 +126,10 @@ export interface SimpleFlowNode {
 // 候选人策略枚举 （ 用于审批节点。抄送节点 )
 export enum CandidateStrategy {
   /**
+   * 指定用户
+   */
+  USER = 30,
+  /**
    * 指定角色
    */
   ROLE = 10,
@@ -146,15 +150,11 @@ export enum CandidateStrategy {
    */
   POST = 22,
   /**
-   * 指定用户
-   */
-  USER = 30,
-  /**
    * 发起人自选
    */
   START_USER_SELECT = 35,
   /**
-   * 发起人自己
+   * 发起人本人
    */
   START_USER = 36,
   /**
@@ -517,7 +517,7 @@ NODE_DEFAULT_NAME.set(NodeType.TRIGGER_NODE, '触发器')
 
 // 候选人策略。暂时不从字典中取。 后续可能调整。控制显示顺序
 export const CANDIDATE_STRATEGY: any[] = [
-  { label: '指定成员', value: CandidateStrategy.USER },
+  { label: '指定用户', value: CandidateStrategy.USER },
   { label: '指定角色', value: CandidateStrategy.ROLE },
   { label: '部门成员', value: CandidateStrategy.DEPT_MEMBER },
   { label: '部门负责人', value: CandidateStrategy.DEPT_LEADER },

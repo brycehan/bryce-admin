@@ -35,11 +35,11 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'system:role:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()">新增</el-button>
-      <el-button v-auth="'system:role:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch('code', '角色编码')"
+      <el-button v-auth:has-authority="'system:role:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()">新增</el-button>
+      <el-button v-auth:has-authority="'system:role:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch('code', '角色编码')"
         >删除
       </el-button>
-      <el-button v-auth="'system:role:export'" type="success" plain icon="Download" @click="handleDownloadExcel()">导出</el-button>
+      <el-button v-auth:has-authority="'system:role:export'" type="success" plain icon="Download" @click="handleDownloadExcel()">导出</el-button>
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
@@ -77,13 +77,13 @@
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="220">
         <template #default="scope">
           <div v-if="scope.row.id != 1">
-            <el-button v-auth="'system:role:update'" type="primary" icon="edit" text @click="handleAddOrEdit(scope.row.id)"
+            <el-button v-auth:has-authority="'system:role:update'" type="primary" icon="edit" text @click="handleAddOrEdit(scope.row.id)"
             >修改
             </el-button>
-            <el-button v-auth="'system:role:delete'" type="danger" icon="delete" text @click="handleDeleteBatch('code', '角色编码', scope.row)"
+            <el-button v-auth:has-authority="'system:role:delete'" type="danger" icon="delete" text @click="handleDeleteBatch('code', '角色编码', scope.row)"
             >删除
             </el-button>
-            <el-dropdown v-auth="'system:role:update'" @command="(command: string) => handleCommand(command, scope.row)">
+            <el-dropdown v-auth:has-authority="'system:role:update'" @command="(command: string) => handleCommand(command, scope.row)">
               <el-button type="success" icon="d-arrow-right" class="btn-more-link" text>更多</el-button>
               <template #dropdown>
                 <el-dropdown-menu>

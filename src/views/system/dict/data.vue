@@ -1,7 +1,7 @@
 <template>
   <el-row class="mb-2">
-    <el-button v-auth="'system:dictData:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()">新增 </el-button>
-    <el-button v-auth="'system:dictData:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch('dictLabel', '字典标签')"
+    <el-button v-auth:has-authority="'system:dictData:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()">新增 </el-button>
+    <el-button v-auth:has-authority="'system:dictData:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch('dictLabel', '字典标签')"
       >删除
     </el-button>
   </el-row>
@@ -28,7 +28,7 @@
     <el-table-column label="操作" fixed="right" header-align="center" align="center" width="180">
       <template #default="scope">
         <el-button
-          v-auth="'system:dictData:update'"
+          v-auth:has-authority="'system:dictData:update'"
           type="primary"
           icon="edit"
           text
@@ -36,7 +36,7 @@
           >修改
         </el-button>
         <el-button
-          v-auth="'system:dictData:delete'"
+          v-auth:has-authority="'system:dictData:delete'"
           type="danger"
           icon="delete"
           text

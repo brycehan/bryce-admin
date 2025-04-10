@@ -39,7 +39,7 @@
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="100">
         <template #default="scope">
           <el-button
-            v-auth="'monitor:onlineUser:delete'"
+            v-auth:has-authority="'monitor:onlineUser:delete'"
             type="danger"
             icon="delete"
             text

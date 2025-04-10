@@ -25,7 +25,7 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'system:dept:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
+      <el-button v-auth:has-authority="'system:dept:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
         >新增</el-button
       >
       <el-button plain @click="toggleExpandAll()">
@@ -36,7 +36,7 @@
           全部收起 <icon icon="ep:arrow-up" class="ml-1"/>
         </template>
       </el-button>
-      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getList" />
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getList"/>
     </el-row>
     <el-table
       v-if="refreshTable"
@@ -55,7 +55,7 @@
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="240">
         <template #default="scope">
           <el-button
-            v-auth="'system:dept:update'"
+            v-auth:has-authority="'system:dept:update'"
             type="primary"
             icon="edit"
             text
@@ -63,7 +63,7 @@
             >修改</el-button
           >
           <el-button
-            v-auth="'system:dept:update'"
+            v-auth:has-authority="'system:dept:update'"
             type="primary"
             icon="plus"
             text
@@ -72,7 +72,7 @@
           >
           <el-button
             v-if="scope.row.parentId != 0"
-            v-auth="'system:dept:delete'"
+            v-auth:has-authority="'system:dept:delete'"
             type="danger"
             icon="delete"
             text

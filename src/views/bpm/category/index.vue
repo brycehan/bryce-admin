@@ -13,8 +13,8 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'bpm:category:save'" type="primary" icon="Plus" plain @click="handleAddOrEdit()">新增</el-button>
-      <el-button v-auth="'bpm:category:delete'" type="danger" icon="Delete" plain @click="handleDeleteBatch('name', '分类名称')">删除</el-button>
+      <el-button v-auth:has-authority="'bpm:category:save'" type="primary" icon="Plus" plain @click="handleAddOrEdit()">新增</el-button>
+      <el-button v-auth:has-authority="'bpm:category:delete'" type="danger" icon="Delete" plain @click="handleDeleteBatch('name', '分类名称')">删除</el-button>
 			<right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
@@ -33,8 +33,8 @@
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="170" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="170">
         <template #default="scope">
-          <el-button v-auth="'bpm:category:update'" type="primary" icon="Edit" link @click="handleAddOrEdit(scope.row)">修改</el-button>
-          <el-button v-auth="'bpm:category:delete'" type="danger" icon="Delete" link @click="handleDeleteBatch('name', '分类名称', scope.row)">删除</el-button>
+          <el-button v-auth:has-authority="'bpm:category:update'" type="primary" icon="Edit" link @click="handleAddOrEdit(scope.row)">修改</el-button>
+          <el-button v-auth:has-authority="'bpm:category:delete'" type="danger" icon="Delete" link @click="handleDeleteBatch('name', '分类名称', scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

@@ -25,7 +25,7 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth="'system:menu:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
+      <el-button v-auth:has-authority="'system:menu:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
         >新增</el-button
       >
       <el-button plain @click="toggleExpandAll()">
@@ -98,7 +98,7 @@
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="255">
         <template #default="scope">
           <el-button
-            v-auth="'system:menu:update'"
+            v-auth:has-authority="'system:menu:update'"
             type="primary"
             icon="edit"
             text
@@ -107,7 +107,7 @@
           >
           <el-button
             v-if="scope.row.type === 'C' || scope.row.type === 'M'"
-            v-auth="'system:menu:update'"
+            v-auth:has-authority="'system:menu:update'"
             type="primary"
             icon="edit"
             text
@@ -115,7 +115,7 @@
           >新增</el-button
           >
           <el-button
-            v-auth="'system:menu:delete'"
+            v-auth:has-authority="'system:menu:delete'"
             type="danger"
             icon="delete"
             text

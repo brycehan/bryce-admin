@@ -19,12 +19,12 @@
         <el-button icon="RefreshLeft" @click="handleResetQuery()">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-row class="mb-2">
-      <el-button v-auth="'system:attachment:save'" type="info" plain icon="Upload" @click="handleUpload()"
+    <el-row class="mb-2" v-auth:has-authority="">
+      <el-button v-auth:has-authority="'system:attachment:save'" type="info" plain icon="Upload" @click="handleUpload()"
       >上传</el-button
       >
       <el-button
-        v-auth="'system:attachment:delete'"
+        v-auth:has-authority="'system:attachment:delete'"
         type="danger"
         plain
         icon="Delete"
@@ -101,7 +101,7 @@
             >下载</el-button
           >
           <el-button
-            v-auth="'system:attachment:delete'"
+            v-auth:has-authority="'system:attachment:delete'"
             type="danger"
             icon="delete"
             text

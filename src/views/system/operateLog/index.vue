@@ -39,17 +39,17 @@
     </el-form>
     <el-row class="mb-2">
       <el-button
-        v-auth="'system:operateLog:delete'"
+        v-auth:has-authority="'system:operateLog:delete'"
         type="danger"
         plain
         icon="Delete"
         @click="handleDeleteBatch('id', '日志编号')"
         >删除</el-button
       >
-      <el-button v-auth="'system:operateLog:delete'" type="danger" plain icon="Delete" @click="handleCleanLog"
+      <el-button v-auth:has-authority="'system:operateLog:delete'" type="danger" plain icon="Delete" @click="handleCleanLog"
         >清空</el-button
       >
-      <el-button v-auth="'system:operateLog:export'" type="success" plain icon="Download" @click="handleDownloadExcel()"
+      <el-button v-auth:has-authority="'system:operateLog:export'" type="success" plain icon="Download" @click="handleDownloadExcel()"
         >导出</el-button
       >
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
