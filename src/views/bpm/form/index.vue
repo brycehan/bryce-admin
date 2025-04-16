@@ -47,8 +47,6 @@
       @current-change="handleCurrentChange"
     />
 
-    <!-- 弹窗，设计流程表单 -->
-    <form-editor ref="formEditorRef" @refresh-page="getPage" />
     <!-- 弹窗，详情 -->
     <el-dialog v-model="detailVisible" title="表单详情" :close-on-click-modal="false">
       <form-create :option="detailData.option" :rule="detailData.rule" />
@@ -61,7 +59,6 @@ import { onMounted, reactive, ref } from 'vue'
 import { postPageApi, deleteByIdsApi, getByIdApi } from '@/api/bpm/form'
 import type { StateOptions } from "@/utils/state";
 import { crud } from "@/utils/state";
-import FormEditor from '@/views/bpm/form/form-editor.vue'
 import { setPreviewConfAndFields } from '@/utils/formCreate'
 import FormCreate from '@form-create/element-ui'
 
@@ -76,8 +73,8 @@ const state: StateOptions = reactive({
   },
 })
 
+const router = useRouter() // 路由
 const queryFormRef = ref()
-const formEditorRef = ref()
 
 // 显示搜索条件
 const showSearch = ref(true)
@@ -115,7 +112,9 @@ const handleResetQuery = () => {
  * @param row 当前行数据
  */
 const openFormEditor = (row?: any) => {
-  formEditorRef.value.init(row?.id)
+  const toRoute: { name: string, query?: any} = { name: 'BpmFormEditor', }
+  if (row) toRoute.query = { id: row.id }
+  router.push(toRoute)
 }
 
 // 详情弹窗显示

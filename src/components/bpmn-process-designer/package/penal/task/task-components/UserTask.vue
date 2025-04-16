@@ -267,13 +267,15 @@ const deptFieldOnFormOptions = computed(() => {
 
 const deptLevel = ref(1)
 const deptLevelLabel = computed(() => {
-  let label = '部门负责人来源，'
+  let label = ''
   if (userTaskForm.value.candidateStrategy == CandidateStrategy.MULTI_LEVEL_DEPT_LEADER) {
-    label = label + '指定部门向上'
+    label = label + '第 1 级部门，指的是指定部门的负责人，第 2 级部门是指定部门和上级部门的负责人，以此类推'
+  } else if (userTaskForm.value.candidateStrategy == CandidateStrategy.START_USER_DEPT_LEADER) {
+    label = label + '第 1 级部门，指发起人所在部门的负责人，第 2 级部门指所在部门的上级部门的负责人，以此类推 '
+  } else if (userTaskForm.value.candidateStrategy == CandidateStrategy.START_USER_MULTI_LEVEL_DEPT_LEADER) {
+    label = label + '第 1 级部门，指发起人所在部门的负责人，第 2 级部门指所在部门和上级部门的负责人，以此类推 '
   } else if (userTaskForm.value.candidateStrategy == CandidateStrategy.FORM_DEPT_LEADER) {
-    label = label + '表单内部门向上'
-  } else {
-    label = label + '发起人部门向上'
+    label = label + '表单内部门向上 '
   }
   return label
 })
@@ -378,7 +380,6 @@ const changeCandidateStrategy = () => {
 
 /** 选中某个 options 时候，更新 bpmn 图  */
 const updateElementTask = () => {
-  debugger
   let candidateParam =
     userTaskForm.value.candidateParam instanceof Array
       ? userTaskForm.value.candidateParam.join(',')
@@ -436,7 +437,6 @@ const openProcessExpressionDialog = () => {
   processExpressionDialogRef.value.open()
 }
 const selectProcessExpression = (expression: any) => {
-  debugger
   userTaskForm.value.candidateParam = [expression.expression]
   updateElementTask()
 }

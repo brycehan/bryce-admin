@@ -14,8 +14,4 @@ declare module '*.vue' {
 declare module '@kangc/v-md-editor'
 
 // 修复 modelValue does not exist in type 问题
-declare module '@form-create/element-ui' {
-  interface FormRule<O, C, R, A> {
-    modelValue?: any; // 根据实际类型替换any
-  }
-}
+declare module '@form-create/element-ui'

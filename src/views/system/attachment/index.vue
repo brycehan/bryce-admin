@@ -19,7 +19,7 @@
         <el-button icon="RefreshLeft" @click="handleResetQuery()">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-row class="mb-2" v-auth:has-authority="">
+    <el-row class="mb-2">
       <el-button v-auth:has-authority="'system:attachment:save'" type="info" plain icon="Upload" @click="handleUpload()"
       >上传</el-button
       >

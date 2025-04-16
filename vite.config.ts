@@ -2,6 +2,7 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import tailwindcss from '@tailwindcss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -31,7 +32,9 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    vueJsx(),
     tailwindcss(),
+    vueDevTools(),
     AutoImport({
       imports: ["vue", "vue-router"],      // 指定自动导入的模块
       resolvers: [ElementPlusResolver()],  // 可选：配合组件库的解析器
@@ -43,7 +46,6 @@ export default defineConfig({
       dirs: ["src/components"],            // 自动注册项目内组件
       dts: "src/types/components.d.ts",    // 生成组件类型声明
     }),
-    vueDevTools(),
   ],
   resolve: {
     alias: {

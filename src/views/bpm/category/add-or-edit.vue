@@ -9,7 +9,6 @@
       :model="state.dataForm"
       :rules="dataRules"
       label-width="100"
-      @keyup.enter="handleSubmit()"
       class="mr-4"
     >
         <el-form-item label="分类名称" prop="name">
@@ -102,12 +101,6 @@ const init = (id?: string) => {
  * 表单提交
  */
 const handleSubmit = () => {
-  debugger
-  console.log(_.isEmpty(''))
-  console.log(_.isEmpty(String('')))
-  console.log(_.isEmpty(String('')))
-  console.log(_.isLength(''))
-  console.log(_.isLength(String('')))
   dataFormRef.value.validate((valid: boolean) => {
     if (!valid) {
       return false

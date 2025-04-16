@@ -17,7 +17,7 @@ import {
   type HttpRequestParam,
   ProcessVariableEnum
 } from './consts'
-// import { parseFormFields } from '@/components/FormCreate/src/utils'
+// import { parseFormFields } from '@/components/form-create/src/utils'
 // import { parseFormFields } from '@form-create/designer/src/utils/index'
 import { inject, ref, toRaw, unref, watch, type Ref } from 'vue'
 

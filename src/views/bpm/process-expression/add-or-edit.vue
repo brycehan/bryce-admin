@@ -9,7 +9,6 @@
       :model="state.dataForm"
       :rules="dataRules"
       label-width="100"
-      @keyup.enter="handleSubmit()"
       class="mr-4"
     >
 
@@ -36,7 +35,6 @@ import { getByIdApi, saveOrUpdateApi } from '@/api/bpm/processExpression'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import type { FormRules } from 'element-plus'
-import { BpmTypeEnum } from '@/api/bpm/constant.ts'
 
 const emit = defineEmits(['refreshPage'])
 

@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import storage from '@/utils/storage'
-import { getDictListApi } from '@/api/system/dictType'
 import { useI18n } from 'vue-i18n'
 
 export const useAppStore = defineStore(
@@ -18,8 +17,6 @@ export const useAppStore = defineStore(
     const { locale } = useI18n()
     // 主题
     const theme = storage.getTheme()
-    // 字典列表
-    const dictList = ref<any[]>([])
     // 图标json
     const icons = ref<string[]>([])
 
@@ -49,23 +46,6 @@ export const useAppStore = defineStore(
     }
 
     /**
-     * 获取字典列表
-     */
-    const getDictList = async () => {
-      const { data } = await getDictListApi()
-      return dictList.value = data || []
-    }
-
-    /**
-     * 设置字典列表
-     *
-     * @param dictSet 字典列表
-     */
-    const setDictList = (dictSet: any[]) => {
-      dictList.value = dictSet
-    }
-
-    /**
      * 初始化图标json
      */
     const initIcons = async () => {
@@ -86,13 +66,10 @@ export const useAppStore = defineStore(
       language,
       locale,
       theme,
-      dictList,
       icons,
       toggleSidebarOpened,
       setComponentSize,
       setLanguage,
-      getDictList,
-      setDictList,
       initIcons,
     }
   },

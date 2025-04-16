@@ -174,7 +174,6 @@ const handleSubmit = () => {
   const selectedUsers = userList.value.filter((user: any) => {
     return selectedUserIdList.value.includes(user.id)
   })
-  debugger
   // 发送提交事件
   emit('confirm', activityId.value, selectedUsers)
 }

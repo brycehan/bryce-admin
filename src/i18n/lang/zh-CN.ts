@@ -54,6 +54,7 @@ export default {
     add: '新增',
     edit: '修改',
     delete: '删除',
+    detail: '详情',
     export: '导出',
     import: '导入',
     search: '搜索',

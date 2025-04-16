@@ -80,6 +80,13 @@
             >修改</el-button
           >
           <el-button
+            type="info"
+            icon="view"
+            text
+            @click="handleView(scope.row)"
+          >详情</el-button
+          >
+          <el-button
             v-auth:has-authority="'system:notice:delete'"
             type="danger"
             icon="delete"
@@ -100,7 +107,7 @@
       @current-change="handleCurrentChange"
     />
 
-    <!-- 新增/修改 -->
+    <!-- 新增/修改 弹窗 -->
     <el-drawer
       v-if="addOrEditVisible"
       v-model="addOrEditVisible"
@@ -114,12 +121,28 @@
         @refresh-page="getPage"
       />
     </el-drawer>
+
+    <!-- 预览 弹窗 -->
+    <el-drawer
+      v-if="viewVisible"
+      v-model="viewVisible"
+      :title="viewTitle"
+      :size="1000"
+    >
+      <View
+        v-model="viewVisible"
+        :addOrEditVisible="viewVisible"
+        :notice-id="viewNoticeId"
+        @refresh-page="getPage"
+      />
+    </el-drawer>
   </el-card>
 </template>
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
+import View from './view.vue'
 import { postPageApi, deleteByIdsApi } from '@/api/system/notice'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -142,6 +165,10 @@ const queryFormRef = ref()
 const addOrEditVisible = ref(false)
 const addOrEditTitle = ref()
 const noticeId = ref()
+const viewVisible = ref(false)
+const viewTitle = ref()
+const viewNoticeId = ref()
+
 // 显示搜索条件
 const showSearch = ref(true)
 
@@ -168,7 +195,7 @@ const handleResetQuery = () => {
 }
 
 /**
- * 新增/修改
+ * 新增/修改弹窗
  *
  * @param row 当前行数据
  */
@@ -176,5 +203,16 @@ const handleAddOrEdit = (row?: any) => {
   addOrEditVisible.value = true
   addOrEditTitle.value = !row?.id ? '新增通知公告' : '修改通知公告'
   noticeId.value = row?.id
+}
+
+/**
+ * 查看详情弹窗
+ *
+ * @param row 当前行数据
+ */
+const handleView = (row?: any) => {
+  viewVisible.value = true
+  viewTitle.value = '通知公告'
+  viewNoticeId.value = row?.id
 }
 </script>

@@ -14,11 +14,11 @@
 </template>
 
 <script setup lang="ts">
-import { convertInteger, dictDataList } from '@/utils/tool'
-import { useAppStore } from '@/stores/modules/app'
+import { convertInteger } from '@/utils/tool'
 import { computed } from 'vue'
+import { useDictStore } from '@/stores/modules/dict.ts'
 
-const appStore = useAppStore()
+const dictStore = useDictStore()
 const props = defineProps({
   dictType: {
     type: String,
@@ -44,7 +44,7 @@ const modelValue = computed({
   }
 })
 
-const dataList = dictDataList(appStore.dictList, props.dictType)
+const dataList = dictStore.getDictDataList(props.dictType)
 </script>
 
 <style scoped></style>

@@ -5,6 +5,7 @@ import { isExternalLink } from '@/utils/tool'
 import { useAuthStore } from '@/stores/modules/auth'
 import { useAppStore } from '@/stores/modules/app'
 import { useRouterStore } from '@/stores/modules/router'
+import { useDictStore } from '@/stores/modules/dict.ts'
 
 NProgress.configure({ showSpinner: false })
 
@@ -56,8 +57,8 @@ const asyncRoute: RouteRecordRaw = {
     },
     {
       path: '/bpm/model/add',
-      name: 'BpmModelAdd',
       component: () => import('@/views/bpm/model/form/index.vue'),
+      name: 'BpmModelAdd',
       meta: {
         title: '创建流程',
         i18n: false,
@@ -68,8 +69,8 @@ const asyncRoute: RouteRecordRaw = {
     },
     {
       path: '/bpm/model/edit/:id',
-      name: 'BpmModelEdit',
       component: () => import('@/views/bpm/model/form/index.vue'),
+      name: 'BpmModelEdit',
       meta: {
         title: '修改流程',
         i18n: false,
@@ -80,8 +81,8 @@ const asyncRoute: RouteRecordRaw = {
     },
     {
       path: '/bpm/process-instance/manager/:id',
-      name: 'BpmProcessInstanceManagerDetail',
       component: () => import('@/views/bpm/process-instance/detail/index.vue'),
+      name: 'BpmProcessInstanceManagerDetail',
       meta: {
         title: '流程详情',
         i18n: false,
@@ -92,8 +93,8 @@ const asyncRoute: RouteRecordRaw = {
     },
     {
       path: '/bpm/process-instance/my/:id',
-      name: 'BpmProcessInstanceMyDetail',
       component: () => import('@/views/bpm/process-instance/detail/index.vue'),
+      name: 'BpmProcessInstanceMyDetail',
       meta: {
         title: '流程详情',
         i18n: false,
@@ -104,8 +105,8 @@ const asyncRoute: RouteRecordRaw = {
     },
     {
       path: '/bpm/task/manager/:id',
-      name: 'BpmTaskManagerDetail',
       component: () => import('@/views/bpm/process-instance/detail/index.vue'),
+      name: 'BpmTaskManagerDetail',
       meta: {
         title: '流程详情',
         i18n: false,
@@ -116,8 +117,8 @@ const asyncRoute: RouteRecordRaw = {
     },
     {
       path: '/bpm/task/todo/:id',
-      name: 'BpmTaskTodoDetail',
       component: () => import('@/views/bpm/process-instance/detail/index.vue'),
+      name: 'BpmTaskTodoDetail',
       meta: {
         title: '流程详情',
         i18n: false,
@@ -128,8 +129,8 @@ const asyncRoute: RouteRecordRaw = {
     },
     {
       path: '/bpm/task/done/:id',
-      name: 'BpmTaskDoneDetail',
       component: () => import('@/views/bpm/process-instance/detail/index.vue'),
+      name: 'BpmTaskDoneDetail',
       meta: {
         title: '流程详情',
         i18n: false,
@@ -140,14 +141,26 @@ const asyncRoute: RouteRecordRaw = {
     },
     {
       path: '/bpm/task/copy/:id',
-      name: 'BpmTaskCopyDetail',
       component: () => import('@/views/bpm/process-instance/detail/index.vue'),
+      name: 'BpmTaskCopyDetail',
       meta: {
         title: '流程详情',
         i18n: false,
         cache: false,
         breadcrumb: ['审批中心', '抄送我的', '流程详情'],
         activeMenu: '/bpm/task/copy'
+      }
+    },
+    {
+      path: '/bpm/form/edit',
+      component: () => import('@/views/bpm/form/form-editor.vue'),
+      name: 'BpmFormEditor',
+      meta: {
+        title: '设计流程表单',
+        i18n: false,
+        cache: false,
+        breadcrumb: ['流程管理', '流程表单', '设计流程表单'],
+        activeMenu: '/bpm/form/index'
       }
     },
   ]
@@ -265,6 +278,7 @@ router.beforeEach(async (to, _from, next) => {
 
   const authStore = useAuthStore()
   const appStore = useAppStore()
+  const dictStore = useDictStore()
   const routerStore = useRouterStore()
 
   // token存在的情况
@@ -277,7 +291,7 @@ router.beforeEach(async (to, _from, next) => {
         try {
           await authStore.getCurrentUser()
           await authStore.getAuthoritySet()
-          await appStore.getDictList()
+          await dictStore.getDictMap()
           await appStore.initIcons()
         } catch (error) {
           console.error('router.beforeEach', error)

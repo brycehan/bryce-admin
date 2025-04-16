@@ -54,6 +54,7 @@ export default {
     add: 'Add',
     edit: 'Edit',
     delete: 'Delete',
+    detail: 'Detail',
     export: 'Export',
     import: 'Import',
     search: 'Search',

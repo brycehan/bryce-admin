@@ -11,15 +11,15 @@
       <el-upload
         ref="uploadRef"
         v-auth:has-authority="'system:attachment:save'"
-        :headers="headers"
         :action="`${constant.uploadUrl}?accessType=${accessType}`"
+        :headers="headers"
+        :auto-upload="false"
+        :before-upload="handleBeforeUpload"
         :disabled="isUploading"
         :on-progress="handleProgress"
-        :before-upload="handleBeforeUpload"
+        :on-exceed="handleExceed"
         :on-success="handleOnSuccess"
         :limit="9"
-        :on-exceed="handleExceed"
-        :auto-upload="false"
         multiple
         drag
         >

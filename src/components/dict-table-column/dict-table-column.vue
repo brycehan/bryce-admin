@@ -8,24 +8,23 @@
   >
     <template #default="scope">
       <el-tag
-        v-if="getDictLabelClass(appStore.dictList, props.dictType, scope.row[props.prop])"
-        :type="getDictLabelClass(appStore.dictList, props.dictType, scope.row[props.prop])"
+        v-if="dictStore.getDictLabelClass(props.dictType, scope.row[props.prop])"
+        :type="dictStore.getDictLabelClass(props.dictType, scope.row[props.prop])"
         size="small"
       >
-        {{ getDictLabel(appStore.dictList, props.dictType, scope.row[props.prop]) }}
+        {{ dictStore.getDictLabel(props.dictType, scope.row[props.prop]) }}
       </el-tag>
       <span v-else>
-        {{ getDictLabel(appStore.dictList, props.dictType, scope.row[props.prop]) }}
+        {{ dictStore.getDictLabel(props.dictType, scope.row[props.prop]) }}
       </span>
     </template>
   </el-table-column>
 </template>
 
 <script setup lang="ts">
-import { getDictLabel, getDictLabelClass } from '@/utils/tool'
-import { useAppStore } from '@/stores/modules/app'
+import { useDictStore } from '@/stores/modules/dict.ts'
 
-const appStore = useAppStore()
+const dictStore = useDictStore()
 
 const props = defineProps({
   dictType: {

@@ -188,7 +188,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onBeforeUnmount, onMounted, provide, reactive, ref, type Ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, provide, ref } from 'vue'
 // import 'bpmn-js/dist/assets/diagram-js.css' // 左边工具栏以及编辑节点的样式
 // import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css'
 // import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
@@ -269,19 +269,19 @@ const props = defineProps({
   },
   onlyCustomizeAddi: {
     type: Boolean,
-    default: false
+    default: () => false
   },
   onlyCustomizeModdle: {
     type: Boolean,
-    default: false
+    default: () => false
   },
   simulation: {
     type: Boolean,
-    default: true
+    default: () => true
   },
   prefix: {
     type: String,
-    default: 'camunda'
+    default: () => 'camunda'
   },
   events: {
     type: Array,
@@ -289,12 +289,12 @@ const props = defineProps({
   },
   headerButtonSize: {
     type: String,
-    default: 'small',
+    default: () => 'small',
     validator: (value: string) => ['default', 'medium', 'small', 'mini'].indexOf(value) !== -1
   },
   headerButtonType: {
     type: String,
-    default: 'primary',
+    default: () => 'primary',
     validator: (value: string) =>
       ['default', 'primary', 'success', 'warning', 'danger', 'info'].indexOf(value) !== -1
   }

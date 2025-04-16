@@ -4,7 +4,6 @@
     :model="state.dataForm"
     :rules="dataRules"
     label-width="60"
-    @keyup.enter="handleSubmit()"
     class="mr-4"
   >
     <el-form-item label="标题" prop="title">

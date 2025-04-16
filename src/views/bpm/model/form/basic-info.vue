@@ -191,7 +191,6 @@ const openManagerUserSelect = () => {
  * 处理用户选择确认
  */
 const handleUserSelectConfirm = (_: any, users: any[]) => {
-  debugger
   if (currentSelectType.value === 'start') {
     dataForm.value = {
       ...dataForm.value,

@@ -189,7 +189,6 @@ const init = async () => {
   } else {
     // 新增场景
     state.dataForm.startUserType = 0  // 全体
-    debugger
     state.dataForm.managerUserIds.push(authStore.user.id)
   }
   // 获取分类列表
@@ -293,7 +292,6 @@ const handleSave = async () => {
       router.push({ path: '/bpm/model/index' })
     })
     .catch(error => {
-      debugger
       if (error === 'cancel') return
       validateCurrentStep()
         .then(() => {

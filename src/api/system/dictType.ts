@@ -8,9 +8,9 @@ import download from '@/utils/download'
  */
 export const saveOrUpdateApi = (data: any) => {
   if (data.id) {
-    return request.put('/system/dictType', data)
+    return request.put('/system/dict-type', data)
   } else {
-    return request.post('/system/dictType', data)
+    return request.post('/system/dict-type', data)
   }
 }
 
@@ -20,7 +20,7 @@ export const saveOrUpdateApi = (data: any) => {
  * @param ids ID数组
  */
 export const deleteByIdsApi = (ids: string[]) => {
-  return request.delete('/system/dictType', { data: { ids } })
+  return request.delete('/system/dict-type', { data: { ids } })
 }
 
 /**
@@ -29,7 +29,7 @@ export const deleteByIdsApi = (ids: string[]) => {
  * @param id ID
  */
 export const getByIdApi = (id: string) => {
-  return request.get(`/system/dictType/${id}`)
+  return request.get(`/system/dict-type/${id}`)
 }
 
 /**
@@ -38,7 +38,7 @@ export const getByIdApi = (id: string) => {
  * @param data 分页参数
  */
 export const postPageApi = (data: any) => {
-  return request.post('/system/dictType/page', data)
+  return request.post('/system/dict-type/page', data)
 }
 
 /**
@@ -47,14 +47,14 @@ export const postPageApi = (data: any) => {
  * @param data 导出参数
  */
 export const postExportExcelApi = (data: any) => {
-  download.post('/system/dictType/export', data)
+  download.post('/system/dict-type/export', data)
 }
 
 /**
- * 全部字典数据
+ * 获取字典类型下拉列表
  */
-export const getDictListApi = () => {
-  return request.get('/system/dictType/dictList')
+export const getSimpleListApi = () => {
+  return request.get('/system/dict-type/simple-list')
 }
 
 /**
@@ -64,5 +64,5 @@ export const getDictListApi = () => {
  * @param id 字典类型ID
  */
 export const getCheckDictTypeCodeUniqueApi = (dictType: string, id: number) => {
-  return request.get('/system/dictType/checkDictTypeCodeUnique', { params: { id, dictType } })
+  return request.get('/system/dict-type/checkDictTypeCodeUnique', { params: { id, dictType } })
 }

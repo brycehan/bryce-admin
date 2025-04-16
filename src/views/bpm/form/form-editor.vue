@@ -1,19 +1,13 @@
 <template>
-  <el-dialog
-    v-model="state.visible"
-    :title="!state.dataForm.id ? '新增表单定义' : '修改表单定义'"
-    :close-on-click-modal="false"
-    :append-to-body="false"
-    fullscreen
-  >
-    <fc-designer class="form-designer" ref="designerRef" height="100vh" :config="designerConfig">
+  <div class="h-[calc(100vh-var(--theme-header-height)-var(--theme-main-tabs-height)-var(--theme-main-content-padding)-var(--theme-main-content-padding))]">
+    <fc-designer class="form-designer border-b border-(--el-border-color-light)" ref="designerRef" :config="designerConfig">
       <template #handle>
         <el-button icon="plus" type="success" size="small" plain @click="handleSave()">
           保存
         </el-button>
       </template>
     </fc-designer>
-  </el-dialog>
+  </div>
   <el-dialog v-model="dialogVisible" title="保存表单" width="600">
     <el-form ref="dataFormRef" :model="state.dataForm" :rules="dataRules" label-width="80px">
       <el-form-item label="表单名称" prop="name">
@@ -36,17 +30,19 @@
 <script setup lang="ts">
 import FcDesigner from '@form-create/designer'
 import type { StateOptions } from '@/utils/state'
-import { reactive, ref } from 'vue'
+import { reactive, ref, unref } from 'vue'
 import { getByIdApi, saveOrUpdateApi } from '@/api/bpm/form'
 import { ElMessage, type FormRules } from 'element-plus'
 import { encodeConf, encodeFields, setConfAndFields } from '@/utils/formCreate'
 import type { FormDto } from '@/types/modules/bpm'
+import { useFormCreateDesigner } from '@/components/form-create'
+import { useI18n } from 'vue-i18n'
+import { useTabsStore } from '@/stores/modules/tabs.ts'
+import { StatusEnum } from '@/enums/system.ts'
 
 defineOptions({
   name: 'BpmFormEditor'
 })
-
-const emit = defineEmits(['refreshPage'])
 
 const state: StateOptions  = reactive({
   api: {
@@ -55,17 +51,17 @@ const state: StateOptions  = reactive({
   },
   dataForm: {
     name: '',
-    status: 1,
+    status: StatusEnum.ENABLE,
     remark: '',
   }
 })
 
-const designerRef = ref()
+const { t } = useI18n() // 国际化
+const router = useRouter() // 路由
+const { query } = useRoute() // 路由信息
+const { deleteView } = useTabsStore() // 视图操作
 
-const dialogVisible = ref(false) // 弹窗显示
-const formLoading = ref(false) // 表单加载中
-const dataFormRef = ref()
-
+// 表单设计器配置
 const designerConfig = ref({
   switchType: [], // 是否可以切换组件类型,或者可以相互切换的字段
   autoActive: true, // 是否自动选中拖入的组件
@@ -94,6 +90,12 @@ const designerConfig = ref({
   showDevice: true, // 是否显示多端适配选项
   appendConfigData: [] // 定义渲染规则所需的formData
 })
+const designerRef = ref() // 表单设计器
+useFormCreateDesigner(designerRef) // 表单设计器增强
+
+const dialogVisible = ref(false) // 弹窗显示
+const formLoading = ref(false) // 表单的加载中：提交的按钮禁用
+const dataFormRef = ref()
 
 const dataRules = reactive<FormRules>({
   name: [
@@ -104,30 +106,20 @@ const dataRules = reactive<FormRules>({
 
 /**
  * 初始化详情数据
- *
- * @param id 主键ID
  */
-const init = (id?: string) => {
-  state.visible = true
-  state.dataForm.id = ''
+const init = () => {
+  // 新增表单
+  const id = query.id as string
+  if (!id) return
 
-  // 重置表单数据
-  if (dataFormRef.value) {
-    dataFormRef.value.resetFields()
-  }
-
-  // id 存在则为修改
-  if (id) {
-    getByIdApi(id).then((res) => {
-      state.dataForm = res.data
-      setConfAndFields(designerRef, state.dataForm.conf, state.dataForm.fields)
-    }).catch((reason) => {
-      console.info(reason)
-      setConfAndFields(designerRef, '{}', [])
-    })
-  } else {
+  // 修改表单
+  getByIdApi(id).then((res) => {
+    state.dataForm = res.data
+    setConfAndFields(designerRef, state.dataForm.conf, state.dataForm.fields)
+  }).catch((reason) => {
+    console.error(reason)
     setConfAndFields(designerRef, '{}', [])
-  }
+  })
 }
 
 /**
@@ -141,15 +133,14 @@ const handleSave = () => {
  * 表单提交
  */
 const handleSubmit = async () => {
-  const valid = dataFormRef.value.validate()
-  if (!valid) {
-    return
-  }
+  // 校验表单
+  if (!dataFormRef.value) return
+  const valid = await dataFormRef.value.validate()
+  if (!valid) return
 
   // 开始提交请求
   formLoading.value = true
   const data = state.dataForm as FormDto
-
   // 表单配置
   data.conf = encodeConf(designerRef)
   // 表单字段
@@ -162,14 +153,22 @@ const handleSubmit = async () => {
       ElMessage.success('新增成功')
     }
     dialogVisible.value = false
-    state.visible = false
-    emit('refreshPage')
+    // 关闭当前页签
+    deleteView(unref(router.currentRoute))
+    // 跳转到流程列表页
+    router.push({ path: '/bpm/form/index' })
   }).finally(() => {
     formLoading.value = false
   })
 }
 
-defineExpose({
-  init
+onMounted(() => {
+  init()
 })
 </script>
+
+<style scoped lang="scss">
+::v-deep(._fc-m-con) {
+  padding: 20px 20px 36px !important;
+}
+</style>

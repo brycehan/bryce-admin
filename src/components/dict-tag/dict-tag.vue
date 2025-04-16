@@ -5,8 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { dictDataList, getDictLabel, getDictLabelClass } from '@/utils/tool'
-import { useAppStore } from '@/stores/modules/app'
+import { useDictStore } from '@/stores/modules/dict.ts'
 
 const props = defineProps({
   dictType: {
@@ -24,6 +23,6 @@ const props = defineProps({
   }
 })
 
-const appStore = useAppStore()
-const data = dictDataList(appStore.dictList, props.dictType).find((element: any) => element.dictValue == props.value + '')
+const dictStore = useDictStore()
+const data = dictStore.getDictDataList(props.dictType).find((element: any) => element.dictValue == props.value + '')
 </script>

@@ -97,49 +97,6 @@ export const convertSizeFormat = (size: number): string => {
 }
 
 /**
- * 获取字典数据列表
- *
- * @param dictList 全部字典列表
- * @param dictType 字典类型
- */
-export const dictDataList = (dictList: any[], dictType: string) => {
-  const dict = dictList.find((element: any) => element.dictType === dictType)
-  if (dict) {
-    return dict.datalist
-  } else {
-    return []
-  }
-}
-
-/**
- * 获取字典Label
- */
-export const getDictLabel = (dictList: any[], dictType: string, dictValue: string) => {
-  const dict = dictList.find((element: any) => element.dictType === dictType)
-  if (dict) {
-    const dictData = dict.datalist.find((element: any) => element.dictValue === dictValue + '')
-    if (dictData) {
-      return dictData.dictLabel
-    }
-  }
-  return dictValue
-}
-
-/**
- * 获取字典Label样式
- */
-export const getDictLabelClass = (dictList: any[], dictType: string, dictValue: string) => {
-  const dict = dictList.find((element: any) => element.dictType === dictType)
-  if (dict) {
-    const dictData = dict.datalist.find((element: any) => element.dictValue === dictValue + '')
-    if (dictData) {
-      return dictData.labelClass
-    }
-  }
-  return ''
-}
-
-/**
  * 上传文件前处理
  */
 export const handleBeforeUpload: UploadProps['beforeUpload'] = (file: UploadRawFile) => {
