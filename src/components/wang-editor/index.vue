@@ -13,7 +13,7 @@
       :default-config="editorConfig"
       :style="style"
       :mode="mode"
-      :readOnly="readOnly"
+      :readOnly="disabledValue"
       @on-created="handleCreated"
     />
   </div>
@@ -52,8 +52,12 @@ const props = defineProps({
   },
   readOnly: {
     type: Boolean,
-    default: false
-  }
+    default: () => false
+  },
+  disabled: {
+    type: Boolean,
+    default: () => false
+  }, // 是否禁用组件 ==> 非必传（默认为 false）
 })
 
 // 编辑器实例，必须用 shallowRef
@@ -67,7 +71,7 @@ const toolbarConfig = {}
 // 编辑器配置
 const editorConfig: Partial<IEditorConfig> = {
   placeholder: props.placeholder,
-  readOnly: props.readOnly,
+  readOnly: props.readOnly || props.disabled,
   autoFocus: true,
   scroll: true,
   MENU_CONF: {
@@ -162,6 +166,8 @@ const editorConfig: Partial<IEditorConfig> = {
   },
 }
 
+const disabledValue = computed(() => props.readOnly || props.disabled)
+
 /**
  * 编辑器创建完毕，获取编辑器实例
  *
@@ -184,6 +190,14 @@ const getEditorRef = async (): Promise<IDomEditor> => {
   await nextTick()
   return editorRef.value as IDomEditor
 }
+
+watch(() => props.disabled, (val) => {
+  if (val) {
+    editorRef.value?.disable()
+  } else {
+    editorRef.value?.enable()
+  }
+})
 
 defineExpose({
   getEditorRef

@@ -116,7 +116,6 @@
     >
       <AddOrEdit
         v-model="addOrEditVisible"
-        :addOrEditVisible="addOrEditVisible"
         :notice-id="noticeId"
         @refresh-page="getPage"
       />
@@ -131,7 +130,6 @@
     >
       <View
         v-model="viewVisible"
-        :addOrEditVisible="viewVisible"
         :notice-id="viewNoticeId"
         @refresh-page="getPage"
       />

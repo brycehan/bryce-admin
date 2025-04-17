@@ -1,58 +1,117 @@
 <template>
-  <div class="upload-box">
-    <el-upload
-      v-model:file-list="fileList"
-      :accept="fileType.join(',')"
-      :action="`${constant.uploadUrl}?accessType=0`"
-      :headers="headers"
-      :before-upload="beforeUpload"
-      :class="['upload', drag ? 'no-border' : '']"
-      :disabled="disabled"
-      :drag="drag"
-      :limit="limit"
-      :multiple="true"
-      :on-error="uploadError"
-      :on-exceed="handleExceed"
-      :on-success="uploadSuccess"
-      list-type="picture-card"
-    >
-      <div class="upload-empty">
-        <slot name="empty">
-          <Icon icon="ep:plus" />
-          <!-- <span>请上传图片</span> -->
-        </slot>
-      </div>
-      <template #file="{ file, index }">
-        <img :src="file.url" class="upload-image" alt="图片" />
-        <div class="upload-handle" @click.stop>
-          <div class="handle-icon" @click="imagePreview(file.url!, index)">
-            <Icon icon="ep:zoom-in" />
-            <span>查看</span>
+  <div>
+    <div class="upload-box" v-if="!disabled">
+      <el-upload
+        v-model:file-list="fileList"
+        :accept="fileType.join(',')"
+        :action="`${constant.uploadUrl}?accessType=0`"
+        :headers="headers"
+        :before-upload="beforeUpload"
+        :class="['upload', drag ? 'no-border' : '']"
+        :disabled="disabled"
+        :drag="drag"
+        :limit="limit"
+        :multiple="true"
+        :on-error="uploadError"
+        :on-exceed="handleExceed"
+        :on-success="uploadSuccess"
+        list-type="picture-card"
+      >
+
+        <div class="upload-empty">
+          <slot name="empty">
+            <Icon icon="ep:plus" />
+          </slot>
+        </div>
+        <template #file="{ file, index }">
+          <img :src="file.url" class="upload-image" alt="图片" />
+          <div class="upload-handle" @click.stop>
+            <div class="handle-icon" @click="imagePreview(file.url!, index)">
+              <Icon icon="ep:zoom-in" />
+              <span>查看</span>
+            </div>
+            <div v-if="!disabled" class="handle-icon" @click="handleRemove(file)">
+              <Icon icon="ep:delete" />
+              <span>删除</span>
+            </div>
           </div>
-          <div v-if="!disabled" class="handle-icon" @click="handleRemove(file)">
-            <Icon icon="ep:delete" />
-            <span>删除</span>
+        </template>
+      </el-upload>
+      <div class="el-upload__tip">
+        <slot name="tip"></slot>
+      </div>
+    </div>
+    <template v-if="disabled && modelValue">
+      <div class="upload-box">
+        <div class="upload no-border flex">
+          <div v-for="(file, index) in modelValue" :key="index" class="el-upload-list el-upload-list--picture-card">
+            <div class="el-upload-list__item is-success">
+              <img :src="file" class="upload-image" alt="图片" />
+              <div class="upload-handle" @click.stop>
+                <div class="handle-icon" @click="imagePreview({ url: file } as any, index)">
+                  <Icon icon="ep:zoom-in" />
+                  <span>查看</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </template>
-    </el-upload>
-    <div class="el-upload__tip">
-      <slot name="tip"></slot>
-    </div>
+      </div>
+    </template>
+    <template v-if="disabled && !modelValue">
+      <div class="upload-box">
+        <el-upload
+          v-model:file-list="fileList"
+          :accept="fileType.join(',')"
+          :action="`${constant.uploadUrl}?accessType=0`"
+          :headers="headers"
+          :before-upload="beforeUpload"
+          :class="['upload', drag ? 'no-border' : '']"
+          :disabled="disabled"
+          :drag="drag"
+          :limit="limit"
+          :multiple="true"
+          :on-error="uploadError"
+          :on-exceed="handleExceed"
+          :on-success="uploadSuccess"
+          list-type="picture-card"
+        >
+          <div class="upload-empty">
+            <slot name="empty">
+              <Icon icon="ep:plus" />
+            </slot>
+          </div>
+        </el-upload>
+      </div>
+    </template>
   </div>
 </template>
 <script lang="ts" setup>
-import { ElMessage, ElNotification, type UploadFile, type UploadProps, type UploadUserFile } from 'element-plus'
+import {
+  ElMessage,
+  ElNotification,
+  type UploadFile,
+  type UploadProps,
+  type UploadUserFile
+} from 'element-plus'
 import { createImageViewer } from '@/components/image-viewer/utils.ts'
-
+import fileExtension from 'file-extension'
 import constant from '@/utils/constant.ts'
 import { useAuthStore } from '@/stores/modules/auth.ts'
-import _ from 'lodash'
 
 defineOptions({ name: 'UploadImgs' })
 
 // 查看图片
 const imagePreview = (imgUrl: string, index: number) => {
+  if (props.disabled && model.value) {
+    fileList.value = model.value.map((url: any) => {
+      return {
+        url,
+        name: getFilename(url)
+      }
+    })
+  }
+
   console.log('imagePreview', imgUrl, [...fileList.value.map((file) => file.url!)])
   createImageViewer({
     zIndex: 9999,
@@ -108,7 +167,7 @@ const props = defineProps({
   } // 组件边框圆角 ==> 非必传（默认为 8px）
 })
 
-const model = defineModel()
+const model = defineModel<string[]>()
 
 const authStore = useAuthStore()
 
@@ -121,8 +180,6 @@ const headers = {
 }
 
 const fileList = ref<UploadUserFile[]>([])
-const uploadNumber = ref<number>(0)
-const uploadList = ref<UploadUserFile[]>([])
 
 /**
  * @description 文件上传之前判断
@@ -143,56 +200,29 @@ const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
       message: `上传图片大小不能超过 ${props.fileSize}M！`,
       type: 'warning'
     })
-  uploadNumber.value++
   return imgType.includes(rawFile.type as FileTypes) && imgSize
 }
 
-const uploadSuccess: UploadProps['onSuccess'] = (res: any): void => {
-  ElMessage.success('上传成功')
-  // 删除自身
-  const index = fileList.value.findIndex((item: any) => item.response?.data === res.data)
-  fileList.value.splice(index, 1)
-  uploadList.value.push({ name: res.data, url: res.data })
-  if (uploadList.value.length == uploadNumber.value) {
-    fileList.value.push(...uploadList.value)
-    uploadList.value = []
-    uploadNumber.value = 0
-    emitUpdateModelValue()
+const uploadSuccess: UploadProps['onSuccess'] = (response, uploadFile): void => {
+  if (response?.code !== 200) {
+    ElNotification({
+      title: '温馨提示',
+      message: '图片上传失败，请您重新上传！',
+      type: 'error'
+    })
+    fileList.value = fileList.value.filter((item) => item.url !== uploadFile.url || item.name !== uploadFile.name)
+    model.value = fileList.value.map((file) => file.url!)
+    return
   }
+  ElMessage.success('上传成功')
+  emitUpdateModelValue()
 }
-
-// 监听模型绑定值变动
-watch(
-  () => model.value,
-  (val: any) => {
-    if (!val) {
-      fileList.value = [] // fix：处理掉缓存，表单重置后上传组件的内容并没有重置
-      return
-    }
-    fileList.value = [] // fix：处理掉缓存，表单重置后上传组件的内容并没有重置
-
-    if (_.isString(val)) {
-      fileList.value.push(...val.split(',').map((url) => ({ name: url.substring(url.lastIndexOf('/') + 1), url })))
-      return
-    }
-
-    if (_.isArray(val)) {
-      for (let i = 0; i < val.length; i++) {
-        if (_.isString(val[i])) {
-          fileList.value.push({ name: val[i].substring(val[i].lastIndexOf('/') + 1), url: val[i] })
-        } else {
-          fileList.value.push({ name: val[i].name + 1, url: val[i].url })
-        }
-      }
-      return
-    }
-  },
-  { immediate: true, deep: true }
-)
 
 // 发送图片链接列表更新
 const emitUpdateModelValue = () => {
-  model.value = fileList.value.map((file) => file.url!)
+  model.value = fileList.value.map((file: UploadUserFile) => {
+    if (file.response) return (file.response as any).data.url
+  })
 }
 
 // 删除图片
@@ -217,6 +247,18 @@ const handleExceed = () => {
     message: `当前最多只能上传 ${props.limit} 张图片，请移除后上传！`,
     type: 'warning'
   })
+}
+
+/**
+ * 获取文件名
+ * @param path 文件路径
+ */
+const getFilename = (path: string) => {
+  debugger
+  const fullFilename = path.substring(path.lastIndexOf('/') + 1)
+  const extension = fileExtension(fullFilename)
+  const filename = fullFilename.substring(0, fullFilename.lastIndexOf(extension) - 16)
+  return filename + '.' + extension
 }
 </script>
 
@@ -336,7 +378,7 @@ const handleExceed = () => {
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-size: 12px;
+      font-size: 28px;
       line-height: 30px;
       color: var(--el-color-info);
 

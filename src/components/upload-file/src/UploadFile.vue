@@ -1,63 +1,72 @@
 <template>
-  <div v-if="!disabled" class="upload-file">
-    <el-upload
-      ref="uploadRef"
-      v-model:file-list="fileList"
-      :action="`${constant.uploadUrl}?accessType=0`"
-      :headers="headers"
-      :auto-upload="autoUpload"
-      :before-upload="handleBeforeUpload"
-      :disabled="disabled"
-      :drag="drag"
-      :limit="props.limit"
-      :multiple="props.limit > 1"
-      :on-error="excelUploadError"
-      :on-exceed="handleExceed"
-      :on-preview="handlePreview"
-      :on-remove="handleRemove"
-      :on-success="handleFileSuccess"
-      :show-file-list="true"
-      class="upload-file-uploader"
-      name="file"
-    >
-      <el-button type="primary">
-        <Icon icon="ep:upload-filled" />
-        选取文件
-      </el-button>
-      <template v-if="isShowTip" #tip>
-        <div style="font-size: 8px">
-          大小不超过 <b style="color: #f56c6c">{{ fileSize }}MB</b>
-        </div>
-        <div style="font-size: 8px">
-          格式为 <b style="color: #f56c6c">{{ fileType.join('/') }}</b> 的文件
-        </div>
-      </template>
-      <template #file="row">
-        <div class="flex items-center gap-4">
-          <span>{{ row.file.name }}</span>
-          <el-link :href="row.file.url" :underline="false" download target="_blank" type="primary">下载</el-link>
-          <el-button link type="danger" @click="handleRemove(row.file)">删除</el-button>
-        </div>
-      </template>
-    </el-upload>
-  </div>
+  <div>
+    <div v-if="!disabled" class="upload-file">
+      <el-upload
+        ref="uploadRef"
+        v-model:file-list="fileList"
+        :action="`${constant.uploadUrl}?accessType=0`"
+        :headers="headers"
+        :auto-upload="autoUpload"
+        :before-upload="handleBeforeUpload"
+        :disabled="disabled"
+        :drag="drag"
+        :limit="props.limit"
+        :multiple="props.limit > 1"
+        :on-error="excelUploadError"
+        :on-exceed="handleExceed"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :on-success="handleFileSuccess"
+        :show-file-list="true"
+        class="upload-file-uploader"
+        name="file"
+      >
+        <el-button type="primary">
+          <Icon icon="ep:upload-filled" />
+          选取文件
+        </el-button>
+        <template v-if="isShowTip" #tip>
+          <div style="font-size: 8px">
+            大小不超过 <b style="color: #f56c6c">{{ fileSize }}MB</b>
+          </div>
+          <div style="font-size: 8px">
+            格式为 <b style="color: #f56c6c">{{ fileType.join('/') }}</b> 的文件
+          </div>
+        </template>
+        <template #file="{ file }">
+          <div class="flex items-center gap-4">
+            <span>{{ file.name }}</span>
+            <el-link :href="(file.response as any).data.url!" :underline="false" download target="_blank" type="primary">下载</el-link>
+            <el-button link type="danger" @click="handleRemove(file)">删除</el-button>
+          </div>
+        </template>
+      </el-upload>
+    </div>
 
-  <!-- 上传操作禁用时 -->
-  <div v-if="disabled" class="upload-file">
-    <div v-for="(file, index) in fileList" :key="index" class="flex items-center file-list-item">
-      <span>{{ file.name }}</span>
-      <div class="ml-10px">
-        <el-link :href="file.url" :underline="false" download target="_blank" type="primary"> 下载 </el-link>
+    <!-- 上传操作禁用时 -->
+    <div v-if="disabled" class="upload-file">
+      <div v-for="(file, index) in modelValue" :key="index" class="flex items-center file-list-item px-2">
+        <span>{{ getFilename(file) }}</span>
+        <div class="ml-[10px]">
+          <el-link :href="file" :underline="false" download target="_blank" type="primary">下载</el-link>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { ElMessage, type UploadInstance, type UploadProps, type UploadRawFile, type UploadUserFile } from 'element-plus'
-import { isString } from '@/utils/is'
+import {
+  ElMessage,
+  ElNotification,
+  type UploadInstance,
+  type UploadProps,
+  type UploadRawFile,
+  type UploadUserFile
+} from 'element-plus'
 import { type UploadFile } from 'element-plus/es/components/upload/src/upload'
 import constant from '@/utils/constant.ts'
 import { useAuthStore } from '@/stores/modules/auth.ts'
+import fileExtension from 'file-extension'
 
 defineOptions({ name: 'UploadFile' })
 
@@ -106,9 +115,7 @@ const headers = {
 
 // ========== 上传相关 ==========
 const uploadRef = ref<UploadInstance>()
-const uploadList = ref<UploadUserFile[]>([])
 const fileList = ref<UploadUserFile[]>([])
-const uploadNumber = ref<number>(0)
 
 /**
  * 文件上传之前判断
@@ -137,27 +144,28 @@ const handleBeforeUpload: UploadProps['beforeUpload'] = (file: UploadRawFile) =>
     ElMessage.error(`上传文件大小不能超过${props.fileSize}MB!`)
     return false
   }
-  ElMessage.success('正在上传文件，请稍候...')
-  uploadNumber.value++
 }
 
 /**
  * 上传文件成功
  *
- * @param res 返回的数据
+ * @param response 服务器返回的数据
+ * @param uploadFile 上传的文件
  */
-const handleFileSuccess: UploadProps['onSuccess'] = (res: any): void => {
-  ElMessage.success('上传成功')
-  // 删除自身
-  const index = fileList.value.findIndex((item: any) => item.response?.data === res.data)
-  fileList.value.splice(index, 1)
-  uploadList.value.push({ name: res.data.name, url: res.data.url })
-  if (uploadList.value.length == uploadNumber.value) {
-    fileList.value.push(...uploadList.value)
-    uploadList.value = []
-    uploadNumber.value = 0
-    emitUpdateModelValue()
+const handleFileSuccess: UploadProps['onSuccess'] = (response, uploadFile): void => {
+  if (response?.code !== 200) {
+    ElNotification({
+      title: '温馨提示',
+      message: '图片上传失败，请您重新上传！',
+      type: 'error'
+    })
+    fileList.value = fileList.value.filter((item) => item.url !== uploadFile.url || item.name !== uploadFile.name)
+    model.value = fileList.value.map((file) => file.url!)
+    return
   }
+  debugger
+  ElMessage.success('上传成功')
+  emitUpdateModelValue()
 }
 
 /**
@@ -177,14 +185,11 @@ const excelUploadError: UploadProps['onError'] = (): void => {
 /**
  * 删除上传文件
  *
- * @param file 要删除的文件
+ * @param uploadFile 要删除的文件
  */
-const handleRemove = (file: UploadFile) => {
-  const index = fileList.value.map((f) => f.name).indexOf(file.name)
-  if (index > -1) {
-    fileList.value.splice(index, 1)
-    emitUpdateModelValue()
-  }
+const handleRemove = (uploadFile: UploadFile) => {
+  fileList.value = fileList.value.filter((item) => item.url !== uploadFile.url || item.name !== uploadFile.name)
+  model.value = fileList.value.map((file) => file.url!)
 }
 
 /**
@@ -200,13 +205,21 @@ const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
  * 发送文件链接列表更新
  */
 const emitUpdateModelValue = () => {
-  // 情况1：数组结果
-  let result: string | string[] = fileList.value.map((file) => file.url!)
-  // 情况2：逗号分隔的字符串
-  if (props.limit === 1 || isString(model.value)) {
-    result = result.join(',')
-  }
-  model.value = result
+  model.value = fileList.value.map((file: UploadUserFile) => {
+    if (file.response) return (file.response as any).data.url
+  })
+}
+
+/**
+ * 获取文件名
+ * @param path 文件路径
+ */
+const getFilename = (path: string) => {
+  debugger
+  const fullFilename = path.substring(path.lastIndexOf('/') + 1)
+  const extension = fileExtension(fullFilename)
+  const filename = fullFilename.substring(0, fullFilename.lastIndexOf(extension) - 16)
+  return filename + '.' + extension
 }
 </script>
 <style lang="scss" scoped>

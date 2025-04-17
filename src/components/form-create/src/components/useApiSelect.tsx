@@ -117,13 +117,13 @@ export const useApiSelect = (option: ApiSelectProps) => {
         }
         // 情况二：返回的直接是一个列表
         if (Array.isArray(data)) {
-          parseOptions0(data)
+          doParseOptions(data)
           return
         }
         // 情况二：返回的是分页数据,尝试读取 list
         data = data.list
         if (!!data && Array.isArray(data)) {
-          parseOptions0(data)
+          doParseOptions(data)
           return
         }
         // 情况三：不是标准返回
@@ -135,7 +135,7 @@ export const useApiSelect = (option: ApiSelectProps) => {
        *
        * @param data 数据
        */
-      function parseOptions0(data: any[]) {
+      function doParseOptions(data: any[]) {
         options.value = data.map((item: any) => ({
           label: parseExpression(item, props.labelField),
           value: parseExpression(item, props.valueField)

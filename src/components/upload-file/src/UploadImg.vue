@@ -35,7 +35,6 @@
         <div class="upload-empty">
           <slot name="empty">
             <Icon icon="ep:plus" />
-            <!-- <span>请上传图片</span> -->
           </slot>
         </div>
       </template>
@@ -150,9 +149,18 @@ const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
 }
 
 // 图片上传成功提示
-const uploadSuccess: UploadProps['onSuccess'] = (res: any): void => {
+const uploadSuccess: UploadProps['onSuccess'] = (response): void => {
+  if (response?.code !== 200) {
+    ElNotification({
+      title: '温馨提示',
+      message: '图片上传失败，请您重新上传！',
+      type: 'error'
+    })
+    model.value = ''
+    return
+  }
   ElMessage.success('上传成功')
-  model.value = res.data.url
+  model.value = response.data.url
 }
 
 // 图片上传错误提示
@@ -249,7 +257,7 @@ const uploadError = () => {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        font-size: 12px;
+        font-size: 28px;
         line-height: 30px;
         color: var(--el-color-info);
 

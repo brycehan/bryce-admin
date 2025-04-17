@@ -224,7 +224,7 @@ const getApprovalDetail = async (processInstanceId: string, activityId: any, tas
       nextTick().then(() => {
         fApi.value?.btn.show(false)
         fApi.value?.resetBtn.show(false)
-        //@ts-ignore
+        // @ts-ignore
         fApi.value?.disabled(true)
         // 设置表单字段权限
         if (formFieldsPermission) {
@@ -233,9 +233,6 @@ const getApprovalDetail = async (processInstanceId: string, activityId: any, tas
           })
         }
       })
-    } else {
-      // 注意：data.processDefinition.formCustomViewPath 是组件的全路径，例如说：/crm/contract/detail/index.vue
-      // BusinessFormComponent.value = registerComponent(data.processDefinition.formCustomViewPath)
     }
 
     // 获取审批节点，显示 Timeline 的数据

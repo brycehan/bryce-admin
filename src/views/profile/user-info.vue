@@ -7,16 +7,16 @@
     @keyup.enter="handleSubmit()"
     class="mr-4"
   >
-    <el-form-item :label="$t('profile.basic.data.nickname')" prop="nickname">
+    <el-form-item :label="t('profile.basic.data.nickname')" prop="nickname">
       <el-input v-model="dataForm.nickname" :placeholder="t('profile.basic.data.nicknamePlaceholder')" />
     </el-form-item>
-    <el-form-item :label="$t('profile.basic.data.phone')" prop="phone">
+    <el-form-item :label="t('profile.basic.data.phone')" prop="phone">
       <el-input v-model="dataForm.phone" :placeholder="t('profile.basic.data.phonePlaceholder')" />
     </el-form-item>
-    <el-form-item :label="$t('profile.basic.data.email')" prop="email">
+    <el-form-item :label="t('profile.basic.data.email')" prop="email">
       <el-input v-model="dataForm.email" :placeholder="t('profile.basic.data.emailPlaceholder')" />
     </el-form-item>
-    <el-form-item :label="$t('profile.basic.data.gender')">
+    <el-form-item :label="t('profile.basic.data.gender')">
       <dict-radio-group v-model="dataForm.gender" dict-type="sys_gender" />
     </el-form-item>
     <el-form-item>

@@ -25,7 +25,7 @@ export const useEditorRule = () => {
           field: 'height',
           title: '高度'
         },
-        { type: 'switch', field: 'readonly', title: '是否只读' }
+        { type: 'switch', field: 'disabled', title: '是否只读' },
       ])
     }
   }

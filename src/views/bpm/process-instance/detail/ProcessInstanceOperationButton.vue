@@ -66,7 +66,7 @@
             >
               {{ getButtonDisplayName(OperationButtonType.APPROVE) }}
             </el-button>
-            <el-button @click="closePropover('approve', approveFormRef)"> 取消 </el-button>
+            <el-button @click="closePropover('approve', approveFormRef)">取消</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -111,7 +111,7 @@
             >
               {{ getButtonDisplayName(OperationButtonType.REJECT) }}
             </el-button>
-            <el-button @click="closePropover('reject', rejectFormRef)"> 取消 </el-button>
+            <el-button @click="closePropover('reject', rejectFormRef)">取消</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -126,8 +126,8 @@
       v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.COPY)"
     >
       <template #reference>
-        <div @click="openPopover('copy')" class="hover-bg-gray-100 rounded-xl p-[6px]">
-          <icon icon="brc:icon-file-copy" class="pr-1"/>
+        <div @click="openPopover('copy')" class="hover-bg-gray-100 rounded-xl p-[6px] gap-1">
+          <icon icon="brc:icon-file-copy" />
           {{ getButtonDisplayName(OperationButtonType.COPY) }}
         </div>
       </template>
@@ -169,7 +169,7 @@
             <el-button :disabled="formLoading" type="primary" @click="handleCopy">
               {{ getButtonDisplayName(OperationButtonType.COPY) }}
             </el-button>
-            <el-button @click="closePropover('copy', copyFormRef)"> 取消 </el-button>
+            <el-button @click="closePropover('copy', copyFormRef)">取消</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -184,8 +184,8 @@
       v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.TRANSFER)"
     >
       <template #reference>
-        <div @click="openPopover('transfer')" class="hover-bg-gray-100 rounded-xl p-[6px]">
-          <icon icon="brc:icon-arrowright" class="pr-1"/>
+        <div @click="openPopover('transfer')" class="hover-bg-gray-100 rounded-xl p-[6px] gap-1">
+          <icon icon="ion:arrow-redo-circle-outline"/>
           {{ getButtonDisplayName(OperationButtonType.TRANSFER) }}
         </div>
       </template>
@@ -221,7 +221,7 @@
             <el-button :disabled="formLoading" type="primary" @click="handleTransfer()">
               {{ getButtonDisplayName(OperationButtonType.TRANSFER) }}
             </el-button>
-            <el-button @click="closePropover('transfer', transferFormRef)"> 取消 </el-button>
+            <el-button @click="closePropover('transfer', transferFormRef)">取消</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -236,8 +236,8 @@
       v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.DELEGATE)"
     >
       <template #reference>
-        <div @click="openPopover('delegate')" class="hover-bg-gray-100 rounded-xl p-[6px]">
-          <icon icon="brc:icon-send" class="pr-1"/>
+        <div @click="openPopover('delegate')" class="hover-bg-gray-100 rounded-xl p-[6px] gap-1">
+          <icon icon="ion:navigate-outline" />
           {{ getButtonDisplayName(OperationButtonType.DELEGATE) }}
         </div>
       </template>
@@ -273,7 +273,7 @@
             <el-button :disabled="formLoading" type="primary" @click="handleDelegate()">
               {{ getButtonDisplayName(OperationButtonType.DELEGATE) }}
             </el-button>
-            <el-button @click="closePropover('delegate', delegateFormRef)"> 取消 </el-button>
+            <el-button @click="closePropover('delegate', delegateFormRef)">取消</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -288,8 +288,8 @@
       v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.ADD_SIGN)"
     >
       <template #reference>
-        <div @click="openPopover('addSign')" class="hover-bg-gray-100 rounded-xl p-[6px]">
-          <icon icon="brc:icon-plus" class="pr-1" />
+        <div @click="openPopover('addSign')" class="hover-bg-gray-100 rounded-xl p-[6px] gap-1">
+          <icon icon="ep:plus" />
           {{ getButtonDisplayName(OperationButtonType.ADD_SIGN) }}
         </div>
       </template>
@@ -343,8 +343,8 @@
       v-if="runningTask?.children.length > 0"
     >
       <template #reference>
-        <div @click="openPopover('deleteSign')" class="hover-bg-gray-100 rounded-xl p-[6px]">
-          <icon icon="brc:icon-minus" class="pr-1" />减签
+        <div @click="openPopover('deleteSign')" class="hover-bg-gray-100 rounded-xl p-[6px] gap-1">
+          <icon icon="ep:semi-select" />减签
         </div>
       </template>
       <div class="flex flex-col flex-1 pt-[20px] px-[20px]" v-loading="formLoading">
@@ -394,8 +394,8 @@
       v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.RETURN)"
     >
       <template #reference>
-        <div @click="openPopover('return')" class="hover-bg-gray-100 rounded-xl p-[6px]">
-          <icon icon="brc:icon-arrowleft" class="pr-1" />
+        <div @click="openPopover('return')" class="hover-bg-gray-100 rounded-xl p-[6px] gap-1">
+          <icon icon="ep:back" />
           {{ getButtonDisplayName(OperationButtonType.RETURN) }}
         </div>
       </template>
@@ -448,8 +448,8 @@
       "
     >
       <template #reference>
-        <div @click="openPopover('cancel')" class="hover-bg-gray-100 rounded-xl p-[6px]">
-          <icon icon="brc:icon-rollback" class="pl-1" />取消
+        <div @click="openPopover('cancel')" class="hover-bg-gray-100 rounded-xl p-[6px] gap-1">
+          <icon icon="ion:arrow-undo" />取消
         </div>
       </template>
       <div class="flex flex-col flex-1 pt-[20px] px-[20px]" v-loading="formLoading">
@@ -475,7 +475,7 @@
             <el-button :disabled="formLoading" type="primary" @click="handleCancel()">
               确认
             </el-button>
-            <el-button @click="closePropover('cancel', cancelFormRef)"> 取消 </el-button>
+            <el-button @click="closePropover('cancel', cancelFormRef)">取消</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -483,14 +483,14 @@
     <!-- 【再次提交】 按钮-->
     <div
       @click="handleReCreate()"
-      class="hover-bg-gray-100 rounded-xl p-[6px]"
+      class="hover-bg-gray-100 rounded-xl p-[6px] gap-1"
       v-if="
         userId === processInstance?.startUser?.id &&
         isEndProcessStatus(processInstance?.status) &&
         processDefinition?.formType === 10
       "
     >
-      <icon icon="ep-refresh" class="pr-1" />再次提交
+      <icon icon="ep:refresh" />再次提交
     </div>
   </div>
 

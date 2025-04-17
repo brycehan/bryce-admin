@@ -5,12 +5,12 @@
     trigger="click"
     width="40%"
     popper-class="icon-popover"
-    hide-after="0"
+    :hide-after="0"
   >
     <template #reference>
-      <el-input v-model="model" placeholder="请选择图标" clearable>
+      <el-input v-model="model as any" placeholder="请选择图标" clearable>
         <template #prefix>
-          <icon :icon="model ? model : 'brc:icon-search'" />
+          <icon :icon="model ? model : 'ion:search'" />
         </template>
       </el-input>
     </template>

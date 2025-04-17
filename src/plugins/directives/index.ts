@@ -1,5 +1,5 @@
 import type { App } from 'vue'
-import auth from '@/utils/directives/auth'
+import auth from '@/plugins/directives/auth.ts'
 
 export default {
   install(Vue: App) {

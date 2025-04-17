@@ -7,13 +7,13 @@
     @keyup.enter="handleSubmit()"
     class="mr-4"
   >
-    <el-form-item :label="$t('profile.basic.password.password')" prop="password">
+    <el-form-item :label="t('profile.basic.password.password')" prop="password">
       <el-input v-model="dataForm.password" show-password :placeholder="t('profile.basic.password.passwordPlaceholder')" />
     </el-form-item>
-    <el-form-item :label="$t('profile.basic.password.newPassword')" prop="newPassword">
+    <el-form-item :label="t('profile.basic.password.newPassword')" prop="newPassword">
       <el-input v-model="dataForm.newPassword" show-password :placeholder="t('profile.basic.password.newPasswordPlaceholder')" />
     </el-form-item>
-    <el-form-item :label="$t('profile.basic.password.confirmPassword')" prop="confirmPassword">
+    <el-form-item :label="t('profile.basic.password.confirmPassword')" prop="confirmPassword">
       <el-input v-model="dataForm.confirmPassword" show-password :placeholder="t('profile.basic.password.confirmPasswordPlaceholder')" />
     </el-form-item>
     <el-form-item>
