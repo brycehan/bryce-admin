@@ -18,15 +18,15 @@
         <img :src="modelValue" class="upload-image"  alt="图片"/>
         <div class="upload-handle" @click.stop>
           <div v-if="!disabled" class="handle-icon" @click="editImg">
-            <Icon icon="ep:edit" />
+            <icon icon="ep:edit" />
             <span v-if="showBtnText">{{ t('button.edit') }}</span>
           </div>
           <div class="handle-icon" @click="imagePreview(modelValue)">
-            <Icon icon="ep:zoom-in" />
+            <icon icon="ep:zoom-in" />
             <span v-if="showBtnText">{{ t('button.detail') }}</span>
           </div>
           <div v-if="showDelete && !disabled" class="handle-icon" @click="deleteImg">
-            <Icon icon="ep:delete" />
+            <icon icon="ep:delete" />
             <span v-if="showBtnText">{{ t('button.delete') }}</span>
           </div>
         </div>
@@ -34,7 +34,7 @@
       <template v-else>
         <div class="upload-empty">
           <slot name="empty">
-            <Icon icon="ep:plus" />
+            <icon icon="ep:plus" />
           </slot>
         </div>
       </template>

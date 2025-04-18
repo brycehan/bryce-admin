@@ -22,7 +22,7 @@
         name="file"
       >
         <el-button type="primary">
-          <Icon icon="ep:upload-filled" />
+          <icon icon="ep:upload-filled" />
           选取文件
         </el-button>
         <template v-if="isShowTip" #tip>

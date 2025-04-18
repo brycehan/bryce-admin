@@ -20,18 +20,18 @@
 
         <div class="upload-empty">
           <slot name="empty">
-            <Icon icon="ep:plus" />
+            <icon icon="ep:plus" />
           </slot>
         </div>
         <template #file="{ file, index }">
           <img :src="file.url" class="upload-image" alt="图片" />
           <div class="upload-handle" @click.stop>
             <div class="handle-icon" @click="imagePreview(file.url!, index)">
-              <Icon icon="ep:zoom-in" />
+              <icon icon="ep:zoom-in" />
               <span>查看</span>
             </div>
             <div v-if="!disabled" class="handle-icon" @click="handleRemove(file)">
-              <Icon icon="ep:delete" />
+              <icon icon="ep:delete" />
               <span>删除</span>
             </div>
           </div>
@@ -49,7 +49,7 @@
               <img :src="file" class="upload-image" alt="图片" />
               <div class="upload-handle" @click.stop>
                 <div class="handle-icon" @click="imagePreview({ url: file } as any, index)">
-                  <Icon icon="ep:zoom-in" />
+                  <icon icon="ep:zoom-in" />
                   <span>查看</span>
                 </div>
               </div>
@@ -78,7 +78,7 @@
         >
           <div class="upload-empty">
             <slot name="empty">
-              <Icon icon="ep:plus" />
+              <icon icon="ep:plus" />
             </slot>
           </div>
         </el-upload>

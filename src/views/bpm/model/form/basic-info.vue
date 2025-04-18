@@ -53,7 +53,7 @@
               {{ user.nickname.substring(0, 1) }}
             </el-avatar>
             {{ user.nickname }}
-            <Icon
+            <icon
               icon="ep:close"
               class="ml-2 cursor-pointer hover:text-red-500"
               @click="handleRemoveStartUser(user)"
@@ -76,7 +76,7 @@
               {{ user.nickname.substring(0, 1) }}
             </el-avatar>
             {{ user.nickname }}
-            <Icon
+            <icon
               icon="ep:close"
               class="ml-2 cursor-pointer hover:text-red-500"
               @click="handleRemoveManagerUser(user)"
