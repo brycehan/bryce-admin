@@ -15,12 +15,12 @@ const appStore = useAppStore()
 </script>
 <style scoped lang="scss">
 .sidebar-logo {
-  width: var(--theme-menu-width) !important;
-  height: var(--theme-header-height);
-  line-height: var(--theme-header-height);
   display: flex;
   align-items: center;
   justify-content: center;
+  width: var(--theme-menu-width) !important;
+  height: var(--theme-header-height);
+  line-height: var(--theme-header-height);
   color: var(--theme-logo-text-color);
 
   .el-avatar {

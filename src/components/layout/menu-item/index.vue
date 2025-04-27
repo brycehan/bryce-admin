@@ -6,7 +6,7 @@
     :class="titleSpanClass"
   >
     <template #title>
-      <icon v-if="showIcon" :icon="menu.meta.icon" class="mr-1"/>
+      <icon v-if="showIcon" :icon="menu.meta.icon" class="mr-1" />
       <span>{{ menu.meta.title }}</span>
     </template>
     <menu-item v-for="item in menu.children" :key="item.path" :menu="item" />
@@ -17,7 +17,7 @@
     :index="menu.path"
     @click="handleClick(menu)"
   >
-    <icon v-if="showIcon" :icon="menu.meta.icon" class="mr-1"/>
+    <icon v-if="showIcon" :icon="menu.meta.icon" class="mr-1" />
     <template #title>
       {{ menu.meta.title }}
     </template>
@@ -25,21 +25,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed, type PropType } from 'vue'
-import { useRouter } from 'vue-router'
+import { type PropType } from 'vue'
 import { isExternalLink, replaceLinkParam } from '@/utils/tool'
 import { useAppStore } from '@/stores/modules/app'
 import MenuItem from '@/components/layout/menu-item/index.vue'
 
 defineOptions({
-  name: 'MenuItem'
+  name: 'MenuItem',
 })
 
 defineProps({
   menu: {
     type: Object as PropType<any>,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const router = useRouter()

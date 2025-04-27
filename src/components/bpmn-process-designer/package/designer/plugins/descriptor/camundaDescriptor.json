@@ -392,12 +392,7 @@
     },
     {
       "name": "ServiceTaskLike",
-      "extends": [
-        "bpmn:ServiceTask",
-        "bpmn:BusinessRuleTask",
-        "bpmn:SendTask",
-        "bpmn:MessageEventDefinition"
-      ],
+      "extends": ["bpmn:ServiceTask", "bpmn:BusinessRuleTask", "bpmn:SendTask", "bpmn:MessageEventDefinition"],
       "properties": [
         {
           "name": "expression",
@@ -670,11 +665,7 @@
       "name": "Field",
       "superClass": ["Element"],
       "meta": {
-        "allowedIn": [
-          "camunda:ServiceTaskLike",
-          "camunda:ExecutionListener",
-          "camunda:TaskListener"
-        ]
+        "allowedIn": ["camunda:ServiceTaskLike", "camunda:ExecutionListener", "camunda:TaskListener"]
       },
       "properties": [
         {

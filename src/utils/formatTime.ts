@@ -9,7 +9,7 @@ export const defaultShortcuts = [
     text: '今天',
     value: () => {
       return new Date()
-    }
+    },
   },
   {
     text: '昨天',
@@ -17,7 +17,7 @@ export const defaultShortcuts = [
       const date = new Date()
       date.setTime(date.getTime() - 3600 * 1000 * 24)
       return [date, date]
-    }
+    },
   },
   {
     text: '最近七天',
@@ -25,7 +25,7 @@ export const defaultShortcuts = [
       const date = new Date()
       date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
       return [date, new Date()]
-    }
+    },
   },
   {
     text: '最近 30 天',
@@ -33,7 +33,7 @@ export const defaultShortcuts = [
       const date = new Date()
       date.setTime(date.getTime() - 3600 * 1000 * 24 * 30)
       return [date, new Date()]
-    }
+    },
   },
   {
     text: '本月',
@@ -41,15 +41,15 @@ export const defaultShortcuts = [
       const date = new Date()
       date.setDate(1) // 设置为当前月的第一天
       return [date, new Date()]
-    }
+    },
   },
   {
     text: '今年',
     value: () => {
       const date = new Date()
       return [new Date(`${date.getFullYear()}-01-01`), date]
-    }
-  }
+    },
+  },
 ]
 
 /**
@@ -116,7 +116,11 @@ export function formatPast(param: string | Date, format = 'YYYY-MM-DD HH:mm:ss')
   // 获取js 时间戳
   let time: number = new Date().getTime()
   // 是否是对象
-  typeof param === 'string' || 'object' ? (t = new Date(param).getTime()) : (t = param)
+  if (typeof param === 'string') {
+    t = new Date(param).getTime()
+  } else {
+    t = param
+  }
   // 当前时间戳 - 传入时间戳
   time = Number.parseInt(`${time - t}`)
   if (time < 10000) {
@@ -281,10 +285,7 @@ export function isSameDay(a: dayjs.ConfigType, b: dayjs.ConfigType): boolean {
  * @param date 日期
  * @param days 天数
  */
-export function getDayRange(
-  date: dayjs.ConfigType,
-  days: number
-): [dayjs.ConfigType, dayjs.ConfigType] {
+export function getDayRange(date: dayjs.ConfigType, days: number): [dayjs.ConfigType, dayjs.ConfigType] {
   const day = dayjs(date).add(days, 'd')
   return getDateRange(day, day)
 }
@@ -321,12 +322,9 @@ export function getLast1Year(): [dayjs.ConfigType, dayjs.ConfigType] {
  * @param beginDate 开始日期
  * @param endDate 截止日期
  */
-export function getDateRange(
-  beginDate: dayjs.ConfigType,
-  endDate: dayjs.ConfigType
-): [string, string] {
+export function getDateRange(beginDate: dayjs.ConfigType, endDate: dayjs.ConfigType): [string, string] {
   return [
     dayjs(beginDate).startOf('d').format('YYYY-MM-DD HH:mm:ss'),
-    dayjs(endDate).endOf('d').format('YYYY-MM-DD HH:mm:ss')
+    dayjs(endDate).endOf('d').format('YYYY-MM-DD HH:mm:ss'),
   ]
 }

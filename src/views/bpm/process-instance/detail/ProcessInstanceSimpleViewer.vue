@@ -1,10 +1,6 @@
 <template>
   <div v-loading="loading" class="process-viewer-container">
-    <SimpleProcessViewer
-      :flow-node="simpleModel"
-      :tasks="tasks"
-      :process-instance="processInstance"
-    />
+    <SimpleProcessViewer :flow-node="simpleModel" :tasks="tasks" :process-instance="processInstance" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -18,7 +14,7 @@ defineOptions({ name: 'BpmProcessInstanceSimpleViewer' })
 const props = defineProps({
   loading: Boolean, // 是否加载中
   modelView: Object,
-  simpleJson: String // Simple 模型结构数据 (json 格式)
+  simpleJson: String, // Simple 模型结构数据 (json 格式)
 })
 const simpleModel = ref<any>({})
 // 用户任务
@@ -47,11 +43,11 @@ watch(
         rejectedTaskActivityIds,
         unfinishedTaskActivityIds,
         finishedActivityIds,
-        finishedSequenceFlowActivityIds
+        finishedSequenceFlowActivityIds,
       )
       simpleModel.value = newModelView.simpleModel
     }
-  }
+  },
 )
 /** 监控模型结构数据 */
 watch(
@@ -60,7 +56,7 @@ watch(
     if (value) {
       simpleModel.value = JSON.parse(value)
     }
-  }
+  },
 )
 const setSimpleModelNodeTaskStatus = (
   simpleModel: any,
@@ -68,7 +64,7 @@ const setSimpleModelNodeTaskStatus = (
   rejectedTaskActivityIds: string[],
   unfinishedTaskActivityIds: string[],
   finishedActivityIds: string[],
-  finishedSequenceFlowActivityIds: string[]
+  finishedSequenceFlowActivityIds: string[],
 ) => {
   if (!simpleModel) {
     return
@@ -83,10 +79,7 @@ const setSimpleModelNodeTaskStatus = (
     return
   }
   // 审批节点
-  if (
-    simpleModel.type === NodeType.START_USER_NODE ||
-    simpleModel.type === NodeType.USER_TASK_NODE
-  ) {
+  if (simpleModel.type === NodeType.START_USER_NODE || simpleModel.type === NodeType.USER_TASK_NODE) {
     simpleModel.activityStatus = TaskStatusEnum.NOT_START
     if (rejectedTaskActivityIds.includes(simpleModel.id)) {
       simpleModel.activityStatus = TaskStatusEnum.REJECT
@@ -154,7 +147,7 @@ const setSimpleModelNodeTaskStatus = (
         rejectedTaskActivityIds,
         unfinishedTaskActivityIds,
         finishedActivityIds,
-        finishedSequenceFlowActivityIds
+        finishedSequenceFlowActivityIds,
       )
     })
   }
@@ -165,7 +158,7 @@ const setSimpleModelNodeTaskStatus = (
     rejectedTaskActivityIds,
     unfinishedTaskActivityIds,
     finishedActivityIds,
-    finishedSequenceFlowActivityIds
+    finishedSequenceFlowActivityIds,
   )
 }
 </script>

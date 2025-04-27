@@ -53,5 +53,5 @@ export default {
   saveOrUpdateApi,
   deleteByIdsApi,
   getByIdApi,
-  postListApi
+  postListApi,
 }

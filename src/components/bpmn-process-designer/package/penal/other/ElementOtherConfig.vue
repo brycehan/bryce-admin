@@ -22,7 +22,7 @@ import { nextTick, onBeforeUnmount, ref, toRaw, watch } from 'vue'
 defineOptions({ name: 'ElementOtherConfig' })
 
 const props = defineProps({
-  id: String
+  id: String,
 })
 
 const documentation = ref('')
@@ -32,10 +32,10 @@ const updateDocumentation = () => {
   if (!(bpmnElement.value && bpmnElement.value.id === props.id))
     bpmnElement.value = bpmnInstances().elementRegistry.get(props.id)
   const documentations = bpmnInstances().bpmnFactory.create('bpmn:Documentation', {
-    text: documentation.value
+    text: documentation.value,
   })
   bpmnInstances().modeling.updateProperties(toRaw(bpmnElement.value), {
-    documentation: [documentations]
+    documentation: [documentations],
   })
 }
 onBeforeUnmount(() => {
@@ -54,6 +54,6 @@ watch(
       documentation.value = ''
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>

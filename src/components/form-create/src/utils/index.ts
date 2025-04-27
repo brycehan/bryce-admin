@@ -2,7 +2,7 @@ export function makeRequiredRule() {
   return {
     type: 'Required',
     field: 'formCreate$required',
-    title: '是否必填'
+    title: '是否必填',
   }
 }
 
@@ -27,7 +27,7 @@ export const localeProps = (t: any, prefix: string, rules: any[]) => {
 export const parseFormFields = (
   rule: Record<string, any>,
   fields: Array<Record<string, any>> = [],
-  parentTitle: string = ''
+  parentTitle: string = '',
 ) => {
   const { type, field, $required, title: tempTitle, children } = rule
   if (field && tempTitle) {
@@ -43,7 +43,7 @@ export const parseFormFields = (
       field,
       title,
       type,
-      required
+      required,
     })
     // TODO 子表单 需要处理子表单字段
     // if (type === 'group' && rule.props?.rule && Array.isArray(rule.props.rule)) {

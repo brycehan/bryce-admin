@@ -1,7 +1,4 @@
 <script lang="ts">
-import { defineComponent, h } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-
 export default defineComponent({
   created() {
     const { params, query } = useRoute()
@@ -13,6 +10,6 @@ export default defineComponent({
   },
   render() {
     return h('div')
-  }
+  },
 })
 </script>

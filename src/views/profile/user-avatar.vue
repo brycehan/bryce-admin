@@ -30,7 +30,7 @@
         <el-col :lg="2" :sm="3" :xs="3">
           <el-upload
             action="#"
-            :http-request="requestUpload"
+            :http-request="requestUpload as any"
             :show-file-list="false"
             :before-upload="beforeUpload"
           >
@@ -58,12 +58,9 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 // https://github.com/xyxiao001/vue-cropper
 import 'vue-cropper/dist/index.css'
 import { VueCropper } from 'vue-cropper'
-import request from '@/utils/request'
-import constant from '@/utils/constant'
 import { ElMessage } from 'element-plus'
 import { useAuthStore } from '@/stores/modules/auth'
 import avatarImg from '@/assets/images/user1-128x128.jpg'
@@ -85,10 +82,10 @@ const state = reactive({
     autoCropHeight: 200, // 默认生成截图框高度
     fixedBox: true, // 固定截图框大小 不允许改变
     outputType: 'png', // 默认生成截图为PNG格式
-    filename: 'avatar.png' // 文件名称
+    filename: 'avatar.png', // 文件名称
   },
   previews: {} as any,
-  resizeHandler: null
+  resizeHandler: null,
 })
 
 /**
@@ -157,7 +154,7 @@ const uploadImg = () => {
         onClose: () => {
           // 关闭对话框
           state.dialogVisible = false
-        }
+        },
       })
     })
   })
@@ -172,15 +169,6 @@ const realTime = (realData: any) => {
   console.log('realTime', realData)
   state.previews = realData
 }
-
-/**
- * 上传头像
- *
- * @param data 表单数据
- */
-const uploadFile = (data: any) => {
-  return request.postForm(constant.uploadUrl, data)
-}
 </script>
 
 <style scoped lang="scss">
@@ -190,39 +178,39 @@ const uploadFile = (data: any) => {
     display: inline-block;
     height: 120px;
   }
-  .user-avatar-head:hover:after {
-    content: '+';
+
+  .user-avatar-head:hover::after {
     position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    color: #eee;
-    background: rgba(0, 0, 0, 0.5);
+    inset: 0;
     font-size: 24px;
     font-style: normal;
+    line-height: 120px;
+    color: #eee;
+    text-align: center;
+    cursor: pointer;
+    content: '+';
+    background: rgb(0 0 0 / 50%);
+    border-radius: 50%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    cursor: pointer;
-    line-height: 120px;
-    text-align: center;
-    border-radius: 50%;
   }
+
   .user-avatar-img {
-    border-radius: 50%;
     height: 120px;
+    border-radius: 50%;
   }
+
   // 预览
   .avatar-upload-preview {
     position: relative;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     width: 200px;
     height: 200px;
+    overflow: hidden;
     border-radius: 50%;
     box-shadow: 0 0 4px #ccc;
-    overflow: hidden;
+    transform: translate(-50%, -50%);
   }
 }
 </style>

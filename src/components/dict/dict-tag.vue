@@ -10,17 +10,17 @@ import { useDictStore } from '@/stores/modules/dict.ts'
 const props = defineProps({
   dictType: {
     type: String,
-    required: true
+    required: true,
   },
   value: {
     type: Object,
-    required: true
+    required: true,
   },
   disabled: {
     type: Boolean,
     required: false,
     default: () => false,
-  }
+  },
 })
 
 const dictStore = useDictStore()

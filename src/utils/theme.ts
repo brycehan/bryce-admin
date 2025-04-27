@@ -1,15 +1,21 @@
-import type {Theme} from '@/stores/theme/typings'
+import type { ThemeConfig } from '@/stores/theme/typings'
 
 /**
  * 主题色处理
  *
  * @param theme 主题
  */
-export const handleThemePrimary = (theme: Theme) => {
+export const handleThemePrimary = (theme: ThemeConfig) => {
   document.documentElement.style.setProperty('--el-color-primary', theme.primaryColor)
   for (let i = 1; i <= 9; i++) {
-    document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, `${getLightColor(theme.primaryColor, i / 10)}`)
-    document.documentElement.style.setProperty(`--el-color-primary-dark-${i}`, `${getDarkColor(theme.primaryColor, i / 10)}`)
+    document.documentElement.style.setProperty(
+      `--el-color-primary-light-${i}`,
+      `${getLightColor(theme.primaryColor, i / 10)}`,
+    )
+    document.documentElement.style.setProperty(
+      `--el-color-primary-dark-${i}`,
+      `${getDarkColor(theme.primaryColor, i / 10)}`,
+    )
   }
 }
 
@@ -20,12 +26,15 @@ export const handleThemePrimary = (theme: Theme) => {
  * @returns rgb数组 如：[64,158,255]
  */
 const hexToRgb = (hex: any) => {
-  const reg = /^#?[0-9A-Fa-f]{6}$/;
+  const reg = /^#?[0-9A-Fa-f]{6}$/
   if (!reg.test(hex)) {
     console.error('hexToRgb:', '颜色格式不正确')
     return null
   }
-  return hex.replace(/#/, '').match(/../g).map((x: any) => parseInt(x, 16))
+  return hex
+    .replace(/#/, '')
+    .match(/../g)
+    .map((x: any) => parseInt(x, 16))
 }
 
 /**

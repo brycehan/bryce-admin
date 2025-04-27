@@ -20,7 +20,7 @@ export default {
     ele[ctx] = {
       documentHandler,
       methodName: binding.expression,
-      bindingFn: binding.value
+      bindingFn: binding.value,
     }
 
     setTimeout(() => {
@@ -35,5 +35,5 @@ export default {
   unbind(el) {
     document.removeEventListener('touchstart', el[ctx].documentHandler) // 解绑
     delete el[ctx]
-  }
+  },
 }

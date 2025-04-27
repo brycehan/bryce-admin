@@ -1,20 +1,8 @@
 <template>
   <div class="select-user">
-    <el-button :type="props.type" :icon="props.icon" @click="state.visible = true">新增</el-button>
-    <el-dialog
-      v-model="state.visible"
-      title="选择用户"
-      :close-on-click-modal="false"
-      :width="900"
-      draggable
-    >
-      <el-form
-        ref="queryFormRef"
-        :model="state.queryForm"
-        :inline="true"
-        @keyup.enter="getPage()"
-        @submit.prevent
-      >
+    <el-button :type="props.type as any" :icon="props.icon" @click="state.visible = true">新增</el-button>
+    <el-dialog v-model="state.visible" title="选择用户" :close-on-click-modal="false" :width="900" draggable>
+      <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" @keyup.enter="getPage()" @submit.prevent>
         <el-form-item label="账号" label-width="50" prop="username">
           <el-input v-model="state.queryForm.username" placeholder="账号" />
         </el-form-item>
@@ -59,7 +47,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import { postPageApi } from '@/api/system/user'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -68,25 +55,25 @@ import { ElMessage } from 'element-plus'
 const props = defineProps({
   type: {
     type: String,
-    default: () => ''
+    default: () => '',
   },
   icon: {
     type: String,
-    default: () => ''
-  }
+    default: () => '',
+  },
 })
 
 const emit = defineEmits(['select'])
 
 const state: StateOptions = reactive({
   api: {
-    postPageApi
+    postPageApi,
   },
   queryForm: {
     username: '',
     gender: '',
-    phone: ''
-  }
+    phone: '',
+  },
 })
 
 const queryFormRef = ref()

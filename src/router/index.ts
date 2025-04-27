@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { isExternalLink } from '@/utils/tool'
@@ -12,10 +12,10 @@ NProgress.configure({ showSpinner: false })
 /**
  * 常量路由
  */
-const constantRoutes: RouteRecordRaw[] = [
+export const constantRoutes: RouteRecordRaw[] = [
   {
     path: '/login',
-    component: () => import('@/views/login/index.vue')
+    component: () => import('@/views/login/index.vue'),
   },
   {
     path: '/redirect',
@@ -23,26 +23,26 @@ const constantRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: '/redirect/:path(.*)',
-        component: () => import('@/components/layout/router/Redirect.vue')
-      }
-    ]
+        component: () => import('@/components/layout/router/Redirect.vue'),
+      },
+    ],
   },
   {
     path: '/404',
     // route level code-splitting
     // this generates a separate chunk (About.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import('@/views/404.vue')
+    component: () => import('@/views/404.vue'),
   },
 ]
 
 /**
  * 异步路由
  */
-const asyncRoute: RouteRecordRaw = {
+export const asyncRoute: RouteRecordRaw = {
   path: '/',
   component: () => import('@/components/layout/index.vue'),
-  redirect: '/dashboard/index',
+  redirect: '/dashboard',
   children: [
     {
       path: '/profile',
@@ -53,7 +53,7 @@ const asyncRoute: RouteRecordRaw = {
         i18n: true,
         cache: true,
         breadcrumb: ['profile.title'],
-      }
+      },
     },
     {
       path: '/bpm/model/add',
@@ -64,8 +64,8 @@ const asyncRoute: RouteRecordRaw = {
         i18n: false,
         cache: false,
         breadcrumb: ['流程管理', '流程模型', '创建流程'],
-        activeMenu: '/bpm/model/index'
-      }
+        activeMenu: '/bpm/model/index',
+      },
     },
     {
       path: '/bpm/model/edit/:id',
@@ -76,8 +76,8 @@ const asyncRoute: RouteRecordRaw = {
         i18n: false,
         cache: false,
         breadcrumb: ['流程管理', '流程模型', '修改流程'],
-        activeMenu: '/bpm/model/index'
-      }
+        activeMenu: '/bpm/model/index',
+      },
     },
     {
       path: '/bpm/process-instance/manager/:id',
@@ -88,8 +88,8 @@ const asyncRoute: RouteRecordRaw = {
         i18n: false,
         cache: false,
         breadcrumb: ['审批中心', '流程实例', '流程详情'],
-        activeMenu: '/bpm/process-instance/manager'
-      }
+        activeMenu: '/bpm/process-instance/manager',
+      },
     },
     {
       path: '/bpm/process-instance/my/:id',
@@ -100,8 +100,8 @@ const asyncRoute: RouteRecordRaw = {
         i18n: false,
         cache: false,
         breadcrumb: ['审批中心', '我的流程', '流程详情'],
-        activeMenu: '/bpm/process-instance/my'
-      }
+        activeMenu: '/bpm/process-instance/my',
+      },
     },
     {
       path: '/bpm/task/manager/:id',
@@ -112,8 +112,8 @@ const asyncRoute: RouteRecordRaw = {
         i18n: false,
         cache: false,
         breadcrumb: ['审批中心', '流程任务', '流程详情'],
-        activeMenu: '/bpm/task/manager'
-      }
+        activeMenu: '/bpm/task/manager',
+      },
     },
     {
       path: '/bpm/task/todo/:id',
@@ -124,8 +124,8 @@ const asyncRoute: RouteRecordRaw = {
         i18n: false,
         cache: false,
         breadcrumb: ['审批中心', '待办任务', '流程详情'],
-        activeMenu: '/bpm/task/todo'
-      }
+        activeMenu: '/bpm/task/todo',
+      },
     },
     {
       path: '/bpm/task/done/:id',
@@ -136,8 +136,8 @@ const asyncRoute: RouteRecordRaw = {
         i18n: false,
         cache: false,
         breadcrumb: ['审批中心', '已办任务', '流程详情'],
-        activeMenu: '/bpm/task/done'
-      }
+        activeMenu: '/bpm/task/done',
+      },
     },
     {
       path: '/bpm/task/copy/:id',
@@ -148,8 +148,8 @@ const asyncRoute: RouteRecordRaw = {
         i18n: false,
         cache: false,
         breadcrumb: ['审批中心', '抄送我的', '流程详情'],
-        activeMenu: '/bpm/task/copy'
-      }
+        activeMenu: '/bpm/task/copy',
+      },
     },
     {
       path: '/bpm/form/edit',
@@ -160,10 +160,22 @@ const asyncRoute: RouteRecordRaw = {
         i18n: false,
         cache: false,
         breadcrumb: ['流程管理', '流程表单', '设计流程表单'],
-        activeMenu: '/bpm/form/index'
-      }
+        activeMenu: '/bpm/form/index',
+      },
     },
-  ]
+    {
+      path: '/bpm/start-process/apply/:id',
+      component: () => import('@/views/bpm/start-process/apply.vue'),
+      name: 'BpmStartProcessApply',
+      meta: {
+        title: '流程申请',
+        i18n: false,
+        cache: false,
+        breadcrumb: ['审批中心', '发起流程', '流程申请'],
+        activeMenu: '/bpm/start-process/index',
+      },
+    },
+  ],
 }
 
 /**
@@ -171,7 +183,7 @@ const asyncRoute: RouteRecordRaw = {
  */
 export const errorRoute: RouteRecordRaw = {
   path: '/:pathMatch(.*)',
-  redirect: '/404'
+  redirect: '/404',
 }
 
 /**
@@ -194,8 +206,8 @@ export const dashboardMenu = [
         type: 'M',
         visible: 1,
         affix: true,
-      }
-    ]
+      },
+    ],
   },
 ]
 
@@ -258,15 +270,15 @@ export const demoMenu = [
         icon: 'ion:bar-chart-outline',
         type: 'M',
         visible: 1,
-      }
-    ]
-  }
+      },
+    ],
+  },
 ]
 
 // 创建路由，hash模式， history模式 参数一样的写法
 export const router = createRouter({
-  history: createWebHashHistory(import.meta.env.BASE_URL), // hash模式
-  routes: constantRoutes
+  history: createWebHistory(import.meta.env.VITE_BASE_PATH), // history模式
+  routes: constantRoutes,
 })
 
 // 白名单列表
@@ -282,45 +294,31 @@ router.beforeEach(async (to, _from, next) => {
   const routerStore = useRouterStore()
 
   // token存在的情况
-  if (authStore.accessToken) {
+  if (authStore.isAuthenticated()) {
     if (to.path === '/login') {
-      next('/dashboard/index')
+      next('/dashboard')
     } else {
       // 用户信息不存在，则重新拉取
       if (!authStore.user.id) {
         try {
           await authStore.getCurrentUser()
-          await authStore.getAuthoritySet()
+          await authStore.getPermission()
           await dictStore.getDictMap()
           await appStore.initIcons()
         } catch (error) {
           console.error('router.beforeEach', error)
 
           // 请求异常，则跳转到登录页
-          authStore?.removeToken()
+          authStore?.removePermission()
           next('/login')
           return Promise.reject(error)
         }
 
-        // 动态菜单
-        const menuRoutes = await routerStore.getMenuRoutes()
-        routerStore.setMenuRoutes(menuRoutes)
-
-        // 获取扁平化路由，将多级路由转换成一组路由
-        const flatRoutes = getFlatRoutes(menuRoutes, [])
-
-        // 设置搜索菜单，搜索菜单功能缓存
-        routerStore.setSearchMenu(flatRoutes)
-
-        // 添加菜单路由
-        asyncRoute.children.push(...flatRoutes)
+        // 动态菜单，获取扁平化路由，将多级路由转换成一组路由
+        await routerStore.initMenuRoutes()
 
         router.addRoute(asyncRoute)
         router.addRoute(errorRoute)
-
-        const allRoutes = [...constantRoutes, asyncRoute, errorRoute]
-        // 保存路由数据
-        routerStore.setRoutes(allRoutes)
 
         next({ ...to, replace: true })
       } else {
@@ -342,30 +340,6 @@ router.afterEach(() => {
   NProgress.done()
 })
 
-/**
- * 获取扁平化路由，将多级路由转换成一级路由
- *
- * @param routes 路由列表
- * @param breadcrumb 面包屑
- * @returns 一级路由列表
- */
-export const getFlatRoutes = (routes: RouteRecordRaw[], breadcrumb: string[]): RouteRecordRaw[] => {
-  const flatRoutes: RouteRecordRaw[] = []
-  routes.forEach((item: RouteRecordRaw) => {
-    if (item.meta?.title) {
-      breadcrumb.push(item.meta?.title as string)
-    }
-
-    if (item.children && item.children?.length > 0) {
-      flatRoutes.push(...getFlatRoutes(item.children, breadcrumb))
-    } else {
-      ;(item.meta?.breadcrumb as string[]).push(...breadcrumb)
-      flatRoutes.push(item)
-    }
-    breadcrumb.pop()
-  })
-  return flatRoutes
-}
 // 加载vue组件
 const layoutModules = import.meta.glob('/src/views/**/*.vue')
 
@@ -384,47 +358,48 @@ export const generateRoutes = (menuList: any): RouteRecordRaw[] => {
   menuList
     .filter((item: any) => item.visible === 1) // 隐藏不可见菜单
     .forEach((menu: any) => {
-    let component, path
-    if (menu.children?.length > 0) {
-      component = () => import('@/components/layout/index.vue')
-      path = '/p/' + menu.id
-    } else {
-      // 判断是否iframe
-      if (isIframeUrl(menu)) {
-        component = () => import('@/components/layout/router/Iframe.vue')
-        path = '/iframe/' + menu.id
+      let component, path
+      if (menu.children?.length > 0) {
+        component = () => import('@/components/layout/index.vue')
+        path = '/p/' + menu.id
       } else {
-        component = getDynamicComponent(menu.url)
-        path = '/' + menu.url
+        // 判断是否iframe
+        if (isIframeUrl(menu)) {
+          component = () => import('@/components/layout/router/Iframe.vue')
+          path = '/iframe/' + menu.id
+        } else {
+          component = getDynamicComponent(menu.url)
+          path =
+            '/' + (menu.url.lastIndexOf('/index') < 0 ? menu.url : menu.url.substring(0, menu.url.lastIndexOf('/')))
+        }
       }
-    }
 
-    const route: RouteRecordRaw = {
-      path: path,
-      name: path,
-      component: component,
-      children: [],
-      meta: {
-        title: menu.name,
-        icon: menu.icon,
-        id: '' + menu.id,
-        type: menu.type,
-        visible: menu.visible || 1,
-        url: menu.url,
-        cache: true,
-        affix: menu.affix || false,
-        openStyle: menu.openStyle,
-        breadcrumb: []
+      const route: RouteRecordRaw = {
+        path: path,
+        name: path,
+        component: component,
+        children: [],
+        meta: {
+          title: menu.name,
+          icon: menu.icon,
+          id: '' + menu.id,
+          type: menu.type,
+          visible: menu.visible || 1,
+          url: menu.url,
+          cache: true,
+          affix: menu.affix || false,
+          openStyle: menu.openStyle,
+          breadcrumb: [],
+        },
       }
-    }
 
-    // 有子菜单的情况
-    if (menu.children?.length > 0) {
-      route.children?.push(...generateRoutes(menu.children))
-    }
+      // 有子菜单的情况
+      if (menu.children?.length > 0) {
+        route.children?.push(...generateRoutes(menu.children))
+      }
 
-    routes.push(route)
-  })
+      routes.push(route)
+    })
 
   return routes
 }

@@ -12,13 +12,15 @@
           :lg="3"
           :xl="2"
         >
-          <div @click="handleCopy(coll.prefix, icon)" class="w-full h-full flex items-center justify-center flex-col cursor-pointer overflow-hidden hover:bg-[var(--el-border-color-extra-light)]">
+          <div
+            @click="handleCopy(coll.prefix, icon)"
+            class="flex h-full w-full cursor-pointer flex-col items-center justify-center overflow-hidden hover:bg-[var(--el-border-color-extra-light)]"
+          >
             <icon :icon="`${coll.prefix}:${icon}`" width="30" class="mb-[10px] flex" />
             <p>{{ coll.prefix }}:{{ icon }}</p>
           </div>
         </el-col>
       </template>
-
     </el-row>
   </el-card>
 </template>
@@ -38,7 +40,9 @@ const iconCollections = ref<any[]>([])
  */
 const iconLength = computed(() => {
   return iconCollections.value
-    .map((item: any) => { return Object.keys(item.icons).length})
+    .map((item: any) => {
+      return Object.keys(item.icons).length
+    })
     .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
 })
 

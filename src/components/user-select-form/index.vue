@@ -39,10 +39,10 @@ import * as UserApi from '@/api/system/user'
 import { ElMessage } from 'element-plus'
 
 defineOptions({
-  name: 'SelectUserForm'
+  name: 'SelectUserForm',
 })
 
-const emit = defineEmits<{ confirm: [id: number, userList: any[]]}>()
+const emit = defineEmits<{ confirm: [id: number, userList: any[]] }>()
 
 // 弹窗是否展示
 const visible = ref(false)
@@ -73,10 +73,7 @@ const transferUserList = computed(() => {
   })
 
   // 合并已选择用户和未选择用户
-  return [
-    ...selectedUsers,
-    ...filteredUnselectedUsers
-  ]
+  return [...selectedUsers, ...filteredUnselectedUsers]
 })
 
 /**
@@ -179,6 +176,6 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-  open
+  open,
 })
 </script>

@@ -1,8 +1,7 @@
-@forward "element-plus/theme-chalk/dark/css-vars.css";
+@forward 'element-plus/theme-chalk/dark/css-vars.css';
 
 html.dark {
   --el-text-color-primary: #d0d0d0;
-
   --el-color-primary-light-1: var(--el-color-primary-dark-1) !important;
   --el-color-primary-light-2: var(--el-color-primary-dark-2) !important;
   --el-color-primary-light-3: var(--el-color-primary-dark-3) !important;
@@ -19,27 +18,25 @@ html.dark {
 
   * {
     --theme-logo-text-color: var(--el-text-color-primary);
-
     --el-menu-hover-text-color: #eee;
     --el-menu-active-color: #eee;
     --theme-menu-bg-color: var(--el-bg-color);
     --theme-menu-active-bg-color: var(--el-color-primary);
-
     --theme-header-text-color: #eee;
     --theme-header-bg-color: var(--el-bg-color);
-    --theme-header-hover-color:var(--el-border-color-dark);
-
+    --theme-header-hover-color: var(--el-border-color-dark);
     --theme-main-bg-color: var(--el-bg-color);
-
     --theme-border-color-light: var(--el-border-color-dark);
   }
 
   .el-popover.el-popper {
     background-color: var(--el-bg-color-overlay);
   }
+
   .tabs-container {
     background: none;
   }
+
   .column-sub-menu {
     background: none;
   }
@@ -48,22 +45,26 @@ html.dark {
   .v-md-editor textarea {
     color: white;
   }
+
   .v-md-editor .scrollbar__wrap {
-    background-color: #444;
     color: #999;
+    background-color: #444;
   }
 
   .el-menu-item.is-active {
-    border-right: none !important;
     right: 0 !important;
+    border-right: none !important;
   }
+
   .layout-sidebar {
     border-right: 1px solid var(--theme-border-color-light) !important;
   }
 
   .el-switch .el-switch__core {
     border: 1px solid #444 !important;
-    &:before {// switch主题色hover边框
+
+    &::before {
+      // switch主题色hover边框
       border: 1px solid var(--el-color-primary) !important;
     }
   }

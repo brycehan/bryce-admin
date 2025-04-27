@@ -46,10 +46,20 @@
         @click="handleDeleteBatch('id', '日志编号')"
         >删除</el-button
       >
-      <el-button v-auth:has-authority="'system:operateLog:delete'" type="danger" plain icon="Delete" @click="handleCleanLog"
+      <el-button
+        v-auth:has-authority="'system:operateLog:delete'"
+        type="danger"
+        plain
+        icon="Delete"
+        @click="handleCleanLog"
         >清空</el-button
       >
-      <el-button v-auth:has-authority="'system:operateLog:export'" type="success" plain icon="Download" @click="handleDownloadExcel()"
+      <el-button
+        v-auth:has-authority="'system:operateLog:export'"
+        type="success"
+        plain
+        icon="Download"
+        @click="handleDownloadExcel()"
         >导出</el-button
       >
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
@@ -63,8 +73,24 @@
       @sort-change="handleSortChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="日志编号" prop="id" show-overflow-tooltip header-align="center" align="center" fixed="left" min-width="150"/>
-      <el-table-column label="模块名称" prop="moduleName" header-align="center" align="center" fixed="left" show-overflow-tooltip min-width="100"/>
+      <el-table-column
+        label="日志编号"
+        prop="id"
+        show-overflow-tooltip
+        header-align="center"
+        align="center"
+        fixed="left"
+        min-width="150"
+      />
+      <el-table-column
+        label="模块名称"
+        prop="moduleName"
+        header-align="center"
+        align="center"
+        fixed="left"
+        show-overflow-tooltip
+        min-width="100"
+      />
       <dict-table-column
         label="操作类型"
         prop="operatedType"
@@ -73,21 +99,36 @@
         align="center"
         min-width="100"
       />
-      <el-table-column label="操作账号" prop="username" sortable="custom" header-align="center" align="center" min-width="125"/>
-      <el-table-column label="操作IP" prop="ip" show-overflow-tooltip header-align="center" align="center" min-width="120"/>
-      <el-table-column label="操作地点" prop="location" header-align="center" align="center" min-width="110"/>
-      <dict-table-column label="操作状态" prop="status" dict-type="sys_status" min-width="100"/>
-      <el-table-column label="操作时间" prop="operatedTime" header-align="center" align="center" min-width="185" />
-      <el-table-column label="执行时长" prop="duration" header-align="center" align="center" show-overflow-tooltip min-width="120">
-        <template #default="scope"> {{ scope.row.duration }}毫秒 </template>
-      </el-table-column>
       <el-table-column
-        label="操作"
-        fixed="right"
+        label="操作账号"
+        prop="username"
+        sortable="custom"
         header-align="center"
         align="center"
-        min-width="100"
+        min-width="125"
+      />
+      <el-table-column
+        label="操作IP"
+        prop="ip"
+        show-overflow-tooltip
+        header-align="center"
+        align="center"
+        min-width="120"
+      />
+      <el-table-column label="操作地点" prop="location" header-align="center" align="center" min-width="110" />
+      <dict-table-column label="操作状态" prop="status" dict-type="sys_status" min-width="100" />
+      <el-table-column label="操作时间" prop="operatedTime" header-align="center" align="center" min-width="185" />
+      <el-table-column
+        label="执行时长"
+        prop="duration"
+        header-align="center"
+        align="center"
+        show-overflow-tooltip
+        min-width="120"
       >
+        <template #default="scope"> {{ scope.row.duration }}毫秒 </template>
+      </el-table-column>
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="100">
         <template #default="scope">
           <el-button type="info" icon="view" text @click="handleInfo(scope.row.id)">详情</el-button>
         </template>
@@ -109,7 +150,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import Info from './info.vue'
 import { deleteByIdsApi, deleteCleanApi, postExportExcelApi, postPageApi } from '@/api/system/operateLog'
 import type { StateOptions } from '@/utils/state'
@@ -121,7 +161,7 @@ const state: StateOptions = reactive({
   api: {
     postPageApi,
     deleteByIdsApi,
-    postExportExcelApi
+    postExportExcelApi,
   },
   queryForm: {
     name: '',
@@ -130,11 +170,11 @@ const state: StateOptions = reactive({
     status: '',
     username: '',
     deptId: '',
-    operatedTime: ''
+    operatedTime: '',
   },
   range: {
-    operatedTime: ''
-  }
+    operatedTime: '',
+  },
 })
 
 const queryFormRef = ref()
@@ -153,7 +193,7 @@ const {
   handleDeleteBatch,
   handleSelectionChange,
   handleSortChange,
-  handleDownloadExcel
+  handleDownloadExcel,
 } = crud(state)
 
 /** 重置按钮操作 */
@@ -180,7 +220,8 @@ const handleInfo = (id?: string) => {
  * 清空按钮操作
  */
 const handleCleanLog = () => {
-  modal.confirm('是否确认清空所有操作日志数据？')
+  modal
+    .confirm('是否确认清空所有操作日志数据？')
     .then(() => {
       deleteCleanApi().then(() => {
         ElMessage.success('清空成功')

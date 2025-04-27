@@ -26,22 +26,12 @@
         <element-form :id="elementId" :type="elementType" />
       </el-collapse-item>
       <el-collapse-item name="task" v-if="isTaskCollapseItemShow(elementType)" key="task">
-        <template #title
-          ><icon icon="ep:checked" />{{ getTaskCollapseItemName(elementType) }}</template
-        >
+        <template #title><icon icon="ep:checked" />{{ getTaskCollapseItemName(elementType) }}</template>
         <element-task :id="elementId" :type="elementType" />
       </el-collapse-item>
-      <el-collapse-item
-        name="multiInstance"
-        v-if="elementType.indexOf('Task') !== -1"
-        key="multiInstance"
-      >
+      <el-collapse-item name="multiInstance" v-if="elementType.indexOf('Task') !== -1" key="multiInstance">
         <template #title><icon icon="ep:help-filled" />多人审批方式</template>
-        <element-multi-instance
-          :id="elementId"
-          :business-object="elementBusinessObject"
-          :type="elementType"
-        />
+        <element-multi-instance :id="elementId" :business-object="elementBusinessObject" :type="elementType" />
       </el-collapse-item>
       <el-collapse-item name="listeners" key="listeners">
         <template #title><icon icon="ep:bell-filled" />执行监听器</template>
@@ -61,11 +51,7 @@
       </el-collapse-item>
       <el-collapse-item name="customConfig" key="customConfig">
         <template #title><icon icon="ep:tools" />自定义配置</template>
-        <element-custom-config
-          :id="elementId"
-          :type="elementType"
-          :business-object="elementBusinessObject"
-        />
+        <element-custom-config :id="elementId" :type="elementType" :business-object="elementBusinessObject" />
       </el-collapse-item>
     </el-collapse>
   </div>
@@ -97,20 +83,20 @@ const model = defineModel<any>()
 const props = defineProps({
   bpmnModeler: {
     type: Object,
-    default: () => {}
+    default: () => {},
   },
   prefix: {
     type: String,
-    default: () => 'camunda'
+    default: () => 'camunda',
   },
   width: {
     type: Number,
-    default: () => 480
+    default: () => 480,
   },
   idEditDisabled: {
     type: Boolean,
-    default: () => false
-  }
+    default: () => false,
+  },
 })
 
 const activeTab = ref('base')
@@ -138,11 +124,11 @@ const initBpmnInstances = () => {
       elementFactory: props.bpmnModeler.get('elementFactory'),
       elementRegistry: props.bpmnModeler.get('elementRegistry'),
       replace: props.bpmnModeler.get('replace'),
-      selection: props.bpmnModeler.get('selection')
+      selection: props.bpmnModeler.get('selection'),
     }
 
     // 检查所有实例是否都存在
-    const allInstancesExist = Object.values(instances).every(instance => instance)
+    const allInstancesExist = Object.values(instances).every((instance) => instance)
     if (allInstancesExist) {
       const w = window as any
       w.bpmnInstances = instances
@@ -182,8 +168,8 @@ const unwatchBpmn = watch(
     }
   },
   {
-    immediate: true
-  }
+    immediate: true,
+  },
 )
 
 const getActiveElement = () => {
@@ -196,10 +182,10 @@ const getActiveElement = () => {
     initFormOnChanged(null)
   })
   // 监听选择事件，修改当前激活的元素以及表单
-  props.bpmnModeler.on('selection.changed', ({ newSelection }: {newSelection: any}) => {
+  props.bpmnModeler.on('selection.changed', ({ newSelection }: { newSelection: any }) => {
     initFormOnChanged(newSelection[0] || null)
   })
-  props.bpmnModeler.on('element.changed', ({ element }: {element: any}) => {
+  props.bpmnModeler.on('element.changed', ({ element }: { element: any }) => {
     // 保证 修改 "默认流转路径" 类似需要修改多个元素的事件发生的时候，更新表单的元素与原选中元素不一致。
     if (element && element.id === elementId.value) {
       initFormOnChanged(element)
@@ -232,11 +218,10 @@ const initFormOnChanged = (element: any) => {
     elementType.value = activatedElement.type.split(':')[1] || ''
     elementBusinessObject.value = JSON.parse(JSON.stringify(activatedElement.businessObject))
 
-    conditionFormVisible.value = (
+    conditionFormVisible.value =
       elementType.value === 'SequenceFlow' &&
       activatedElement.source &&
       activatedElement.source.type.indexOf('StartEvent') === -1
-    )
     formVisible.value = elementType.value === 'UserTask' || elementType.value === 'StartEvent'
   } catch (error) {
     console.error('初始化表单数据失败:', error)
@@ -253,6 +238,6 @@ watch(
   () => elementId.value,
   () => {
     activeTab.value = 'base'
-  }
+  },
 )
 </script>

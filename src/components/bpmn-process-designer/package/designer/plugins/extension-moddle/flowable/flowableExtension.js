@@ -6,14 +6,9 @@ import { some } from 'min-dash'
 // const some = require('min-dash').some
 
 const ALLOWED_TYPES = {
-  FailedJobRetryTimeCycle: [
-    'bpmn:StartEvent',
-    'bpmn:BoundaryEvent',
-    'bpmn:IntermediateCatchEvent',
-    'bpmn:Activity'
-  ],
+  FailedJobRetryTimeCycle: ['bpmn:StartEvent', 'bpmn:BoundaryEvent', 'bpmn:IntermediateCatchEvent', 'bpmn:Activity'],
   Connector: ['bpmn:EndEvent', 'bpmn:IntermediateThrowEvent'],
-  Field: ['bpmn:EndEvent', 'bpmn:IntermediateThrowEvent']
+  Field: ['bpmn:EndEvent', 'bpmn:IntermediateThrowEvent'],
 }
 
 function is(element, type) {
@@ -55,7 +50,7 @@ function FlowableModdleExtension(eventBus) {
 
       this.canCloneProperty(newElement, propDescriptor)
     },
-    this
+    this,
   )
 }
 

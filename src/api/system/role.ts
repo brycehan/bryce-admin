@@ -64,7 +64,7 @@ export const postExportExcelApi = (data: any) => {
  * 系统角色列表查询
  */
 export const getSimpleList = (data: any) => {
-  return request.get('/system/role/simple-list', { params: data})
+  return request.get('/system/role/simple-list', { params: data })
 }
 
 /**
@@ -135,5 +135,5 @@ export default {
   postAssignUserPageApi,
   postAssignUserSaveApi,
   deleteAssignUserApi,
-  getCheckCodeUniqueApi
+  getCheckCodeUniqueApi,
 }

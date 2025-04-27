@@ -1,23 +1,13 @@
 <!-- 数据字典 Select 选择器 -->
 <template>
   <el-select v-if="selectType === 'select'" class="w-1/1" v-bind="attrs">
-    <el-option
-      v-for="(dict, index) in getDictOptions"
-      :key="index"
-      :label="dict.label"
-      :value="dict.value"
-    />
+    <el-option v-for="(dict, index) in getDictOptions" :key="index" :label="dict.label" :value="dict.value" />
   </el-select>
   <el-radio-group v-if="selectType === 'radio'" class="w-1/1" v-bind="attrs">
     <el-radio v-for="(dict, index) in getDictOptions" :key="index" :value="dict.value" :label="dict.label" />
   </el-radio-group>
   <el-checkbox-group v-if="selectType === 'checkbox'" class="w-1/1" v-bind="attrs">
-    <el-checkbox
-      v-for="(dict, index) in getDictOptions"
-      :key="index"
-      :label="dict.label"
-      :value="dict.value"
-    />
+    <el-checkbox v-for="(dict, index) in getDictOptions" :key="index" :label="dict.label" :value="dict.value" />
   </el-checkbox-group>
 </template>
 
@@ -39,7 +29,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   valueType: 'string',
-  selectType: 'select'
+  selectType: 'select',
 })
 
 // 获得字典配置

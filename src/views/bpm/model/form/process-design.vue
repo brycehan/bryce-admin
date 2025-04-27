@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-min-[500px]">
+  <div class="h-min-[500px] w-full">
     <template v-if="model.type === BpmModelType.BPMN">
       <bpm-model-editor
         v-if="showDesigner"
@@ -50,7 +50,7 @@ const handleDesignSuccess = async (data?: any) => {
     const newModelData = {
       ...model.value,
       bpmnXml: model.value.type === BpmModelType.BPMN ? data : null,
-      simpleModel: model.value.type === BpmModelType.BPMN ? null : data
+      simpleModel: model.value.type === BpmModelType.BPMN ? null : data,
     }
     // 使用emit更新父组件的数据
     await nextTick()
@@ -68,6 +68,6 @@ const showDesigner = computed(() => {
 
 defineExpose({
   validate,
-  resetFields
+  resetFields,
 })
 </script>

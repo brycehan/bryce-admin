@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { watch, ref} from 'vue'
+import { watch, ref } from 'vue'
 import { CustomConfigMap } from './data'
 
 defineOptions({ name: 'ElementCustomConfig' })
@@ -15,8 +15,8 @@ const props = defineProps({
   type: String,
   businessObject: {
     type: Object,
-    default: () => {}
-  }
+    default: () => {},
+  },
 })
 
 const bpmnInstances = () => (window as any)?.bpmnInstances
@@ -30,11 +30,9 @@ watch(
       if (props.businessObject.eventDefinitions) {
         val += props.businessObject.eventDefinitions[0]?.$type.split(':')[1] || ''
       }
-      customConfigComponent.value = CustomConfigMap[val]?.componet
+      customConfigComponent.value = CustomConfigMap[val]?.component
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>
-
-<style lang="scss" scoped></style>

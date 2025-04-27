@@ -25,7 +25,7 @@ export default function ContextPadProvider(
   popupMenu,
   canvas,
   rules,
-  translate
+  translate,
 ) {
   config = config || {}
 
@@ -76,7 +76,7 @@ ContextPadProvider.$inject = [
   'canvas',
   'rules',
   'translate',
-  'elementRegistry'
+  'elementRegistry',
 ]
 
 ContextPadProvider.prototype.getContextPadEntries = function (element) {
@@ -121,7 +121,7 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
 
     const pos = {
       x: left,
-      y: top + padRect.height + Y_OFFSET
+      y: top + padRect.height + Y_OFFSET,
     }
 
     return pos
@@ -146,7 +146,7 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
     function appendStart(event, element) {
       const shape = elementFactory.createShape(assign({ type: type }, options))
       create.start(event, shape, {
-        source: element
+        source: element,
       })
     }
 
@@ -164,8 +164,8 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
       title: title,
       action: {
         dragstart: appendStart,
-        click: append
-      }
+        click: append,
+      },
     }
   }
 
@@ -191,9 +191,9 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
         action: {
           click: function (event, element) {
             modeling.addLane(element, 'top')
-          }
-        }
-      }
+          },
+        },
+      },
     })
 
     if (childLanes.length < 2) {
@@ -204,9 +204,9 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
             className: 'bpmn-icon-lane-divide-two',
             title: translate('Divide into two Lanes'),
             action: {
-              click: splitLaneHandler(2)
-            }
-          }
+              click: splitLaneHandler(2),
+            },
+          },
         })
       }
 
@@ -217,9 +217,9 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
             className: 'bpmn-icon-lane-divide-three',
             title: translate('Divide into three Lanes'),
             action: {
-              click: splitLaneHandler(3)
-            }
-          }
+              click: splitLaneHandler(3),
+            },
+          },
         })
       }
     }
@@ -232,9 +232,9 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
         action: {
           click: function (event, element) {
             modeling.addLane(element, 'bottom')
-          }
-        }
-      }
+          },
+        },
+      },
     })
   }
 
@@ -244,45 +244,43 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
         'append.receive-task': appendAction(
           'bpmn:ReceiveTask',
           'bpmn-icon-receive-task',
-          translate('Append ReceiveTask')
+          translate('Append ReceiveTask'),
         ),
         'append.message-intermediate-event': appendAction(
           'bpmn:IntermediateCatchEvent',
           'bpmn-icon-intermediate-event-catch-message',
           translate('Append MessageIntermediateCatchEvent'),
-          { eventDefinitionType: 'bpmn:MessageEventDefinition' }
+          { eventDefinitionType: 'bpmn:MessageEventDefinition' },
         ),
         'append.timer-intermediate-event': appendAction(
           'bpmn:IntermediateCatchEvent',
           'bpmn-icon-intermediate-event-catch-timer',
           translate('Append TimerIntermediateCatchEvent'),
-          { eventDefinitionType: 'bpmn:TimerEventDefinition' }
+          { eventDefinitionType: 'bpmn:TimerEventDefinition' },
         ),
         'append.condition-intermediate-event': appendAction(
           'bpmn:IntermediateCatchEvent',
           'bpmn-icon-intermediate-event-catch-condition',
           translate('Append ConditionIntermediateCatchEvent'),
-          { eventDefinitionType: 'bpmn:ConditionalEventDefinition' }
+          { eventDefinitionType: 'bpmn:ConditionalEventDefinition' },
         ),
         'append.signal-intermediate-event': appendAction(
           'bpmn:IntermediateCatchEvent',
           'bpmn-icon-intermediate-event-catch-signal',
           translate('Append SignalIntermediateCatchEvent'),
-          { eventDefinitionType: 'bpmn:SignalEventDefinition' }
-        )
+          { eventDefinitionType: 'bpmn:SignalEventDefinition' },
+        ),
       })
-    } else if (
-      isEventType(businessObject, 'bpmn:BoundaryEvent', 'bpmn:CompensateEventDefinition')
-    ) {
+    } else if (isEventType(businessObject, 'bpmn:BoundaryEvent', 'bpmn:CompensateEventDefinition')) {
       assign(actions, {
         'append.compensation-activity': appendAction(
           'bpmn:Task',
           'bpmn-icon-task',
           translate('Append compensation activity'),
           {
-            isForCompensation: true
-          }
-        )
+            isForCompensation: true,
+          },
+        ),
       })
     } else if (
       !is(businessObject, 'bpmn:EndEvent') &&
@@ -291,26 +289,14 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
       !isEventSubProcess(businessObject)
     ) {
       assign(actions, {
-        'append.end-event': appendAction(
-          'bpmn:EndEvent',
-          'bpmn-icon-end-event-none',
-          translate('Append EndEvent')
-        ),
-        'append.gateway': appendAction(
-          'bpmn:ExclusiveGateway',
-          'bpmn-icon-gateway-none',
-          translate('Append Gateway')
-        ),
-        'append.append-task': appendAction(
-          'bpmn:UserTask',
-          'bpmn-icon-user-task',
-          translate('Append Task')
-        ),
+        'append.end-event': appendAction('bpmn:EndEvent', 'bpmn-icon-end-event-none', translate('Append EndEvent')),
+        'append.gateway': appendAction('bpmn:ExclusiveGateway', 'bpmn-icon-gateway-none', translate('Append Gateway')),
+        'append.append-task': appendAction('bpmn:UserTask', 'bpmn-icon-user-task', translate('Append Task')),
         'append.intermediate-event': appendAction(
           'bpmn:IntermediateThrowEvent',
           'bpmn-icon-intermediate-event-none',
-          translate('Append Intermediate/Boundary Event')
-        )
+          translate('Append Intermediate/Boundary Event'),
+        ),
       })
     }
   }
@@ -325,13 +311,13 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
         action: {
           click: function (event, element) {
             const position = assign(getReplaceMenuPosition(element), {
-              cursor: { x: event.x, y: event.y }
+              cursor: { x: event.x, y: event.y },
             })
 
             popupMenu.open(element, 'bpmn-replace', position)
-          }
-        }
-      }
+          },
+        },
+      },
     })
   }
 
@@ -340,7 +326,7 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
       'bpmn:FlowNode',
       'bpmn:InteractionNode',
       'bpmn:DataObjectReference',
-      'bpmn:DataStoreReference'
+      'bpmn:DataStoreReference',
     ])
   ) {
     assign(actions, {
@@ -350,15 +336,13 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
         group: 'connect',
         className: 'bpmn-icon-connection-multi',
         title: translate(
-          'Connect using ' +
-            (businessObject.isForCompensation ? '' : 'Sequence/MessageFlow or ') +
-            'Association'
+          'Connect using ' + (businessObject.isForCompensation ? '' : 'Sequence/MessageFlow or ') + 'Association',
         ),
         action: {
           click: startConnect,
-          dragstart: startConnect
-        }
-      }
+          dragstart: startConnect,
+        },
+      },
     })
   }
 
@@ -370,15 +354,15 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
         title: translate('Connect using DataInputAssociation'),
         action: {
           click: startConnect,
-          dragstart: startConnect
-        }
-      }
+          dragstart: startConnect,
+        },
+      },
     })
   }
 
   if (is(businessObject, 'bpmn:Group')) {
     assign(actions, {
-      'append.text-annotation': appendAction('bpmn:TextAnnotation', 'bpmn-icon-text-annotation')
+      'append.text-annotation': appendAction('bpmn:TextAnnotation', 'bpmn-icon-text-annotation'),
     })
   }
 
@@ -397,9 +381,9 @@ ContextPadProvider.prototype.getContextPadEntries = function (element) {
         className: 'bpmn-icon-trash',
         title: translate('Remove'),
         action: {
-          click: removeElement
-        }
-      }
+          click: removeElement,
+        },
+      },
     })
   }
 

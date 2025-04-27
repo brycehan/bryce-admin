@@ -13,7 +13,7 @@ export default {
     },
     header: {
       light: 'Light Header',
-      primary: 'Theme Header'
+      primary: 'Theme Header',
     },
     layout: {
       title: 'Layout Switch',
@@ -34,7 +34,7 @@ export default {
       copyConfig: 'Copy Configuration',
       reset: 'Reset',
     },
-    copySuccess: 'Copy Succeeded'
+    copySuccess: 'Copy Succeeded',
   },
   header: {
     size: {
@@ -101,5 +101,5 @@ export default {
     idCard: 'Please enter the correct ID card',
     ip: 'Please enter thecorrect IP address',
     equalToPassword: "Two inputs don't match!",
-  }
+  },
 }

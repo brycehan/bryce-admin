@@ -436,12 +436,7 @@
     },
     {
       "name": "ServiceTaskLike",
-      "extends": [
-        "bpmn:ServiceTask",
-        "bpmn:BusinessRuleTask",
-        "bpmn:SendTask",
-        "bpmn:MessageEventDefinition"
-      ],
+      "extends": ["bpmn:ServiceTask", "bpmn:BusinessRuleTask", "bpmn:SendTask", "bpmn:MessageEventDefinition"],
       "properties": [
         {
           "name": "expression",
@@ -792,11 +787,7 @@
       "name": "Field",
       "superClass": ["Element"],
       "meta": {
-        "allowedIn": [
-          "flowable:ServiceTaskLike",
-          "flowable:ExecutionListener",
-          "flowable:TaskListener"
-        ]
+        "allowedIn": ["flowable:ServiceTaskLike", "flowable:ExecutionListener", "flowable:TaskListener"]
       },
       "properties": [
         {
@@ -1244,11 +1235,11 @@
         "allowedIn": ["bpmn:StartEvent", "bpmn:UserTask"]
       },
       "properties": [
-      {
-        "name": "value",
-        "type": "Integer",
-        "isBody": true
-      }
+        {
+          "name": "value",
+          "type": "Integer",
+          "isBody": true
+        }
       ]
     },
     {

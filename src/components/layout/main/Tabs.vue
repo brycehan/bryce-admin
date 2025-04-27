@@ -1,12 +1,7 @@
 <template>
-  <div class="tabs-container">
+  <div class="tabs-container w-full">
     <div class="tabs-item">
-      <el-tabs
-        v-model="activeTabName"
-        class="tabs-item-style"
-        @tab-click="tabClick"
-        @tab-remove="tabRemove as any"
-      >
+      <el-tabs v-model="activeTabName" class="tabs-item-style" @tab-click="tabClick" @tab-remove="tabRemove as any">
         <el-tab-pane
           v-for="tab in tabsStore.visitedViews"
           :key="tab"
@@ -20,23 +15,25 @@
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item :icon="Close" command="close">{{ t('main.tabs.close') }}</el-dropdown-item>
-          <el-dropdown-item :icon="CircleClose" command="closeOthers">{{ t('main.tabs.closeOthers') }}</el-dropdown-item>
-          <el-dropdown-item :icon="CircleCloseFilled" command="closeAll">{{ t('main.tabs.closeAll') }}</el-dropdown-item>
+          <el-dropdown-item :icon="CircleClose" command="closeOthers">{{
+            t('main.tabs.closeOthers')
+          }}</el-dropdown-item>
+          <el-dropdown-item :icon="CircleCloseFilled" command="closeAll">{{
+            t('main.tabs.closeAll')
+          }}</el-dropdown-item>
         </el-dropdown-menu>
       </template>
-      <icon icon="ep:arrow-down"/>
+      <icon icon="ep:arrow-down" aria-hidden="false" />
     </el-dropdown>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import { Close, CircleClose, CircleCloseFilled } from '@element-plus/icons-vue'
 import { closeTab, closeOthersTabs, closeAllTabs } from '@/utils/tabs'
 import { useTabsStore } from '@/stores/modules/tabs'
 import { useRouterStore } from '@/stores/modules/router'
-import { useI18n } from 'vue-i18n'
+import type { TabsPaneContext } from 'element-plus'
 
 const route = useRoute()
 const router = useRouter()
@@ -85,7 +82,7 @@ const getAffixTabs = (routes: any) => {
         fullPath: route.path,
         path: route.path,
         name: route.name,
-        meta: { ...route.meta }
+        meta: { ...route.meta },
       })
     }
     if (route.children) {
@@ -120,8 +117,8 @@ const isAffix = (tab: any) => {
  *
  * @param tab 标签页对象
  */
-const tabClick = (tab: any) => {
-  if (tab.props.name) router.push(tab.props.name)
+const tabClick = (tab: TabsPaneContext) => {
+  if (tab.props.name) router.push(tab.props.name as string)
 }
 
 /**
@@ -158,18 +155,16 @@ const onClose = (type: string) => {
 
 <style lang="scss" scoped>
 .tabs-container {
-  display: flex;
-  // position: relative;
   z-index: 10;
+  display: flex;
   height: var(--theme-main-tabs-height) !important;
   background-color: #fff;
 
-  // border-top: 1px solid #eee;
   .tabs-item {
-    transition: left 3s;
     flex-grow: 1;
     overflow: hidden;
     border-bottom: 0;
+    transition: left 3s;
 
     // 往前图标样式
     ::v-deep(.el-tabs__nav-prev) {
@@ -208,13 +203,13 @@ const onClose = (type: string) => {
 .tabs-item-style {
   ::v-deep(.el-tabs__item) {
     padding: 0 15px !important;
-    border-right: var(--el-border-color-extra-light) 1px solid;
-    user-select: none;
     color: #8c8c8c;
+    user-select: none;
+    border-right: var(--el-border-color-extra-light) 1px solid;
 
     &:hover {
       color: #444;
-      background: rgba(0, 0, 0, 0.02);
+      background: rgb(0 0 0 / 2%);
     }
 
     &.is-active {
@@ -229,11 +224,11 @@ const onClose = (type: string) => {
     }
 
     &::before {
-      content: '';
+      display: inline-block;
       width: 9px;
       height: 9px;
       margin-right: 8px;
-      display: inline-block;
+      content: '';
       background-color: #ddd;
       border-radius: 50%;
     }
@@ -241,14 +236,16 @@ const onClose = (type: string) => {
 }
 
 .tabs-action {
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
   height: var(--theme-main-tabs-height);
   line-height: var(--theme-main-tabs-height);
-  box-sizing: border-box;
-  padding: 0 12px;
-  align-items: center;
-  cursor: pointer;
   color: #666;
-  border-left: var(--el-border-color-extra-light) 1px solid;
+  cursor: pointer;
+  border-right: var(--el-border-color-extra-light) 1px solid;
   border-bottom: var(--el-border-color-light) 2px solid;
+  border-left: var(--el-border-color-extra-light) 1px solid;
 }
 </style>

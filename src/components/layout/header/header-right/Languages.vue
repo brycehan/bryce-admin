@@ -5,7 +5,12 @@
     </div>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item v-for="language in languages" :key="language" :command="language" :disabled="locale === language">
+        <el-dropdown-item
+          v-for="language in languages"
+          :key="language"
+          :command="language"
+          :disabled="locale === language"
+        >
           {{ messages[language].langName }}
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -16,7 +21,6 @@
 <script setup lang="ts">
 import { useAppStore } from '@/stores/modules/app'
 import { messages } from '@/i18n'
-import { useI18n } from 'vue-i18n'
 
 const appStore = useAppStore()
 const languages = Object.keys(messages)
@@ -35,18 +39,18 @@ const handleLanguageChange = (language: string) => {
 
 <style lang="scss" scoped>
 .el-dropdown-text {
-  width: 40px;
-  height: var(--theme-header-height);
-  line-height: var(--theme-header-height);
   display: flex;
-  cursor: pointer;
   align-items: center;
   justify-content: center;
-  color: var(--theme-header-text-color);
+  width: 40px;
+  height: var(--theme-header-height);
   font-size: 16px;
+  line-height: var(--theme-header-height);
+  color: var(--theme-header-text-color);
+  cursor: pointer;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgb(0 0 0 / 10%);
   }
 }
 </style>

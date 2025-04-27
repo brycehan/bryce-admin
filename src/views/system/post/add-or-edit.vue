@@ -4,13 +4,7 @@
     :title="!state.dataForm.id ? '新增岗位' : '修改岗位'"
     :close-on-click-modal="false"
   >
-    <el-form
-      ref="dataFormRef"
-      :model="state.dataForm"
-      :rules="dataRules"
-      label-width="100"
-      class="mr-4"
-    >
+    <el-form ref="dataFormRef" :model="state.dataForm" :rules="dataRules" label-width="100" class="mr-4">
       <el-form-item label="岗位名称" prop="name">
         <el-input v-model="state.dataForm.name" placeholder="请输入岗位名称" />
       </el-form-item>
@@ -35,7 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import { getByIdApi, getCheckCodeUniqueApi, saveOrUpdateApi } from '@/api/system/post'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -47,7 +40,7 @@ const state: StateOptions = reactive({
   api: {
     saveOrUpdateApi,
     getByIdApi,
-    emit
+    emit,
   },
   dataForm: {
     id: '',
@@ -55,8 +48,8 @@ const state: StateOptions = reactive({
     code: '',
     sort: 0,
     status: 1,
-    remark: ''
-  }
+    remark: '',
+  },
 })
 
 const dataFormRef = ref()
@@ -81,15 +74,15 @@ const checkCodeUnique = (_rule: any, value: any, callback: any) => {
 const dataRules = reactive<FormRules>({
   name: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' }
+    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' },
   ],
   code: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
     { min: 2, max: 30, message: '长度为2~30个字符', trigger: 'blur' },
-    { validator: checkCodeUnique, trigger: 'blur' }
+    { validator: checkCodeUnique, trigger: 'blur' },
   ],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }]
+  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }],
 })
 
 const { getData, handleSaveOrUpdate } = crud(state)
@@ -126,6 +119,6 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-  init
+  init,
 })
 </script>

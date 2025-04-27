@@ -7,12 +7,7 @@
         <el-option label="代理表达式" value="delegateExpression" />
       </el-select>
     </el-form-item>
-    <el-form-item
-      v-if="serviceTaskForm.executeType === 'class'"
-      label="Java类"
-      prop="class"
-      key="execute-class"
-    >
+    <el-form-item v-if="serviceTaskForm.executeType === 'class'" label="Java类" prop="class" key="execute-class">
       <el-input v-model="serviceTaskForm.class" clearable @change="updateElementTask" />
     </el-form-item>
     <el-form-item
@@ -39,14 +34,14 @@ import { nextTick, onBeforeUnmount, ref, toRaw, watch } from 'vue'
 defineOptions({ name: 'ServiceTask' })
 const props = defineProps({
   id: String,
-  type: String
+  type: String,
 })
 
 const defaultTaskForm = ref<any>({
   executeType: '',
   class: '',
   expression: '',
-  delegateExpression: ''
+  delegateExpression: '',
 })
 
 const serviceTaskForm = ref<any>({})
@@ -55,8 +50,8 @@ const bpmnElement = ref()
 const bpmnInstances = () => (window as any)?.bpmnInstances
 
 const resetTaskForm = () => {
-  for (let key in defaultTaskForm.value) {
-    let value = bpmnElement.value?.businessObject[key] || defaultTaskForm.value[key]
+  for (const key in defaultTaskForm.value) {
+    const value = bpmnElement.value?.businessObject[key] || defaultTaskForm.value[key]
     serviceTaskForm.value[key] = value
     if (value) {
       serviceTaskForm.value.executeType = key
@@ -65,12 +60,12 @@ const resetTaskForm = () => {
 }
 
 const updateElementTask = () => {
-  let taskAttr = Object.create(null);
-  const type = serviceTaskForm.value.executeType;
-  for (let key in serviceTaskForm.value) {
-    if (key !== 'executeType' && key !== type) taskAttr[key] = null;
+  const taskAttr = Object.create(null)
+  const type = serviceTaskForm.value.executeType
+  for (const key in serviceTaskForm.value) {
+    if (key !== 'executeType' && key !== type) taskAttr[key] = null
   }
-  taskAttr[type] = serviceTaskForm.value[type] || "";
+  taskAttr[type] = serviceTaskForm.value[type] || ''
   bpmnInstances().modeling.updateProperties(toRaw(bpmnElement.value), taskAttr)
 }
 
@@ -86,7 +81,6 @@ watch(
       resetTaskForm()
     })
   },
-  { immediate: true }
+  { immediate: true },
 )
-
 </script>

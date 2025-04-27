@@ -17,7 +17,6 @@
         :on-success="uploadSuccess"
         list-type="picture-card"
       >
-
         <div class="upload-empty">
           <slot name="empty">
             <icon icon="ep:plus" />
@@ -87,13 +86,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {
-  ElMessage,
-  ElNotification,
-  type UploadFile,
-  type UploadProps,
-  type UploadUserFile
-} from 'element-plus'
+import { ElMessage, ElNotification, type UploadFile, type UploadProps, type UploadUserFile } from 'element-plus'
 import { createImageViewer } from '@/components/image-viewer/utils.ts'
 import fileExtension from 'file-extension'
 import constant from '@/utils/constant.ts'
@@ -107,7 +100,7 @@ const imagePreview = (imgUrl: string, index: number) => {
     fileList.value = model.value.map((url: any) => {
       return {
         url,
-        name: getFilename(url)
+        name: getFilename(url),
       }
     })
   }
@@ -116,7 +109,7 @@ const imagePreview = (imgUrl: string, index: number) => {
   createImageViewer({
     zIndex: 9999,
     initialIndex: index,
-    urlList: [...fileList.value.map((file) => file.url!)]
+    urlList: [...fileList.value.map((file) => file.url!)],
   })
 }
 
@@ -135,36 +128,36 @@ type FileTypes =
 const props = defineProps({
   drag: {
     type: Boolean,
-    default: () => true
+    default: () => true,
   }, // 是否支持拖拽上传 ==> 非必传（默认为 true）
   disabled: {
     type: Boolean,
-    default: () => false
+    default: () => false,
   }, // 是否禁用上传组件 ==> 非必传（默认为 false）
   limit: {
     type: Number,
-    default: () => 5
+    default: () => 5,
   }, // 最大图片上传数 ==> 非必传（默认为 5张）
   fileSize: {
     type: Number,
-    default: () => 5
+    default: () => 5,
   }, // 图片大小限制 ==> 非必传（默认为 5M）
   fileType: {
     type: Array,
-    default: () => ['image/jpeg', 'image/png', 'image/gif']
+    default: () => ['image/jpeg', 'image/png', 'image/gif'],
   }, // 图片类型限制 ==> 非必传（默认为 ["image/jpeg", "image/png", "image/gif"]）
   height: {
     type: String,
-    default: () => '150px'
+    default: () => '150px',
   }, // 组件高度 ==> 非必传（默认为 150px）
   width: {
     type: String,
-    default: () => '150px'
+    default: () => '150px',
   }, // 组件宽度 ==> 非必传（默认为 150px）
   borderradius: {
     type: String,
-    default: () => '8px'
-  } // 组件边框圆角 ==> 非必传（默认为 8px）
+    default: () => '8px',
+  }, // 组件边框圆角 ==> 非必传（默认为 8px）
 })
 
 const model = defineModel<string[]>()
@@ -176,7 +169,7 @@ const authStore = useAuthStore()
  */
 const headers = {
   Authorization: authStore.accessToken,
-  'X-Source-Client': 'pc'
+  'X-Source-Client': 'pc',
 }
 
 const fileList = ref<UploadUserFile[]>([])
@@ -192,13 +185,13 @@ const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
     ElNotification({
       title: '温馨提示',
       message: '上传图片不符合所需的格式！',
-      type: 'warning'
+      type: 'warning',
     })
   if (!imgSize)
     ElNotification({
       title: '温馨提示',
       message: `上传图片大小不能超过 ${props.fileSize}M！`,
-      type: 'warning'
+      type: 'warning',
     })
   return imgType.includes(rawFile.type as FileTypes) && imgSize
 }
@@ -208,7 +201,7 @@ const uploadSuccess: UploadProps['onSuccess'] = (response, uploadFile): void => 
     ElNotification({
       title: '温馨提示',
       message: '图片上传失败，请您重新上传！',
-      type: 'error'
+      type: 'error',
     })
     fileList.value = fileList.value.filter((item) => item.url !== uploadFile.url || item.name !== uploadFile.name)
     model.value = fileList.value.map((file) => file.url!)
@@ -236,7 +229,7 @@ const uploadError = () => {
   ElNotification({
     title: '温馨提示',
     message: '图片上传失败，请您重新上传！',
-    type: 'error'
+    type: 'error',
   })
 }
 
@@ -245,7 +238,7 @@ const handleExceed = () => {
   ElNotification({
     title: '温馨提示',
     message: `当前最多只能上传 ${props.limit} 张图片，请移除后上传！`,
-    type: 'warning'
+    type: 'warning',
   })
 }
 
@@ -336,16 +329,16 @@ const getFilename = (path: string) => {
       position: absolute;
       top: 0;
       right: 0;
+      box-sizing: border-box;
       display: flex;
+      align-items: center;
+      justify-content: center;
       width: 100%;
       height: 100%;
       cursor: pointer;
       background: rgb(0 0 0 / 60%);
       opacity: 0;
-      box-sizing: border-box;
       transition: var(--el-transition-duration-fast);
-      align-items: center;
-      justify-content: center;
 
       .handle-icon {
         display: flex;

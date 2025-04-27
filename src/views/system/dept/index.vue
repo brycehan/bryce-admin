@@ -12,12 +12,7 @@
         <el-input v-model="state.queryForm.name" placeholder="请输入部门名称" clearable />
       </el-form-item>
       <el-form-item label="状态" prop="status">
-        <dict-select
-          v-model="state.queryForm.status"
-          dict-type="sys_status"
-          placeholder="部门状态"
-          clearable
-        />
+        <dict-select v-model="state.queryForm.status" dict-type="sys_status" placeholder="部门状态" clearable />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="getList()">搜索</el-button>
@@ -29,14 +24,10 @@
         >新增</el-button
       >
       <el-button plain @click="toggleExpandAll()">
-        <template v-if="!isExpandAll">
-          全部展开 <icon icon="ep:arrow-down" class="ml-1"/>
-        </template>
-        <template v-else>
-          全部收起 <icon icon="ep:arrow-up" class="ml-1"/>
-        </template>
+        <template v-if="!isExpandAll"> 全部展开 <icon icon="ep:arrow-down" class="ml-1" /> </template>
+        <template v-else> 全部收起 <icon icon="ep:arrow-up" class="ml-1" /> </template>
       </el-button>
-      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getList"/>
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getList" />
     </el-row>
     <el-table
       v-if="refreshTable"
@@ -49,9 +40,9 @@
     >
       <el-table-column label="部门名称" prop="name" header-align="center" align="center" min-width="180" />
       <el-table-column label="负责人" prop="leaderName" header-align="center" align="center" min-width="180" />
-      <el-table-column label="排序" prop="sort" header-align="center" align="center" min-width="100"/>
+      <el-table-column label="排序" prop="sort" header-align="center" align="center" min-width="100" />
       <dict-table-column label="状态" prop="status" dict-type="sys_status" min-width="80" />
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165"/>
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="240">
         <template #default="scope">
           <el-button
@@ -68,7 +59,7 @@
             icon="plus"
             text
             @click="handleAddOrEdit(scope.row, true)"
-          >新增</el-button
+            >新增</el-button
           >
           <el-button
             v-if="scope.row.parentId != 0"
@@ -83,7 +74,7 @@
       </el-table-column>
     </el-table>
     <!-- 弹窗，新增 / 修改 -->
-    <AddOrEdit ref="addOrEditRef" @refresh-page="getList" />
+    <add-or-edit ref="addOrEditRef" @refresh-page="getList" />
   </el-card>
 </template>
 
@@ -97,15 +88,15 @@ import { crud } from '@/utils/state'
 const state: StateOptions = reactive({
   api: {
     postListApi,
-    deleteByIdsApi
+    deleteByIdsApi,
   },
   queryForm: {
     status: '',
     tenantId: '',
-    name: ''
+    name: '',
   },
   data: [],
-  loading: false
+  loading: false,
 })
 
 const queryFormRef = ref()

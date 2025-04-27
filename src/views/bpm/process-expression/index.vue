@@ -1,6 +1,13 @@
 <template>
   <el-card shadow="never">
-    <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" v-show="showSearch" @keyup.enter="getPage()" @submit.prevent>
+    <el-form
+      ref="queryFormRef"
+      :model="state.queryForm"
+      :inline="true"
+      v-show="showSearch"
+      @keyup.enter="getPage()"
+      @submit.prevent
+    >
       <el-form-item label="名称" prop="name">
         <el-input v-model="state.queryForm.name" placeholder="请输入名称" clearable />
       </el-form-item>
@@ -9,14 +16,15 @@
       </el-form-item>
       <el-form-item label="创建时间" prop="createdTime">
         <el-date-picker
-            v-model="state.range.createdTime"
-            type="daterange"
-            unlink-panels
-            range-separator="-"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            value-format="YYYY-MM-DD"
-            clearable />
+          v-model="state.range.createdTime"
+          type="daterange"
+          unlink-panels
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          value-format="YYYY-MM-DD"
+          clearable
+        />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="getPage()">搜索</el-button>
@@ -24,9 +32,23 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth:has-authority="'bpm:process-expression:save'" type="primary" icon="Plus" plain @click="handleAddOrEdit()">新增</el-button>
-      <el-button v-auth:has-authority="'bpm:process-expression:delete'" type="danger" icon="Delete" plain @click="handleDeleteBatch('name', '流程实例的名称')">删除</el-button>
-			<right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <el-button
+        v-auth:has-authority="'bpm:process-expression:save'"
+        type="primary"
+        icon="Plus"
+        plain
+        @click="handleAddOrEdit()"
+        >新增</el-button
+      >
+      <el-button
+        v-auth:has-authority="'bpm:process-expression:delete'"
+        type="danger"
+        icon="Delete"
+        plain
+        @click="handleDeleteBatch('name', '流程实例的名称')"
+        >删除</el-button
+      >
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -36,14 +58,35 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="名称" prop="name" header-align="center" align="center" min-width="120"/>
-      <el-table-column label="表达式" prop="expression" header-align="center" align="center" show-overflow-tooltip min-width="100" />
+      <el-table-column label="名称" prop="name" header-align="center" align="center" min-width="120" />
+      <el-table-column
+        label="表达式"
+        prop="expression"
+        header-align="center"
+        align="center"
+        show-overflow-tooltip
+        min-width="100"
+      />
       <dict-table-column label="状态" prop="status" dict-type="sys_status" min-width="90" />
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="170" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="170">
         <template #default="scope">
-          <el-button v-auth:has-authority="'bpm:process-expression:update'" type="primary" icon="Edit" link @click="handleAddOrEdit(scope.row)">修改</el-button>
-          <el-button v-auth:has-authority="'bpm:process-expression:delete'" type="danger" icon="Delete" link @click="handleDeleteBatch('name', '流程实例的名称', scope.row)">删除</el-button>
+          <el-button
+            v-auth:has-authority="'bpm:process-expression:update'"
+            type="primary"
+            icon="Edit"
+            link
+            @click="handleAddOrEdit(scope.row)"
+            >修改</el-button
+          >
+          <el-button
+            v-auth:has-authority="'bpm:process-expression:delete'"
+            type="danger"
+            icon="Delete"
+            link
+            @click="handleDeleteBatch('name', '流程实例的名称', scope.row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -58,29 +101,28 @@
     />
 
     <!-- 弹窗，新增 / 修改 -->
-    <AddOrEdit ref="addOrEditRef" @refresh-page="getPage" />
+    <add-or-edit ref="addOrEditRef" @refresh-page="getPage" />
   </el-card>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import { postPageApi, deleteByIdsApi } from '@/api/bpm/processExpression'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
 const state: StateOptions = reactive({
   api: {
     postPageApi,
-    deleteByIdsApi
+    deleteByIdsApi,
   },
   queryForm: {
     name: '',
     status: '',
-    createdTime: ''
+    createdTime: '',
   },
   range: {
-    createdTime: ''
+    createdTime: '',
   },
 })
 
@@ -93,13 +135,7 @@ onMounted(() => {
   getPage()
 })
 
-const {
-  getPage,
-  handleSizeChange,
-  handleCurrentChange,
-  handleDeleteBatch,
-  handleSelectionChange,
-} = crud(state)
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } = crud(state)
 
 /**
  * 重置按钮操作
@@ -109,7 +145,7 @@ const handleResetQuery = () => {
     state.range[key] = []
   }
 
-  if(queryFormRef.value) {
+  if (queryFormRef.value) {
     queryFormRef.value.resetFields()
   }
 

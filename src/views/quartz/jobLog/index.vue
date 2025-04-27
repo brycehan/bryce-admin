@@ -28,10 +28,20 @@
         @click="handleDeleteBatch('id', '日志编号')"
         >删除</el-button
       >
-      <el-button v-auth:has-authority="'quartz:jobLog:delete'" type="danger" plain icon="Delete" @click="handleCleanJobLog"
+      <el-button
+        v-auth:has-authority="'quartz:jobLog:delete'"
+        type="danger"
+        plain
+        icon="Delete"
+        @click="handleCleanJobLog"
         >清空</el-button
       >
-      <el-button v-auth:has-authority="'quartz:jobLog:export'" type="success" plain icon="Download" @click="handleDownloadExcel()"
+      <el-button
+        v-auth:has-authority="'quartz:jobLog:export'"
+        type="success"
+        plain
+        icon="Download"
+        @click="handleDownloadExcel()"
         >导出</el-button
       >
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
@@ -44,10 +54,31 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="日志编号" prop="id" header-align="center" align="center" show-overflow-tooltip min-width="120"/>
-      <el-table-column label="任务名称" prop="jobName" show-overflow-tooltip header-align="center" align="center" min-width="120"/>
-      <dict-table-column label="任务组名" prop="jobGroup" dict-type="quartz_job_group" min-width="100"/>
-      <el-table-column label="执行方法" prop="method" show-overflow-tooltip header-align="center" align="center" min-width="160">
+      <el-table-column
+        label="日志编号"
+        prop="id"
+        header-align="center"
+        align="center"
+        show-overflow-tooltip
+        min-width="120"
+      />
+      <el-table-column
+        label="任务名称"
+        prop="jobName"
+        show-overflow-tooltip
+        header-align="center"
+        align="center"
+        min-width="120"
+      />
+      <dict-table-column label="任务组名" prop="jobGroup" dict-type="quartz_job_group" min-width="100" />
+      <el-table-column
+        label="执行方法"
+        prop="method"
+        show-overflow-tooltip
+        header-align="center"
+        align="center"
+        min-width="160"
+      >
         <template #default="scope"> {{ scope.row.beanName }}.{{ scope.row.method }}() </template>
       </el-table-column>
       <el-table-column label="执行状态" prop="executeStatus" header-align="center" align="center" min-width="100">
@@ -62,9 +93,7 @@
       <el-table-column label="执行时间" prop="createdTime" header-align="center" align="center" min-width="185" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="100">
         <template #default="scope">
-          <el-button type="info" icon="view" text @click="handleInfo(scope.row.id)"
-            >详情</el-button
-          >
+          <el-button type="info" icon="view" text @click="handleInfo(scope.row.id)">详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -84,12 +113,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import { deleteByIdsApi, deleteCleanApi, postExportExcelApi, postPageApi } from '@/api/quartz/jobLog'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import Info from '@/views/quartz/jobLog/info.vue'
-import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import modal from '@/utils/modal'
 
@@ -97,12 +124,12 @@ const state: StateOptions = reactive({
   api: {
     postPageApi,
     deleteByIdsApi,
-    postExportExcelApi
+    postExportExcelApi,
   },
   queryForm: {
     jobName: '',
-    jobGroup: ''
-  }
+    jobGroup: '',
+  },
 })
 
 const queryFormRef = ref()
@@ -124,7 +151,7 @@ const {
   handleCurrentChange,
   handleDeleteBatch,
   handleSelectionChange,
-  handleDownloadExcel
+  handleDownloadExcel,
 } = crud(state)
 
 /**

@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="h-[50px] bottom-10 text-[14px] flex items-center color-[#32373c] dark:color-#fff font-bold btn-container"
-  >
+  <div class="color-[#32373c] dark:color-#fff btn-container bottom-10 flex h-[50px] items-center text-[14px] font-bold">
     <!-- 【通过】按钮 -->
     <el-popover
       :visible="popOverVisible.approve"
@@ -16,7 +14,7 @@
         </el-button>
       </template>
       <!-- 审批表单 -->
-      <div class="flex flex-col flex-1 pt-[20px] px-[20px]" v-loading="formLoading">
+      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
         <el-form
           label-position="top"
           class="mb-auto"
@@ -25,7 +23,7 @@
           :rules="approveReasonRule"
           label-width="100px"
         >
-          <el-card v-if="runningTask?.formId > 0" class="mb-[15px] !-mt-[10px]">
+          <el-card v-if="runningTask?.formId > 0" class="!-mt-[10px] mb-[15px]">
             <template #header>
               <span class="el-icon-picture-outline"> 填写表单【{{ runningTask?.formName }}】 </span>
             </template>
@@ -37,33 +35,19 @@
             />
           </el-card>
           <el-form-item label="审批意见" prop="reason">
-            <el-input
-              v-model="approveReasonForm.reason"
-              placeholder="请输入审批意见"
-              type="textarea"
-              :rows="4"
-            />
+            <el-input v-model="approveReasonForm.reason" placeholder="请输入审批意见" type="textarea" :rows="4" />
           </el-form-item>
-          <el-form-item
-            v-if="runningTask.signEnable"
-            label="签名"
-            prop="signPicUrl"
-            ref="approveSignFormRef"
-          >
+          <el-form-item v-if="runningTask.signEnable" label="签名" prop="signPicUrl" ref="approveSignFormRef">
             <el-button @click="signRef.open()">点击签名</el-button>
             <el-image
-              class="w-[90px] h-[40px] ml-[5px]"
+              class="ml-[5px] h-[40px] w-[90px]"
               v-if="approveReasonForm.signPicUrl"
               :src="approveReasonForm.signPicUrl"
               :preview-src-list="[approveReasonForm.signPicUrl]"
             />
           </el-form-item>
           <el-form-item>
-            <el-button
-              :disabled="formLoading"
-              type="success"
-              @click="handleAudit(true, approveFormRef)"
-            >
+            <el-button :disabled="formLoading" type="success" @click="handleAudit(true, approveFormRef)">
               {{ getButtonDisplayName(OperationButtonType.APPROVE) }}
             </el-button>
             <el-button @click="closePropover('approve', approveFormRef)">取消</el-button>
@@ -86,7 +70,7 @@
         </el-button>
       </template>
       <!-- 审批表单 -->
-      <div class="flex flex-col flex-1 pt-[20px] px-[20px]" v-loading="formLoading">
+      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
         <el-form
           label-position="top"
           class="mb-auto"
@@ -96,19 +80,10 @@
           label-width="100px"
         >
           <el-form-item label="审批意见" prop="reason">
-            <el-input
-              v-model="rejectReasonForm.reason"
-              placeholder="请输入审批意见"
-              type="textarea"
-              :rows="4"
-            />
+            <el-input v-model="rejectReasonForm.reason" placeholder="请输入审批意见" type="textarea" :rows="4" />
           </el-form-item>
           <el-form-item>
-            <el-button
-              :disabled="formLoading"
-              type="danger"
-              @click="handleAudit(false, rejectFormRef)"
-            >
+            <el-button :disabled="formLoading" type="danger" @click="handleAudit(false, rejectFormRef)">
               {{ getButtonDisplayName(OperationButtonType.REJECT) }}
             </el-button>
             <el-button @click="closePropover('reject', rejectFormRef)">取消</el-button>
@@ -126,12 +101,12 @@
       v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.COPY)"
     >
       <template #reference>
-        <div @click="openPopover('copy')" class="hover-bg-gray-100 rounded-xl p-[6px] gap-1">
+        <div @click="openPopover('copy')" class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]">
           <icon icon="brc:icon-file-copy" />
           {{ getButtonDisplayName(OperationButtonType.COPY) }}
         </div>
       </template>
-      <div class="flex flex-col flex-1 pt-[20px] px-[20px]" v-loading="formLoading">
+      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
         <el-form
           label-position="top"
           class="mb-auto"
@@ -141,29 +116,12 @@
           label-width="100px"
         >
           <el-form-item label="抄送人" prop="copyUserIds">
-            <el-select
-              v-model="copyForm.copyUserIds"
-              clearable
-              style="width: 100%"
-              multiple
-              placeholder="请选择抄送人"
-            >
-              <el-option
-                v-for="item in userOptions"
-                :key="item.id"
-                :label="item.nickname"
-                :value="item.id"
-              />
+            <el-select v-model="copyForm.copyUserIds" clearable style="width: 100%" multiple placeholder="请选择抄送人">
+              <el-option v-for="item in userOptions" :key="item.id" :label="item.nickname" :value="item.id" />
             </el-select>
           </el-form-item>
           <el-form-item label="抄送意见" prop="copyReason">
-            <el-input
-              v-model="copyForm.copyReason"
-              clearable
-              placeholder="请输入抄送意见"
-              type="textarea"
-              :rows="3"
-            />
+            <el-input v-model="copyForm.copyReason" clearable placeholder="请输入抄送意见" type="textarea" :rows="3" />
           </el-form-item>
           <el-form-item>
             <el-button :disabled="formLoading" type="primary" @click="handleCopy">
@@ -184,12 +142,12 @@
       v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.TRANSFER)"
     >
       <template #reference>
-        <div @click="openPopover('transfer')" class="hover-bg-gray-100 rounded-xl p-[6px] gap-1">
-          <icon icon="ion:arrow-redo-circle-outline"/>
+        <div @click="openPopover('transfer')" class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]">
+          <icon icon="ion:arrow-redo-circle-outline" />
           {{ getButtonDisplayName(OperationButtonType.TRANSFER) }}
         </div>
       </template>
-      <div class="flex flex-col flex-1 pt-[20px] px-[20px]" v-loading="formLoading">
+      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
         <el-form
           label-position="top"
           class="mb-auto"
@@ -200,22 +158,11 @@
         >
           <el-form-item label="新审批人" prop="assigneeUserId">
             <el-select v-model="transferForm.assigneeUserId" clearable style="width: 100%">
-              <el-option
-                v-for="item in userOptions"
-                :key="item.id"
-                :label="item.nickname"
-                :value="item.id"
-              />
+              <el-option v-for="item in userOptions" :key="item.id" :label="item.nickname" :value="item.id" />
             </el-select>
           </el-form-item>
           <el-form-item label="审批意见" prop="reason">
-            <el-input
-              v-model="transferForm.reason"
-              clearable
-              placeholder="请输入审批意见"
-              type="textarea"
-              :rows="3"
-            />
+            <el-input v-model="transferForm.reason" clearable placeholder="请输入审批意见" type="textarea" :rows="3" />
           </el-form-item>
           <el-form-item>
             <el-button :disabled="formLoading" type="primary" @click="handleTransfer()">
@@ -236,12 +183,12 @@
       v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.DELEGATE)"
     >
       <template #reference>
-        <div @click="openPopover('delegate')" class="hover-bg-gray-100 rounded-xl p-[6px] gap-1">
+        <div @click="openPopover('delegate')" class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]">
           <icon icon="ion:navigate-outline" />
           {{ getButtonDisplayName(OperationButtonType.DELEGATE) }}
         </div>
       </template>
-      <div class="flex flex-col flex-1 pt-[20px] px-[20px]" v-loading="formLoading">
+      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
         <el-form
           label-position="top"
           class="mb-auto"
@@ -252,22 +199,11 @@
         >
           <el-form-item label="接收人" prop="delegateUserId">
             <el-select v-model="delegateForm.delegateUserId" clearable style="width: 100%">
-              <el-option
-                v-for="item in userOptions"
-                :key="item.id"
-                :label="item.nickname"
-                :value="item.id"
-              />
+              <el-option v-for="item in userOptions" :key="item.id" :label="item.nickname" :value="item.id" />
             </el-select>
           </el-form-item>
           <el-form-item label="审批意见" prop="reason">
-            <el-input
-              v-model="delegateForm.reason"
-              clearable
-              placeholder="请输入审批意见"
-              type="textarea"
-              :rows="3"
-            />
+            <el-input v-model="delegateForm.reason" clearable placeholder="请输入审批意见" type="textarea" :rows="3" />
           </el-form-item>
           <el-form-item>
             <el-button :disabled="formLoading" type="primary" @click="handleDelegate()">
@@ -288,12 +224,12 @@
       v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.ADD_SIGN)"
     >
       <template #reference>
-        <div @click="openPopover('addSign')" class="hover-bg-gray-100 rounded-xl p-[6px] gap-1">
+        <div @click="openPopover('addSign')" class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]">
           <icon icon="ep:plus" />
           {{ getButtonDisplayName(OperationButtonType.ADD_SIGN) }}
         </div>
       </template>
-      <div class="flex flex-col flex-1 pt-[20px] px-[20px]" v-loading="formLoading">
+      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
         <el-form
           label-position="top"
           class="mb-auto"
@@ -304,22 +240,11 @@
         >
           <el-form-item label="加签处理人" prop="addSignUserIds">
             <el-select v-model="addSignForm.addSignUserIds" multiple clearable style="width: 100%">
-              <el-option
-                v-for="item in userOptions"
-                :key="item.id"
-                :label="item.nickname"
-                :value="item.id"
-              />
+              <el-option v-for="item in userOptions" :key="item.id" :label="item.nickname" :value="item.id" />
             </el-select>
           </el-form-item>
           <el-form-item label="审批意见" prop="reason">
-            <el-input
-              v-model="addSignForm.reason"
-              clearable
-              placeholder="请输入审批意见"
-              type="textarea"
-              :rows="3"
-            />
+            <el-input v-model="addSignForm.reason" clearable placeholder="请输入审批意见" type="textarea" :rows="3" />
           </el-form-item>
           <el-form-item>
             <el-button :disabled="formLoading" type="primary" @click="handlerAddSign('before')">
@@ -343,11 +268,11 @@
       v-if="runningTask?.children.length > 0"
     >
       <template #reference>
-        <div @click="openPopover('deleteSign')" class="hover-bg-gray-100 rounded-xl p-[6px] gap-1">
+        <div @click="openPopover('deleteSign')" class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]">
           <icon icon="ep:semi-select" />减签
         </div>
       </template>
-      <div class="flex flex-col flex-1 pt-[20px] px-[20px]" v-loading="formLoading">
+      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
         <el-form
           label-position="top"
           class="mb-auto"
@@ -376,9 +301,7 @@
             />
           </el-form-item>
           <el-form-item>
-            <el-button :disabled="formLoading" type="primary" @click="handlerDeleteSign()">
-              减签
-            </el-button>
+            <el-button :disabled="formLoading" type="primary" @click="handlerDeleteSign()"> 减签 </el-button>
             <el-button @click="closePropover('deleteSign', deleteSignFormRef)"> 取消 </el-button>
           </el-form-item>
         </el-form>
@@ -394,12 +317,12 @@
       v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.RETURN)"
     >
       <template #reference>
-        <div @click="openPopover('return')" class="hover-bg-gray-100 rounded-xl p-[6px] gap-1">
+        <div @click="openPopover('return')" class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]">
           <icon icon="ep:back" />
           {{ getButtonDisplayName(OperationButtonType.RETURN) }}
         </div>
       </template>
-      <div class="flex flex-col flex-1 pt-[20px] px-[20px]" v-loading="formLoading">
+      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
         <el-form
           label-position="top"
           class="mb-auto"
@@ -443,16 +366,14 @@
       placement="top-start"
       :width="420"
       trigger="click"
-      v-if="
-        userId === processInstance?.startUser?.id && !isEndProcessStatus(processInstance?.status)
-      "
+      v-if="userId === processInstance?.startUser?.id && !isEndProcessStatus(processInstance?.status)"
     >
       <template #reference>
-        <div @click="openPopover('cancel')" class="hover-bg-gray-100 rounded-xl p-[6px] gap-1">
+        <div @click="openPopover('cancel')" class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]">
           <icon icon="ion:arrow-undo" />取消
         </div>
       </template>
-      <div class="flex flex-col flex-1 pt-[20px] px-[20px]" v-loading="formLoading">
+      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
         <el-form
           label-position="top"
           class="mb-auto"
@@ -462,7 +383,7 @@
           label-width="100px"
         >
           <el-form-item label="取消理由" prop="cancelReason">
-            <span class="text-[#878c93] text-[12px]">&nbsp; 取消后，该审批流程将自动结束</span>
+            <span class="text-[12px] text-[#878c93]">&nbsp; 取消后，该审批流程将自动结束</span>
             <el-input
               v-model="cancelForm.cancelReason"
               clearable
@@ -472,9 +393,7 @@
             />
           </el-form-item>
           <el-form-item>
-            <el-button :disabled="formLoading" type="primary" @click="handleCancel()">
-              确认
-            </el-button>
+            <el-button :disabled="formLoading" type="primary" @click="handleCancel()"> 确认 </el-button>
             <el-button @click="closePropover('cancel', cancelFormRef)">取消</el-button>
           </el-form-item>
         </el-form>
@@ -483,7 +402,7 @@
     <!-- 【再次提交】 按钮-->
     <div
       @click="handleReCreate()"
-      class="hover-bg-gray-100 rounded-xl p-[6px] gap-1"
+      class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]"
       v-if="
         userId === processInstance?.startUser?.id &&
         isEndProcessStatus(processInstance?.status) &&
@@ -504,14 +423,10 @@ import * as TaskApi from '@/api/bpm/task'
 import * as ProcessInstanceApi from '@/api/bpm/processInstance'
 import * as UserApi from '@/api/system/user'
 import { computed, reactive, ref, watch } from 'vue'
-import {
-  OPERATION_BUTTON_NAME,
-  OperationButtonType
-} from '@/api/bpm/consts'
+import { OPERATION_BUTTON_NAME, OperationButtonType } from '@/api/bpm/consts'
 import { BpmFormType, BpmProcessInstanceStatus } from '@/api/bpm/constant'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import SignDialog from './SignDialog.vue'
-import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/modules/auth'
 import FormCreate from '@form-create/element-ui'
 
@@ -542,7 +457,7 @@ const popOverVisible = ref<any>({
   return: false,
   copy: false,
   cancel: false,
-  deleteSign: false
+  deleteSign: false,
 }) // 气泡卡是否展示
 const returnList = ref([] as any) // 退回节点
 
@@ -558,22 +473,22 @@ const signRef = ref()
 const approveSignFormRef = ref()
 const approveReasonForm = reactive({
   reason: '',
-  signPicUrl: ''
+  signPicUrl: '',
 })
 const approveReasonRule = computed(() => {
   return {
     reason: [{ required: reasonRequire.value, message: '审批意见不能为空', trigger: 'blur' }],
-    signPicUrl: [{ required: true, message: '签名不能为空', trigger: 'change' }]
+    signPicUrl: [{ required: true, message: '签名不能为空', trigger: 'change' }],
   }
 })
 // 拒绝表单
 const rejectFormRef = ref<FormInstance>()
 const rejectReasonForm = reactive({
-  reason: ''
+  reason: '',
 })
 const rejectReasonRule = computed(() => {
   return {
-    reason: [{ required: reasonRequire.value, message: '审批意见不能为空', trigger: 'blur' }]
+    reason: [{ required: reasonRequire.value, message: '审批意见不能为空', trigger: 'blur' }],
   }
 })
 
@@ -581,74 +496,74 @@ const rejectReasonRule = computed(() => {
 const copyFormRef = ref<FormInstance>()
 const copyForm = reactive({
   copyUserIds: [],
-  copyReason: ''
+  copyReason: '',
 })
 const copyFormRule = reactive<FormRules<typeof copyForm>>({
-  copyUserIds: [{ required: true, message: '抄送人不能为空', trigger: 'change' }]
+  copyUserIds: [{ required: true, message: '抄送人不能为空', trigger: 'change' }],
 })
 
 // 转办表单
 const transferFormRef = ref<FormInstance>()
 const transferForm = reactive({
   assigneeUserId: undefined,
-  reason: ''
+  reason: '',
 })
 const transferFormRule = reactive<FormRules<typeof transferForm>>({
   assigneeUserId: [{ required: true, message: '新审批人不能为空', trigger: 'change' }],
-  reason: [{ required: true, message: '审批意见不能为空', trigger: 'blur' }]
+  reason: [{ required: true, message: '审批意见不能为空', trigger: 'blur' }],
 })
 
 // 委派表单
 const delegateFormRef = ref<FormInstance>()
 const delegateForm = reactive({
   delegateUserId: undefined,
-  reason: ''
+  reason: '',
 })
 const delegateFormRule = reactive<FormRules<typeof delegateForm>>({
   delegateUserId: [{ required: true, message: '接收人不能为空', trigger: 'change' }],
-  reason: [{ required: true, message: '审批意见不能为空', trigger: 'blur' }]
+  reason: [{ required: true, message: '审批意见不能为空', trigger: 'blur' }],
 })
 
 // 加签表单
 const addSignFormRef = ref<FormInstance>()
 const addSignForm = reactive({
   addSignUserIds: undefined,
-  reason: ''
+  reason: '',
 })
 const addSignFormRule = reactive<FormRules<typeof addSignForm>>({
   addSignUserIds: [{ required: true, message: '加签处理人不能为空', trigger: 'change' }],
-  reason: [{ required: true, message: '审批意见不能为空', trigger: 'blur' }]
+  reason: [{ required: true, message: '审批意见不能为空', trigger: 'blur' }],
 })
 
 // 减签表单
 const deleteSignFormRef = ref<FormInstance>()
 const deleteSignForm = reactive({
   deleteSignTaskId: undefined,
-  reason: ''
+  reason: '',
 })
 const deleteSignFormRule = reactive<FormRules<typeof deleteSignForm>>({
   deleteSignTaskId: [{ required: true, message: '减签人员不能为空', trigger: 'change' }],
-  reason: [{ required: true, message: '审批意见不能为空', trigger: 'blur' }]
+  reason: [{ required: true, message: '审批意见不能为空', trigger: 'blur' }],
 })
 
 // 退回表单
 const returnFormRef = ref<FormInstance>()
 const returnForm = reactive({
   targetTaskDefinitionKey: undefined,
-  returnReason: ''
+  returnReason: '',
 })
 const returnFormRule = reactive<FormRules<typeof returnForm>>({
   targetTaskDefinitionKey: [{ required: true, message: '退回节点不能为空', trigger: 'change' }],
-  returnReason: [{ required: true, message: '退回理由不能为空', trigger: 'blur' }]
+  returnReason: [{ required: true, message: '退回理由不能为空', trigger: 'blur' }],
 })
 
 // 取消表单
 const cancelFormRef = ref<FormInstance>()
 const cancelForm = reactive({
-  cancelReason: ''
+  cancelReason: '',
 })
 const cancelFormRule = reactive<FormRules<typeof cancelForm>>({
-  cancelReason: [{ required: true, message: '取消理由不能为空', trigger: 'blur' }]
+  cancelReason: [{ required: true, message: '取消理由不能为空', trigger: 'blur' }],
 })
 
 /** 监听 approveFormFApis，实现它对应的 form-create 初始化后，隐藏掉对应的表单提交按钮 */
@@ -659,8 +574,8 @@ watch(
     val?.resetBtn?.show(false)
   },
   {
-    deep: true
-  }
+    deep: true,
+  },
 )
 
 /** 弹出气泡卡 */
@@ -710,7 +625,7 @@ const handleAudit = async (pass: boolean, formRef: FormInstance | undefined) => 
       const data = {
         id: runningTask.value.id,
         reason: approveReasonForm.reason,
-        variables // 审批通过, 把修改的字段值赋于流程实例变量
+        variables, // 审批通过, 把修改的字段值赋于流程实例变量
       } as any
       // 签名
       if (runningTask.value.signEnable) {
@@ -731,7 +646,7 @@ const handleAudit = async (pass: boolean, formRef: FormInstance | undefined) => 
       // 审批不通过数据
       const data = {
         id: runningTask.value.id,
-        reason: rejectReasonForm.reason
+        reason: rejectReasonForm.reason,
       }
       await TaskApi.rejectTask(data)
       popOverVisible.value.reject = false
@@ -757,7 +672,7 @@ const handleCopy = async () => {
     const data = {
       id: runningTask.value.id,
       reason: copyForm.copyReason,
-      copyUserIds: copyForm.copyUserIds
+      copyUserIds: copyForm.copyUserIds,
     }
     await TaskApi.copyTask(data)
     copyFormRef.value.resetFields()
@@ -779,7 +694,7 @@ const handleTransfer = async () => {
     const data = {
       id: runningTask.value.id,
       reason: transferForm.reason,
-      assigneeUserId: transferForm.assigneeUserId
+      assigneeUserId: transferForm.assigneeUserId,
     }
     await TaskApi.transferTask(data)
     transferFormRef.value.resetFields()
@@ -803,7 +718,7 @@ const handleDelegate = async () => {
     const data = {
       id: runningTask.value.id,
       reason: delegateForm.reason,
-      delegateUserId: delegateForm.delegateUserId
+      delegateUserId: delegateForm.delegateUserId,
     }
 
     await TaskApi.delegateTask(data)
@@ -829,7 +744,7 @@ const handlerAddSign = async (type: string) => {
       id: runningTask.value.id,
       type,
       reason: addSignForm.reason,
-      userIds: addSignForm.addSignUserIds
+      userIds: addSignForm.addSignUserIds,
     }
     await TaskApi.signCreateTask(data)
     ElMessage.success('操作成功')
@@ -853,7 +768,7 @@ const handleReturn = async () => {
     const data = {
       id: runningTask.value.id,
       reason: returnForm.returnReason,
-      targetTaskDefinitionKey: returnForm.targetTaskDefinitionKey
+      targetTaskDefinitionKey: returnForm.targetTaskDefinitionKey,
     }
 
     await TaskApi.returnTask(data)
@@ -875,10 +790,7 @@ const handleCancel = async () => {
     if (!cancelFormRef.value) return
     await cancelFormRef.value.validate()
     // 1.2 提交取消
-    await ProcessInstanceApi.cancelProcessInstanceByStartUser(
-      props.processInstance.id,
-      cancelForm.cancelReason
-    )
+    await ProcessInstanceApi.cancelProcessInstanceByStartUser(props.processInstance.id, cancelForm.cancelReason)
     popOverVisible.value.return = false
     ElMessage.success('操作成功')
     cancelFormRef.value.resetFields()
@@ -894,7 +806,7 @@ const handleReCreate = async () => {
   // 跳转发起流程界面
   await router.push({
     name: 'BpmProcessInstanceCreate',
-    query: { processInstanceId: props.processInstance?.id }
+    query: { processInstanceId: props.processInstance?.id },
   })
 }
 
@@ -914,7 +826,7 @@ const handlerDeleteSign = async () => {
     // 1.2 提交减签
     const data = {
       id: deleteSignForm.deleteSignTaskId,
-      reason: deleteSignForm.reason
+      reason: deleteSignForm.reason,
     }
     await TaskApi.signDeleteTask(data)
     ElMessage.success('减签成功')
@@ -1027,9 +939,9 @@ defineExpose({ loadTodoTask })
 .btn-container {
   > div {
     display: flex;
+    align-items: center;
     margin: 0 8px;
     cursor: pointer;
-    align-items: center;
 
     &:hover {
       color: #6db5ff;

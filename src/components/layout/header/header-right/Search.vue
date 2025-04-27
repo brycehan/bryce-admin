@@ -1,14 +1,7 @@
 <template>
   <div class="header-right-search" @click="openSearch">
     <icon icon="ion:search" />
-    <el-dialog
-      v-model="visible"
-      width="280px"
-      :destroy-on-close="true"
-      :modal="false"
-      fullscreen
-      :show-close="true"
-    >
+    <el-dialog v-model="visible" width="280px" :destroy-on-close="true" :modal="false" fullscreen :show-close="true">
       <div class="search-container">
         <el-autocomplete
           ref="menuAutoCompleteRef"
@@ -34,9 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref } from 'vue'
 import { useRouterStore } from '@/stores/modules/router'
-import { useRouter } from 'vue-router'
 
 const visible = ref(false)
 const menuAutoCompleteRef = ref()
@@ -66,7 +57,7 @@ interface SearchItemRaw {
 }
 
 // 菜单搜索后端数据
-const menuList = routerStore.searchMenu
+const menuList = routerStore.flatRoutes
 
 /**
  * 菜单搜索
@@ -96,7 +87,7 @@ const searchFilter: any = (queryString: string) => {
  *
  * @param item 菜单对象
  */
-const handleSelect = (item: SearchItemRaw) => {
+const handleSelect = (item: Record<string, any>) => {
   router.push(item.path)
   visible.value = false
 }
@@ -111,40 +102,41 @@ const handleBlur = () => {
 
 <style lang="scss" scoped>
 .header-right-search {
-  width: 40px;
-  height: var(--theme-header-height);
-  line-height: var(--theme-header-height);
   display: flex;
-  cursor: pointer;
   align-items: center;
   justify-content: center;
-  color: var(--theme-header-text-color);
+  width: 40px;
+  height: var(--theme-header-height);
   font-size: 16px;
+  line-height: var(--theme-header-height);
+  color: var(--theme-header-text-color);
+  cursor: pointer;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgb(0 0 0 / 10%);
   }
 
   .search-container {
-    width: 600px;
-    height: 380px;
     position: absolute;
     top: 100px;
     left: 50%;
-    transform: translateX(-50%);
+    width: 600px;
+    height: 380px;
     background-color: var(--theme-header-bg-color);
     border-radius: 3px;
+    transform: translateX(-50%);
   }
+
   ::v-deep(.el-dialog) {
+    background: rgb(0 0 0 / 50%);
     box-shadow: unset;
-    background: rgba(0, 0, 0, 0.5);
   }
 
   ::v-deep(.el-autocomplete) {
-    width: 560px;
     position: absolute;
     top: 20px;
     left: 50%;
+    width: 560px;
     transform: translateX(-50%);
   }
 }

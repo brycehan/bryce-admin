@@ -4,13 +4,7 @@
     :title="!state.dataForm.id ? '新增定时任务' : '修改定时任务'"
     :close-on-click-modal="false"
   >
-    <el-form
-      ref="dataFormRef"
-      :model="state.dataForm"
-      :rules="dataRules"
-      label-width="100"
-      class="mr-4"
-    >
+    <el-form ref="dataFormRef" :model="state.dataForm" :rules="dataRules" label-width="100" class="mr-4">
       <el-row>
         <el-col :span="12">
           <el-form-item label="任务名称" prop="jobName">
@@ -32,11 +26,7 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="Bean 名称" prop="beanName">
-            <el-input
-              v-model="state.dataForm.beanName"
-              placeholder="请输入Spring Bean 名称"
-              clearable
-            />
+            <el-input v-model="state.dataForm.beanName" placeholder="请输入Spring Bean 名称" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -53,11 +43,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="cron 表达式" prop="cronExpression">
-            <el-input
-              v-model="state.dataForm.cronExpression"
-              placeholder="请输入cron 表达式"
-              clearable
-            />
+            <el-input v-model="state.dataForm.cronExpression" placeholder="请输入cron 表达式" clearable />
           </el-form-item>
         </el-col>
       </el-row>
@@ -85,7 +71,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import { getByIdApi, saveOrUpdateApi } from '@/api/quartz/job'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -97,7 +82,7 @@ const state: StateOptions = reactive({
   api: {
     saveOrUpdateApi,
     getByIdApi,
-    emit
+    emit,
   },
   dataForm: {
     id: '',
@@ -110,8 +95,8 @@ const state: StateOptions = reactive({
     concurrent: 'N',
     sort: 0,
     status: 1,
-    remark: ''
-  }
+    remark: '',
+  },
 })
 
 const dataFormRef = ref()
@@ -119,27 +104,27 @@ const dataFormRef = ref()
 const dataRules = reactive<FormRules>({
   jobName: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' }
+    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' },
   ],
   jobGroup: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' }
+    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' },
   ],
   beanName: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 200, message: '长度为2~200个字符', trigger: 'blur' }
+    { min: 2, max: 200, message: '长度为2~200个字符', trigger: 'blur' },
   ],
   method: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 100, message: '长度为2~100个字符', trigger: 'blur' }
+    { min: 2, max: 100, message: '长度为2~100个字符', trigger: 'blur' },
   ],
   params: [{ min: 0, max: 2000, message: '长度不能超过2000个字符', trigger: 'blur' }],
   cronExpression: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 20, message: '长度为2~20个字符', trigger: 'blur' }
+    { min: 2, max: 20, message: '长度为2~20个字符', trigger: 'blur' },
   ],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }]
+  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }],
 })
 
 const { getData, handleSaveOrUpdate } = crud(state)
@@ -176,6 +161,6 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-  init
+  init,
 })
 </script>

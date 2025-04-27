@@ -7,12 +7,7 @@
         style="width: 100%"
         @change="changeCandidateStrategy"
       >
-        <el-option
-          v-for="(dict, index) in CANDIDATE_STRATEGY"
-          :key="index"
-          :label="dict.label"
-          :value="dict.value"
-        />
+        <el-option v-for="(dict, index) in CANDIDATE_STRATEGY" :key="index" :label="dict.label" :value="dict.value" />
       </el-select>
     </el-form-item>
     <el-form-item
@@ -81,12 +76,9 @@
         style="width: 100%"
         @change="updateElementTask"
       >
-        <el-option
-          v-for="item in userOptions"
-          :key="item.id"
-          :label="item.nickname"
-          :value="item.id"
-        >{{ item.nickname }}</el-option>
+        <el-option v-for="item in userOptions" :key="item.id" :label="item.nickname" :value="item.id">{{
+          item.nickname
+        }}</el-option>
       </el-select>
     </el-form-item>
     <el-form-item
@@ -101,12 +93,7 @@
         style="width: 100%"
         @change="updateElementTask"
       >
-        <el-option
-          v-for="item in userGroupOptions"
-          :key="item.id"
-          :label="item.name"
-          :value="item.id"
-        />
+        <el-option v-for="item in userGroupOptions" :key="item.id" :label="item.name" :value="item.id" />
       </el-select>
     </el-form-item>
     <el-form-item
@@ -114,12 +101,7 @@
       label="表单内用户字段"
       prop="formUser"
     >
-      <el-select
-        v-model="userTaskForm.candidateParam"
-        clearable
-        style="width: 100%"
-        @change="handleFormUserChange"
-      >
+      <el-select v-model="userTaskForm.candidateParam" clearable style="width: 100%" @change="handleFormUserChange">
         <el-option
           v-for="(item, idx) in userFieldOnFormOptions"
           :key="idx"
@@ -134,12 +116,7 @@
       label="表单内部门字段"
       prop="formDept"
     >
-      <el-select
-        v-model="userTaskForm.candidateParam"
-        clearable
-        style="width: 100%"
-        @change="updateElementTask"
-      >
+      <el-select v-model="userTaskForm.candidateParam" clearable style="width: 100%" @change="updateElementTask">
         <el-option
           v-for="(item, idx) in deptFieldOnFormOptions"
           :key="idx"
@@ -161,24 +138,14 @@
     >
       <template #label>
         <div class="flex items-center">
-          <el-tooltip
-            class="item"
-            effect="dark"
-            :content="deptLevelLabel!"
-            placement="top"
-          >
+          <el-tooltip class="item" effect="dark" :content="deptLevelLabel!" placement="top">
             <icon icon="ep:info-filled" />
           </el-tooltip>
           <span class="ml-0.5">部门负责人来源</span>
         </div>
       </template>
       <el-select v-model="deptLevel" clearable @change="updateElementTask">
-        <el-option
-          v-for="(item, index) in MULTI_LEVEL_DEPT"
-          :key="index"
-          :label="item.label"
-          :value="item.value"
-        />
+        <el-option v-for="(item, index) in MULTI_LEVEL_DEPT" :key="index" :label="item.label" :value="item.value" />
       </el-select>
     </el-form-item>
     <el-form-item
@@ -193,13 +160,9 @@
         style="width: 100%"
         @change="updateElementTask"
       />
-      <el-button
-        class="!w-1/1 mt-[5px]"
-        type="success"
-        icon="select"
-        size="small"
-        @click="openProcessExpressionDialog"
-      >选择表达式</el-button>
+      <el-button class="mt-[5px] !w-1/1" type="success" icon="select" size="small" @click="openProcessExpressionDialog"
+        >选择表达式</el-button
+      >
       <!-- 选择弹窗 -->
       <ProcessExpressionDialog ref="processExpressionDialogRef" @select="selectProcessExpression" />
     </el-form-item>
@@ -217,12 +180,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  CANDIDATE_STRATEGY,
-  CandidateStrategy,
-  FieldPermissionType,
-  MULTI_LEVEL_DEPT
-} from '@/api/bpm/consts'
+import { CANDIDATE_STRATEGY, CandidateStrategy, FieldPermissionType, MULTI_LEVEL_DEPT } from '@/api/bpm/consts'
 import { defaultProps, handleTree } from '@/utils/tree'
 import * as RoleApi from '@/api/system/role'
 import * as DeptApi from '@/api/system/dept'
@@ -238,13 +196,13 @@ import { ElTreeSelect } from 'element-plus'
 defineOptions({ name: 'UserTask' })
 const props = defineProps({
   id: String,
-  type: String
+  type: String,
 })
 const prefix = inject('prefix')
 const userTaskForm = ref<any>({
   candidateStrategy: undefined, // 分配规则
   candidateParam: [], // 分配选项
-  skipExpression: '' // 跳过表达式
+  skipExpression: '', // 跳过表达式
 })
 const bpmnElement = ref()
 const bpmnInstances = () => (window as any)?.bpmnInstances
@@ -289,14 +247,12 @@ const resetTaskForm = () => {
   }
 
   const extensionElements =
-    businessObject?.extensionElements ??
-    bpmnInstances().moddle.create('bpmn:ExtensionElements', { values: [] })
+    businessObject?.extensionElements ?? bpmnInstances().moddle.create('bpmn:ExtensionElements', { values: [] })
   userTaskForm.value.candidateStrategy = extensionElements.values?.filter(
-    (ex: any) => ex.$type === `${prefix}:CandidateStrategy`
+    (ex: any) => ex.$type === `${prefix}:CandidateStrategy`,
   )?.[0]?.value
-  const candidateParamStr = extensionElements.values?.filter(
-    (ex: any) => ex.$type === `${prefix}:CandidateParam`
-  )?.[0]?.value
+  const candidateParamStr = extensionElements.values?.filter((ex: any) => ex.$type === `${prefix}:CandidateParam`)?.[0]
+    ?.value
   if (candidateParamStr && candidateParamStr.length > 0) {
     if (userTaskForm.value.candidateStrategy === CandidateStrategy.EXPRESSION) {
       // 特殊：流程表达式，只有一个 input 输入框
@@ -334,7 +290,7 @@ const resetTaskForm = () => {
 
   otherExtensions.value =
     extensionElements.values?.filter(
-      (ex: any) => ex.$type !== `${prefix}:CandidateStrategy` && ex.$type !== `${prefix}:CandidateParam`
+      (ex: any) => ex.$type !== `${prefix}:CandidateStrategy` && ex.$type !== `${prefix}:CandidateParam`,
     ) ?? []
 
   // 跳过表达式
@@ -386,13 +342,17 @@ const updateElementTask = () => {
       : userTaskForm.value.candidateParam
 
   // 特殊处理多级部门情况
-  if (userTaskForm.value.candidateStrategy == CandidateStrategy.MULTI_LEVEL_DEPT_LEADER ||
-    userTaskForm.value.candidateStrategy == CandidateStrategy.FORM_DEPT_LEADER) {
+  if (
+    userTaskForm.value.candidateStrategy == CandidateStrategy.MULTI_LEVEL_DEPT_LEADER ||
+    userTaskForm.value.candidateStrategy == CandidateStrategy.FORM_DEPT_LEADER
+  ) {
     candidateParam += '|' + deptLevel.value
   }
   // 特殊处理发起人部门的负责人、发起人连续部门负责人
-  if (userTaskForm.value.candidateStrategy == CandidateStrategy.START_USER_DEPT_LEADER ||
-    userTaskForm.value.candidateStrategy == CandidateStrategy.START_USER_MULTI_LEVEL_DEPT_LEADER) {
+  if (
+    userTaskForm.value.candidateStrategy == CandidateStrategy.START_USER_DEPT_LEADER ||
+    userTaskForm.value.candidateStrategy == CandidateStrategy.START_USER_MULTI_LEVEL_DEPT_LEADER
+  ) {
     candidateParam = deptLevel.value + ''
   }
 
@@ -400,15 +360,15 @@ const updateElementTask = () => {
     values: [
       ...otherExtensions.value,
       bpmnInstances().moddle.create(`${prefix}:CandidateStrategy`, {
-        value: userTaskForm.value.candidateStrategy
+        value: userTaskForm.value.candidateStrategy,
       }),
       bpmnInstances().moddle.create(`${prefix}:CandidateParam`, {
-        value: candidateParam
-      })
-    ]
+        value: candidateParam,
+      }),
+    ],
   })
   bpmnInstances().modeling.updateProperties(toRaw(bpmnElement.value), {
-    extensionElements: extensions
+    extensionElements: extensions,
   })
 
   // 改用通过extensionElements来存储数据
@@ -422,11 +382,11 @@ const updateElementTask = () => {
 const updateSkipExpression = () => {
   if (userTaskForm.value.skipExpression && userTaskForm.value.skipExpression !== '') {
     bpmnInstances().modeling.updateProperties(toRaw(bpmnElement.value), {
-      skipExpression: userTaskForm.value.skipExpression
+      skipExpression: userTaskForm.value.skipExpression,
     })
   } else {
     bpmnInstances().modeling.updateProperties(toRaw(bpmnElement.value), {
-      skipExpression: null
+      skipExpression: null,
     })
   }
 }
@@ -457,34 +417,33 @@ watch(
       resetTaskForm()
     })
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 onMounted(async () => {
-
   // 获得角色列表
-  roleOptions.value = await RoleApi.getSimpleList({status: StatusEnum.ENABLE}).then((res) => res.data)
+  roleOptions.value = await RoleApi.getSimpleList({ status: StatusEnum.ENABLE }).then((res) => res.data)
   // 获得部门列表
-  const deptOptions = await DeptApi.getSimpleList({status: StatusEnum.ENABLE}).then((res) => res.data)
+  const deptOptions = await DeptApi.getSimpleList({ status: StatusEnum.ENABLE }).then((res) => res.data)
   deptTreeOptions.value = handleTree(deptOptions, 'id')
   // 获得岗位列表
   postOptions.value = await PostApi.getSimpleList().then((res) => res.data)
 
   // 获得用户列表
-  UserApi.getSimpleList({status: StatusEnum.ENABLE})
+  UserApi.getSimpleList({ status: StatusEnum.ENABLE })
     .then((res) => {
       userOptions.value = res.data
     })
     .then(() => {
       // 数据类型不同导致不显示用户的 nickname ，string 和 number
       // 强制清空并重新赋值 candidateParam，触发 el-select 重新解析 label
-      const temp = [...userTaskForm.value.candidateParam];
-      userTaskForm.value.candidateParam = [];
-      userTaskForm.value.candidateParam = temp.map((item: any) => item + '');
+      const temp = [...userTaskForm.value.candidateParam]
+      userTaskForm.value.candidateParam = []
+      userTaskForm.value.candidateParam = temp.map((item: any) => item + '')
     })
 
   // 获得用户组列表
-  UserGroupApi.getSimpleList({status: StatusEnum.ENABLE}).then((res) => {
+  UserGroupApi.getSimpleList({ status: StatusEnum.ENABLE }).then((res) => {
     userGroupOptions.value = res.data
   })
 })

@@ -1,6 +1,6 @@
-import type { Theme } from '@/stores/theme/typings'
+import type { ThemeConfig } from '@/stores/theme/typings'
 
-export const themeConfig: Theme = {
+export const themeConfig: ThemeConfig = {
   sidebarStyle: 'dark',
   headerStyle: 'light',
   primaryColor: '#409eff',
@@ -9,5 +9,5 @@ export const themeConfig: Theme = {
   showLogo: true,
   showBreadcrumb: true,
   showTabsView: true,
-  isTabsCache: true
+  isTabsCache: true,
 }

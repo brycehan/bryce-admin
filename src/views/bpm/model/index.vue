@@ -20,7 +20,9 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth:has-authority="'bpm:model:save'" type="primary" icon="Plus" plain @click="handleAddOrEdit()">新增</el-button>
+      <el-button v-auth:has-authority="'bpm:model:save'" type="primary" icon="Plus" plain @click="handleAddOrEdit()"
+        >新增</el-button
+      >
       <el-button
         v-auth:has-authority="'bpm:model:delete'"
         type="danger"
@@ -108,13 +110,28 @@
         min-width="220"
       >
         <template #default="scope">
-          <el-button v-auth:has-authority="'bpm:model:update'" type="primary" icon="Edit" link @click="handleAddOrEdit(scope.row)">
+          <el-button
+            v-auth:has-authority="'bpm:model:update'"
+            type="primary"
+            icon="Edit"
+            link
+            @click="handleAddOrEdit(scope.row)"
+          >
             修改
           </el-button>
-          <el-button v-auth:has-authority="'bpm:model:deploy'" type="success" icon="Promotion" link @click="handleDeploy(scope.row)">
+          <el-button
+            v-auth:has-authority="'bpm:model:deploy'"
+            type="success"
+            icon="Promotion"
+            link
+            @click="handleDeploy(scope.row)"
+          >
             发布
           </el-button>
-          <el-dropdown v-auth:has-any-authority="['bpm:model:history', 'bpm:model:deploy', 'bpm:model:delete']" @command="(command: string) => handleCommand(command, scope.row)">
+          <el-dropdown
+            v-auth:has-any-authority="['bpm:model:history', 'bpm:model:deploy', 'bpm:model:delete']"
+            @command="(command: string) => handleCommand(command, scope.row)"
+          >
             <el-button type="info" class="btn-more-link" icon="d-arrow-right" text>更多</el-button>
             <template #dropdown>
               <el-dropdown-menu>
@@ -168,7 +185,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import modelApi from '@/api/bpm/model'
 import * as FormApi from '@/api/bpm/form'
 import type { StateOptions } from '@/utils/state'
@@ -180,14 +196,13 @@ import { authHasAuthority, authHasRole } from '@/utils/tool'
 import modal from '@/utils/modal'
 import { ElMessage } from 'element-plus'
 import HistoryDefinition from '@/views/bpm/model/history-definition.vue'
-import { useRouter } from 'vue-router'
 
 const state: StateOptions = reactive({
   api: {
     postPageApi: modelApi.postPageApi,
-    deleteByIdsApi: modelApi.deleteByIdsApi
+    deleteByIdsApi: modelApi.deleteByIdsApi,
   },
-  queryForm: {}
+  queryForm: {},
 })
 
 const queryFormRef = ref()
@@ -198,7 +213,7 @@ const showSearch = ref(true)
 const formDetailPreview = ref({
   visible: false,
   rule: [],
-  option: {}
+  option: {},
 })
 
 // 历史流程

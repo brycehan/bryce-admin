@@ -66,7 +66,7 @@ export const getSimpleList = (data: any) => {
  * @param status 状态（0：禁用，1：启用）
  */
 export const patchStatusApi = (id: string, status: number) => {
-    return request.patch(`/system/user/${id}/${status}`)
+  return request.patch(`/system/user/${id}/${status}`)
 }
 
 /**
@@ -196,5 +196,5 @@ export default {
   postAssignRolePageApi,
   postAssignRoleSaveApi,
   deleteAssignRoleApi,
-  checkUsernameUnique
+  checkUsernameUnique,
 }

@@ -30,13 +30,8 @@ export default function customTranslate(translations) {
     // Replace
     return template.replace(/{([^}]+)}/g, function (_, key) {
       let str = replacements[key]
-      if (
-        translations[replacements[key]] !== null &&
-        translations[replacements[key]] !== undefined
-      ) {
-        // eslint-disable-next-line no-mixed-spaces-and-tabs
+      if (translations[replacements[key]] !== null && translations[replacements[key]] !== undefined) {
         str = translations[replacements[key]]
-        // eslint-disable-next-line no-mixed-spaces-and-tabs
       }
       return str || '{' + key + '}'
     })

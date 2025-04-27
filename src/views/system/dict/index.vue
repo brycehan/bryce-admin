@@ -15,12 +15,7 @@
         <el-input v-model="state.queryForm.dictType" placeholder="请输入字典类型" clearable />
       </el-form-item>
       <el-form-item label="状态" prop="status">
-        <dict-select
-          v-model="state.queryForm.status"
-          dict-type="sys_status"
-          placeholder="字典状态"
-          clearable
-        />
+        <dict-select v-model="state.queryForm.status" dict-type="sys_status" placeholder="字典状态" clearable />
       </el-form-item>
       <el-form-item label="创建时间" prop="createdTime">
         <el-date-picker
@@ -61,7 +56,8 @@
         plain
         icon="Download"
         @click="handleDownloadExcel()"
-      >导出</el-button>
+        >导出</el-button
+      >
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
@@ -73,11 +69,33 @@
       @sort-change="handleSortChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="字典名称" prop="dictName" header-align="center" align="center" fixed="left" min-width="100" />
-      <el-table-column label="字典类型" prop="dictType" sortable="custom" header-align="center" align="center" fixed="left" min-width="150" />
+      <el-table-column
+        label="字典名称"
+        prop="dictName"
+        header-align="center"
+        align="center"
+        fixed="left"
+        min-width="100"
+      />
+      <el-table-column
+        label="字典类型"
+        prop="dictType"
+        sortable="custom"
+        header-align="center"
+        align="center"
+        fixed="left"
+        min-width="150"
+      />
       <dict-table-column label="状态" prop="status" dict-type="sys_status" min-width="75" />
-      <el-table-column label="备注" prop="remark" header-align="center" align="center" min-width="120" show-overflow-tooltip />
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165"/>
+      <el-table-column
+        label="备注"
+        prop="remark"
+        header-align="center"
+        align="center"
+        min-width="120"
+        show-overflow-tooltip
+      />
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="255">
         <template #default="scope">
           <el-button
@@ -118,20 +136,19 @@
     />
 
     <!-- 弹窗，新增 / 修改 -->
-    <AddOrEdit ref="addOrEditRef" @refresh-page="getPage" />
+    <add-or-edit ref="addOrEditRef" @refresh-page="getPage" />
 
     <!-- 字典配置 -->
     <el-drawer v-if="dataVisible" v-model="dataVisible" :title="dataTitle" :size="1000">
-      <Data :dict-type-id="dictTypeId"  value=""/>
+      <Data :dict-type-id="dictTypeId" value="" />
     </el-drawer>
   </el-card>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import Data from '@/views/system/dict/data.vue'
-import { postPageApi, deleteByIdsApi,postExportExcelApi } from '@/api/system/dictType'
+import { postPageApi, deleteByIdsApi, postExportExcelApi } from '@/api/system/dictType'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 
@@ -144,11 +161,11 @@ const state: StateOptions = reactive({
   queryForm: {
     dictName: '',
     dictType: '',
-    status: ''
+    status: '',
   },
   range: {
-    createdTime: []
-  }
+    createdTime: [],
+  },
 })
 
 const queryFormRef = ref()
@@ -165,8 +182,15 @@ onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange, handleSortChange, handleDeleteBatch, handleDownloadExcel } =
-  crud(state)
+const {
+  getPage,
+  handleSizeChange,
+  handleCurrentChange,
+  handleSelectionChange,
+  handleSortChange,
+  handleDeleteBatch,
+  handleDownloadExcel,
+} = crud(state)
 
 /**
  * 重置按钮操作

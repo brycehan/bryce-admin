@@ -11,7 +11,7 @@ import '@kangc/v-md-editor/lib/theme/style/github.css'
 import hljs from 'highlight.js'
 
 VueMarkdownEditor.use(githubTheme, {
-  Hljs: hljs
+  Hljs: hljs,
 })
 
 const model = defineModel()
@@ -19,7 +19,7 @@ const model = defineModel()
 const props = defineProps({
   height: {
     type: String,
-    default: '400px'
-  }
+    default: '400px',
+  },
 })
 </script>

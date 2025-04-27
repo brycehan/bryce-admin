@@ -4,13 +4,7 @@
     :title="!state.dataForm.id ? '新增参数' : '修改参数'"
     :close-on-click-modal="false"
   >
-    <el-form
-      ref="dataFormRef"
-      :model="state.dataForm"
-      :rules="dataRules"
-      label-width="100"
-      class="mr-5"
-    >
+    <el-form ref="dataFormRef" :model="state.dataForm" :rules="dataRules" label-width="100" class="mr-5">
       <el-form-item label="参数名称" prop="paramName">
         <el-input v-model="state.dataForm.paramName" placeholder="请输入参数名称" />
       </el-form-item>
@@ -35,7 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import { getByIdApi, getCheckParamKeyUniqueApi, saveOrUpdateApi } from '@/api/system/param'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -47,7 +40,7 @@ const state: StateOptions = reactive({
   api: {
     saveOrUpdateApi,
     getByIdApi,
-    emit
+    emit,
   },
   dataForm: {
     id: '',
@@ -55,8 +48,8 @@ const state: StateOptions = reactive({
     paramKey: '',
     paramValue: '',
     paramType: 0,
-    remark: ''
-  }
+    remark: '',
+  },
 })
 
 const dataFormRef = ref()
@@ -64,11 +57,11 @@ const dataFormRef = ref()
 /**
  * 校验参数键名是否唯一
  *
- * @param rule 校验规则
+ * @param _ 校验规则
  * @param value 校验值
  * @param callback 回调
  */
-const checkParamKeyUnique = (rule: any, value: any, callback: any) => {
+const checkParamKeyUnique = (_: any, value: any, callback: any) => {
   getCheckParamKeyUniqueApi(value, state.dataForm.id).then((res) => {
     if (res.data) {
       callback()
@@ -81,18 +74,18 @@ const checkParamKeyUnique = (rule: any, value: any, callback: any) => {
 const dataRules = reactive<FormRules>({
   paramName: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 100, message: '长度为2~100个字符', trigger: 'blur' }
+    { min: 2, max: 100, message: '长度为2~100个字符', trigger: 'blur' },
   ],
   paramKey: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
     { min: 2, max: 100, message: '长度为2~100个字符', trigger: 'blur' },
-    { validator: checkParamKeyUnique, trigger: 'blur' }
+    { validator: checkParamKeyUnique, trigger: 'blur' },
   ],
   paramValue: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 1, max: 65535, message: '长度为1~65535个字符', trigger: 'blur' }
+    { min: 1, max: 65535, message: '长度为1~65535个字符', trigger: 'blur' },
   ],
-  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }]
+  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }],
 })
 
 const { getData, handleSaveOrUpdate } = crud(state)
@@ -129,6 +122,6 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-  init
+  init,
 })
 </script>

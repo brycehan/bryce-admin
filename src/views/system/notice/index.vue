@@ -11,24 +11,14 @@
       <el-form-item label="标题" prop="title">
         <el-input v-model="state.queryForm.title" placeholder="请输入标题" clearable />
       </el-form-item>
-       <el-form-item label="创建者" prop="createdUsername">
+      <el-form-item label="创建者" prop="createdUsername">
         <el-input v-model="state.queryForm.createdUsername" placeholder="请输入创建者账号" clearable />
       </el-form-item>
       <el-form-item label="类型" prop="type">
-        <dict-select
-          v-model="state.queryForm.type"
-          dict-type="sys_notice_type"
-          placeholder="类型"
-          clearable
-        />
+        <dict-select v-model="state.queryForm.type" dict-type="sys_notice_type" placeholder="类型" clearable />
       </el-form-item>
       <el-form-item label="状态" prop="status">
-        <dict-select
-          v-model="state.queryForm.status"
-          dict-type="sys_status"
-          placeholder="状态"
-          clearable
-        />
+        <dict-select v-model="state.queryForm.status" dict-type="sys_status" placeholder="状态" clearable />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="getPage()">搜索</el-button>
@@ -65,10 +55,10 @@
         align="center"
         min-width="330"
       />
-      <dict-table-column label="类型" prop="type" dict-type="sys_notice_type" min-width="80"/>
-      <dict-table-column label="状态" prop="status" dict-type="sys_status" min-width="80"/>
+      <dict-table-column label="类型" prop="type" dict-type="sys_notice_type" min-width="80" />
+      <dict-table-column label="状态" prop="status" dict-type="sys_status" min-width="80" />
       <el-table-column label="创建者" prop="createdUsername" header-align="center" align="center" min-width="100" />
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="185"/>
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="185" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="180">
         <template #default="scope">
           <el-button
@@ -79,13 +69,7 @@
             @click="handleAddOrEdit(scope.row)"
             >修改</el-button
           >
-          <el-button
-            type="info"
-            icon="view"
-            text
-            @click="handleView(scope.row)"
-          >详情</el-button
-          >
+          <el-button type="info" icon="view" text @click="handleView(scope.row)">详情</el-button>
           <el-button
             v-auth:has-authority="'system:notice:delete'"
             type="danger"
@@ -108,37 +92,18 @@
     />
 
     <!-- 新增/修改 弹窗 -->
-    <el-drawer
-      v-if="addOrEditVisible"
-      v-model="addOrEditVisible"
-      :title="addOrEditTitle"
-      :size="1000"
-    >
-      <AddOrEdit
-        v-model="addOrEditVisible"
-        :notice-id="noticeId"
-        @refresh-page="getPage"
-      />
+    <el-drawer v-if="addOrEditVisible" v-model="addOrEditVisible" :title="addOrEditTitle" :size="1000">
+      <AddOrEdit v-model="addOrEditVisible" :notice-id="noticeId" @refresh-page="getPage" />
     </el-drawer>
 
     <!-- 预览 弹窗 -->
-    <el-drawer
-      v-if="viewVisible"
-      v-model="viewVisible"
-      :title="viewTitle"
-      :size="1000"
-    >
-      <View
-        v-model="viewVisible"
-        :notice-id="viewNoticeId"
-        @refresh-page="getPage"
-      />
+    <el-drawer v-if="viewVisible" v-model="viewVisible" :title="viewTitle" :size="1000">
+      <View v-model="viewVisible" :notice-id="viewNoticeId" @refresh-page="getPage" />
     </el-drawer>
   </el-card>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import View from './view.vue'
 import { postPageApi, deleteByIdsApi } from '@/api/system/notice'
@@ -148,14 +113,14 @@ import { crud } from '@/utils/state'
 const state: StateOptions = reactive({
   api: {
     postPageApi,
-    deleteByIdsApi
+    deleteByIdsApi,
   },
   queryForm: {
     title: '',
     createdUsername: '',
     type: '',
-    status: ''
-  }
+    status: '',
+  },
 })
 
 const queryFormRef = ref()
@@ -174,8 +139,7 @@ onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } =
-  crud(state)
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } = crud(state)
 
 /**
  * 重置按钮操作

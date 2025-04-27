@@ -74,7 +74,7 @@ export const setPreviewConfAndFields = (detailPreview: object, conf: string, fie
   // @ts-ignore
   detailPreview.rule = decodeFields(fields)
   if (value) {
-  // @ts-ignore
+    // @ts-ignore
     detailPreview.value = value
   }
 }

@@ -15,13 +15,13 @@ const dictStore = useDictStore()
 const props = defineProps({
   dictType: {
     type: String,
-    required: true
+    required: true,
   },
   disabled: {
     type: Boolean,
     required: false,
     default: () => false,
-  }
+  },
 })
 
 const model = defineModel<string | number | boolean | undefined>()
@@ -29,7 +29,7 @@ const modelValue = computed({
   get: () => model.value,
   set: (value) => {
     model.value = value
-  }
+  },
 })
 
 const dataList = dictStore.getDictDataList(props.dictType)

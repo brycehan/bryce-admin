@@ -4,7 +4,7 @@ import {
   useSelectRule,
   useUploadFileRule,
   useUploadImgRule,
-  useUploadImgsRule
+  useUploadImgsRule,
 } from './config'
 import { type Ref } from 'vue'
 import { type Menu } from '@/components/form-create/src/type'
@@ -45,7 +45,7 @@ export const useFormCreateDesigner = async (designer: Ref) => {
       designer.value?.appendMenuItem('main', {
         icon: component.icon,
         name: component.name,
-        label: component.label
+        label: component.label,
       })
     })
   }
@@ -53,19 +53,19 @@ export const useFormCreateDesigner = async (designer: Ref) => {
   const userSelectRule = useSelectRule({
     name: 'UserSelect',
     label: '用户选择器',
-    icon: 'icon-[ion--person-outline]'
+    icon: 'icon-[ion--person-outline]',
   })
   const deptSelectRule = useSelectRule({
     name: 'DeptSelect',
     label: '部门选择器',
-    icon: 'icon-[ion--people-outline]'
+    icon: 'icon-[ion--people-outline]',
   })
   const dictSelectRule = useDictSelectRule()
   const apiSelectRule0 = useSelectRule({
     name: 'ApiSelect',
     label: '接口选择器',
     icon: 'icon-[ion--copy-outline]',
-    props: [...apiSelectRule]
+    props: [...apiSelectRule],
   })
 
   /**
@@ -83,9 +83,9 @@ export const useFormCreateDesigner = async (designer: Ref) => {
         return {
           icon: component.icon,
           name: component.name,
-          label: component.label
+          label: component.label,
         }
-      })
+      }),
     }
     designer.value?.addMenu(menu)
   }

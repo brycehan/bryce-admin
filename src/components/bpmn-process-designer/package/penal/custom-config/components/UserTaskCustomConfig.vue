@@ -12,12 +12,7 @@
     <el-divider content-position="left">审批类型</el-divider>
     <el-form-item prop="approveType">
       <el-radio-group v-model="approveType.value">
-        <el-radio
-          v-for="(item, index) in APPROVE_TYPE"
-          :key="index"
-          :value="item.value"
-          :label="item.value"
-        >
+        <el-radio v-for="(item, index) in APPROVE_TYPE" :key="index" :value="item.value" :label="item.value">
           {{ item.label }}
         </el-radio>
       </el-radio-group>
@@ -37,18 +32,9 @@
         </div>
       </el-radio-group>
     </el-form-item>
-    <el-form-item
-      v-if="rejectHandlerType == RejectHandlerType.RETURN_USER_TASK"
-      label="驳回节点"
-      prop="returnNodeId"
-    >
+    <el-form-item v-if="rejectHandlerType == RejectHandlerType.RETURN_USER_TASK" label="驳回节点" prop="returnNodeId">
       <el-select v-model="returnNodeId" clearable style="width: 100%" @change="updateReturnNodeId">
-        <el-option
-          v-for="item in returnTaskList"
-          :key="item.id"
-          :label="item.name"
-          :value="item.id"
-        />
+        <el-option v-for="item in returnTaskList" :key="item.id" :label="item.name" :value="item.id" />
       </el-select>
     </el-form-item>
 
@@ -68,19 +54,8 @@
       prop="assignEmptyHandlerUserIds"
       span="24"
     >
-      <el-select
-        v-model="assignEmptyUserIds"
-        clearable
-        multiple
-        style="width: 100%"
-        @change="updateAssignEmptyUserIds"
-      >
-        <el-option
-          v-for="item in userOptions"
-          :key="item.id"
-          :label="item.nickname"
-          :value="item.id"
-        />
+      <el-select v-model="assignEmptyUserIds" clearable multiple style="width: 100%" @change="updateAssignEmptyUserIds">
+        <el-option v-for="item in userOptions" :key="item.id" :label="item.nickname" :value="item.id" />
       </el-select>
     </el-form-item>
 
@@ -97,11 +72,11 @@
     <div class="button-setting-pane">
       <div class="button-setting-title">
         <div class="button-title-label">操作按钮</div>
-        <div class="pl-4 button-title-label">显示名称</div>
+        <div class="button-title-label pl-4">显示名称</div>
         <div class="button-title-label">启用</div>
       </div>
       <div class="button-setting-item" v-for="(item, index) in buttonsSettingEl" :key="index">
-        <div class="button-setting-item-label"> {{ OPERATION_BUTTON_NAME.get(item.id) }} </div>
+        <div class="button-setting-item-label">{{ OPERATION_BUTTON_NAME.get(item.id) }}</div>
         <div class="button-setting-item-label">
           <input
             type="text"
@@ -125,7 +100,7 @@
     <el-divider content-position="left">字段权限</el-divider>
     <div class="field-setting-pane" v-if="formType === 10">
       <div class="field-permit-title">
-        <div class="setting-title-label first-title"> 字段名称 </div>
+        <div class="setting-title-label first-title">字段名称</div>
         <div class="other-titles">
           <span class="setting-title-label">只读</span>
           <span class="setting-title-label">可编辑</span>
@@ -133,29 +108,20 @@
         </div>
       </div>
       <div class="field-setting-item" v-for="(item, index) in fieldsPermissionEl" :key="index">
-        <div class="field-setting-item-label"> {{ item.title }} </div>
+        <div class="field-setting-item-label">{{ item.title }}</div>
         <el-radio-group class="field-setting-item-group" v-model="item.permission">
           <div class="item-radio-wrap">
-            <el-radio
-              :value="FieldPermissionType.READ"
-              size="large"
-              :label="FieldPermissionType.READ"
+            <el-radio :value="FieldPermissionType.READ" size="large" :label="FieldPermissionType.READ"
               ><span></span
             ></el-radio>
           </div>
           <div class="item-radio-wrap">
-            <el-radio
-              :value="FieldPermissionType.WRITE"
-              size="large"
-              :label="FieldPermissionType.WRITE"
+            <el-radio :value="FieldPermissionType.WRITE" size="large" :label="FieldPermissionType.WRITE"
               ><span></span
             ></el-radio>
           </div>
           <div class="item-radio-wrap">
-            <el-radio
-              :value="FieldPermissionType.NONE"
-              size="large"
-              :label="FieldPermissionType.NONE"
+            <el-radio :value="FieldPermissionType.NONE" size="large" :label="FieldPermissionType.NONE"
               ><span></span
             ></el-radio>
           </div>
@@ -188,7 +154,7 @@ import {
   FieldPermissionType,
   APPROVE_TYPE,
   ApproveType,
-  type ButtonSetting
+  type ButtonSetting,
 } from '@/api/bpm/consts'
 import * as UserApi from '@/api/system/user'
 import { useFormFieldsPermission } from '@/api/bpm/nodeUtils.ts'
@@ -197,7 +163,7 @@ import _ from 'lodash'
 defineOptions({ name: 'ElementCustomConfig4UserTask' })
 const props = defineProps({
   id: String,
-  type: String
+  type: String,
 })
 const prefix = inject('prefix')
 
@@ -224,9 +190,7 @@ const { btnDisplayNameEdit, changeBtnDisplayName, btnDisplayNameBlurEvent } = us
 
 // 字段权限
 const fieldsPermissionEl = ref<any[]>([])
-const { formType, fieldsPermissionConfig, getNodeConfigFormFields } = useFormFieldsPermission(
-  FieldPermissionType.READ
-)
+const { formType, fieldsPermissionConfig, getNodeConfigFormFields } = useFormFieldsPermission(FieldPermissionType.READ)
 
 // 审批类型
 const approveType = ref({ value: ApproveType.USER })
@@ -246,10 +210,7 @@ const resetCustomConfigList = () => {
   bpmnElement.value = bpmnInstances().bpmnElement
 
   // 获取可回退的列表
-  returnTaskList.value = findAllPredecessorsExcludingStart(
-    bpmnElement.value.id,
-    bpmnInstances().modeler
-  )
+  returnTaskList.value = findAllPredecessorsExcludingStart(bpmnElement.value.id, bpmnInstances().modeler)
 
   // 获取元素扩展属性 或者 创建扩展属性
   elExtensionElements.value =
@@ -263,38 +224,33 @@ const resetCustomConfigList = () => {
 
   // 审批人与提交人为同一人时
   assignStartUserHandlerTypeEl.value =
-    elExtensionElements.value.values?.filter(
-      (ex: any) => ex.$type === `${prefix}:AssignStartUserHandlerType`
-    )?.[0] || bpmnInstances().moddle.create(`${prefix}:AssignStartUserHandlerType`, { value: 1 })
+    elExtensionElements.value.values?.filter((ex: any) => ex.$type === `${prefix}:AssignStartUserHandlerType`)?.[0] ||
+    bpmnInstances().moddle.create(`${prefix}:AssignStartUserHandlerType`, { value: 1 })
   assignStartUserHandlerType.value = assignStartUserHandlerTypeEl.value.value
 
   // 审批人拒绝时
   rejectHandlerTypeEl.value =
-    elExtensionElements.value.values?.filter(
-      (ex: any) => ex.$type === `${prefix}:RejectHandlerType`
-    )?.[0] || bpmnInstances().moddle.create(`${prefix}:RejectHandlerType`, { value: 1 })
+    elExtensionElements.value.values?.filter((ex: any) => ex.$type === `${prefix}:RejectHandlerType`)?.[0] ||
+    bpmnInstances().moddle.create(`${prefix}:RejectHandlerType`, { value: 1 })
   rejectHandlerType.value = rejectHandlerTypeEl.value.value
   returnNodeIdEl.value =
-    elExtensionElements.value.values?.filter(
-      (ex: any) => ex.$type === `${prefix}:RejectReturnTaskId`
-    )?.[0] || bpmnInstances().moddle.create(`${prefix}:RejectReturnTaskId`, { value: '' })
+    elExtensionElements.value.values?.filter((ex: any) => ex.$type === `${prefix}:RejectReturnTaskId`)?.[0] ||
+    bpmnInstances().moddle.create(`${prefix}:RejectReturnTaskId`, { value: '' })
   returnNodeId.value = returnNodeIdEl.value.value
 
   // 审批人为空时
   assignEmptyHandlerTypeEl.value =
-    elExtensionElements.value.values?.filter(
-      (ex: any) => ex.$type === `${prefix}:AssignEmptyHandlerType`
-    )?.[0] || bpmnInstances().moddle.create(`${prefix}:AssignEmptyHandlerType`, { value: 1 })
+    elExtensionElements.value.values?.filter((ex: any) => ex.$type === `${prefix}:AssignEmptyHandlerType`)?.[0] ||
+    bpmnInstances().moddle.create(`${prefix}:AssignEmptyHandlerType`, { value: 1 })
   assignEmptyHandlerType.value = assignEmptyHandlerTypeEl.value.value
   assignEmptyUserIdsEl.value =
-    elExtensionElements.value.values?.filter(
-      (ex: any) => ex.$type === `${prefix}:AssignEmptyUserIds`
-    )?.[0] || bpmnInstances().moddle.create(`${prefix}:AssignEmptyUserIds`, { value: '' })
+    elExtensionElements.value.values?.filter((ex: any) => ex.$type === `${prefix}:AssignEmptyUserIds`)?.[0] ||
+    bpmnInstances().moddle.create(`${prefix}:AssignEmptyUserIds`, { value: '' })
   assignEmptyUserIds.value = assignEmptyUserIdsEl.value.value?.split(',')
 
   // 操作按钮
   buttonsSettingEl.value = elExtensionElements.value.values?.filter(
-    (ex: any) => ex.$type === `${prefix}:ButtonsSetting`
+    (ex: any) => ex.$type === `${prefix}:ButtonsSetting`,
   )
   if (buttonsSettingEl.value.length === 0) {
     DEFAULT_BUTTON_SETTING.forEach((item) => {
@@ -302,8 +258,8 @@ const resetCustomConfigList = () => {
         bpmnInstances().moddle.create(`${prefix}:ButtonsSetting`, {
           'flowable:id': item.id,
           'flowable:displayName': item.displayName,
-          'flowable:enable': item.enable
-        })
+          'flowable:enable': item.enable,
+        }),
       )
     })
   }
@@ -311,18 +267,15 @@ const resetCustomConfigList = () => {
   // 字段权限
   if (formType.value === 10) {
     const fieldsPermissionList = elExtensionElements.value.values?.filter(
-      (ex: any) => ex.$type === `${prefix}:FieldsPermission`
+      (ex: any) => ex.$type === `${prefix}:FieldsPermission`,
     )
     fieldsPermissionEl.value = []
     getNodeConfigFormFields()
     // 由于默认添加了发起人元素，这里需要删掉
     fieldsPermissionConfig.value = fieldsPermissionConfig.value.slice(1)
     fieldsPermissionConfig.value.forEach((element) => {
-      element.permission =
-        fieldsPermissionList?.find((obj: any) => obj.field === element.field)?.permission ?? '1'
-      fieldsPermissionEl.value.push(
-        bpmnInstances().moddle.create(`${prefix}:FieldsPermission`, element)
-      )
+      element.permission = fieldsPermissionList?.find((obj: any) => obj.field === element.field)?.permission ?? '1'
+      fieldsPermissionEl.value.push(bpmnInstances().moddle.create(`${prefix}:FieldsPermission`, element))
     })
   }
 
@@ -349,7 +302,7 @@ const resetCustomConfigList = () => {
         ex.$type !== `${prefix}:FieldsPermission` &&
         ex.$type !== `${prefix}:ApproveType` &&
         ex.$type !== `${prefix}:SignEnable` &&
-        ex.$type !== `${prefix}:ReasonRequire`
+        ex.$type !== `${prefix}:ReasonRequire`,
     ) ?? []
 
   // 更新元素扩展属性，避免后续报错
@@ -402,21 +355,20 @@ const updateElementExtensions = () => {
       ...buttonsSettingEl.value,
       ...fieldsPermissionEl.value,
       signEnable.value,
-      reasonRequire.value
-    ]
+      reasonRequire.value,
+    ],
   })
   bpmnInstances().modeling.updateProperties(toRaw(bpmnElement.value), {
-    extensionElements: extensions
+    extensionElements: extensions,
   })
 }
 
 watch(
   () => props.id,
   (val) => {
-
     if (_.isString(val) && val.length) nextTick(() => resetCustomConfigList())
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 function findAllPredecessorsExcludingStart(elementId: any, modeler: any) {
@@ -478,7 +430,7 @@ function useButtonsSetting() {
     buttonsSetting,
     btnDisplayNameEdit,
     changeBtnDisplayName,
-    btnDisplayNameBlurEvent
+    btnDisplayNameBlurEvent,
   }
 }
 
@@ -493,8 +445,8 @@ onMounted(async () => {
 .button-setting-pane {
   display: flex;
   flex-direction: column;
-  font-size: 14px;
   margin-top: 8px;
+  font-size: 14px;
 
   .button-setting-desc {
     padding-right: 8px;
@@ -505,8 +457,8 @@ onMounted(async () => {
 
   .button-setting-title {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     height: 45px;
     padding-left: 12px;
     background-color: #f8fafc0a;
@@ -531,8 +483,8 @@ onMounted(async () => {
   }
 
   .button-setting-item {
-    align-items: center;
     display: flex;
+    align-items: center;
     justify-content: space-between;
     height: 38px;
     padding-left: 12px;
@@ -550,14 +502,14 @@ onMounted(async () => {
     .button-setting-item-label {
       width: 150px;
       overflow: hidden;
-      text-align: left;
       text-overflow: ellipsis;
+      text-align: left;
       white-space: nowrap;
     }
 
     .editable-title-input {
-      height: 24px;
       max-width: 130px;
+      height: 24px;
       margin-left: 4px;
       line-height: 24px;
       border: 1px solid #d9d9d9;
@@ -565,8 +517,8 @@ onMounted(async () => {
       transition: all 0.3s;
 
       &:focus {
-        border-color: #40a9ff;
         outline: 0;
+        border-color: #40a9ff;
         box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
       }
     }
@@ -587,8 +539,8 @@ onMounted(async () => {
 
   .field-permit-title {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     height: 45px;
     padding-left: 12px;
     line-height: 45px;
@@ -616,8 +568,8 @@ onMounted(async () => {
   }
 
   .field-setting-item {
-    align-items: center;
     display: flex;
+    align-items: center;
     justify-content: space-between;
     height: 38px;
     padding-left: 12px;

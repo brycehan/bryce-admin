@@ -1,5 +1,8 @@
 <template>
-  <div class="header-container" :class="headerClass">
+  <div
+    class="flex w-full justify-between bg-[var(--theme-header-bg-color)] text-[var(--theme-header-text-color)]"
+    :class="headerClass"
+  >
     <HeaderLeft />
     <HeaderRight />
   </div>
@@ -13,14 +16,5 @@ import { computed } from 'vue'
 
 const appStore = useAppStore()
 
-const headerClass = computed(() => appStore.theme.headerStyle === 'primary' ? 'header-primary' : '')
+const headerClass = computed(() => (appStore.theme.headerStyle === 'primary' ? 'header-primary' : ''))
 </script>
-
-<style scoped lang="scss">
-.header-container {
-  display: flex;
-  justify-content: space-between;
-  background: var(--theme-header-bg-color);
-  color: var(--theme-header-text-color);
-}
-</style>

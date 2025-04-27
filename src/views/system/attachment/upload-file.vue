@@ -1,13 +1,6 @@
 <template>
-  <el-dialog
-    v-model="visible"
-    title="上传文件"
-    width="500px"
-    :close-on-click-modal="false"
-  >
-    <el-form
-      ref="dataFormRef"
-    >
+  <el-dialog v-model="visible" title="上传文件" width="500px" :close-on-click-modal="false">
+    <el-form ref="dataFormRef">
       <el-upload
         ref="uploadRef"
         v-auth:has-authority="'system:attachment:save'"
@@ -22,21 +15,23 @@
         :limit="9"
         multiple
         drag
-        >
-        <icon icon="ep:upload-filled" class="el-icon el-icon--upload"/>
-          <div class="el-upload__text">
-            将文件拖到此处，或<em>点击上传</em>
-          </div>
-          <template #tip>
-            <div class="el-upload__tip">
-              <div class="upload-tip">
-                <el-tooltip effect="dark" content="非安全访问生成外部访问附件地址以`http(s)://`开头，否则不生成附件地址" placement="top">
-                  <el-checkbox v-model="accessType" :true-value="1" :false-value="0">是否安全访问文件</el-checkbox>
-                </el-tooltip>
-              </div>
+      >
+        <icon icon="ep:upload-filled" class="el-icon el-icon--upload" />
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <template #tip>
+          <div class="el-upload__tip">
+            <div class="upload-tip">
+              <el-tooltip
+                effect="dark"
+                content="非安全访问生成外部访问附件地址以`http(s)://`开头，否则不生成附件地址"
+                placement="top"
+              >
+                <el-checkbox v-model="accessType" :true-value="1" :false-value="0">是否安全访问文件</el-checkbox>
+              </el-tooltip>
             </div>
-          </template>
-        </el-upload>
+          </div>
+        </template>
+      </el-upload>
     </el-form>
     <template #footer>
       <el-button @click="visible = false">取消</el-button>
@@ -46,7 +41,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import { ElMessage, type UploadProps } from 'element-plus'
 import { useAuthStore } from '@/stores/modules/auth'
 import { handleBeforeUpload } from '@/utils/tool'
@@ -62,7 +56,7 @@ const dataForm = reactive({
   accessType: '',
   size: '',
   hash: '',
-  url: ''
+  url: '',
 })
 const dataFormRef = ref()
 const uploadRef = ref()
@@ -77,7 +71,7 @@ const authStore = useAuthStore()
  */
 const headers = {
   Authorization: authStore.accessToken,
-  'X-Source-Client': 'pc'
+  'X-Source-Client': 'pc',
 }
 
 /**
@@ -132,15 +126,11 @@ const handleOnSuccess: UploadProps['onSuccess'] = (res) => {
  * @param uploadFiles 之前选择的文件数组
  */
 const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
-  ElMessage.warning(
-    `限制为9个，您这次选择了 ${files.length} 个文件, 总共 ${
-      files.length + uploadFiles.length
-    } 个文件`
-  )
+  ElMessage.warning(`限制为9个，您这次选择了 ${files.length} 个文件, 总共 ${files.length + uploadFiles.length} 个文件`)
 }
 
 defineExpose({
-  init
+  init,
 })
 </script>
 
@@ -149,9 +139,11 @@ defineExpose({
   display: flex;
   align-items: center;
   justify-content: center;
+
   .el-checkbox {
     padding-right: 5px;
   }
+
   ::v-deep(.el-checkbox__label) {
     font-size: 12px;
     font-weight: normal;

@@ -43,58 +43,58 @@ export enum TaskStatusEnum {
   /**
    * 审批通过中
    */
-  APPROVING = 7
+  APPROVING = 7,
 }
 
 export const BpmTaskStatusOptions = [
   {
     label: '待审批',
     value: TaskStatusEnum.WAIT,
-    type: 'info'
+    type: 'info',
   },
   {
     label: '审批中',
     value: TaskStatusEnum.RUNNING,
-    type: 'primary'
+    type: 'primary',
   },
   {
     label: '审批通过',
     value: TaskStatusEnum.APPROVE,
-    type: 'success'
+    type: 'success',
   },
   {
     label: '审批不通过',
     value: TaskStatusEnum.REJECT,
-    type: 'danger'
+    type: 'danger',
   },
   {
     label: '已取消',
     value: TaskStatusEnum.CANCEL,
-    type: 'info'
+    type: 'info',
   },
   {
     label: '已退回',
     value: TaskStatusEnum.RETURN,
-    type: 'warning'
+    type: 'warning',
   },
   {
     label: '委派中',
     value: TaskStatusEnum.ASSIGNMENT,
-    type: 'primary'
+    type: 'primary',
   },
   {
     label: '审批通过中',
     value: TaskStatusEnum.APPROVING,
-    type: 'success'
-  }
+    type: 'success',
+  },
 ]
 
 export const postTaskTodoPage = (params: any) => {
-  return request.get('/bpm/task/todo-page', { params: params})
+  return request.get('/bpm/task/todo-page', { params: params })
 }
 
 export const postTaskDonePage = async (data: any) => {
-  return await request.get('/bpm/task/done-page', { params: data})
+  return await request.get('/bpm/task/done-page', { params: data })
 }
 
 export const postTaskManagerPage = async (data: any) => {
@@ -115,7 +115,7 @@ export const getTaskListByProcessInstanceId = async (processInstanceId: string) 
 
 // 获取所有可退回的节点
 export const getTaskListByReturn = async (id: string) => {
-  return await request.get('/bpm/task/list-by-return',  { params: id })
+  return await request.get('/bpm/task/list-by-return', { params: id })
 }
 
 // 退回
@@ -174,5 +174,5 @@ export default {
   signDeleteTask,
   copyTask,
   myTodoTask,
-  getChildrenTaskList
+  getChildrenTaskList,
 }

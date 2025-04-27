@@ -1,6 +1,13 @@
 <template>
   <el-card shadow="never">
-    <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" v-show="showSearch" @keyup.enter="getPage()" @submit.prevent>
+    <el-form
+      ref="queryFormRef"
+      :model="state.queryForm"
+      :inline="true"
+      v-show="showSearch"
+      @keyup.enter="getPage()"
+      @submit.prevent
+    >
       <el-form-item label="组名" label-width="50" prop="name">
         <el-input v-model="state.queryForm.name" placeholder="请输入组名" clearable />
       </el-form-item>
@@ -24,9 +31,23 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth:has-authority="'bpm:user-group:save'" type="primary" icon="Plus" plain @click="handleAddOrEdit()">新增</el-button>
-      <el-button v-auth:has-authority="'bpm:user-group:delete'" type="danger" icon="Delete" plain @click="handleDeleteBatch('name', '组名')">删除</el-button>
-			<right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <el-button
+        v-auth:has-authority="'bpm:user-group:save'"
+        type="primary"
+        icon="Plus"
+        plain
+        @click="handleAddOrEdit()"
+        >新增</el-button
+      >
+      <el-button
+        v-auth:has-authority="'bpm:user-group:delete'"
+        type="danger"
+        icon="Delete"
+        plain
+        @click="handleDeleteBatch('name', '组名')"
+        >删除</el-button
+      >
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -42,8 +63,22 @@
       <dict-table-column label="状态" prop="status" dict-type="sys_status" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="170">
         <template #default="scope">
-          <el-button v-auth:has-authority="'bpm:user-group:update'" type="primary" icon="Edit" link @click="handleAddOrEdit(scope.row)">修改</el-button>
-          <el-button v-auth:has-authority="'bpm:user-group:delete'" type="danger" icon="Delete" link @click="handleDeleteBatch('name', '组名', scope.row)">删除</el-button>
+          <el-button
+            v-auth:has-authority="'bpm:user-group:update'"
+            type="primary"
+            icon="Edit"
+            link
+            @click="handleAddOrEdit(scope.row)"
+            >修改</el-button
+          >
+          <el-button
+            v-auth:has-authority="'bpm:user-group:delete'"
+            type="danger"
+            icon="Delete"
+            link
+            @click="handleDeleteBatch('name', '组名', scope.row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -58,29 +93,28 @@
     />
 
     <!-- 弹窗，新增 / 修改 -->
-    <AddOrEdit ref="addOrEditRef" @refresh-page="getPage" />
+    <add-or-edit ref="addOrEditRef" @refresh-page="getPage" />
   </el-card>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import { postPageApi, deleteByIdsApi } from '@/api/bpm/userGroup.ts'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 
 const state: StateOptions = reactive({
   api: {
     postPageApi,
-    deleteByIdsApi
+    deleteByIdsApi,
   },
   queryForm: {
     name: '',
-    status: ''
+    status: '',
   },
   range: {
-    createdTime: ''
-  }
+    createdTime: '',
+  },
 })
 
 const queryFormRef = ref()
@@ -92,13 +126,7 @@ onMounted(() => {
   getPage()
 })
 
-const {
-  getPage,
-  handleSizeChange,
-  handleCurrentChange,
-  handleDeleteBatch,
-  handleSelectionChange,
-} = crud(state)
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } = crud(state)
 
 /**
  * 重置按钮操作
@@ -108,7 +136,7 @@ const handleResetQuery = () => {
     state.range[key] = []
   }
 
-  if(queryFormRef.value) {
+  if (queryFormRef.value) {
     queryFormRef.value.resetFields()
   }
 

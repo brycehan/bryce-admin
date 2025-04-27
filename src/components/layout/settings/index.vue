@@ -107,8 +107,12 @@
 
         <el-space direction="vertical" class="config-content">
           <el-alert :title="t('settings.tips')" type="warning" :closable="false" />
-          <el-button type="primary" icon="CopyDocument" @click="handleCopyConfig">{{ t('settings.button.copyConfig') }}</el-button>
-          <el-button type="info" icon="RefreshRight" @click="handleResetConfig">{{ t('settings.button.reset') }}</el-button>
+          <el-button type="primary" icon="CopyDocument" @click="handleCopyConfig">{{
+            t('settings.button.copyConfig')
+          }}</el-button>
+          <el-button type="info" icon="RefreshRight" @click="handleResetConfig">{{
+            t('settings.button.reset')
+          }}</el-button>
         </el-space>
       </el-scrollbar>
     </el-drawer>
@@ -125,7 +129,6 @@ import storage from '@/utils/storage'
 import { ElMessage } from 'element-plus'
 import SwitchItem from '@/components/layout/settings/SwitchItem.vue'
 import { handleThemePrimary } from '@/utils/theme'
-import { useI18n } from 'vue-i18n'
 
 const visible = ref(false)
 emitter.on('openThemeSetting', () => {
@@ -154,7 +157,7 @@ const colors = [
   '#EB6709',
   '#F74584',
   '#FCB900',
-  '#FF4C52'
+  '#FF4C52',
 ]
 
 /**
@@ -232,28 +235,28 @@ const handleResetConfig = async () => {
 
 .settings-content {
   padding: 15px;
-  color: #444444;
+  color: #444;
 
   .settings-box-item {
     position: relative;
     width: 50px;
     height: 35px;
     margin: 0 20px 20px 0;
+    cursor: pointer;
     background-color: rgb(240 242 244);
     border-radius: 3px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-    cursor: pointer;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 15%);
 
     &.active {
-      &:after {
-        content: '';
+      &::after {
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
         width: 6px;
         height: 6px;
-        border-radius: 50%;
+        content: '';
         background-color: var(--el-color-primary);
-        position: absolute;
-        left: 50%;
-        bottom: -15px;
+        border-radius: 50%;
       }
     }
   }
@@ -262,14 +265,14 @@ const handleResetConfig = async () => {
    * 侧边栏dark样式
    */
   .item-left-dark {
-    &:before {
+    &::before {
       position: absolute;
       top: 0;
       left: 0;
       width: 33%;
       height: 100%;
-      background-color: black;
       content: '';
+      background-color: black;
       border-top-left-radius: 3px;
       border-bottom-left-radius: 3px;
     }
@@ -279,14 +282,14 @@ const handleResetConfig = async () => {
    * 侧边栏light样式
    */
   .item-left-light {
-    &:before {
+    &::before {
       position: absolute;
       top: 0;
       left: 0;
       width: 33%;
       height: 100%;
-      background-color: white;
       content: '';
+      background-color: white;
       border-top-left-radius: 3px;
       border-bottom-left-radius: 3px;
     }
@@ -296,14 +299,14 @@ const handleResetConfig = async () => {
    * 头栏light样式
    */
   .item-top-light {
-    &:before {
+    &::before {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 33%;
-      background-color: white;
       content: '';
+      background-color: white;
       border-top-left-radius: 3px;
       border-top-right-radius: 3px;
     }
@@ -313,14 +316,14 @@ const handleResetConfig = async () => {
    * 头栏primary样式
    */
   .item-top-primary {
-    &:before {
+    &::before {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 33%;
-      background-color: var(--el-color-primary);
       content: '';
+      background-color: var(--el-color-primary);
       border-top-left-radius: 3px;
       border-top-right-radius: 3px;
     }
@@ -330,27 +333,28 @@ const handleResetConfig = async () => {
    * 主题色
    */
   .theme-primary-color {
+    position: relative;
+    display: inline-block;
     width: 20px;
     height: 20px;
     margin: 8px 8px 0 0;
-    border-radius: 2px;
-    display: inline-block;
     vertical-align: top;
-    position: relative;
     cursor: pointer;
+    border-radius: 2px;
 
     &.active {
-      &:after {
-        // 选中样式
-        content: url('data:image/svg+xml;charset=utf-8,<svg width="14" height="14" color="rgb(255 255 255)" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" data-v-042ca774=""><path fill="currentColor" d="M406.656 706.944L195.84 496.256a32 32 0 10-45.248 45.248l256 256 512-512a32 32 0 00-45.248-45.248L406.592 706.944z"></path></svg>');
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+      &::after {
         position: absolute;
         top: 50%;
         left: 50%;
         margin: -7px 0 0 -7px;
         font-size: 14px;
         color: white;
+
+        // 选中样式
+        content: url('data:image/svg+xml;charset=utf-8,<svg width="14" height="14" color="rgb(255 255 255)" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" data-v-042ca774=""><path fill="currentColor" d="M406.656 706.944L195.84 496.256a32 32 0 10-45.248 45.248l256 256 512-512a32 32 0 00-45.248-45.248L406.592 706.944z"></path></svg>');
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
     }
   }
@@ -359,14 +363,14 @@ const handleResetConfig = async () => {
    * 菜单纵向样式
    */
   .item-vertical {
-    &:before {
+    &::before {
       position: absolute;
       top: 0;
       left: 0;
       width: 33%;
       height: 100%;
-      background-color: black;
       content: '';
+      background-color: black;
       border-top-left-radius: 3px;
       border-bottom-left-radius: 3px;
     }
@@ -376,40 +380,40 @@ const handleResetConfig = async () => {
   * 菜单分栏样式
   */
   .item-column {
-    &:before {
+    &::before {
       position: absolute;
       top: 0;
       left: 0;
       width: 20%;
       height: 100%;
-      background-color: black;
       content: '';
+      background-color: black;
       border-top-left-radius: 3px;
       border-bottom-left-radius: 3px;
     }
 
     .column-tip-box {
-      transition: inherit;
       position: relative;
       top: 0;
       left: 20%;
       width: 83%;
       height: 30%;
-      background-color: #333;
       content: '';
+      background-color: #333;
       border-top-right-radius: 3px;
+      transition: inherit;
     }
 
     .column-sub-menu {
-      transition: inherit;
       position: relative;
       top: 0;
       left: 20%;
       width: 18%;
       height: 70%;
-      background-color: #999;
       content: '';
+      background-color: #999;
       border-bottom-right-radius: 3px;
+      transition: inherit;
     }
   }
 
@@ -417,14 +421,14 @@ const handleResetConfig = async () => {
   * 菜单横向样式
   */
   .item-horizontal {
-    &:before {
+    &::before {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 33%;
-      background-color: #333;
       content: '';
+      background-color: #333;
       border-top-left-radius: 3px;
       border-top-right-radius: 3px;
     }
@@ -436,16 +440,16 @@ const handleResetConfig = async () => {
   .config-content {
     ::v-deep(.el-space__item) {
       width: 100%;
+
       & .el-alert__title {
         font-size: 1rem;
         line-height: 1.71rem;
       }
     }
+
     button {
       width: 100%;
     }
   }
-
-
 }
 </style>

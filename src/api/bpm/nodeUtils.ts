@@ -15,12 +15,11 @@ import {
   AssignEmptyHandlerType,
   FieldPermissionType,
   type HttpRequestParam,
-  ProcessVariableEnum
+  ProcessVariableEnum,
 } from './consts'
 // import { parseFormFields } from '@/components/form-create/src/utils'
 // import { parseFormFields } from '@form-create/designer/src/utils/index'
 import { inject, ref, toRaw, unref, watch, type Ref } from 'vue'
-
 
 // 解析 formCreate 所有表单字段, 并返回
 const parseFormCreateFields = (formFields?: string[]) => {
@@ -54,20 +53,15 @@ export function useFormFieldsPermission(defaultPermission: FieldPermissionType) 
     }
   }
   // 合并已经设置的表单字段权限，当前流程表单字段 (可能新增，或删除了字段)
-  const mergeFieldsPermission = (
-    formFieldsPermisson: Array<Record<string, string>>,
-    formFields?: string[]
-  ) => {
+  const mergeFieldsPermission = (formFieldsPermisson: Array<Record<string, string>>, formFields?: string[]) => {
     let mergedFieldsPermission: Array<Record<string, any>> = []
     if (formFields) {
       mergedFieldsPermission = parseFormCreateFields(formFields).map((item) => {
-        const found = formFieldsPermisson.find(
-          (fieldPermission) => fieldPermission.field == item.field
-        )
+        const found = formFieldsPermisson.find((fieldPermission) => fieldPermission.field == item.field)
         return {
           field: item.field,
           title: item.title,
-          permission: found ? found.permission : defaultPermission
+          permission: found ? found.permission : defaultPermission,
         }
       })
     }
@@ -82,7 +76,7 @@ export function useFormFieldsPermission(defaultPermission: FieldPermissionType) 
         return {
           field: item.field,
           title: item.title,
-          permission: defaultPermission
+          permission: defaultPermission,
         }
       })
     }
@@ -96,6 +90,6 @@ export function useFormFieldsPermission(defaultPermission: FieldPermissionType) 
     formType,
     fieldsPermissionConfig,
     formFieldOptions,
-    getNodeConfigFormFields
+    getNodeConfigFormFields,
   }
 }

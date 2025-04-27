@@ -7,13 +7,13 @@ import { ElLoading, ElMessage } from 'element-plus'
  * @param config 请求配置
  */
 const download = (config?: any) => {
-  const downloadLoadingInstance = ElLoading.service({text: '正在下载数据，请稍候', background: "rgba(0, 0, 0, 0.7)"})
+  const downloadLoadingInstance = ElLoading.service({ text: '正在下载数据，请稍候', background: 'rgba(0, 0, 0, 0.7)' })
   // 设置responseType 响应类型为blob，响应的直接是个blob对象
   request
     .request({
       ...config,
       timeout: 60000,
-      responseType: 'blob'
+      responseType: 'blob',
     })
     .then((response) => {
       const blob = new Blob([response.data])
@@ -28,7 +28,8 @@ const download = (config?: any) => {
           const contentDisposition = decodeURI(response.headers['content-disposition'])
           let filename = contentDisposition.split("''")[1] || config.filename
           if (typeof filename === 'undefined') {
-            filename = contentDisposition.split(';')
+            filename = contentDisposition
+              .split(';')
               .map((item: string) => item.trim().replaceAll('"', ''))
               .filter((item: string) => item.startsWith('filename='))
               .map((item: string) => item.split('filename=')[1])
@@ -68,7 +69,7 @@ const get = (url: string, config?: any) => {
   return download({
     url: url,
     method: 'GET',
-    ...config
+    ...config,
   })
 }
 
@@ -84,7 +85,7 @@ const post = (url: string, data?: any, config?: any) => {
     url: url,
     method: 'POST',
     data: data,
-    ...config
+    ...config,
   })
 }
 
@@ -143,7 +144,7 @@ const base64ToFile = (base64: any, fileName: string) => {
 
   // 将File文件对象返回给方法的调用者
   return new File([u8arr], `${fileName}.${suffix}`, {
-    type: type
+    type: type,
   })
 }
 

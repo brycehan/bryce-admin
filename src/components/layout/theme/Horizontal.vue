@@ -2,15 +2,17 @@
   <el-container class="layout-container layout-horizontal">
     <!-- 顶部导航 -->
     <el-header class="layout-header" :class="headerClass">
-        <div style="display: flex; align-items: center">
-          <Logo v-if="appStore.theme.showLogo" />
-          <el-menu
-            :default-active="route.path"
-            :collapse-transition="false"
-            mode="horizontal">
-            <menu-item v-for="menu in routerStore.menuRoutes" :key="menu.path" :menu="menu" />
-          </el-menu>
-        </div>
+      <div class="flex">
+        <Logo v-if="appStore.theme.showLogo" />
+        <el-menu
+          class="md:min-w-[200px] lg:w-[300px] xl:w-[400px] 2xl:w-[600px]"
+          :default-active="route.path"
+          :collapse-transition="false"
+          mode="horizontal"
+        >
+          <menu-item v-for="menu in routerStore.menuRoutes" :key="menu.path" :menu="menu" />
+        </el-menu>
+      </div>
       <HeaderRight />
     </el-header>
     <!-- 内容区域 -->
@@ -23,17 +25,14 @@
 import { useAppStore } from '@/stores/modules/app'
 import Logo from '@/components/layout/logo/index.vue'
 import MenuItem from '@/components/layout/menu-item/index.vue'
-
 import Main from '@/components/layout/main/index.vue'
-import { useRoute } from 'vue-router'
 import { useRouterStore } from '@/stores/modules/router'
 import HeaderRight from '@/components/layout/header/header-right/index.vue'
-import { computed } from 'vue'
 
 const route = useRoute()
 const appStore = useAppStore()
 const routerStore = useRouterStore()
-const headerClass = computed(() => appStore.theme.headerStyle === 'primary' ? 'header-primary' : '')
+const headerClass = computed(() => (appStore.theme.headerStyle === 'primary' ? 'header-primary' : ''))
 </script>
 
 <style scoped lang="scss">
@@ -45,22 +44,22 @@ const headerClass = computed(() => appStore.theme.headerStyle === 'primary' ? 'h
   // 顶部导航
   .layout-header {
     --el-header-padding: 0;
-    height: var(--theme-header-height);
+
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--theme-header-bg-color);
+    height: var(--theme-header-height);
     color: var(--theme-header-text-color);
+    background: var(--theme-header-bg-color);
     border-bottom: 1px solid var(--theme-border-color-light);
 
     // 菜单
     .el-menu {
       display: flex;
       align-items: center;
-      border-bottom: none;
-      min-width: 800px;
       height: var(--theme-header-height);
       line-height: var(--theme-header-height);
+      border-bottom: none;
 
       // 子菜单
       ::v-deep(.el-sub-menu) {
@@ -73,9 +72,9 @@ const headerClass = computed(() => appStore.theme.headerStyle === 'primary' ? 'h
   // 内容区域
   .layout-main {
     width: 100%;
+    padding: 0 !important;
     overflow: hidden;
     background-color: var(--theme-main-bg-color);
-    padding: 0 !important;
     transition: all 0.3s;
   }
 }

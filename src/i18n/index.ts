@@ -14,14 +14,14 @@ const en_us = import.meta.glob('./lang/**/en-US.ts', { eager: true })
  * @returns 返回一个语言包的对象集合
  */
 export const loadLang = (modules: Record<string, any>) => {
-  const messages: { [key: string]: string} = {}
+  const messages: { [key: string]: string } = {}
   Object.keys(modules).forEach((module) => {
     Object.assign(messages, { ...modules[module].default })
   })
   return messages
 }
 
-export const messages: { [key: string]: any} = {
+export const messages: { [key: string]: any } = {
   'zh-CN': {
     langName: '简体中文',
     ...loadLang(zh_cn),
@@ -31,7 +31,7 @@ export const messages: { [key: string]: any} = {
     langName: 'English',
     ...loadLang(en_us),
     el: element_en,
-  }
+  },
 }
 
 /**
@@ -39,8 +39,8 @@ export const messages: { [key: string]: any} = {
  *
  * @returns 返回国际化实例
  */
- export const i18n = createI18n({
+export const i18n = createI18n({
   globalInjection: true,
   legacy: false,
-  messages
+  messages,
 })

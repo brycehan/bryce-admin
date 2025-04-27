@@ -16,5 +16,5 @@ export default {
     for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
       Vue.component(key, component)
     }
-  }
+  },
 }

@@ -5,11 +5,4 @@ import { useDictSelectRule } from './useDictSelectRule'
 import { useEditorRule } from './useEditorRule'
 import { useSelectRule } from './useSelectRule'
 
-export {
-  useUploadFileRule,
-  useUploadImgRule,
-  useUploadImgsRule,
-  useDictSelectRule,
-  useEditorRule,
-  useSelectRule
-}
+export { useUploadFileRule, useUploadImgRule, useUploadImgsRule, useDictSelectRule, useEditorRule, useSelectRule }

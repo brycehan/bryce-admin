@@ -34,8 +34,7 @@ export default {
         passwordPlaceholder: '请输入原密码',
         newPasswordPlaceholder: '请输入新密码',
         confirmPasswordPlaceholder: '请再次输入新密码',
-      }
+      },
     },
-  }
+  },
 }
-

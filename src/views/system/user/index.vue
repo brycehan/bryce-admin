@@ -44,7 +44,12 @@
           </el-form-item>
         </el-form>
         <el-row class="mb-2">
-          <el-button v-auth:has-authority="'system:user:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
+          <el-button
+            v-auth:has-authority="'system:user:save'"
+            type="primary"
+            plain
+            icon="Plus"
+            @click="handleAddOrEdit()"
             >新增
           </el-button>
           <el-button
@@ -55,10 +60,20 @@
             @click="handleDeleteBatch('username', '账号')"
             >删除</el-button
           >
-          <el-button v-auth:has-authority="'system:user:import'" type="info" plain icon="Upload" @click="handleXlsxUpload()"
+          <el-button
+            v-auth:has-authority="'system:user:import'"
+            type="info"
+            plain
+            icon="Upload"
+            @click="handleXlsxUpload()"
             >导入</el-button
           >
-          <el-button v-auth:has-authority="'system:user:export'" type="success" plain icon="Download" @click="handleDownloadExcel()"
+          <el-button
+            v-auth:has-authority="'system:user:export'"
+            type="success"
+            plain
+            icon="Download"
+            @click="handleDownloadExcel()"
             >导出</el-button
           >
           <right-toolbar v-model:showSearch="showSearch" :columns="columns" @refresh-page="getPage" />
@@ -93,7 +108,15 @@
             min-width="90"
             v-if="columns[1].visible"
           />
-          <el-table-column label="所属部门" prop="deptName" header-align="center" align="center" show-overflow-tooltip min-width="110" v-if="columns[2].visible" />
+          <el-table-column
+            label="所属部门"
+            prop="deptName"
+            header-align="center"
+            align="center"
+            show-overflow-tooltip
+            min-width="110"
+            v-if="columns[2].visible"
+          />
           <el-table-column
             label="手机号码"
             prop="phone"
@@ -172,7 +195,10 @@
                         icon="key"
                         >重置密码</el-dropdown-item
                       >
-                      <el-dropdown-item v-if="authHasAuthority('system:user:update')" command="handleAssignRole" icon="plus"
+                      <el-dropdown-item
+                        v-if="authHasAuthority('system:user:update')"
+                        command="handleAssignRole"
+                        icon="plus"
                         >分配角色</el-dropdown-item
                       >
                     </el-dropdown-menu>
@@ -193,7 +219,7 @@
         />
 
         <!-- 弹窗，新增 / 修改 -->
-        <AddOrEdit ref="addOrEditRef" @refresh-page="getPage" />
+        <add-or-edit ref="addOrEditRef" @refresh-page="getPage" />
         <!-- 弹窗，导入 -->
         <ImportData ref="importDataRef" @refresh-page="getPage" />
         <!-- 弹窗，重置密码 -->
@@ -208,7 +234,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import ImportData from '@/views/system/user/import-data.vue'
 import { deleteByIdsApi, patchStatusApi, postExportExcelApi, postPageApi } from '@/api/system/user'
@@ -225,7 +250,7 @@ const state: StateOptions = reactive({
   api: {
     postPageApi,
     deleteByIdsApi,
-    postExportExcelApi
+    postExportExcelApi,
   },
   queryForm: {
     username: '',
@@ -233,11 +258,11 @@ const state: StateOptions = reactive({
     type: '',
     phone: '',
     deptId: '',
-    status: ''
+    status: '',
   },
   range: {
-    createdTime: ''
-  }
+    createdTime: '',
+  },
 })
 
 const queryFormRef = ref()
@@ -253,7 +278,7 @@ const columns = ref([
   { key: 3, label: `手机号码`, visible: true },
   { key: 4, label: `状态`, visible: true },
   { key: 5, label: `创建时间`, visible: true },
-  { key: 6, label: `操作`, visible: true }
+  { key: 6, label: `操作`, visible: true },
 ])
 // 显示搜索条件
 const showSearch = ref(true)
@@ -274,7 +299,7 @@ const {
   handleSelectionChange,
   handleDeleteBatch,
   handleDownloadExcel,
-  handleSortChange
+  handleSortChange,
 } = crud(state)
 
 const handleDeptClick = (deptId: any) => {

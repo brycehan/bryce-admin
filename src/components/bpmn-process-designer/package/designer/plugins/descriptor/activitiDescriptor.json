@@ -405,12 +405,7 @@
     },
     {
       "name": "ServiceTaskLike",
-      "extends": [
-        "bpmn:ServiceTask",
-        "bpmn:BusinessRuleTask",
-        "bpmn:SendTask",
-        "bpmn:MessageEventDefinition"
-      ],
+      "extends": ["bpmn:ServiceTask", "bpmn:BusinessRuleTask", "bpmn:SendTask", "bpmn:MessageEventDefinition"],
       "properties": [
         {
           "name": "expression",
@@ -683,11 +678,7 @@
       "name": "Field",
       "superClass": ["Element"],
       "meta": {
-        "allowedIn": [
-          "activiti:ServiceTaskLike",
-          "activiti:ExecutionListener",
-          "activiti:TaskListener"
-        ]
+        "allowedIn": ["activiti:ServiceTaskLike", "activiti:ExecutionListener", "activiti:TaskListener"]
       },
       "properties": [
         {

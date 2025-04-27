@@ -36,7 +36,9 @@
         <template #file="{ file }">
           <div class="flex items-center gap-4">
             <span>{{ file.name }}</span>
-            <el-link :href="(file.response as any).data.url!" :underline="false" download target="_blank" type="primary">下载</el-link>
+            <el-link :href="(file.response as any).data.url!" :underline="false" download target="_blank" type="primary"
+              >下载</el-link
+            >
             <el-button link type="danger" @click="handleRemove(file)">删除</el-button>
           </div>
         </template>
@@ -45,7 +47,7 @@
 
     <!-- 上传操作禁用时 -->
     <div v-if="disabled" class="upload-file">
-      <div v-for="(file, index) in modelValue" :key="index" class="flex items-center file-list-item px-2">
+      <div v-for="(file, index) in modelValue" :key="index" class="file-list-item flex items-center px-2">
         <span>{{ getFilename(file) }}</span>
         <div class="ml-[10px]">
           <el-link :href="file" :underline="false" download target="_blank" type="primary">下载</el-link>
@@ -61,7 +63,7 @@ import {
   type UploadInstance,
   type UploadProps,
   type UploadRawFile,
-  type UploadUserFile
+  type UploadUserFile,
 } from 'element-plus'
 import { type UploadFile } from 'element-plus/es/components/upload/src/upload'
 import constant from '@/utils/constant.ts'
@@ -75,32 +77,32 @@ const model = defineModel()
 const props = defineProps({
   fileType: {
     type: Array,
-    default: () => ['doc', 'xls', 'ppt', 'txt', 'pdf']
+    default: () => ['doc', 'xls', 'ppt', 'txt', 'pdf'],
   }, // 文件类型, 例如['doc', 'xls', 'ppt', 'txt', 'pdf']
   fileSize: {
     type: Number,
-    default: () => 5
+    default: () => 5,
   }, // 大小限制(MB)
   limit: {
     type: Number,
-    default: () => 5
+    default: () => 5,
   }, // 数量限制
   autoUpload: {
     type: Boolean,
-    default: () => true
+    default: () => true,
   }, // 自动上传
   drag: {
     type: Boolean,
-    default: () => false
+    default: () => false,
   }, // 拖拽上传
   isShowTip: {
     type: Boolean,
-    default: () => true
+    default: () => true,
   }, // 是否显示提示
   disabled: {
     type: Boolean,
-    default: () => false
-  } // 是否禁用上传组件 ==> 非必传（默认为 false）
+    default: () => false,
+  }, // 是否禁用上传组件 ==> 非必传（默认为 false）
 })
 
 const authStore = useAuthStore()
@@ -110,7 +112,7 @@ const authStore = useAuthStore()
  */
 const headers = {
   Authorization: authStore.accessToken,
-  'X-Source-Client': 'pc'
+  'X-Source-Client': 'pc',
 }
 
 // ========== 上传相关 ==========
@@ -157,7 +159,7 @@ const handleFileSuccess: UploadProps['onSuccess'] = (response, uploadFile): void
     ElNotification({
       title: '温馨提示',
       message: '图片上传失败，请您重新上传！',
-      type: 'error'
+      type: 'error',
     })
     fileList.value = fileList.value.filter((item) => item.url !== uploadFile.url || item.name !== uploadFile.name)
     model.value = fileList.value.map((file) => file.url!)
@@ -240,8 +242,8 @@ const getFilename = (path: string) => {
 
 :deep(.upload-file-list .ele-upload-list__item-content) {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   color: inherit;
 }
 

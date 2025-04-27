@@ -21,7 +21,7 @@ export const useDictSelectRule = () => {
     dictOptions.value =
       data?.map((item: any) => ({
         label: item.dictName,
-        value: item.dictType
+        value: item.dictType,
       })) ?? []
   })
   return {
@@ -34,7 +34,7 @@ export const useDictSelectRule = () => {
         field: uuidv4(),
         title: label,
         info: '',
-        $required: false
+        $required: false,
       }
     },
     props(_: any, { t }: any) {
@@ -45,7 +45,7 @@ export const useDictSelectRule = () => {
           field: 'dictType',
           title: '字典类型',
           value: '',
-          options: dictOptions.value
+          options: dictOptions.value,
         },
         {
           type: 'select',
@@ -55,11 +55,11 @@ export const useDictSelectRule = () => {
           options: [
             { label: '数字', value: 'int' },
             { label: '字符串', value: 'str' },
-            { label: '布尔值', value: 'bool' }
-          ]
+            { label: '布尔值', value: 'bool' },
+          ],
         },
-        ...rules
+        ...rules,
       ])
-    }
+    },
   }
 }

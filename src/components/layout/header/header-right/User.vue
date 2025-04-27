@@ -3,7 +3,7 @@
     <div class="avatar-wrapper">
       <el-avatar shape="circle" :size="30" :src="authStore.user.avatar || avatarImg"></el-avatar>
       <span>{{ username }}</span>
-      <icon icon="ep:arrow-down" class="ml-1"/>
+      <icon icon="ep:arrow-down" class="ml-1" />
     </div>
     <template #dropdown>
       <el-dropdown-menu>
@@ -19,8 +19,8 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/modules/auth'
 import avatarImg from '@/assets/images/user1-128x128.jpg'
-import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { useTabsStore } from '@/stores/modules/tabs.ts'
+import modal from '@/utils/modal.ts'
 
 const authStore = useAuthStore()
 
@@ -28,11 +28,14 @@ const username = computed(() => authStore.user.username)
 const { t } = useI18n()
 
 const logout = () => {
-  authStore.logout().then(() => {
-    // 刷新页面
-    // location.reload()
-    location.href = '/'
-  })
+  modal
+    .confirm('确定注销并退出系统吗？')
+    .then(() => authStore.logout())
+    .then(() => {
+      // 刷新页面
+      location.reload()
+    })
+    .finally(() => useTabsStore()?.deleteAllViews())
 }
 </script>
 
@@ -46,9 +49,9 @@ const logout = () => {
   .avatar-wrapper {
     display: flex;
     align-items: center;
-    cursor: pointer;
     padding: 0 8px;
     color: var(--theme-header-text-color);
+    cursor: pointer;
 
     span {
       margin-left: 6px;

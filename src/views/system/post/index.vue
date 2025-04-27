@@ -15,12 +15,7 @@
         <el-input v-model="state.queryForm.code" placeholder="请输入岗位编码" clearable />
       </el-form-item>
       <el-form-item label="状态" prop="status">
-        <dict-select
-          v-model="state.queryForm.status"
-          dict-type="sys_status"
-          placeholder="岗位状态"
-          clearable
-        />
+        <dict-select v-model="state.queryForm.status" dict-type="sys_status" placeholder="岗位状态" clearable />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="getPage()">搜索</el-button>
@@ -39,7 +34,14 @@
         @click="handleDeleteBatch('code', '岗位编码')"
         >删除</el-button
       >
-      <el-button v-auth:has-authority="'system:user:export'" type="success" plain icon="Download" @click="handleDownloadExcel()">导出</el-button>
+      <el-button
+        v-auth:has-authority="'system:user:export'"
+        type="success"
+        plain
+        icon="Download"
+        @click="handleDownloadExcel()"
+        >导出</el-button
+      >
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
@@ -51,8 +53,15 @@
       @sort-change="handleSortChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="岗位名称" prop="name" header-align="center" align="center" min-width="200"/>
-      <el-table-column label="岗位编码" prop="code" sortable="custom" header-align="center" align="center" min-width="150" />
+      <el-table-column label="岗位名称" prop="name" header-align="center" align="center" min-width="200" />
+      <el-table-column
+        label="岗位编码"
+        prop="code"
+        sortable="custom"
+        header-align="center"
+        align="center"
+        min-width="150"
+      />
       <el-table-column
         label="岗位排序"
         prop="sort"
@@ -61,8 +70,15 @@
         align="center"
         min-width="110"
       />
-      <dict-table-column label="状态" prop="status" dict-type="sys_status" min-width="80"/>
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" show-overflow-tooltip min-width="170"/>
+      <dict-table-column label="状态" prop="status" dict-type="sys_status" min-width="80" />
+      <el-table-column
+        label="创建时间"
+        prop="createdTime"
+        header-align="center"
+        align="center"
+        show-overflow-tooltip
+        min-width="170"
+      />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="170">
         <template #default="scope">
           <el-button
@@ -95,12 +111,11 @@
     />
 
     <!-- 弹窗，新增 / 修改 -->
-    <AddOrEdit ref="addOrEditRef" @refresh-page="getPage" />
+    <add-or-edit ref="addOrEditRef" @refresh-page="getPage" />
   </el-card>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import { postPageApi, deleteByIdsApi, postExportExcelApi } from '@/api/system/post'
 import type { StateOptions } from '@/utils/state'
@@ -110,13 +125,13 @@ const state: StateOptions = reactive({
   api: {
     postPageApi,
     deleteByIdsApi,
-    postExportExcelApi
+    postExportExcelApi,
   },
   queryForm: {
     name: '',
     code: '',
-    status: ''
-  }
+    status: '',
+  },
 })
 
 const queryFormRef = ref()
@@ -128,8 +143,15 @@ onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange, handleSortChange, handleDeleteBatch, handleDownloadExcel } =
-  crud(state)
+const {
+  getPage,
+  handleSizeChange,
+  handleCurrentChange,
+  handleSelectionChange,
+  handleSortChange,
+  handleDeleteBatch,
+  handleDownloadExcel,
+} = crud(state)
 
 /**
  * 重置按钮操作
@@ -154,6 +176,4 @@ const handleResetQuery = () => {
 const handleAddOrEdit = (id?: string) => {
   addOrEditRef.value.init(id)
 }
-
 </script>
-

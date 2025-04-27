@@ -7,23 +7,20 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import { useI18n } from 'vue-i18n'
-
 const route = useRoute()
 const { t } = useI18n()
 </script>
 
 <style scoped lang="scss">
 .header-breadcrumb {
+  padding-left: 10px;
+
   ::v-deep(.el-breadcrumb__inner) {
     &,
     &:hover {
-      color: var(--theme-header-text-color);
       font-size: 1rem;
+      color: var(--theme-header-text-color);
     }
   }
-
-  padding-left: 10px;
 }
 </style>

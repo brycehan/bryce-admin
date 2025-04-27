@@ -1,11 +1,5 @@
 <template>
-  <el-table-column
-    :label="label"
-    :prop="prop"
-    :header-align="headerAlign"
-    :align="align"
-    :min-width="minWidth"
-  >
+  <el-table-column :label="label" :prop="prop" :header-align="headerAlign" :align="align" :min-width="minWidth">
     <template #default="scope">
       <el-tag
         v-if="dictStore.getDictLabelClass(props.dictType, scope.row[props.prop])"
@@ -29,30 +23,30 @@ const dictStore = useDictStore()
 const props = defineProps({
   dictType: {
     type: String,
-    required: true
+    required: true,
   },
   prop: {
     type: String,
-    required: true
+    required: true,
   },
   label: {
     type: String,
-    required: true
+    required: true,
   },
   headerAlign: {
     type: String,
     required: false,
-    default: () => 'center'
+    default: () => 'center',
   },
   align: {
     type: String,
     required: false,
-    default: () => 'center'
+    default: () => 'center',
   },
   minWidth: {
     type: String,
     required: false,
-    default: () => ''
-  }
+    default: () => '',
+  },
 })
 </script>

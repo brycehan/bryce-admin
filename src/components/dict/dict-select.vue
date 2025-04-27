@@ -1,9 +1,5 @@
 <template>
-  <el-select
-    v-model="modelValue"
-    :placeholder="placeholder"
-    :clearable="clearable"
-  >
+  <el-select v-model="modelValue" :placeholder="placeholder" :clearable="clearable">
     <el-option
       v-for="data in dataList"
       :key="convertInteger(data.dictValue)"
@@ -22,18 +18,18 @@ const dictStore = useDictStore()
 const props = defineProps({
   dictType: {
     type: String,
-    required: true
+    required: true,
   },
   clearable: {
     type: Boolean,
     required: false,
-    default: () => false
+    default: () => false,
   },
   placeholder: {
     type: String,
     required: false,
-    default: () => ''
-  }
+    default: () => '',
+  },
 })
 
 const model = defineModel<number | string>()
@@ -41,10 +37,8 @@ const modelValue = computed({
   get: () => model.value,
   set: (value) => {
     model.value = value
-  }
+  },
 })
 
 const dataList = dictStore.getDictDataList(props.dictType)
 </script>
-
-<style scoped></style>

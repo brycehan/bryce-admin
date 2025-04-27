@@ -74,5 +74,5 @@ export default {
   postPageApi,
   postExportExcelApi,
   getSimpleList,
-  getCheckCodeUniqueApi
+  getCheckCodeUniqueApi,
 }

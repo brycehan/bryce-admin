@@ -13,7 +13,6 @@
 import wechatIcon from '@/assets/svgs/wechat.svg'
 import constant from '@/utils/constant'
 import request from '@/utils/request'
-import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
@@ -41,19 +40,20 @@ const thirdLogin = (type: string) => {
   margin-top: 36px;
 
   :deep(.el-divider__text) {
-    color: #888 !important;
     font-size: 13px;
+    color: #888 !important;
   }
 
   .third-btn {
     display: flex;
     justify-content: center !important;
+
     .el-button {
-      background-color: #ddd;
       width: 24px;
       height: 24px;
-      border-radius: 50%;
       cursor: pointer;
+      background-color: #ddd;
+      border-radius: 50%;
     }
   }
 }

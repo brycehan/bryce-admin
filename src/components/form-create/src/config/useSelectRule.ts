@@ -26,7 +26,7 @@ export const useSelectRule = (option: SelectRuleOption) => {
         field: uuidv4(),
         title: label,
         info: '',
-        $required: false
+        $required: false,
       }
     },
     props(_: any, { t }: any) {
@@ -34,6 +34,6 @@ export const useSelectRule = (option: SelectRuleOption) => {
         option.props = []
       }
       return localeProps(t, name + '.props', [makeRequiredRule(), ...option.props, ...rules])
-    }
+    },
   }
 }

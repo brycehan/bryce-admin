@@ -70,8 +70,9 @@ const handleNodeClick = (row: any) => {
   flex-direction: column;
   min-height: calc(100vh - 102px - var(--theme-header-height));
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
+  white-space: nowrap;
+
   :deep(.el-tree) {
     margin-top: 20px;
   }

@@ -31,18 +31,8 @@
           @change="() => updateTimeModdle()"
         />
       </el-form-item>
-      <el-select
-        v-model="timeUnit"
-        class="mr-2"
-        :style="{ width: '100px' }"
-        @change="onTimeUnitChange"
-      >
-        <el-option
-          v-for="item in TIME_UNIT_TYPES"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
+      <el-select v-model="timeUnit" class="mr-2" :style="{ width: '100px' }" @change="onTimeUnitChange">
+        <el-option v-for="item in TIME_UNIT_TYPES" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
       未处理
     </el-form-item>
@@ -51,30 +41,21 @@
       prop="maxRemindCount"
       v-if="timeoutHandlerEnable && timeoutHandlerType.value === 1"
     >
-      <el-input-number
-        v-model="maxRemindCount"
-        :min="1"
-        :max="10"
-        @change="() => updateTimeModdle()"
-      />
+      <el-input-number v-model="maxRemindCount" :min="1" :max="10" @change="() => updateTimeModdle()" />
     </el-form-item>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, inject, toRaw, watch, nextTick } from 'vue'
-import {
-  TimeUnitType,
-  TIME_UNIT_TYPES,
-  TIMEOUT_HANDLER_TYPES,
-} from '@/api/bpm/consts'
+import { TimeUnitType, TIME_UNIT_TYPES, TIMEOUT_HANDLER_TYPES } from '@/api/bpm/consts'
 import { convertTimeUnit } from '@/api/bpm/utils'
 import _ from 'lodash'
 
 defineOptions({ name: 'ElementCustomConfig4BoundaryEventTimer' })
 const props = defineProps({
   id: String,
-  type: String
+  type: String,
 })
 const prefix = inject('prefix')
 
@@ -84,7 +65,7 @@ const bpmnInstances = () => (window as any)?.bpmnInstances
 const timeoutHandlerEnable = ref(false)
 const boundaryEventType = ref<any>()
 const timeoutHandlerType = ref({
-  value: undefined
+  value: undefined,
 })
 const timeModdle = ref()
 const timeDuration = ref(6)
@@ -107,7 +88,7 @@ const resetElement = () => {
 
   // 是否开启自定义用户任务超时处理
   boundaryEventType.value = elExtensionElements.value.values?.filter(
-    (ex: any) => ex.$type === `${prefix}:BoundaryEventType`
+    (ex: any) => ex.$type === `${prefix}:BoundaryEventType`,
   )?.[0]
   if (boundaryEventType.value && boundaryEventType.value.value === 1) {
     timeoutHandlerEnable.value = true
@@ -116,7 +97,7 @@ const resetElement = () => {
 
   // 执行动作
   timeoutHandlerType.value = elExtensionElements.value.values?.filter(
-    (ex: any) => ex.$type === `${prefix}:TimeoutHandlerType`
+    (ex: any) => ex.$type === `${prefix}:TimeoutHandlerType`,
   )?.[0]
   if (timeoutHandlerType.value) {
     configExtensions.value.push(timeoutHandlerType.value)
@@ -141,8 +122,7 @@ const resetElement = () => {
   // 保留剩余扩展元素，便于后面更新该元素对应属性
   otherExtensions.value =
     elExtensionElements.value.values?.filter(
-      (ex: any) =>
-        ex.$type !== `${prefix}:BoundaryEventType` && ex.$type !== `${prefix}:TimeoutHandlerType`
+      (ex: any) => ex.$type !== `${prefix}:BoundaryEventType` && ex.$type !== `${prefix}:TimeoutHandlerType`,
     ) ?? []
 }
 
@@ -152,12 +132,12 @@ const timeoutHandlerChange = (val: any) => {
     // 启用自定义用户任务超时处理
     // 边界事件类型 --- 超时
     boundaryEventType.value = bpmnInstances().moddle.create(`${prefix}:BoundaryEventType`, {
-      value: 1
+      value: 1,
     })
     configExtensions.value.push(boundaryEventType.value)
     // 超时处理类型
     timeoutHandlerType.value = bpmnInstances().moddle.create(`${prefix}:TimeoutHandlerType`, {
-      value: 1
+      value: 1,
     })
     configExtensions.value.push(timeoutHandlerType.value)
     // 超时时间表达式
@@ -165,7 +145,7 @@ const timeoutHandlerChange = (val: any) => {
     timeUnit.value = 2
     maxRemindCount.value = 1
     timeModdle.value = bpmnInstances().moddle.create(`bpmn:Expression`, {
-      body: 'PT6H'
+      body: 'PT6H',
     })
     eventDefinition.value.timeDuration = timeModdle.value
   } else {
@@ -231,20 +211,18 @@ const isoTimeDuration = () => {
 
 const updateElementExtensions = () => {
   const extensions = bpmnInstances().moddle.create('bpmn:ExtensionElements', {
-    values: [...otherExtensions.value, ...configExtensions.value]
+    values: [...otherExtensions.value, ...configExtensions.value],
   })
   bpmnInstances().modeling.updateProperties(toRaw(bpmnElement.value), {
-    extensionElements: extensions
+    extensionElements: extensions,
   })
 }
 
 watch(
   () => props.id,
   (val) => {
-      if (_.isString(val) && val.length) nextTick(() => resetElement())
+    if (_.isString(val) && val.length) nextTick(() => resetElement())
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>
-
-<style lang="scss" scoped></style>

@@ -15,7 +15,14 @@ export default defineConfigWithVueTs(
 
   {
     name: 'app/files-to-ignore',
-    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**'],
+    ignores: [
+      '**/dist/**',
+      '**/dist-ssr/**',
+      '**/coverage/**',
+      'src/assets/js/wxLogin.js',
+      'src/types/auto-imports.d.ts',
+      'src/types/components.d.ts',
+    ]
   },
 
   pluginVue.configs['flat/essential'],

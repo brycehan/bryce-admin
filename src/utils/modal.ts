@@ -6,7 +6,7 @@ import { ElLoading, ElMessageBox } from 'element-plus'
  * @param text 遮罩文本
  */
 const loading = (text: string) => {
-  return ElLoading.service({ lock: true, text: text, background: "rgba(0, 0, 0, 0.7)"})
+  return ElLoading.service({ lock: true, text: text, background: 'rgba(0, 0, 0, 0.7)' })
 }
 
 /**
@@ -20,7 +20,7 @@ const closeLoading = (loadingInstance: any) => {
 
 const confirm = (text: string) => {
   return ElMessageBox.confirm(text, '系统提示', {
-    type: 'warning'
+    type: 'warning',
   })
 }
 

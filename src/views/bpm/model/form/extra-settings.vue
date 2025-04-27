@@ -4,7 +4,7 @@
       <template #label>
         <div class="flex items-center">
           <el-tooltip effect="dark" content="第一个审批节点通过后，提交人仍可撤销申请" placement="top">
-            <icon icon="ep:question-filled" class="mr-1"/>
+            <icon icon="ep:question-filled" class="mr-1" />
           </el-tooltip>
           <span>提交人权限</span>
         </div>
@@ -14,7 +14,12 @@
     <el-form-item label="流程编码" prop="processIdRule">
       <el-row :gutter="10" style="line-height: normal">
         <el-col :span="7">
-          <el-input v-model="dataForm.processIdRule.prefix" clearable placeholder="前缀" :disabled="!dataForm.processIdRule.enable">
+          <el-input
+            v-model="dataForm.processIdRule.prefix"
+            clearable
+            placeholder="前缀"
+            :disabled="!dataForm.processIdRule.enable"
+          >
             <template #prepend>
               <el-checkbox v-model="dataForm.processIdRule.enable" />
             </template>
@@ -40,12 +45,12 @@
           />
         </el-col>
         <el-col :span="6">
-        <el-input-number
-          v-model="dataForm.processIdRule.length"
-          style="width: unset"
-          :min="5"
-          :disabled="!dataForm.processIdRule.enable"
-        />
+          <el-input-number
+            v-model="dataForm.processIdRule.length"
+            style="width: unset"
+            :min="5"
+            :disabled="!dataForm.processIdRule.enable"
+          />
         </el-col>
       </el-row>
       <el-row v-if="dataForm.processIdRule.enable">
@@ -93,7 +98,13 @@
         <el-radio :value="false">系统默认 <el-text type="info" class="ml-1">展示表单前 3 个字段</el-text> </el-radio>
         <el-radio :value="true">自定义摘要</el-radio>
       </el-radio-group>
-      <el-select v-if="dataForm.summarySetting.enable" v-model="dataForm.summarySetting.summary" multiple placeholder="请选择要展示的表单字段" clearable>
+      <el-select
+        v-if="dataForm.summarySetting.enable"
+        v-model="dataForm.summarySetting.summary"
+        multiple
+        placeholder="请选择要展示的表单字段"
+        clearable
+      >
         <el-option v-for="item in formFieldOptions4Summary" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
     </el-form-item>
@@ -116,24 +127,24 @@ const dataFormRef = ref()
 const timeOptions = ref([
   {
     label: '无',
-    value: ''
+    value: '',
   },
   {
     label: '精确到日',
-    value: 'DAY'
+    value: 'DAY',
   },
   {
     label: '精确到时',
-    value: 'HOUR'
+    value: 'HOUR',
   },
   {
     label: '精确到分',
-    value: 'MINUTE'
+    value: 'MINUTE',
   },
   {
     label: '精确到秒',
-    value: 'SECOND'
-  }
+    value: 'SECOND',
+  },
 ])
 
 /**
@@ -158,7 +169,12 @@ const processIdExample = computed(() => {
       default:
         break
     }
-    return dataForm.value.processIdRule.prefix + infix + dataForm.value.processIdRule.postfix + ('1'.padStart(dataForm.value.processIdRule.length, '0'))
+    return (
+      dataForm.value.processIdRule.prefix +
+      infix +
+      dataForm.value.processIdRule.postfix +
+      '1'.padStart(dataForm.value.processIdRule.length, '0')
+    )
   }
   return ''
 })
@@ -182,15 +198,15 @@ const formFieldOptions4Title = computed(() => {
   // 固定添加发起人 ID 字段
   formFieldCopy.unshift({
     label: '流程名称',
-    value: BpmProcessVariableEnum.PROCESS_DEFINITION_NAME
+    value: BpmProcessVariableEnum.PROCESS_DEFINITION_NAME,
   })
   formFieldCopy.unshift({
     label: '发起人',
-    value: BpmProcessVariableEnum.START_USER_ID
+    value: BpmProcessVariableEnum.START_USER_ID,
   })
   formFieldCopy.unshift({
     label: '发起时间',
-    value: BpmProcessVariableEnum.START_TIME
+    value: BpmProcessVariableEnum.START_TIME,
   })
 
   return formFieldCopy
@@ -214,16 +230,16 @@ const formFieldOptions4Summary = computed(() => {
 const dataRules = reactive<FormRules>({
   name: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' }
+    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' },
   ],
   key: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 30, message: '长度为2~30个字符', trigger: 'blur' }
+    { min: 2, max: 30, message: '长度为2~30个字符', trigger: 'blur' },
   ],
   category: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   type: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   visible: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  managerUserIds: [{ required: false, message: '必填项不能为空', trigger: 'blur' }]
+  managerUserIds: [{ required: false, message: '必填项不能为空', trigger: 'blur' }],
 })
 </script>
 

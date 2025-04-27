@@ -34,7 +34,7 @@ export default {
         passwordPlaceholder: 'Please enter the old password',
         newPasswordPlaceholder: 'Please enter the new password',
         confirmPasswordPlaceholder: 'Please enter the new password again',
-      }
+      },
     },
-  }
+  },
 }

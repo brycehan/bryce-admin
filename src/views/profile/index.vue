@@ -20,34 +20,26 @@
             <span class="li-text">{{ authStore.user.nickname }}</span>
           </li>
           <li class="flex items-center justify-between">
-            <div class="flex items-center gap-1">
-            <icon icon="brc:icon-phone" /> {{ t('profile.personal.phone') }}
-            </div>
+            <div class="flex items-center gap-1"><icon icon="brc:icon-phone" /> {{ t('profile.personal.phone') }}</div>
             <span class="li-text">{{ authStore.user.phone }}</span>
           </li>
           <li class="flex items-center justify-between">
-            <div class="flex items-center gap-1">
-            <icon icon="brc:icon-mail" /> {{ t('profile.personal.email') }}
-            </div>
+            <div class="flex items-center gap-1"><icon icon="brc:icon-mail" /> {{ t('profile.personal.email') }}</div>
             <span class="li-text">{{ authStore.user.email }}</span>
           </li>
           <li class="flex items-center justify-between">
             <div class="flex items-center gap-1">
               <icon icon="brc:icon-apartment" /> {{ t('profile.personal.affiliation') }}
             </div>
-            <span class="li-text"
-              >{{ userInfo.deptName }} / {{ replaceComma(userInfo.postNameList, '、') }}</span
-            >
+            <span class="li-text">{{ userInfo.deptName }} / {{ replaceComma(userInfo.postNameList, '、') }}</span>
           </li>
           <li class="flex items-center justify-between">
-            <div class="flex items-center gap-1">
-            <icon icon="brc:icon-tag" /> {{ t('profile.personal.role') }}
-            </div>
+            <div class="flex items-center gap-1"><icon icon="brc:icon-tag" /> {{ t('profile.personal.role') }}</div>
             <span class="li-text">{{ userInfo.roleNameList }}</span>
           </li>
           <li class="flex items-center justify-between">
             <div class="flex items-center gap-1">
-            <icon icon="brc:icon-calendar-check" /> {{ t('profile.personal.createTime') }}
+              <icon icon="brc:icon-calendar-check" /> {{ t('profile.personal.createTime') }}
             </div>
             <span class="li-text">{{ userInfo.createdTime }}</span>
           </li>
@@ -71,14 +63,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
 import UserAvatar from '@/views/profile/user-avatar.vue'
 import { useAuthStore } from '@/stores/modules/auth'
 import UserInfo from '@/views/profile/user-info.vue'
 import Password from '@/views/profile/password.vue'
 import { getUserInfoApi } from '@/api/system/profile'
 import { replaceComma } from '@/utils/tool'
-import { useI18n } from 'vue-i18n'
 
 const authStore = useAuthStore()
 const activeName = ref('info')
@@ -104,14 +94,17 @@ onMounted(() => {
       justify-content: center;
       margin-bottom: 20px;
     }
+
     ul {
-      list-style: none;
       padding: 0;
+      list-style: none;
+
       li {
         padding: 12px 0;
         border-bottom: 1px solid #f0f0f0;
       }
     }
+
     .li-text {
       float: right;
     }

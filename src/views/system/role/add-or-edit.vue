@@ -4,13 +4,7 @@
     :title="!state.dataForm.id ? '新增角色' : '修改角色'"
     :close-on-click-modal="false"
   >
-    <el-form
-      ref="dataFormRef"
-      :model="state.dataForm"
-      :rules="dataRules"
-      label-width="100"
-      class="mr-4"
-    >
+    <el-form ref="dataFormRef" :model="state.dataForm" :rules="dataRules" label-width="100" class="mr-4">
       <el-row>
         <el-col :span="12">
           <el-form-item label="角色名称" prop="name">
@@ -37,7 +31,9 @@
       </el-row>
       <el-row>
         <el-form-item label="菜单权限">
-          <el-checkbox v-model="menuExpandAll" @change="handleTreeExpand($event)">{{menuExpandAll ? '全部收起' : '全部展开'}}</el-checkbox>
+          <el-checkbox v-model="menuExpandAll" @change="handleTreeExpand($event)">{{
+            menuExpandAll ? '全部收起' : '全部展开'
+          }}</el-checkbox>
           <el-checkbox v-model="menuCheckAll" @change="handleTreeCheckAll($event)">全选/全不选</el-checkbox>
           <el-checkbox v-model="menuCheckStrictly" @change="handleTreeCheckStrictly($event)">父子联动</el-checkbox>
         </el-form-item>
@@ -59,12 +55,7 @@
       </el-row>
       <el-row>
         <el-form-item label="备注" prop="remark" class="w-full">
-          <el-input
-            v-model="state.dataForm.remark"
-            type="textarea"
-            placeholder="请输入备注"
-            clearable
-          />
+          <el-input v-model="state.dataForm.remark" type="textarea" placeholder="请输入备注" clearable />
         </el-form-item>
       </el-row>
     </el-form>
@@ -76,7 +67,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import { getByIdApi, saveOrUpdateApi, getMenuApi, getCheckCodeUniqueApi } from '@/api/system/role'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -88,7 +78,7 @@ const state: StateOptions = reactive({
   api: {
     saveOrUpdateApi,
     getByIdApi,
-    emit
+    emit,
   },
   dataForm: {
     id: '',
@@ -97,8 +87,8 @@ const state: StateOptions = reactive({
     dataScopeType: '',
     sort: '0',
     status: 1,
-    remark: ''
-  }
+    remark: '',
+  },
 })
 
 const dataFormRef = ref()
@@ -128,16 +118,16 @@ const checkCodeUnique = (_rule: any, value: any, callback: any) => {
 const dataRules = reactive<FormRules>({
   name: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' }
+    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' },
   ],
   code: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
     { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' },
     { pattern: /^[A-Z_]+$/, message: '必须是大写字母或下划线', trigger: 'blur' },
-    { validator: checkCodeUnique, trigger: 'blur' }
+    { validator: checkCodeUnique, trigger: 'blur' },
   ],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }]
+  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }],
 })
 
 const { handleSaveOrUpdate } = crud(state)
@@ -200,10 +190,7 @@ const handleSubmit = () => {
     if (!valid) {
       return false
     }
-    state.dataForm.menuIds = [
-      ...menuTreeRef.value.getHalfCheckedKeys(),
-      ...menuTreeRef.value.getCheckedKeys()
-    ]
+    state.dataForm.menuIds = [...menuTreeRef.value.getHalfCheckedKeys(), ...menuTreeRef.value.getCheckedKeys()]
 
     if (state.dataForm.menuIds.length === 0) {
       ElMessage.error('请至少选择一个菜单')
@@ -244,6 +231,6 @@ const handleTreeCheckStrictly = (val: CheckboxValueType) => {
 }
 
 defineExpose({
-  init
+  init,
 })
 </script>

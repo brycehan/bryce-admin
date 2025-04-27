@@ -9,7 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
 import PageError from '@/assets/svgs/404.svg'
 
 const router = useRouter()
@@ -25,12 +24,13 @@ const onToHome = () => {
 
 <style lang="scss" scoped>
 .layout-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   img {
     width: 800px;
     margin-bottom: 20px;
   }
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 </style>

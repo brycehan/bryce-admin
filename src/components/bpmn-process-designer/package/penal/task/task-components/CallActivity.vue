@@ -21,17 +21,11 @@
       </el-form-item>
 
       <el-form-item label="继承变量" prop="inheritVariables">
-        <el-switch
-          v-model="formData.inheritVariables"
-          @change="updateCallActivityAttr('inheritVariables')"
-        />
+        <el-switch v-model="formData.inheritVariables" @change="updateCallActivityAttr('inheritVariables')" />
       </el-form-item>
 
       <el-form-item label="继承业务键" prop="inheritBusinessKey">
-        <el-switch
-          v-model="formData.inheritBusinessKey"
-          @change="updateCallActivityAttr('inheritBusinessKey')"
-        />
+        <el-switch v-model="formData.inheritBusinessKey" @change="updateCallActivityAttr('inheritBusinessKey')" />
       </el-form-item>
 
       <el-form-item v-if="!formData.inheritBusinessKey" label="业务键表达式" prop="businessKey">
@@ -45,31 +39,20 @@
 
       <el-divider />
       <div>
-        <div class="flex mb-[10px]">
+        <div class="mb-[10px] flex">
           <el-text>输入参数</el-text>
-          <el-button
-            class="ml-auto"
-            type="primary"
-            icon="plus"
-            size="small"
-            @click="openVariableForm('in', null, -1)"
-          >添加参数</el-button>
+          <el-button class="ml-auto" type="primary" icon="plus" size="small" @click="openVariableForm('in', null, -1)"
+            >添加参数</el-button
+          >
         </div>
         <el-table :data="inVariableList" max-height="240" fit border>
           <el-table-column label="源" prop="source" min-width="100px" show-overflow-tooltip />
           <el-table-column label="目标" prop="target" min-width="100px" show-overflow-tooltip />
           <el-table-column label="操作" width="110px">
             <template #default="scope">
-              <el-button link @click="openVariableForm('in', scope.row, scope.$index)" size="small">
-                编辑
-              </el-button>
+              <el-button link @click="openVariableForm('in', scope.row, scope.$index)" size="small"> 编辑 </el-button>
               <el-divider direction="vertical" />
-              <el-button
-                link
-                size="small"
-                style="color: #ff4d4f"
-                @click="removeVariable('in', scope.$index)"
-              >
+              <el-button link size="small" style="color: #ff4d4f" @click="removeVariable('in', scope.$index)">
                 移除
               </el-button>
             </template>
@@ -79,35 +62,20 @@
 
       <el-divider />
       <div>
-        <div class="flex mb-[10px]">
+        <div class="mb-[10px] flex">
           <el-text>输出参数</el-text>
-          <el-button
-            class="ml-auto"
-            type="primary"
-            icon="plus"
-            size="small"
-            @click="openVariableForm('out', null, -1)"
-          >添加参数</el-button>
+          <el-button class="ml-auto" type="primary" icon="plus" size="small" @click="openVariableForm('out', null, -1)"
+            >添加参数</el-button
+          >
         </div>
         <el-table :data="outVariableList" max-height="240" fit border>
           <el-table-column label="源" prop="source" min-width="100px" show-overflow-tooltip />
           <el-table-column label="目标" prop="target" min-width="100px" show-overflow-tooltip />
           <el-table-column label="操作" width="110px">
             <template #default="scope">
-              <el-button
-                link
-                @click="openVariableForm('out', scope.row, scope.$index)"
-                size="small"
-              >
-                编辑
-              </el-button>
+              <el-button link @click="openVariableForm('out', scope.row, scope.$index)" size="small"> 编辑 </el-button>
               <el-divider direction="vertical" />
-              <el-button
-                link
-                size="small"
-                style="color: #ff4d4f"
-                @click="removeVariable('out', scope.$index)"
-              >
+              <el-button link size="small" style="color: #ff4d4f" @click="removeVariable('out', scope.$index)">
                 移除
               </el-button>
             </template>
@@ -117,19 +85,13 @@
     </el-form>
 
     <!-- 添加或修改参数 -->
-    <el-dialog
-      v-model="variableDialogVisible"
-      title="参数配置"
-      width="600px"
-      append-to-body
-      destroy-on-close
-    >
-      <el-form :model="varialbeFormData" label-width="80px" ref="varialbeFormRef">
+    <el-dialog v-model="variableDialogVisible" title="参数配置" width="600px" append-to-body destroy-on-close>
+      <el-form :model="variableFormData" label-width="80px" ref="variableFormRef">
         <el-form-item label="源：" prop="source">
-          <el-input v-model="varialbeFormData.source" clearable />
+          <el-input v-model="variableFormData.source" clearable />
         </el-form-item>
         <el-form-item label="目标：" prop="target">
-          <el-input v-model="varialbeFormData.target" clearable />
+          <el-input v-model="variableFormData.target" clearable />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -142,16 +104,15 @@
 
 <script lang="ts" setup>
 import { ref, inject, watch, toRaw, nextTick } from 'vue'
-import { ElMessageBox } from 'element-plus'
 import modal from '@/utils/modal'
+import _ from 'lodash'
 
 defineOptions({ name: 'CallActivity' })
 const props = defineProps({
   id: String,
-  type: String
+  type: String,
 })
 const prefix = inject('prefix')
-// const message = useMessage()
 
 const formData = ref<any>({
   processInstanceName: '',
@@ -159,17 +120,17 @@ const formData = ref<any>({
   inheritVariables: false,
   businessKey: '',
   inheritBusinessKey: false,
-  calledElementType: 'key'
+  calledElementType: 'key',
 })
 const inVariableList = ref()
 const outVariableList = ref()
 const variableType = ref() // 参数类型
 const editingVariableIndex = ref(-1) // 编辑参数下标
 const variableDialogVisible = ref(false)
-const varialbeFormRef = ref()
-const varialbeFormData = ref({
+const variableFormRef = ref()
+const variableFormData = ref({
   source: '',
-  target: ''
+  target: '',
 })
 
 const bpmnInstances = () => (window as any)?.bpmnInstances
@@ -207,14 +168,14 @@ const initCallActivity = () => {
 
 const updateCallActivityAttr = (attr: any) => {
   bpmnInstances().modeling.updateProperties(toRaw(bpmnElement.value), {
-    [attr]: formData.value[attr]
+    [attr]: formData.value[attr],
   })
 }
 
 const openVariableForm = (type: any, data: any, index: any) => {
   editingVariableIndex.value = index
   variableType.value = type
-  varialbeFormData.value = index === -1 ? {} : { ...data }
+  variableFormData.value = index === -1 ? {} : { ...data }
   variableDialogVisible.value = true
 }
 
@@ -228,30 +189,28 @@ const removeVariable = async (type: string, index: any) => {
       outVariableList.value.splice(index, 1)
     }
     updateElementExtensions()
-  } catch { /* empty */ }
+  } catch {
+    /* empty */
+  }
 }
 
 const saveVariable = () => {
   if (editingVariableIndex.value === -1) {
     if (variableType.value === 'in') {
-      inVariableList.value.push(
-        bpmnInstances().moddle.create(`${prefix}:In`, { ...varialbeFormData.value })
-      )
+      inVariableList.value.push(bpmnInstances().moddle.create(`${prefix}:In`, { ...variableFormData.value }))
     }
     if (variableType.value === 'out') {
-      outVariableList.value.push(
-        bpmnInstances().moddle.create(`${prefix}:Out`, { ...varialbeFormData.value })
-      )
+      outVariableList.value.push(bpmnInstances().moddle.create(`${prefix}:Out`, { ...variableFormData.value }))
     }
     updateElementExtensions()
   } else {
     if (variableType.value === 'in') {
-      inVariableList.value[editingVariableIndex.value].source = varialbeFormData.value.source
-      inVariableList.value[editingVariableIndex.value].target = varialbeFormData.value.target
+      inVariableList.value[editingVariableIndex.value].source = variableFormData.value.source
+      inVariableList.value[editingVariableIndex.value].target = variableFormData.value.target
     }
     if (variableType.value === 'out') {
-      outVariableList.value[editingVariableIndex.value].source = varialbeFormData.value.source
-      outVariableList.value[editingVariableIndex.value].target = varialbeFormData.value.target
+      outVariableList.value[editingVariableIndex.value].source = variableFormData.value.source
+      outVariableList.value[editingVariableIndex.value].target = variableFormData.value.target
     }
   }
   variableDialogVisible.value = false
@@ -259,24 +218,22 @@ const saveVariable = () => {
 
 const updateElementExtensions = () => {
   const extensions = bpmnInstances().moddle.create('bpmn:ExtensionElements', {
-    values: [...inVariableList.value, ...outVariableList.value, ...otherExtensionList.value]
+    values: [...inVariableList.value, ...outVariableList.value, ...otherExtensionList.value],
   })
   bpmnInstances().modeling.updateProperties(toRaw(bpmnElement.value), {
-    extensionElements: extensions
+    extensionElements: extensions,
   })
 }
 
 watch(
   () => props.id,
   (val) => {
-    val &&
-      val.length &&
+    if (_.isString(val) && val.length > 0) {
       nextTick(() => {
         initCallActivity()
       })
+    }
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>
-
-<style lang="scss" scoped></style>

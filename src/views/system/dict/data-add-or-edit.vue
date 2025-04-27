@@ -4,13 +4,7 @@
     :title="!state.dataForm.id ? '新增字典数据' : '修改字典数据'"
     :close-on-click-modal="false"
   >
-    <el-form
-      ref="dataFormRef"
-      :model="state.dataForm"
-      :rules="dataRules"
-      label-width="100"
-      class="mr-4"
-    >
+    <el-form ref="dataFormRef" :model="state.dataForm" :rules="dataRules" label-width="100" class="mr-4">
       <el-form-item label="字典标签" prop="dictLabel">
         <el-input v-model="state.dataForm.dictLabel" placeholder="请输入字典标签" />
       </el-form-item>
@@ -25,14 +19,14 @@
               { label: 'success', value: 'success' },
               { label: 'info', value: 'info' },
               { label: 'warning', value: 'warning' },
-              { label: 'danger', value: 'danger' }
+              { label: 'danger', value: 'danger' },
             ]"
             :key="item.value"
             :label="item.label"
             :value="item.value"
           >
             <el-tag v-if="item.value === 'primary'" class="w-full" size="small">{{ item.label }}</el-tag>
-            <el-tag v-else class="w-full" :type="item.value" size="small">{{ item.label }}</el-tag>
+            <el-tag v-else class="w-full" :type="item.value as any" size="small">{{ item.label }}</el-tag>
           </el-option>
         </el-select>
       </el-form-item>
@@ -54,7 +48,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import { getByIdApi, saveOrUpdateApi } from '@/api/system/dictData'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -66,7 +59,7 @@ const state: StateOptions = reactive({
   api: {
     saveOrUpdateApi,
     getByIdApi,
-    emit
+    emit,
   },
   dataForm: {
     id: '',
@@ -76,8 +69,8 @@ const state: StateOptions = reactive({
     labelClass: '',
     sort: 0,
     status: 1,
-    remark: ''
-  }
+    remark: '',
+  },
 })
 
 const dataFormRef = ref()
@@ -85,15 +78,15 @@ const dataFormRef = ref()
 const dataRules = reactive<FormRules>({
   dictLabel: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 100, message: '长度为2~100个字符', trigger: 'blur' }
+    { min: 2, max: 100, message: '长度为2~100个字符', trigger: 'blur' },
   ],
   dictValue: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 1, max: 100, message: '长度为1~100个字符', trigger: 'blur' }
+    { min: 1, max: 100, message: '长度为1~100个字符', trigger: 'blur' },
   ],
   labelClass: [{ min: 0, max: 100, message: '长度不能超过100个字符', trigger: 'blur' }],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }]
+  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }],
 })
 
 const { getData, handleSaveOrUpdate } = crud(state)
@@ -131,6 +124,6 @@ const handleSubmit = () => {
 
 defineExpose({
   init,
-  dataForm: state.dataForm
+  dataForm: state.dataForm,
 })
 </script>

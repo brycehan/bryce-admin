@@ -25,6 +25,5 @@ export default {
   /**
    * 系统用户的初始密码
    */
-  SYSTEM_USER_INIT_PASSWORD : "system.user.init.password"
-
+  SYSTEM_USER_INIT_PASSWORD: 'system.user.init.password',
 }

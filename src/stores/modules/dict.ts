@@ -12,8 +12,12 @@ export const useDictStore = defineStore(
      * 获取字典列表
      */
     const getDictMap = async () => {
+      // 如果已经获取过字典列表，则直接返回
+      if (dictMap.value) return dictMap.value
+
+      // 获取字典列表
       const { data } = await getDictListApi()
-      dictMap.value = data as Record<string, any> || []
+      dictMap.value = (data as Record<string, any>) || []
       return dictMap.value
     }
 
@@ -23,7 +27,7 @@ export const useDictStore = defineStore(
      * @param dictType 字典类型
      */
     const getDictDataList = (dictType: string) => {
-      return  dictMap.value?.[dictType] || []
+      return dictMap.value?.[dictType] || []
     }
 
     /**
@@ -39,7 +43,7 @@ export const useDictStore = defineStore(
       dictOptions.forEach((dict: any) => {
         dictOption.push({
           label: dict.dictLabel,
-          value: dict.dictValue + ''
+          value: dict.dictValue + '',
         })
       })
       return dictOption
@@ -58,7 +62,7 @@ export const useDictStore = defineStore(
       dictOptions.forEach((dict: any) => {
         dictOption.push({
           label: dict.dictLabel,
-          value: parseInt(dict.dictValue + '')
+          value: parseInt(dict.dictValue + ''),
         })
       })
       return dictOption
@@ -70,7 +74,7 @@ export const useDictStore = defineStore(
       dictOptions.forEach((dict: any) => {
         dictOption.push({
           label: dict.dictLabel,
-          value: dict.dictValue + '' === 'true'
+          value: dict.dictValue + '' === 'true',
         })
       })
       return dictOption
@@ -83,7 +87,7 @@ export const useDictStore = defineStore(
      * @param dictValue 字典值
      */
     const getDictLabel = (dictType: string, dictValue: string) => {
-      const dict =  dictMap.value?.[dictType]
+      const dict = dictMap.value?.[dictType]
       if (dict) {
         const dictData = dict.find((element: any) => element.dictValue === dictValue + '')
         if (dictData) {
@@ -100,7 +104,7 @@ export const useDictStore = defineStore(
      * @param dictValue 字典值
      */
     const getDictLabelClass = (dictType: string, dictValue: string) => {
-      const dict =  dictMap.value?.[dictType]
+      const dict = dictMap.value?.[dictType]
       if (dict) {
         const dictData = dict.find((element: any) => element.dictValue === dictValue + '')
         if (dictData) {
@@ -125,5 +129,5 @@ export const useDictStore = defineStore(
     persist: {
       storage: sessionStorage,
     },
-  }
+  },
 )

@@ -1,11 +1,5 @@
 <template>
-  <el-form
-    ref="dataFormRef"
-    :model="state.dataForm"
-    :rules="dataRules"
-    label-width="60"
-    class="mr-4"
-  >
+  <el-form ref="dataFormRef" :model="state.dataForm" :rules="dataRules" label-width="60" class="mr-4">
     <el-form-item label="标题" prop="title">
       <el-input v-model="state.dataForm.title" placeholder="请输入标题" />
     </el-form-item>
@@ -30,7 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import { getByIdApi, saveOrUpdateApi } from '@/api/system/notice'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -40,8 +33,8 @@ const emit = defineEmits(['refreshPage'])
 
 const props = defineProps({
   noticeId: {
-    type: String
-  }
+    type: String,
+  },
 })
 
 const model = defineModel()
@@ -50,15 +43,15 @@ const state: StateOptions = reactive({
   api: {
     saveOrUpdateApi,
     getByIdApi,
-    emit
+    emit,
   },
   dataForm: {
     id: '',
     title: '',
     content: '',
     type: 0,
-    status: 1
-  }
+    status: 1,
+  },
 })
 
 const dataFormRef = ref()
@@ -66,10 +59,10 @@ const dataFormRef = ref()
 const dataRules = reactive<FormRules>({
   title: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 50, message: '长度在2~50个字符', trigger: 'blur' }
+    { min: 2, max: 50, message: '长度在2~50个字符', trigger: 'blur' },
   ],
   type: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }]
+  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }],
 })
 
 const { getData } = crud(state)

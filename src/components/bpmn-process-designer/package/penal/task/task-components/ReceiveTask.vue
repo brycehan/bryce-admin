@@ -1,28 +1,11 @@
 <template>
   <div style="margin-top: 16px">
     <el-form-item label="消息实例">
-      <div
-        style="
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          flex-wrap: nowrap;
-        "
-      >
+      <div style="display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between">
         <el-select v-model="bindMessageId" @change="updateTaskMessage">
-          <el-option
-            v-for="key in Object.keys(messageMap)"
-            :value="key"
-            :label="messageMap[key]"
-            :key="key"
-          />
+          <el-option v-for="key in Object.keys(messageMap)" :value="key" :label="messageMap[key]" :key="key" />
         </el-select>
-        <el-button
-          type="primary"
-          icon="plus"
-          style="margin-left: 8px"
-          @click="openMessageModel"
-        />
+        <el-button type="primary" icon="plus" style="margin-left: 8px" @click="openMessageModel" />
       </div>
     </el-form-item>
     <el-dialog
@@ -55,7 +38,7 @@ import { ElMessage } from 'element-plus'
 defineOptions({ name: 'ReceiveTask' })
 const props = defineProps({
   id: String,
-  type: String
+  type: String,
 })
 
 const bindMessageId = ref('')
@@ -89,11 +72,11 @@ const createNewMessage = () => {
 const updateTaskMessage = (messageId: any) => {
   if (messageId === '-1') {
     bpmnInstances().modeling.updateProperties(toRaw(bpmnElement.value), {
-      messageRef: null
+      messageRef: null,
     })
   } else {
     bpmnInstances().modeling.updateProperties(toRaw(bpmnElement.value), {
-      messageRef: bpmnMessageRefsMap.value[messageId]
+      messageRef: bpmnMessageRefsMap.value[messageId],
     })
   }
 }
@@ -121,6 +104,6 @@ watch(
       getBindMessage()
     })
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>

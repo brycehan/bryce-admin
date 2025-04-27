@@ -20,14 +20,36 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="会话编号" prop="userKey" show-overflow-tooltip header-align="center" align="center" fixed="left" min-width="160"/>
-      <el-table-column label="账号" prop="username" header-align="center" align="center" fixed="left" min-width="90"/>
-      <el-table-column label="姓名" prop="nickname" show-overflow-tooltip header-align="center" align="center" min-width="90"/>
-      <el-table-column label="部门名称" prop="deptName" header-align="center" align="center" min-width="100"/>
-      <el-table-column label="登录IP" prop="loginIp" show-overflow-tooltip header-align="center" align="center" min-width="110" />
-      <el-table-column label="登录位置" prop="loginLocation" header-align="center" align="center" min-width="100"/>
-      <el-table-column label="浏览器" prop="browser" header-align="center" align="center" min-width="90"/>
-      <el-table-column label="操作系统" prop="os" header-align="center" align="center" min-width="100"/>
+      <el-table-column
+        label="会话编号"
+        prop="userKey"
+        show-overflow-tooltip
+        header-align="center"
+        align="center"
+        fixed="left"
+        min-width="160"
+      />
+      <el-table-column label="账号" prop="username" header-align="center" align="center" fixed="left" min-width="90" />
+      <el-table-column
+        label="姓名"
+        prop="nickname"
+        show-overflow-tooltip
+        header-align="center"
+        align="center"
+        min-width="90"
+      />
+      <el-table-column label="部门名称" prop="deptName" header-align="center" align="center" min-width="100" />
+      <el-table-column
+        label="登录IP"
+        prop="loginIp"
+        show-overflow-tooltip
+        header-align="center"
+        align="center"
+        min-width="110"
+      />
+      <el-table-column label="登录位置" prop="loginLocation" header-align="center" align="center" min-width="100" />
+      <el-table-column label="浏览器" prop="browser" header-align="center" align="center" min-width="90" />
+      <el-table-column label="操作系统" prop="os" header-align="center" align="center" min-width="100" />
       <el-table-column
         label="登录时间"
         prop="loginTime"
@@ -62,7 +84,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import { deleteOnlineUserApi, postPageApi } from '@/api/monitor/onlineUser'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -71,12 +92,12 @@ import modal from '@/utils/modal'
 
 const state: StateOptions = reactive({
   api: {
-    postPageApi: postPageApi
+    postPageApi: postPageApi,
   },
   queryForm: {
     username: '',
-    loginIp: ''
-  }
+    loginIp: '',
+  },
 })
 
 const queryFormRef = ref()

@@ -1,17 +1,6 @@
 <template>
-  <el-dialog
-    v-model="visible"
-    title="系统提示"
-    :close-on-click-modal="false"
-    width="600"
-  >
-    <el-form
-      ref="dataFormRef"
-      :model="dataForm"
-      :rules="dataRules"
-      label-width="100"
-      label-position="top"
-    >
+  <el-dialog v-model="visible" title="系统提示" :close-on-click-modal="false" width="600">
+    <el-form ref="dataFormRef" :model="dataForm" :rules="dataRules" label-width="100" label-position="top">
       <el-form-item :label="`请输入“${username}”的新密码`" prop="password">
         <el-input v-model="dataForm.password" show-password placeholder="请输入新密码" />
       </el-form-item>
@@ -24,7 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import { resetPasswordApi } from '@/api/system/user'
 import { ElMessage, type FormRules } from 'element-plus'
 
@@ -41,7 +29,7 @@ const dataRules = reactive<FormRules>({
   password: [
     { required: true, message: '不能为空', trigger: 'blur' },
     { min: 6, max: 20, message: '长度为6~20个字符', trigger: 'blur' },
-    { pattern: /^[^\s\u4e00-\u9fa5]*$/, message: '不允许有空格、中文', trigger: 'change'},
+    { pattern: /^[^\s\u4e00-\u9fa5]*$/, message: '不允许有空格、中文', trigger: 'change' },
   ],
 })
 
@@ -74,6 +62,6 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-  init
+  init,
 })
 </script>

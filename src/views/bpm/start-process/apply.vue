@@ -1,12 +1,5 @@
 <template>
-  <el-dialog
-    v-model="state.visible"
-    modal-class="modal-dialog-full !my-0"
-    footer-class="flex"
-    :modal="false"
-    :title="processDefinition.name"
-    :close-on-click-modal="false"
-  >
+  <el-card shadow="never">
     <!-- 中间主要内容 tab 栏 -->
     <el-tabs v-model="activeTab">
       <!-- 表单信息 -->
@@ -40,31 +33,22 @@
       <el-tab-pane label="流程图" name="diagram">
         <div class="form-scroll-area">
           <!-- BPMN 流程图预览 -->
-          <ProcessInstanceBpmnViewer
-            :bpmn-xml="bpmnDetailPreview.bpmnXml"
-            v-if="BpmModelType.BPMN === modelType"
-          />
-          <!-- Simple 流程图预览 -->
-<!--          <ProcessInstanceSimpleViewer-->
-<!--            :simple-json="simpleJson"-->
-<!--            v-if="BpmModelType.SIMPLE === modelType"-->
-<!--          />-->
+          <ProcessInstanceBpmnViewer :bpmn-xml="bpmnDetailPreview.bpmnXml" v-if="BpmModelType.BPMN === modelType" />
         </div>
       </el-tab-pane>
     </el-tabs>
-    <template #footer>
-      <el-button type="primary" @click="handleSubmit">发起</el-button>
-      <el-button @click="state.visible = false">取消</el-button>
-    </template>
-  </el-dialog>
+
+    <!-- 底部操作栏 -->
+    <div class="b-t-solid border-t-[1px] border-[var(--el-border-color)] pt-[10px]">
+      <!-- 操作栏按钮 -->
+      <el-button type="primary" @click="handleSubmit" icon="select">发起</el-button>
+      <el-button @click="state.visible = false" icon="close">取消</el-button>
+    </div>
+  </el-card>
 </template>
 
 <script setup lang="ts">
-import { nextTick, reactive, ref, unref } from 'vue'
-import {
-  getByIdApi,
-  saveOrUpdateApi,
-} from '@/api/system/user'
+import { getByIdApi, saveOrUpdateApi } from '@/api/system/user'
 import FormCreate from '@form-create/element-ui'
 import type { ApiAttrs } from '@form-create/element-ui/types/config'
 import * as ProcessInstanceApi from '@/api/bpm/processInstance'
@@ -73,26 +57,23 @@ import { ElMessage } from 'element-plus'
 import processDefinitionApi from '@/api/bpm/processDefinition.ts'
 import ProcessInstanceBpmnViewer from '@/views/bpm/process-instance/detail/ProcessInstanceBpmnViewer.vue'
 import { decodeFields, setPreviewConfAndFields } from '@/utils/formCreate'
-import { useRouter } from 'vue-router'
 import type { ApprovalNodeInfo } from '@/types/modules/bpm'
 import { CandidateStrategy, FieldPermissionType, NodeId } from '@/api/bpm/consts.ts'
 import ProcessInstanceTimeline from '@/views/bpm/process-instance/detail/ProcessInstanceTimeline.vue'
 import { BpmModelType } from '@/api/bpm/constant.ts'
 import { useTabsStore } from '@/stores/modules/tabs.ts'
 
-const props = defineProps<{
-  processDefinition: any }>()
 const emit = defineEmits(['refreshPage'])
 
 const state: StateOptions = reactive({
   api: {
     saveOrUpdateApi,
     getByIdApi,
-    emit
+    emit,
   },
   dataForm: {
     id: '',
-  }
+  },
 })
 
 const activeTab = ref('form') // 当前的 Tab
@@ -103,7 +84,7 @@ const processInstanceStartLoading = ref(false)
 const detailForm: any = ref({
   rule: [],
   option: {},
-  value: {}
+  value: {},
 })
 const fApi = ref<ApiAttrs>()
 // 发起人需要选择审批人或抄送人的任务列表
@@ -123,55 +104,51 @@ const bpmnDetailPreview = ref({
   bpmnXml: '',
 })
 
-const router = useRouter()
 const tabsStore = useTabsStore()
+const router = useRouter()
+const { params } = useRoute() // 路由信息
 
 /**
  * 初始化详情数据
  *
- * @param row 当前行数据
  * @param formVariables 表单变量
  */
-const init = async (row: any, formVariables?: any) => {
-  state.visible = true
-  // 重置指定审批人
-  startUserSelectTasks.value = []
-  startUserSelectAssignees.value = {}
+const init = async (formVariables?: any) => {
+  const id = params.id as string
+  processDefinitionApi.getById(id).then(async (res) => {
+    const data = res.data
 
-  modelType.value = row.modelType
-  // 情况一：流程表单
-  if (row.formType == 0) {
-    // 设置表单
-    // 注意：需要从 formVariables 中，移除不在 row.formFields 的值。
-    // 原因是：后端返回的 formVariables 里面，会有一些非表单的信息。例如说，某个流程节点的审批人。
-    //        这样，就可能导致一个流程被审批不通过后，重新发起时，会直接后端报错！！！
-    const allowedFields = decodeFields(row.formFields).map((fieldObj: any) => fieldObj.field)
-    for (const key in formVariables) {
-      if (!allowedFields.includes(key)) {
-        delete formVariables[key]
+    // 重置指定审批人
+    startUserSelectTasks.value = []
+    startUserSelectAssignees.value = {}
+
+    modelType.value = data.modelType
+    // 情况一：流程表单
+    if (data.formType == 0) {
+      // 设置表单
+      // 注意：需要从 formVariables 中，移除不在 row.formFields 的值。
+      // 原因是：后端返回的 formVariables 里面，会有一些非表单的信息。例如说，某个流程节点的审批人。
+      //        这样，就可能导致一个流程被审批不通过后，重新发起时，会直接后端报错！！！
+      const allowedFields = decodeFields(data.formFields).map((fieldObj: any) => fieldObj.field)
+      for (const key in formVariables) {
+        if (!allowedFields.includes(key)) {
+          delete formVariables[key]
+        }
       }
+      setPreviewConfAndFields(detailForm, data.formConf, data.formFields, formVariables)
+
+      await nextTick()
+      fApi.value?.btn.show(false) // 隐藏提交按钮
+
+      // 获取流程审批信息
+      await getApprovalDetail(data)
+
+      // 加载流程图
+      bpmnXML.value = data.bpmnXml
+      simpleJson.value = data.simpleModel
     }
-    setPreviewConfAndFields(detailForm, row.formConf, row.formFields, formVariables)
-
-    await nextTick()
-    fApi.value?.btn.show(false) // 隐藏提交按钮
-
-    // 获取流程审批信息
-    await getApprovalDetail(row)
-
-    // 加载流程图
-    const processDefinitionDetail = await processDefinitionApi.getById(row.id).then(res => res.data)
-    if (processDefinitionDetail) {
-      bpmnXML.value = processDefinitionDetail.bpmnXml
-      simpleJson.value = processDefinitionDetail.simpleModel
-    }
-    // 情况二：业务表单
-  } else if (row.formCustomCreatePath) {
-    await router.push({ path: row.formCustomCreatePath })
-    // 这里暂时无需加载流程图，因为跳出到另外个 Tab；
-  }
-
-  handleBpmnDetail(row)
+    handleBpmnDetail(data)
+  })
 }
 
 /**
@@ -182,8 +159,8 @@ const getApprovalDetail = async (row: any) => {
     // 获取审批详情，设置 activityId 为发起人节点（为了获取字段权限。暂时只对 Simple 设计器有效）
     const data = await ProcessInstanceApi.getApprovalDetail({
       processDefinitionId: row.id,
-      activityId: NodeId.START_USER_NODE_ID
-    }).then(res => res.data)
+      activityId: NodeId.START_USER_NODE_ID,
+    }).then((res) => res.data)
 
     if (!data) {
       ElMessage.error('查询不到审批详情信息！')
@@ -192,7 +169,7 @@ const getApprovalDetail = async (row: any) => {
 
     // 获取发起人自选的任务
     startUserSelectTasks.value = data.activityNodes?.filter(
-      (node: ApprovalNodeInfo) => CandidateStrategy.START_USER_SELECT === node.candidateStrategy
+      (node: ApprovalNodeInfo) => CandidateStrategy.START_USER_SELECT === node.candidateStrategy,
     )
     if (startUserSelectTasks.value?.length > 0) {
       for (const node of startUserSelectTasks.value) {
@@ -210,7 +187,9 @@ const getApprovalDetail = async (row: any) => {
         setFieldPermission(item, formFieldsPermission[item])
       })
     }
-  } finally { /* empty */ }
+  } finally {
+    /* empty */
+  }
 }
 
 /**
@@ -235,7 +214,7 @@ const setFieldPermission = (field: string, permission: string) => {
  * 表单提交
  */
 const handleSubmit = async () => {
-  if (!fApi.value || !props.processDefinition) {
+  if (!fApi.value || !params.id) {
     return
   }
   // 流程表单校验
@@ -255,9 +234,9 @@ const handleSubmit = async () => {
   processInstanceStartLoading.value = true
   try {
     await ProcessInstanceApi.createProcessInstance({
-      processDefinitionId: props.processDefinition.id,
+      processDefinitionId: params.id,
       variables: detailForm.value.value,
-      startUserSelectAssignees: startUserSelectAssignees.value
+      startUserSelectAssignees: startUserSelectAssignees.value,
     })
     // 提示
     ElMessage.success('发起流程成功')
@@ -289,26 +268,34 @@ const handleBpmnDetail = (row: any) => {
   })
 }
 
-defineExpose({
-  init
+onMounted(() => {
+  init()
 })
 </script>
 
 <style lang="scss" scoped>
-$wrap-margin-height: 20px;
-$process-header-height: 110px;
-$process-footer-height: 64px;
-
 .form-scroll-area {
-  height: calc(100vh - var(--theme-header-height) - var(--theme-main-tabs-height)
-    - $process-header-height - $process-footer-height - $wrap-margin-height);
-  max-height: calc(100vh - var(--theme-header-height) - var(--theme-main-tabs-height)
-    - $process-header-height - $process-footer-height - $wrap-margin-height);
+  --wrap-margin-height: 20px;
+  --process-header-height: 110px;
+  --process-footer-height: 64px;
+
+  height: calc(
+    100vh - var(--theme-header-height) - var(--theme-main-tabs-height) - var(--process-header-height) - var(
+        --process-footer-height
+      ) - var(--wrap-margin-height)
+  );
+  max-height: calc(
+    100vh - var(--theme-header-height) - var(--theme-main-tabs-height) - var(--process-header-height) - var(
+        --process-footer-height
+      ) - var(--wrap-margin-height)
+  );
   overflow: hidden;
 }
+
 ::v-deep(.modal-dialog-full-margin) {
   margin-top: 0 !important;
 }
+
 .modal-dialog-full-margin {
   margin-top: 0 !important;
 }

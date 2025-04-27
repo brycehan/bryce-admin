@@ -54,7 +54,7 @@ export const crud = (options: StateOptions) => {
     data: [],
     dataSelections: [],
     loading: false,
-    visible: false
+    visible: false,
   }
 
   // 覆盖默认值
@@ -84,7 +84,7 @@ export const crud = (options: StateOptions) => {
       current: state.current,
       size: state.size,
       orderItems: state.orderItems,
-      ...queryParams
+      ...queryParams,
     }
 
     state.api.postPageApi(body).then((response: any) => {
@@ -146,11 +146,12 @@ export const crud = (options: StateOptions) => {
       return
     }
     const columns = data.map((item: any) => item[column]).join(',')
-    modal.confirm(`是否确认删除${columnName}为“${columns}”的数据项？`)
+    modal
+      .confirm(`是否确认删除${columnName}为“${columns}”的数据项？`)
       .then(() => {
         state.api.deleteByIdsApi(data.map((item) => item.id)).then(() => {
           ElMessage.success('删除成功')
-          if (isPage){
+          if (isPage) {
             getPage()
           } else {
             getList()
@@ -177,11 +178,9 @@ export const crud = (options: StateOptions) => {
    * @param id ID
    */
   const getData = (id: string) => {
-    return (
-      state.api.getByIdApi(id).then((res: any) => {
-        Object.assign(state.dataForm, res.data)
-      })
-    )
+    return state.api.getByIdApi(id).then((res: any) => {
+      Object.assign(state.dataForm, res.data)
+    })
   }
 
   /**
@@ -213,7 +212,7 @@ export const crud = (options: StateOptions) => {
       current: state.current,
       size: state.size,
       orderItems: state.orderItems,
-      ...queryParams
+      ...queryParams,
     }
     state.api.postExportExcelApi(body)
     return
@@ -238,6 +237,6 @@ export const crud = (options: StateOptions) => {
     getData,
     handleSaveOrUpdate,
     handleDownloadExcel,
-    handleSortChange
+    handleSortChange,
   }
 }

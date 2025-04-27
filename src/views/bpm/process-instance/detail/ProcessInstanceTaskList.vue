@@ -10,7 +10,9 @@
     <el-table-column :formatter="dateFormatter" align="center" label="结束时间" prop="endTime" min-width="140" />
     <el-table-column align="center" label="审批状态" prop="status" min-width="90">
       <template #default="scope">
-        <el-tag :type="BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.type as any">{{ BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.label }}</el-tag>
+        <el-tag :type="BpmTaskStatusOptions.find((item) => item.value === scope.row.status)?.type as any">{{
+          BpmTaskStatusOptions.find((item) => item.value === scope.row.status)?.label
+        }}</el-tag>
       </template>
     </el-table-column>
     <el-table-column align="center" label="审批建议" prop="reason" min-width="200">
@@ -45,7 +47,7 @@ defineOptions({ name: 'BpmProcessInstanceTaskList' })
 
 const props = defineProps({
   loading: Boolean, // 是否加载中
-  id: String // 流程实例的编号
+  id: String, // 流程实例的编号
 })
 const tasks = ref<any[]>([]) // 流程任务的数组
 
@@ -54,7 +56,7 @@ const fApi = ref<any>() // form-create 的 API 操作类
 const taskForm = ref({
   rule: [],
   option: {},
-  value: {}
+  value: {},
 }) // 流程任务的表单详情
 const taskFormVisible = ref(false)
 const handleFormDetail = async (row: any) => {

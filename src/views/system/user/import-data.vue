@@ -1,13 +1,6 @@
 <template>
-  <el-dialog
-    v-model="visible"
-    title="导入用户"
-    width="400px"
-    :close-on-click-modal="false"
-  >
-    <el-form
-      ref="dataFormRef"
-    >
+  <el-dialog v-model="visible" title="导入用户" width="400px" :close-on-click-modal="false">
+    <el-form ref="dataFormRef">
       <el-upload
         ref="uploadRef"
         v-auth:has-authority="'system:user:import'"
@@ -21,23 +14,23 @@
         :on-success="handleOnSuccess"
         :auto-upload="false"
         drag
-        >
-        <icon class="el-icon el-icon--upload" icon="ep:upload-filled"/>
-          <div class="el-upload__text">
-            将文件拖到此处，或<em>点击上传</em>
-          </div>
-          <template #tip>
-            <div class="el-upload__tip">
-              <div class="upload-tip">
-                <el-checkbox v-model="isUpdateSupport"><span>是否更新已经存在的用户数据</span></el-checkbox>
-              </div>
-              <div class="upload-tip">
-                <span>仅允许导入xlsx、xls、csv格式文件。</span>
-                <el-link type="primary" :underline="false" style="font-size: 12px" @click="handleImportTemplate">下载模板</el-link>
-              </div>
+      >
+        <icon class="el-icon el-icon--upload" icon="ep:upload-filled" />
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <template #tip>
+          <div class="el-upload__tip">
+            <div class="upload-tip">
+              <el-checkbox v-model="isUpdateSupport"><span>是否更新已经存在的用户数据</span></el-checkbox>
             </div>
-          </template>
-        </el-upload>
+            <div class="upload-tip">
+              <span>仅允许导入xlsx、xls、csv格式文件。</span>
+              <el-link type="primary" :underline="false" style="font-size: 12px" @click="handleImportTemplate"
+                >下载模板</el-link
+              >
+            </div>
+          </div>
+        </template>
+      </el-upload>
     </el-form>
     <template #footer>
       <el-button @click="visible = false">取消</el-button>
@@ -68,7 +61,7 @@ const authStore = useAuthStore()
  */
 const headers = {
   Authorization: authStore.accessToken,
-  'X-Source-Client': 'pc'
+  'X-Source-Client': 'pc',
 }
 
 /**
@@ -110,12 +103,12 @@ const handleOnSuccess: UploadProps['onSuccess'] = (res) => {
   isUploading.value = false
   isUpdateSupport.value = false
   uploadRef.value.clearFiles()
-  ElMessageBox.alert(res.message, '导入结果', {dangerouslyUseHTMLString: true})
+  ElMessageBox.alert(res.message, '导入结果', { dangerouslyUseHTMLString: true })
   emit('refreshPage')
 }
 
 defineExpose({
-  init
+  init,
 })
 </script>
 
@@ -124,9 +117,11 @@ defineExpose({
   display: flex;
   align-items: center;
   justify-content: center;
+
   .el-checkbox {
     padding-right: 5px;
   }
+
   ::v-deep(.el-checkbox__label) {
     font-size: 12px;
     font-weight: normal;

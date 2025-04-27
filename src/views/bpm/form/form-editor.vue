@@ -1,10 +1,14 @@
 <template>
-  <div class="h-[calc(100vh-var(--theme-header-height)-var(--theme-main-tabs-height)-var(--theme-main-content-padding)-var(--theme-main-content-padding))]">
-    <fc-designer class="form-designer border-b border-(--el-border-color-light)" ref="designerRef" :config="designerConfig">
+  <div
+    class="h-[calc(100vh-var(--theme-header-height)-var(--theme-main-tabs-height)-var(--theme-main-content-padding)-var(--theme-main-content-padding))]"
+  >
+    <fc-designer
+      class="form-designer border-b border-(--el-border-color-light)"
+      ref="designerRef"
+      :config="designerConfig"
+    >
       <template #handle>
-        <el-button icon="plus" type="success" size="small" plain @click="handleSave()">
-          保存
-        </el-button>
+        <el-button icon="plus" type="success" size="small" plain @click="handleSave"> 保存 </el-button>
       </template>
     </fc-designer>
   </div>
@@ -36,15 +40,14 @@ import { ElMessage, type FormRules } from 'element-plus'
 import { encodeConf, encodeFields, setConfAndFields } from '@/utils/formCreate'
 import type { FormDto } from '@/types/modules/bpm'
 import { useFormCreateDesigner } from '@/components/form-create'
-import { useI18n } from 'vue-i18n'
 import { useTabsStore } from '@/stores/modules/tabs.ts'
 import { StatusEnum } from '@/enums/system.ts'
 
 defineOptions({
-  name: 'BpmFormEditor'
+  name: 'BpmFormEditor',
 })
 
-const state: StateOptions  = reactive({
+const state: StateOptions = reactive({
   api: {
     saveOrUpdateApi,
     getByIdApi,
@@ -53,10 +56,9 @@ const state: StateOptions  = reactive({
     name: '',
     status: StatusEnum.ENABLE,
     remark: '',
-  }
+  },
 })
 
-const { t } = useI18n() // 国际化
 const router = useRouter() // 路由
 const { query } = useRoute() // 路由信息
 const { deleteView } = useTabsStore() // 视图操作
@@ -68,8 +70,8 @@ const designerConfig = ref({
   useTemplate: false, // 是否生成vue2语法的模板组件
   formOptions: {
     form: {
-      labelWidth: '100px' // 设置默认的 label 宽度为 100px
-    }
+      labelWidth: '100px', // 设置默认的 label 宽度为 100px
+    },
   }, // 定义表单配置默认值
   fieldReadonly: false, // 配置field是否可以编辑
   hiddenDragMenu: false, // 隐藏拖拽操作按钮
@@ -88,7 +90,7 @@ const designerConfig = ref({
   showFormConfig: true, // 是否显示表单配置
   showInputData: true, // 是否显示录入按钮
   showDevice: true, // 是否显示多端适配选项
-  appendConfigData: [] // 定义渲染规则所需的formData
+  appendConfigData: [], // 定义渲染规则所需的formData
 })
 const designerRef = ref() // 表单设计器
 useFormCreateDesigner(designerRef) // 表单设计器增强
@@ -100,8 +102,8 @@ const dataFormRef = ref()
 const dataRules = reactive<FormRules>({
   name: [
     { required: true, message: '表单名称不能为空', trigger: 'blur' },
-    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' }
-  ]
+    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' },
+  ],
 })
 
 /**
@@ -113,13 +115,15 @@ const init = () => {
   if (!id) return
 
   // 修改表单
-  getByIdApi(id).then((res) => {
-    state.dataForm = res.data
-    setConfAndFields(designerRef, state.dataForm.conf, state.dataForm.fields)
-  }).catch((reason) => {
-    console.error(reason)
-    setConfAndFields(designerRef, '{}', [])
-  })
+  getByIdApi(id)
+    .then((res) => {
+      state.dataForm = res.data
+      setConfAndFields(designerRef, state.dataForm.conf, state.dataForm.fields)
+    })
+    .catch((reason) => {
+      console.error(reason)
+      setConfAndFields(designerRef, '{}', [])
+    })
 }
 
 /**
@@ -146,20 +150,22 @@ const handleSubmit = async () => {
   // 表单字段
   data.fields = encodeFields(designerRef)
 
-  saveOrUpdateApi(data).then(() => {
-    if (data.id) {
-      ElMessage.success('更新成功')
-    } else {
-      ElMessage.success('新增成功')
-    }
-    dialogVisible.value = false
-    // 关闭当前页签
-    deleteView(unref(router.currentRoute))
-    // 跳转到流程列表页
-    router.push({ path: '/bpm/form/index' })
-  }).finally(() => {
-    formLoading.value = false
-  })
+  saveOrUpdateApi(data)
+    .then(() => {
+      if (data.id) {
+        ElMessage.success('更新成功')
+      } else {
+        ElMessage.success('新增成功')
+      }
+      dialogVisible.value = false
+      // 关闭当前页签
+      deleteView(unref(router.currentRoute))
+      // 跳转到流程列表页
+      router.push({ path: '/bpm/form' })
+    })
+    .finally(() => {
+      formLoading.value = false
+    })
 }
 
 onMounted(() => {

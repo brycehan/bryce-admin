@@ -1,12 +1,7 @@
 <template>
-  <div class="border border-solid border-[#ccc] w-full z-10">
+  <div class="z-10 w-full border border-solid border-[#ccc]">
     <!-- 工具栏 -->
-    <Toolbar
-      style="border-bottom: 1px solid #ccc"
-      :editor="editorRef"
-      :default-config="toolbarConfig"
-      :mode="mode"
-    />
+    <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :default-config="toolbarConfig" :mode="mode" />
     <!-- 编辑器 -->
     <Editor
       v-model="model"
@@ -40,23 +35,23 @@ const model = defineModel()
 const props = defineProps({
   mode: {
     type: String,
-    default: 'default' // 可选值：[default | simple]
+    default: 'default', // 可选值：[default | simple]
   },
   placeholder: {
     type: String,
-    default: ''
+    default: '',
   },
   style: {
     type: String,
-    default: 'height: 500px; overflow-y: hidden;'
+    default: 'height: 500px; overflow-y: hidden;',
   },
   readOnly: {
     type: Boolean,
-    default: () => false
+    default: () => false,
   },
   disabled: {
     type: Boolean,
-    default: () => false
+    default: () => false,
   }, // 是否禁用组件 ==> 非必传（默认为 false）
 })
 
@@ -118,7 +113,7 @@ const editorConfig: Partial<IEditorConfig> = {
         // res 即服务端的返回结果
         // 从 res 中找到 url、alt、href，然后插入图片
         insertFn(res.data.url, res.data.name || '图片', res.data.url)
-      }
+      },
     },
     uploadVideo: {
       server: `${constant.uploadUrl}?accessType=0`,
@@ -161,8 +156,8 @@ const editorConfig: Partial<IEditorConfig> = {
       // 自定义插入 mp4
       customInsert(res: any, insertFn: InsertFnType) {
         insertFn(res.data.url, 'mp4', res.data.url)
-      }
-    }
+      },
+    },
   },
 }
 
@@ -191,16 +186,19 @@ const getEditorRef = async (): Promise<IDomEditor> => {
   return editorRef.value as IDomEditor
 }
 
-watch(() => props.disabled, (val) => {
-  if (val) {
-    editorRef.value?.disable()
-  } else {
-    editorRef.value?.enable()
-  }
-})
+watch(
+  () => props.disabled,
+  (val) => {
+    if (val) {
+      editorRef.value?.disable()
+    } else {
+      editorRef.value?.enable()
+    }
+  },
+)
 
 defineExpose({
-  getEditorRef
+  getEditorRef,
 })
 </script>
 

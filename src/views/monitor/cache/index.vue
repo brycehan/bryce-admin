@@ -4,37 +4,23 @@
       <el-col :span="24">
         <el-descriptions :column="3" border>
           <template #title>
-            <icon icon="ep:monitor"/>
+            <icon icon="ep:monitor" />
             <span class="ml-1">基本信息</span>
           </template>
-          <el-descriptions-item label="Redis版本">{{
-            data.info.redis_version
-          }}</el-descriptions-item>
+          <el-descriptions-item label="Redis版本">{{ data.info.redis_version }}</el-descriptions-item>
           <el-descriptions-item label="运行模式">{{
             data.info.redis_mode === 'standalone' ? '单机' : '集群'
           }}</el-descriptions-item>
           <el-descriptions-item label="端口">{{ data.info.tcp_port }}</el-descriptions-item>
-          <el-descriptions-item label="客户端数">{{
-            data.info.connected_clients
-          }}</el-descriptions-item>
-          <el-descriptions-item label="运行时间（天）">{{
-            data.info.uptime_in_days
-          }}</el-descriptions-item>
-          <el-descriptions-item label="已用内存">{{
-              data.info.used_memory_human
-            }}</el-descriptions-item>
-          <el-descriptions-item label="使用 CPU"
-          >{{ data.info.used_cpu_user_children }}%</el-descriptions-item
-          >
-          <el-descriptions-item label="最大内存配置">{{
-            data.info.maxmemory_human
-          }}</el-descriptions-item>
+          <el-descriptions-item label="客户端数">{{ data.info.connected_clients }}</el-descriptions-item>
+          <el-descriptions-item label="运行时间（天）">{{ data.info.uptime_in_days }}</el-descriptions-item>
+          <el-descriptions-item label="已用内存">{{ data.info.used_memory_human }}</el-descriptions-item>
+          <el-descriptions-item label="使用 CPU">{{ data.info.used_cpu_user_children }}%</el-descriptions-item>
+          <el-descriptions-item label="最大内存配置">{{ data.info.maxmemory_human }}</el-descriptions-item>
           <el-descriptions-item label="AOF 是否开启">{{
             data.info.aof_enabled === 0 ? '否' : '是'
           }}</el-descriptions-item>
-          <el-descriptions-item label="RDB 是否成功">{{
-            data.info.rdb_last_bgsave_status
-          }}</el-descriptions-item>
+          <el-descriptions-item label="RDB 是否成功">{{ data.info.rdb_last_bgsave_status }}</el-descriptions-item>
           <el-descriptions-item label="Key 数量">{{ data.keyCount }}</el-descriptions-item>
           <el-descriptions-item label="网络入口/出口"
             >{{ data.info.instantaneous_input_kbps }}kps/{{
@@ -47,7 +33,7 @@
     <el-row class="mt-6">
       <el-col :span="12">
         <div class="disk-header">
-          <icon icon="ep:pie-chart"/>
+          <icon icon="ep:pie-chart" />
           <span class="ml-1">命令统计</span>
         </div>
         <el-divider content-position="right"></el-divider>
@@ -57,7 +43,7 @@
       </el-col>
       <el-col :span="12">
         <div class="disk-header">
-          <icon icon="ep:odometer"/>
+          <icon icon="ep:odometer" />
           <span class="ml-1">内存信息</span>
         </div>
         <el-divider></el-divider>
@@ -70,7 +56,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import { getInfoApi } from '@/api/monitor/cache'
 import modal from '@/utils/modal'
 import * as echarts from 'echarts'
@@ -87,16 +72,16 @@ const data = reactive({
     aof_enabled: 0,
     rdb_last_bgsave_status: '0',
     instantaneous_input_kbps: '0.00',
-    instantaneous_output_kbps: '0.00'
+    instantaneous_output_kbps: '0.00',
   },
   keyCount: 0,
-  commandStats: []
+  commandStats: [],
 })
 
 const commandStatsRef = ref()
 const usedMemoryRef = ref()
-let commandStats = null;
-let usedMemory = null;
+let commandStats = null
+let usedMemory = null
 
 onMounted(() => {
   getCacheInfo()
@@ -112,11 +97,11 @@ const getCacheInfo = () => {
     commandStats.setOption({
       tooltip: {
         trigger: 'item',
-        formatter: '{a} <br/>{b} : {c} ({d}%)'
+        formatter: '{a} <br/>{b} : {c} ({d}%)',
       },
       legend: {
         orient: 'vertical',
-        left: 'left'
+        left: 'left',
       },
       series: [
         {
@@ -132,18 +117,18 @@ const getCacheInfo = () => {
             label: {
               show: true,
               fontSize: '20',
-              fontWeight: 'bold'
-            }
+              fontWeight: 'bold',
+            },
           },
-        }
-      ]
+        },
+      ],
     })
 
     // 内存信息图表初始化
     usedMemory = echarts.init(usedMemoryRef.value)
     usedMemory.setOption({
       tooltip: {
-        formatter: '{b} <br/>{a} ：' + res.data.info.used_memory_human
+        formatter: '{b} <br/>{a} ：' + res.data.info.used_memory_human,
       },
       series: [
         {
@@ -157,49 +142,49 @@ const getCacheInfo = () => {
               color: [
                 [0.3, '#67e0e3'],
                 [0.7, '#37a2da'],
-                [1, '#fd666d']
-              ]
-            }
+                [1, '#fd666d'],
+              ],
+            },
           },
           pointer: {
             itemStyle: {
-              color: 'auto'
-            }
+              color: 'auto',
+            },
           },
           axisTick: {
             distance: -30,
             length: 8,
             lineStyle: {
               color: '#fff',
-              width: 2
-            }
+              width: 2,
+            },
           },
           splitLine: {
             distance: -30,
             length: 30,
             lineStyle: {
               color: '#fff',
-              width: 4
-            }
+              width: 4,
+            },
           },
           axisLabel: {
             color: 'inherit',
             distance: 40,
-            fontSize: 20
+            fontSize: 20,
           },
           detail: {
             valueAnimation: true,
             formatter: '{value} M',
-            color: 'inherit'
+            color: 'inherit',
           },
           data: [
             {
               value: parseFloat(res.data.info.used_memory_human),
-              name: '内存消耗'
-            }
-          ]
-        }
-      ]
+              name: '内存消耗',
+            },
+          ],
+        },
+      ],
     })
 
     window.addEventListener('resize', function () {
@@ -220,17 +205,20 @@ const getCacheInfo = () => {
 
 .disk-header {
   display: flex;
+
   span {
-    line-height: 1rem;
     font-size: 16px;
+    line-height: 1rem;
   }
 }
+
 .descriptions-row {
+  display: flex;
+  justify-content: space-between;
+
   .el-descriptions {
     width: 48%;
   }
-  display: flex;
-  justify-content: space-between;
 }
 
 ::v-deep(.el-col-12) {

@@ -11,7 +11,7 @@ export interface LoginDto {
   type?: string
 }
 
-export interface  LoginVo {
+export interface LoginVo {
   /** jwt令牌 */
   accessToken?: string
   /** 过期时间间隔 */

@@ -1,42 +1,38 @@
 <template>
-  <el-dialog
-    v-model="visible"
-    title="分配数据权限"
-    :close-on-click-modal="false"
-    width="600"
-    draggable
-  >
-    <el-form
-      ref="dataFormRef"
-      :model="dataForm"
-      :rules="dataRules"
-      label-width="100"
-      class="mr-4"
-    >
+  <el-dialog v-model="visible" title="分配数据权限" :close-on-click-modal="false" width="600" draggable>
+    <el-form ref="dataFormRef" :model="dataForm" :rules="dataRules" label-width="100" class="mr-4">
       <el-form-item label="角色名称" prop="name">
         <el-input v-model="dataForm.name" disabled />
       </el-form-item>
       <el-form-item label="数据范围" prop="dataScope">
-        <dict-select v-model="dataForm.dataScopeType" dict-type="sys_data_scope" placeholder="请选择数据范围" class="w-full" clearable/>
+        <dict-select
+          v-model="dataForm.dataScopeType"
+          dict-type="sys_data_scope"
+          placeholder="请选择数据范围"
+          class="w-full"
+          clearable
+        />
       </el-form-item>
       <el-form-item v-if="dataForm.dataScopeType == 1" label="数据权限">
-        <el-checkbox v-model="deptExpandAll" @change="handleTreeExpand($event)">{{deptExpandAll ? '全部收起' : '全部展开'}}</el-checkbox>
+        <el-checkbox v-model="deptExpandAll" @change="handleTreeExpand($event)">{{
+          deptExpandAll ? '全部收起' : '全部展开'
+        }}</el-checkbox>
         <el-checkbox v-model="deptCheckAll" @change="handleTreeCheckAll($event)">全选/全不选</el-checkbox>
         <el-checkbox v-model="deptCheckStrictly" @change="handleTreeCheckStrictly($event)">父子联动</el-checkbox>
       </el-form-item>
       <el-form-item v-if="dataForm.dataScopeType == 1">
-       <el-card shadow="never" class="w-full">
-         <el-tree
-           ref="deptTreeRef"
-           :data="deptData"
-           :props="{ label: 'name', children: 'children' }"
-           node-key="id"
-           :check-strictly="!deptCheckStrictly"
-           empty-text="加载中，请稍候..."
-           show-checkbox
-           default-expand-all
-         />
-       </el-card>
+        <el-card shadow="never" class="w-full">
+          <el-tree
+            ref="deptTreeRef"
+            :data="deptData"
+            :props="{ label: 'name', children: 'children' }"
+            node-key="id"
+            :check-strictly="!deptCheckStrictly"
+            empty-text="加载中，请稍候..."
+            show-checkbox
+            default-expand-all
+          />
+        </el-card>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -47,7 +43,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import { getByIdApi, putDataScopeApi } from '@/api/system/role'
 import { postListApi as deptListApi } from '@/api/system/dept'
 import { type CheckboxValueType, ElMessage, type FormRules } from 'element-plus'
@@ -171,6 +166,6 @@ const handleTreeCheckStrictly = (val: CheckboxValueType) => {
 }
 
 defineExpose({
-  init
+  init,
 })
 </script>

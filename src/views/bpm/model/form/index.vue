@@ -29,8 +29,12 @@
       </el-col>
       <!-- 右侧按钮 -->
       <el-col :span="6" class="el-container">
-        <el-button type="success" v-auth:has-authority="'bpm:model:deploy'" v-if="route.params.id" @click="handleDeploy">发布</el-button>
-        <el-button type="primary" v-auth:has-any-authority="['bpm:model:save', 'bpm:model:update']" @click="handleSave">保存</el-button>
+        <el-button type="success" v-auth:has-authority="'bpm:model:deploy'" v-if="route.params.id" @click="handleDeploy"
+          >发布</el-button
+        >
+        <el-button type="primary" v-auth:has-any-authority="['bpm:model:save', 'bpm:model:update']" @click="handleSave"
+          >保存</el-button
+        >
         <el-button :type="active <= 0 ? '' : 'primary'" :disabled="active <= 0" @click="handlePrev()">上一步</el-button>
         <el-button :type="active >= 3 ? '' : 'primary'" :disabled="active >= 3" @click="handleNext()">下一步</el-button>
       </el-col>
@@ -70,7 +74,6 @@ import ProcessDesign from '@/views/bpm/model/form/process-design.vue'
 import ExtraSettings from '@/views/bpm/model/form/extra-settings.vue'
 import { BpmAutoApproveType, BpmFormType, BpmModelType } from '@/api/bpm/constant'
 import modal from '@/utils/modal'
-import { useRoute, useRouter } from 'vue-router'
 import _ from 'lodash'
 import { useTabsStore } from '@/stores/modules/tabs.ts'
 import { StatusEnum, SysShowHide } from '@/enums/system.ts'
@@ -82,7 +85,7 @@ const state: StateOptions = reactive({
   api: {
     saveOrUpdateApi: modelApi.saveOrUpdateApi,
     getByIdApi: modelApi.getByIdApi,
-    emit
+    emit,
   },
   dataForm: {
     // 基本信息
@@ -114,18 +117,18 @@ const state: StateOptions = reactive({
       prefix: '',
       infix: '',
       postfix: '',
-      length: 5
+      length: 5,
     },
     autoApprovalType: BpmAutoApproveType.NONE,
     titleSetting: {
       enable: false,
-      title: ''
+      title: '',
     },
     summarySetting: {
       enable: false,
-      summary: []
-    }
-  }
+      summary: [],
+    },
+  },
 })
 
 const route = useRoute()
@@ -188,11 +191,11 @@ const init = async () => {
     })
   } else {
     // 新增场景
-    state.dataForm.startUserType = 0  // 全体
+    state.dataForm.startUserType = 0 // 全体
     state.dataForm.managerUserIds.push(authStore.user.id)
   }
   // 获取分类列表
-  const categoryListRes = await CategoryApi.postListApi({status: StatusEnum.ENABLE})
+  const categoryListRes = await CategoryApi.postListApi({ status: StatusEnum.ENABLE })
   categoryList.value = categoryListRes.data
   // 获取表单列表
   const formListRes = await FormApi.postListApi({})
@@ -204,7 +207,7 @@ const init = async () => {
 
 watch(
   () => state.dataForm.type,
-  () => initProcessData()
+  () => initProcessData(),
 )
 
 /**
@@ -291,12 +294,11 @@ const handleSave = async () => {
       // 跳转到流程列表页
       router.push({ path: '/bpm/model/index' })
     })
-    .catch(error => {
+    .catch((error) => {
       if (error === 'cancel') return
-      validateCurrentStep()
-        .then(() => {
-          if (error.name != 'Error') ElMessage.warning('请完善所有步骤的必填信息')
-        })
+      validateCurrentStep().then(() => {
+        if (error.name != 'Error') ElMessage.warning('请完善所有步骤的必填信息')
+      })
     })
 }
 
@@ -306,7 +308,8 @@ const handleSave = async () => {
 const handleDeploy = () => {
   return (
     // 确认对话框处理
-    modal.confirm('是否确认发布该流程？')
+    modal
+      .confirm('是否确认发布该流程？')
       // 验证所有步骤的数据
       .then(() => validateAllSteps())
       // 数据保存处理
@@ -382,93 +385,101 @@ onMounted(() => {
 .el-container {
   justify-content: center;
 }
-//
+
 .title-box {
-  margin-bottom: 20px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
 }
+
 // 步骤条禁用背景色
 .el-steps--simple {
   background: unset;
 }
+
 // 表单容器
 .form-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  justify-content: center;
-  align-items: center;
 }
+
 .el-step.is-simple {
   // 圆圈样式
   ::v-deep(.is-process) .el-step__icon {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
     background: #1890ff;
     border: #1890ff;
-    font-size: 12px;
-    height: 24px;
-    width: 24px;
     border-radius: 50%;
-    color: white;
-    font-weight: bold;
   }
 
   ::v-deep(.is-success) .el-step__icon,
   ::v-deep(.is-wait) .el-step__icon {
-    background: white;
-    border: 2px solid rgb(209 213 219 / 1);
-    font-size: 12px;
-    height: 24px;
     width: 24px;
-    border-radius: 50%;
-    color: rgb(107 114 128 / 1);
+    height: 24px;
+    font-size: 12px;
     font-weight: bold;
+    color: rgb(107 114 128 / 100%);
+    background: white;
+    border: 2px solid rgb(209 213 219 / 100%);
+    border-radius: 50%;
   }
 
   // 标题
   ::v-deep(.el-step__title) {
     font-size: 14px;
     line-height: 20px;
+
     // 右上角小点默认不显示
     .el-badge__content {
       background-color: white;
     }
+
     // 右上角小点位置调整
     .el-badge__content.is-fixed.is-dot {
       right: -3px;
     }
+
     // 右上角小点显示样式
     &.is-process .el-badge__content.is-dot,
     &.is-wait .el-badge__content.is-dot {
-      border-radius: 50%;
-      height: 6px;
-      padding: 0;
       right: 0;
       width: 6px;
+      height: 6px;
+      padding: 0;
       background-color: var(--el-color-danger);
+      border-radius: 50%;
     }
+
     // 字体样式
     &.is-success {
       color: var(--el-text-color-placeholder);
     }
   }
+
   // 底部横线
   &:has(.is-process)::before {
     position: absolute;
-    bottom: -10px;
     inset-inline-start: -10%;
+    bottom: -10px;
     display: inline-block;
     width: 80%;
     height: 2px;
+    content: '';
     background-color: #1890ff;
     transition:
       width 0.3s,
       inset-inline-start 0.3s;
     transition-timing-function: ease-out;
-    content: '';
   }
 }
 </style>

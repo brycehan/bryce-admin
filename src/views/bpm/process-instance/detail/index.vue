@@ -4,16 +4,17 @@
       <div class="flex">
         <div>
           <div class="text-[#878c93]">编号：{{ route.params.id }}</div>
-          <div class="flex items-center gap-5 my-5">
-            <div class="text-[26px] font-bold mb-[5px]">{{ processInstance.name }}</div>
-            <el-tag v-if="processInstance.status" :type="BpmProcessInstanceStatusOptions.find(item => item.value === processInstance.status)?.type">
-              {{ BpmProcessInstanceStatusOptions.find(item => item.value === processInstance.status)?.label }}
+          <div class="my-5 flex items-center gap-5">
+            <div class="mb-[5px] text-[26px] font-bold">{{ processInstance.name }}</div>
+            <el-tag
+              v-if="processInstance.status"
+              :type="BpmProcessInstanceStatusOptions.find((item) => item.value === processInstance.status)?.type"
+            >
+              {{ BpmProcessInstanceStatusOptions.find((item) => item.value === processInstance.status)?.label }}
             </el-tag>
           </div>
-          <div class="flex items-center gap-5 mb-4 text-[13px] h-[35px]">
-            <div
-              class="bg-gray-100 rounded-3xl flex items-center p-[8px] gap-2 h-[35px] dark:color-gray-600"
-            >
+          <div class="mb-4 flex h-[35px] items-center gap-5 text-[13px]">
+            <div class="dark:color-gray-600 flex h-[35px] items-center gap-2 rounded-3xl bg-gray-100 p-[8px]">
               <el-avatar
                 :size="28"
                 v-if="processInstance?.startUser?.avatar"
@@ -24,16 +25,11 @@
               </el-avatar>
               {{ processInstance?.startUser?.nickname }}
             </div>
-            <div class="text-[#878c93]"> {{ formatDate(processInstance.startTime) }} 提交 </div>
+            <div class="text-[#878c93]">{{ formatDate(processInstance.startTime) }} 提交</div>
           </div>
         </div>
         <div>
-          <img
-            class="absolute right-[20px]"
-            width="150"
-            :src="auditIconsMap[processInstance.status]"
-            alt=""
-          />
+          <img class="absolute right-[20px]" width="150" :src="auditIconsMap[processInstance.status]" alt="" />
         </div>
       </div>
       <el-tabs v-model="activeTab">
@@ -44,10 +40,7 @@
               <el-row>
                 <el-col :span="17" class="!flex !flex-col">
                   <!-- 表单信息 -->
-                  <div
-                    v-loading="processInstanceLoading"
-                    class="form-box flex flex-col mb-[30px] flex-1"
-                  >
+                  <div v-loading="processInstanceLoading" class="form-box mb-[30px] flex flex-1 flex-col">
                     <!-- 情况一：流程表单 -->
                     <el-col v-if="processDefinition?.formType === BpmFormType.NORMAL">
                       <form-create
@@ -99,20 +92,21 @@
           </div>
         </el-tab-pane>
       </el-tabs>
-      <div class="b-t-solid border-t-[1px] border-[var(--el-border-color)] mt-[10px]">
-            <!-- 操作栏按钮 -->
-            <ProcessInstanceOperationButton
-              ref="operationButtonRef"
-              :process-instance="processInstance"
-              :process-definition="processDefinition"
-              :userOptions="userOptions"
-              :normal-form="detailForm"
-              :normal-form-api="fApi"
-              :writable-fields="writableFields"
-              @success="refresh"
-            />
-          </div>
+      <!-- 底部操作栏 -->
+      <div class="b-t-solid mt-[10px] border-t-[1px] border-[var(--el-border-color)]">
+        <!-- 操作栏按钮 -->
+        <ProcessInstanceOperationButton
+          ref="operationButtonRef"
+          :process-instance="processInstance"
+          :process-definition="processDefinition"
+          :userOptions="userOptions"
+          :normal-form="detailForm"
+          :normal-form-api="fApi"
+          :writable-fields="writableFields"
+          @success="refresh"
+        />
       </div>
+    </div>
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -140,7 +134,7 @@ import { StatusEnum } from '@/enums/system.ts'
 
 const state = ref({
   taskId: '', // 任务编号
-  activityId: '' //流程活动编号，用于抄送查看
+  activityId: '', //流程活动编号，用于抄送查看
 })
 
 const processInstanceLoading = ref(false) // 流程实例的加载中
@@ -152,7 +146,7 @@ const auditIconsMap = {
   [TaskStatusEnum.RUNNING]: runningSvg,
   [TaskStatusEnum.APPROVE]: approveSvg,
   [TaskStatusEnum.REJECT]: rejectSvg,
-  [TaskStatusEnum.CANCEL]: cancelSvg
+  [TaskStatusEnum.CANCEL]: cancelSvg,
 } as any
 
 // ========== 申请信息 ==========
@@ -160,7 +154,7 @@ const fApi = ref<ApiAttrs>() //
 const detailForm = ref({
   rule: [],
   option: {},
-  value: {}
+  value: {},
 }) // 流程实例的表单详情
 
 const writableFields: Array<string> = [] // 表单可以编辑的字段
@@ -190,9 +184,9 @@ const getApprovalDetail = async (processInstanceId: string, activityId: any, tas
     const param = {
       processInstanceId,
       activityId,
-      taskId
+      taskId,
     }
-    const data = await ProcessInstanceApi.getApprovalDetail(param).then(res => res.data)
+    const data = await ProcessInstanceApi.getApprovalDetail(param).then((res) => res.data)
     if (!data) {
       ElMessage.error('查询不到审批详情信息！')
       return
@@ -218,7 +212,7 @@ const getApprovalDetail = async (processInstanceId: string, activityId: any, tas
           detailForm,
           processDefinition.value.formConf,
           processDefinition.value.formFields,
-          processInstance.value.formVariables
+          processInstance.value.formVariables,
         )
       }
       nextTick().then(() => {
@@ -254,15 +248,14 @@ const getProcessModelView = (processInstanceId: string) => {
   if (BpmModelType.BPMN === processDefinition.value?.modelType) {
     // 重置，解决 BPMN 流程图刷新不会重新渲染问题
     processModelView.value = {
-      bpmnXml: ''
+      bpmnXml: '',
     }
   }
-  ProcessInstanceApi.getProcessInstanceBpmnModelView(processInstanceId)
-    .then(res => {
-      if (res.data) {
-        processModelView.value = res.data
-      }
-    })
+  ProcessInstanceApi.getProcessInstanceBpmnModelView(processInstanceId).then((res) => {
+    if (res.data) {
+      processModelView.value = res.data
+    }
+  })
 }
 
 // 审批节点信息
@@ -314,25 +307,28 @@ const init = () => {
 onMounted(() => {
   init()
   // 获得用户列表
-  userApi.postListApi({status: StatusEnum.ENABLE })
-    .then(res =>  userOptions.value = res.data)
+  userApi.postListApi({ status: StatusEnum.ENABLE }).then((res) => (userOptions.value = res.data))
 })
 </script>
 
 <style lang="scss" scoped>
-$process-header-height: 265px;
-
 .processInstance-wrap-main {
   height: calc(100vh - var(--theme-header-height) - var(--theme-main-tabs-height) - 65px);
   max-height: calc(100vh - var(--theme-header-height) - var(--theme-main-tabs-height) - 65px);
   overflow: hidden;
 
   .form-scroll-area {
+    --process-header-height: 265px;
+
     display: flex;
-    height: calc(100vh - var(--theme-header-height) - var(--theme-main-tabs-height) - 65px - $process-header-height);
-    max-height: calc(100vh - var(--theme-header-height) - var(--theme-main-tabs-height) - 65px - $process-header-height);
-    overflow: auto;
     flex-direction: column;
+    height: calc(
+      100vh - var(--theme-header-height) - var(--theme-main-tabs-height) - 65px - var(--process-header-height)
+    );
+    max-height: calc(
+      100vh - var(--theme-header-height) - var(--theme-main-tabs-height) - 65px - var(--process-header-height)
+    );
+    overflow: auto;
   }
 }
 

@@ -11,14 +11,14 @@ interface TreeHelperConfig {
 const DEFAULT_CONFIG: TreeHelperConfig = {
   id: 'id',
   children: 'children',
-  pid: 'pid'
+  pid: 'pid',
 }
 export const defaultProps = {
   children: 'children',
   label: 'name',
   value: 'id',
   isLeaf: 'leaf',
-  emitPath: false // 用于 cascader 组件：在选中节点改变时，是否返回由该节点所在的各级菜单的值所组成的数组，若设置 false，则只返回该节点的值
+  emitPath: false, // 用于 cascader 组件：在选中节点改变时，是否返回由该节点所在的各级菜单的值所组成的数组，若设置 false，则只返回该节点的值
 }
 
 const getConfig = (config: Partial<TreeHelperConfig>) => Object.assign({}, DEFAULT_CONFIG, config)
@@ -52,42 +52,30 @@ export const treeToList = <T = any>(tree: any, config: Partial<TreeHelperConfig>
   return result
 }
 
-export const findNode = <T = any>(
-  tree: any,
-  func: Fn,
-  config: Partial<TreeHelperConfig> = {}
-): T | null => {
+export const findNode = <T = any>(tree: any, func: Fn, config: Partial<TreeHelperConfig> = {}): T | null => {
   config = getConfig(config)
   const { children } = config
   const list = [...tree]
   for (const node of list) {
     if (func(node)) return node
-    node[children!] && list.push(...node[children!])
+    if (node[children!]) list.push(...node[children!])
   }
   return null
 }
 
-export const findNodeAll = <T = any>(
-  tree: any,
-  func: Fn,
-  config: Partial<TreeHelperConfig> = {}
-): T[] => {
+export const findNodeAll = <T = any>(tree: any, func: Fn, config: Partial<TreeHelperConfig> = {}): T[] => {
   config = getConfig(config)
   const { children } = config
   const list = [...tree]
   const result: T[] = []
   for (const node of list) {
-    func(node) && result.push(node)
-    node[children!] && list.push(...node[children!])
+    if (func(node)) result.push(node)
+    if (node[children!]) list.push(...node[children!])
   }
   return result
 }
 
-export const findPath = <T = any>(
-  tree: any,
-  func: Fn,
-  config: Partial<TreeHelperConfig> = {}
-): T | T[] | null => {
+export const findPath = <T = any>(tree: any, func: Fn, config: Partial<TreeHelperConfig> = {}): T | T[] | null => {
   config = getConfig(config)
   const path: T[] = []
   const list = [...tree]
@@ -100,7 +88,7 @@ export const findPath = <T = any>(
       list.shift()
     } else {
       visitedSet.add(node)
-      node[children!] && list.unshift(...node[children!])
+      if (node[children!]) list.unshift(...node[children!])
       path.push(node)
       if (func(node)) {
         return path
@@ -124,19 +112,15 @@ export const findPathAll = (tree: any, func: Fn, config: Partial<TreeHelperConfi
       list.shift()
     } else {
       visitedSet.add(node)
-      node[children!] && list.unshift(...node[children!])
+      if (node[children!]) list.unshift(...node[children!])
       path.push(node)
-      func(node) && result.push([...path])
+      if (func(node)) result.push([...path])
     }
   }
   return result
 }
 
-export const filter = <T = any>(
-  tree: T[],
-  func: (n: T) => boolean,
-  config: Partial<TreeHelperConfig> = {}
-): T[] => {
+export const filter = <T = any>(tree: T[], func: (n: T) => boolean, config: Partial<TreeHelperConfig> = {}): T[] => {
   config = getConfig(config)
   const children = config.children as string
 
@@ -152,11 +136,7 @@ export const filter = <T = any>(
   return listFilter(tree)
 }
 
-export const forEach = <T = any>(
-  tree: T[],
-  func: (n: T) => any,
-  config: Partial<TreeHelperConfig> = {}
-): void => {
+export const forEach = <T = any>(tree: T[], func: (n: T) => any, config: Partial<TreeHelperConfig> = {}): void => {
   config = getConfig(config)
   const list: any[] = [...tree]
   const { children } = config
@@ -165,17 +145,14 @@ export const forEach = <T = any>(
     if (func(list[i])) {
       return
     }
-    children && list[i][children] && list.splice(i + 1, 0, ...list[i][children])
+    if (children && list[i][children]) list.splice(i + 1, 0, ...list[i][children])
   }
 }
 
 /**
  * @description: Extract tree specified structure
  */
-export const treeMap = <T = any>(
-  treeData: T[],
-  opt: { children?: string; conversion: Fn }
-): T[] => {
+export const treeMap = <T = any>(treeData: T[], opt: { children?: string; conversion: Fn }): T[] => {
   return treeData.map((item) => treeMapEach(item, opt))
 }
 
@@ -184,7 +161,7 @@ export const treeMap = <T = any>(
  */
 export const treeMapEach = (
   data: any,
-  { children = 'children', conversion }: { children?: string; conversion: Fn }
+  { children = 'children', conversion }: { children?: string; conversion: Fn },
 ) => {
   const haveChildren = Array.isArray(data[children]) && data[children].length > 0
   const conversionData = conversion(data) || {}
@@ -194,13 +171,13 @@ export const treeMapEach = (
       [children]: data[children].map((i: number) =>
         treeMapEach(i, {
           children,
-          conversion
-        })
-      )
+          conversion,
+        }),
+      ),
     }
   } else {
     return {
-      ...conversionData
+      ...conversionData,
     }
   }
 }
@@ -235,7 +212,7 @@ export const handleTree = (data: any[], id?: string, parentId?: string, children
   const config = {
     id: id || 'id',
     parentId: parentId || 'parentId',
-    childrenList: children || 'children'
+    childrenList: children || 'children',
   }
 
   const childrenListMap = {} as any
@@ -294,7 +271,7 @@ export const handleTree2 = (data, id, parentId, children, rootId) => {
     Math.min(
       ...data.map((item: any) => {
         return item[parentId]
-      })
+      }),
     ) ||
     0
   // 对源数据深度克隆
@@ -305,7 +282,9 @@ export const handleTree2 = (data, id, parentId, children, rootId) => {
       // 返回每一项的子级数组
       return father[id] === child[parentId]
     })
-    branchArr.length > 0 ? (father.children = branchArr) : ''
+    if (branchArr.length > 0) {
+      father.children = branchArr
+    }
     // 返回第一层
     return father[parentId] === rootId
   })

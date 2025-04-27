@@ -6,13 +6,15 @@ import errorMessage from '@/utils/errorMessage'
 import { useAppStore } from '@/stores/modules/app'
 import { ResponseType } from '@/enums/system.ts'
 
+// 是否显示重新登录
+export const ReLogin = { show: false }
 /**
  * axios实例
  */
 const request = axios.create({
   baseURL: import.meta.env.VITE_API_URL as any,
   timeout: 10000,
-  headers: { 'Content-Type': 'application/json;charset=UTF-8' }
+  headers: { 'Content-Type': 'application/json;charset=UTF-8' },
 })
 
 /**
@@ -23,8 +25,8 @@ request.interceptors.request.use(
     const authStore = useAuthStore()
     const appStore = useAppStore()
     // 有访问令牌时，添加上访问令牌
-    if (authStore?.accessToken) {
-      config.headers.Authorization = authStore.accessToken
+    if (authStore?.isAuthenticated()) {
+      config.headers.Authorization = authStore?.getToken()
     }
 
     config.headers['Accept-Language'] = appStore.locale
@@ -44,7 +46,7 @@ request.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error)
-  }
+  },
 )
 
 /**
@@ -53,8 +55,8 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   async (response) => {
     // 未设置状态码，则默认成功状态
-    const code = response.data.code || 200;
-    const type = response.data.type || 2;
+    const code = response.data.code || 200
+    const type = response.data.type || 2
     // 获取错误信息
     const message = errorMessage[code] || response.data.message || errorMessage['default']
 
@@ -76,7 +78,7 @@ request.interceptors.response.use(
 
     // 没有权限，如：未登录、登录过期等，需要跳转到登录页
     if (code === 401) {
-      authStore?.removeToken()
+      authStore?.removePermission()
       handleAuthorized()
       return Promise.reject(new Error(message))
     }
@@ -104,24 +106,28 @@ request.interceptors.response.use(
     }
     ElMessage.error(message)
     return Promise.reject(error)
-  }
+  },
 )
 
 /**
  * 处理登录超时
  */
 const handleAuthorized = () => {
-  ElMessageBox.confirm('登录状态已过期，您可以继续留在页面，或者重新登录', '系统提示', {
-    type: 'warning',
-    confirmButtonText: '重新登录'
-  }).then(() => {
-    const authStore = useAuthStore()
-
-    authStore?.removeToken()
-    location.reload()
-
-    return Promise.reject('登录状态已过期，请重新登录')
-  })
+  if (!ReLogin.show) {
+    ReLogin.show = true
+    ElMessageBox.confirm('登录状态已过期，您可以继续留在页面，或者重新登录', '系统提示', {
+      type: 'warning',
+      confirmButtonText: '重新登录',
+    })
+      .then(() => {
+        const authStore = useAuthStore()
+        authStore?.logout().then(() => location.reload())
+        return Promise.reject('登录状态已过期，请重新登录')
+      })
+      .finally(() => {
+        ReLogin.show = false
+      })
+  }
 }
 
 export default request

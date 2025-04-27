@@ -2,7 +2,7 @@
   <div class="flex items-center">
     <hamburger />
     <refresh />
-    <breadcrumb v-if="appStore.theme.showBreadcrumb"/>
+    <breadcrumb v-if="appStore.theme.showBreadcrumb" />
   </div>
 </template>
 

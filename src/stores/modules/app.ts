@@ -49,14 +49,18 @@ export const useAppStore = defineStore(
      * 初始化图标json
      */
     const initIcons = async () => {
-      icons.value = []
+      // 如果已经初始化过，则不执行操作
+      if (Array.isArray(icons.value) && icons.value.length > 0) return
+
+      // 初始化图标
       try {
         // 使用 Promise 加载图标数据
         const ionIcons = await Promise.resolve(import('@iconify-json/ion/icons.json'))
         // 将加载的图标数据添加到 icons
-        icons.value.push(...Object.keys(ionIcons.default.icons).map(icon => ionIcons.default.prefix + ':' + icon))
+        icons.value.push(...Object.keys(ionIcons.default.icons).map((icon) => ionIcons.default.prefix + ':' + icon))
       } catch (error) {
-        console.error('加载图标数据失败:', error);
+        icons.value = []
+        console.error('加载图标数据失败:', error)
       }
     }
 
@@ -74,6 +78,6 @@ export const useAppStore = defineStore(
     }
   },
   {
-    persist: true
-  }
+    persist: true,
+  },
 )

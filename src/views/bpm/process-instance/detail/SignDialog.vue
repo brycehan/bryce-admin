@@ -3,7 +3,7 @@
     <div class="position-relative">
       <Vue3Signature class="b b-solid b-gray" ref="signature" w="900px" h="400px" />
       <el-button
-        class="pos-absolute bottom-[20px] right-[10px]"
+        class="pos-absolute right-[10px] bottom-[20px]"
         type="primary"
         text
         size="small"
@@ -48,5 +48,3 @@ const submit = async () => {
   signDialogVisible.value = false
 }
 </script>
-
-<style scoped></style>

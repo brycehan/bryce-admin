@@ -1,30 +1,20 @@
 <template>
-  <el-dialog
-    v-model="visible"
-    :title="!dataForm.id ? '新增部门' : '修改部门'"
-    :close-on-click-modal="false"
-  >
-    <el-form
-      ref="dataFormRef"
-      :model="dataForm"
-      :rules="dataRules"
-      label-width="100"
-      class="mr-4"
-    >
+  <el-dialog v-model="visible" :title="!dataForm.id ? '新增部门' : '修改部门'" :close-on-click-modal="false">
+    <el-form ref="dataFormRef" :model="dataForm" :rules="dataRules" label-width="100" class="mr-4">
       <el-form-item label="上级部门" prop="parentId" v-if="dataForm.parentId != 0">
-          <el-tree-select
-            v-model="dataForm.parentId"
-            ref="deptTreeRef"
-            :data="deptList"
-            :props="{ label: 'name', children: 'children' }"
-            node-key="id"
-            :render-after-expand="false"
-            check-on-click-node
-            check-strictly
-            placeholder="请选择上级部门"
-            filterable
-            clearable
-          ></el-tree-select>
+        <el-tree-select
+          v-model="dataForm.parentId"
+          ref="deptTreeRef"
+          :data="deptList"
+          :props="{ label: 'name', children: 'children' }"
+          node-key="id"
+          :render-after-expand="false"
+          check-on-click-node
+          check-strictly
+          placeholder="请选择上级部门"
+          filterable
+          clearable
+        ></el-tree-select>
       </el-form-item>
       <el-row>
         <el-col :span="12">
@@ -41,17 +31,8 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="负责人" prop="leader">
-            <el-select
-              v-model="dataForm.leaderUserId"
-              placeholder="请选择负责人"
-              clearable
-            >
-              <el-option
-                v-for="user in userList"
-                :key="user.id"
-                :label="user.nickname"
-                :value="user.id"
-              />
+            <el-select v-model="dataForm.leaderUserId" placeholder="请选择负责人" clearable>
+              <el-option v-for="user in userList" :key="user.id" :label="user.nickname" :value="user.id" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -82,7 +63,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import { ElMessage, type FormRules } from 'element-plus'
 import { getByIdApi, saveOrUpdateApi, postListApi } from '@/api/system/dept'
 import { ElTreeSelect } from 'element-plus'
@@ -101,13 +81,13 @@ const dataForm = reactive({
   contactNumber: '',
   email: '',
   sort: 0,
-  status: 1
+  status: 1,
 })
 
 const dataRules = reactive<FormRules>({
   name: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
   parentId: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }]
+  sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
 })
 
 const visible = ref(false)
@@ -165,11 +145,9 @@ const getDeptList = () => {
  * 获取岗位列表
  */
 const getUserList = () => {
-  userApi
-    .getSimpleList({ status: StatusEnum.ENABLE })
-    .then((response: any) => {
-      userList.value = response.data
-    })
+  userApi.getSimpleList({ status: StatusEnum.ENABLE }).then((response: any) => {
+    userList.value = response.data
+  })
 }
 
 /**
@@ -207,6 +185,6 @@ onMounted(() => {
 })
 
 defineExpose({
-  init
+  init,
 })
 </script>

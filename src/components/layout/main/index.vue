@@ -1,7 +1,7 @@
 <template>
-  <el-container class="main-container">
-    <Tabs v-if="appStore.theme.showTabsView"/>
-    <el-main class="main-content">
+  <el-container class="h-full !flex-col">
+    <Tabs v-if="appStore.theme.showTabsView" />
+    <el-main class="flex flex-col overflow-hidden !p-0">
       <el-scrollbar>
         <el-container class="main-card-container">
           <router-view v-slot="{ Component, route }">
@@ -24,32 +24,19 @@ import { computed } from 'vue'
 const tabsStore = useTabsStore()
 const appStore = useAppStore()
 
-const cachedViews = computed(() => appStore.theme.isTabsCache ? tabsStore.cachedViews : [])
+const cachedViews = computed(() => (appStore.theme.isTabsCache ? tabsStore.cachedViews : []))
 </script>
 
 <style lang="scss">
-.main-container {
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  height: 100%;
-}
+.main-card-container {
+  flex-direction: column !important;
 
-.main-content {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  padding: 0 !important;
+  // card 边距
+  padding: 9px 10px 10px;
 
-  .main-card-container {
-    // card 边距
-    padding: 9px 10px 10px;
-    flex-direction: column;
-
-    .el-pagination {
-      margin-top: 15px;
-      justify-content: flex-end;
-    }
+  .el-pagination {
+    justify-content: flex-end;
+    margin-top: 15px;
   }
 }
 </style>

@@ -4,13 +4,7 @@
     :title="!state.dataForm.id ? '新增字典类型' : '修改字典类型'"
     :close-on-click-modal="false"
   >
-    <el-form
-      ref="dataFormRef"
-      :model="state.dataForm"
-      :rules="dataRules"
-      label-width="100"
-      class="mr-4"
-    >
+    <el-form ref="dataFormRef" :model="state.dataForm" :rules="dataRules" label-width="100" class="mr-4">
       <el-form-item label="字典名称" prop="dictName">
         <el-input v-model="state.dataForm.dictName" placeholder="请输入字典名称" />
       </el-form-item>
@@ -35,7 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import { getByIdApi, getCheckDictTypeCodeUniqueApi, saveOrUpdateApi } from '@/api/system/dictType'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -47,7 +40,7 @@ const state: StateOptions = reactive({
   api: {
     saveOrUpdateApi,
     getByIdApi,
-    emit
+    emit,
   },
   dataForm: {
     id: '',
@@ -55,8 +48,8 @@ const state: StateOptions = reactive({
     dictType: '',
     sort: 0,
     status: 1,
-    remark: ''
-  }
+    remark: '',
+  },
 })
 
 const dataFormRef = ref()
@@ -64,11 +57,11 @@ const dataFormRef = ref()
 /**
  * 字典类型编码是否唯一
  *
- * @param rule 校验规则
+ * @param _ 校验规则
  * @param value 校验值
  * @param callback 回调
  */
-const checkDictTypeCodeUnique = (rule: any, value: any, callback: any) => {
+const checkDictTypeCodeUnique = (_: any, value: any, callback: any) => {
   getCheckDictTypeCodeUniqueApi(value, state.dataForm.id).then((res) => {
     if (res.data) {
       callback()
@@ -81,15 +74,15 @@ const checkDictTypeCodeUnique = (rule: any, value: any, callback: any) => {
 const dataRules = reactive<FormRules>({
   dictName: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 100, message: '长度不能超过100个字符', trigger: 'blur' }
+    { min: 0, max: 100, message: '长度不能超过100个字符', trigger: 'blur' },
   ],
   dictType: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
     { min: 2, max: 100, message: '长度为2~100个字符', trigger: 'blur' },
-    { validator: checkDictTypeCodeUnique, trigger: 'blur' }
+    { validator: checkDictTypeCodeUnique, trigger: 'blur' },
   ],
   sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }]
+  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }],
 })
 
 const { getData, handleSaveOrUpdate } = crud(state)
@@ -126,6 +119,6 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-  init
+  init,
 })
 </script>

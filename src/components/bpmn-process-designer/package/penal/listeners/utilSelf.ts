@@ -1,13 +1,13 @@
 // 初始化表单数据
 export function initListenerForm(listener: any) {
   let self = {
-    ...listener
+    ...listener,
   }
   if (listener.script) {
     self = {
       ...listener,
       ...listener.script,
-      scriptType: listener.script.resource ? 'externalScript' : 'inlineScript'
+      scriptType: listener.script.resource ? 'externalScript' : 'inlineScript',
     }
   }
   if (listener.event === 'timeout' && listener.eventDefinitions) {
@@ -36,7 +36,7 @@ export function initListenerType(listener: any) {
   return {
     ...JSON.parse(JSON.stringify(listener)),
     ...(listener.script ?? {}),
-    listenerType: listenerType
+    listenerType: listenerType,
   }
 }
 
@@ -47,21 +47,21 @@ export function initListenerForm2(processListener: any) {
       listenerType: 'classListener',
       class: processListener.value,
       event: processListener.event,
-      fields: []
+      fields: [],
     }
   } else if (processListener.valueType === 'expression') {
     return {
       listenerType: 'expressionListener',
       expression: processListener.value,
       event: processListener.event,
-      fields: []
+      fields: [],
     }
   } else if (processListener.valueType === 'delegateExpression') {
     return {
       listenerType: 'delegateExpressionListener',
       delegateExpression: processListener.value,
       event: processListener.event,
-      fields: []
+      fields: [],
     }
   }
   throw new Error('未知的监听器类型')
@@ -71,7 +71,7 @@ export const listenerType = {
   classListener: 'Java 类',
   expressionListener: '表达式',
   delegateExpressionListener: '代理表达式',
-  scriptListener: '脚本'
+  scriptListener: '脚本',
 }
 
 export const eventType = {
@@ -80,10 +80,10 @@ export const eventType = {
   complete: '完成',
   delete: '删除',
   update: '更新',
-  timeout: '超时'
+  timeout: '超时',
 }
 
 export const fieldType = {
   string: '字符串',
-  expression: '表达式'
+  expression: '表达式',
 }

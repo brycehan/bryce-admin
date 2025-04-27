@@ -21,7 +21,7 @@ const handlePrintJs = () => {
     printable: 'printJs-vue',
     type: 'html',
     css: ['//unpkg.com/element-plus/dist/index.css'],
-    scanStyles: false
+    scanStyles: false,
   })
 }
 </script>

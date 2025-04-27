@@ -9,13 +9,7 @@
     <div class="mt-6">
       <el-button type="primary" @click="handleUpload">选择图片</el-button>
       <el-button type="primary" @click="handleDownload">下载图片</el-button>
-      <input
-        ref="fileRef"
-        style="display: none"
-        type="file"
-        accept="image/*"
-        @change="handleFileChange"
-      />
+      <input ref="fileRef" style="display: none" type="file" accept="image/*" @change="handleFileChange" />
     </div>
   </el-card>
 </template>
@@ -26,9 +20,7 @@ import 'cropperjs/dist/cropper.min.css'
 import { nextTick, ref } from 'vue'
 
 const imgRef = ref()
-const cropperImg = ref(
-  'https://img2.baidu.com/it/u=3747114911,414713113&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500'
-)
+const cropperImg = ref('https://img2.baidu.com/it/u=3747114911,414713113&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500')
 const fileRef = ref()
 const cropper = ref<any>(null)
 
@@ -44,7 +36,7 @@ const initCropper = () => {
     background: true,
     autoCropArea: 0.8,
     aspectRatio: 1,
-    preview: '.img-preview'
+    preview: '.img-preview',
   })
 }
 
@@ -87,7 +79,7 @@ const handleDownload = () => {
 .img-preview {
   width: 400px;
   height: 400px;
-  overflow: hidden;
   margin: auto;
+  overflow: hidden;
 }
 </style>

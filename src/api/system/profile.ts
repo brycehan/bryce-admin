@@ -22,7 +22,7 @@ export const putUserInfoApi = (data: any) => {
  * @param data 用户头像参数
  */
 export const postAvatarApi = (data: any) => {
-  return request.post('/system/profile/avatar', data, { headers: { 'Content-Type': 'multipart/form-data' }})
+  return request.post('/system/profile/avatar', data, { headers: { 'Content-Type': 'multipart/form-data' } })
 }
 
 /**

@@ -48,7 +48,7 @@ import { ElMessage } from 'element-plus'
 const props = defineProps({
   row: {
     type: Object,
-    required: true
+    required: true,
   },
 })
 
@@ -56,13 +56,13 @@ const emit = defineEmits(['select'])
 
 const state: StateOptions = reactive({
   api: {
-    postPageApi
+    postPageApi,
   },
   queryForm: {
     userId: props.row.id,
     assigned: 'N',
-    status: 1
-  }
+    status: 1,
+  },
 })
 
 /**
@@ -85,7 +85,10 @@ const handleSubmit = () => {
     return
   }
 
-  emit('select', dataSelected.map(item => item.id))
+  emit(
+    'select',
+    dataSelected.map((item) => item.id),
+  )
 
   state.dataSelections = []
   state.visible = false

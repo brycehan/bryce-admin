@@ -4,7 +4,7 @@
       <el-col :span="24">
         <el-descriptions :column="2" border>
           <template #title>
-            <icon icon="ep:monitor"/>
+            <icon icon="ep:monitor" />
             <span class="ml-1">服务器信息</span>
           </template>
           <el-descriptions-item label="操作系统">{{ data.sys.osName }}</el-descriptions-item>
@@ -15,10 +15,10 @@
         </el-descriptions>
       </el-col>
     </el-row>
-    <el-row class="mt-6 descriptions-row">
+    <el-row class="descriptions-row mt-6">
       <el-descriptions :column="2" border>
         <template #title>
-          <icon icon="ep:cpu"/>
+          <icon icon="ep:cpu" />
           <span class="ml-1">CPU</span>
         </template>
         <el-descriptions-item label="CPU 型号">{{ data.cpu.cpuModel }}</el-descriptions-item>
@@ -29,15 +29,11 @@
       </el-descriptions>
       <el-descriptions :column="2" border>
         <template #title>
-          <icon icon="ep:tickets"/>
+          <icon icon="ep:tickets" />
           <span class="ml-1">系统内存</span>
         </template>
-        <el-descriptions-item label="内存总量" width="100">{{
-          data.mem.total
-        }}</el-descriptions-item>
-        <el-descriptions-item label="已用内存" width="100">{{
-          data.mem.used
-        }}</el-descriptions-item>
+        <el-descriptions-item label="内存总量" width="100">{{ data.mem.total }}</el-descriptions-item>
+        <el-descriptions-item label="已用内存" width="100">{{ data.mem.used }}</el-descriptions-item>
         <el-descriptions-item label="剩余内存">{{ data.mem.free }}</el-descriptions-item>
         <el-descriptions-item label="内存使用率">{{ data.mem.usage }}</el-descriptions-item>
       </el-descriptions>
@@ -46,13 +42,11 @@
       <el-col :span="24">
         <el-descriptions :column="2" border>
           <template #title>
-            <icon icon="ep:coffee-cup"/>
+            <icon icon="ep:coffee-cup" />
             <span class="ml-1">JVM信息</span>
           </template>
           <el-descriptions-item label="名称" width="100">{{ data.jvm.name }}</el-descriptions-item>
-          <el-descriptions-item label="Java版本" width="100">{{
-            data.jvm.version
-          }}</el-descriptions-item>
+          <el-descriptions-item label="Java版本" width="100">{{ data.jvm.version }}</el-descriptions-item>
           <el-descriptions-item label="厂商">{{ data.jvm.vendor }}</el-descriptions-item>
           <el-descriptions-item label="最大可用内存">{{ data.jvm.max }}</el-descriptions-item>
           <el-descriptions-item label="总内存">{{ data.jvm.total }}</el-descriptions-item>
@@ -63,26 +57,24 @@
           <el-descriptions-item label="项目路径">{{ data.jvm.userDir }}</el-descriptions-item>
           <el-descriptions-item label="启动时间">{{ data.jvm.startedTime }}</el-descriptions-item>
           <el-descriptions-item label="运行时长">{{ data.jvm.runTime }}</el-descriptions-item>
-          <el-descriptions-item label="运行参数">{{
-            data.jvm.inputArguments
-          }}</el-descriptions-item>
+          <el-descriptions-item label="运行参数">{{ data.jvm.inputArguments }}</el-descriptions-item>
         </el-descriptions>
       </el-col>
     </el-row>
     <el-row class="mt-6">
       <el-col :span="24">
         <div class="disk-header mb-5">
-          <icon icon="ep:message-box"/>
+          <icon icon="ep:message-box" />
           <span class="ml-1">磁盘信息</span>
         </div>
         <el-table :data="data.disks" class="w-full" border>
           <el-table-column align="center" label="磁盘名称" prop="diskName" />
-          <el-table-column align="center" label="磁盘类型" prop="diskType" width="100"/>
-          <el-table-column align="center" label="磁盘路径" prop="dirName" width="390"/>
-          <el-table-column align="center" label="总大小" prop="total" width="110"/>
-          <el-table-column align="center" label="已用大小" prop="used" width="110"/>
-          <el-table-column align="center" label="空闲大小" prop="free" width="110"/>
-          <el-table-column align="center" label="空间使用率" prop="usage" width="110"/>
+          <el-table-column align="center" label="磁盘类型" prop="diskType" width="100" />
+          <el-table-column align="center" label="磁盘路径" prop="dirName" width="390" />
+          <el-table-column align="center" label="总大小" prop="total" width="110" />
+          <el-table-column align="center" label="已用大小" prop="used" width="110" />
+          <el-table-column align="center" label="空闲大小" prop="free" width="110" />
+          <el-table-column align="center" label="空间使用率" prop="usage" width="110" />
         </el-table>
       </el-col>
     </el-row>
@@ -100,13 +92,13 @@ const data = reactive({
     cpuNum: 0,
     used: 0,
     sys: 0,
-    free: 0
+    free: 0,
   },
   mem: {
     total: '',
     used: '',
     free: '',
-    usage: ''
+    usage: '',
   },
   jvm: {
     name: '',
@@ -121,16 +113,16 @@ const data = reactive({
     userDir: '',
     startedTime: '',
     runTime: '',
-    inputArguments: ''
+    inputArguments: '',
   },
   sys: {
     osName: '',
     osArch: '',
     osVersion: '',
     computerName: '',
-    computerIp: ''
+    computerIp: '',
   },
-  disks: []
+  disks: [],
 })
 
 onMounted(() => {
@@ -156,16 +148,19 @@ const getServerInfo = () => {
 
 .disk-header {
   display: flex;
+
   span {
-    line-height: 1rem;
     font-size: 16px;
+    line-height: 1rem;
   }
 }
+
 .descriptions-row {
+  display: flex;
+  justify-content: space-between;
+
   .el-descriptions {
     width: 48%;
   }
-  display: flex;
-  justify-content: space-between;
 }
 </style>

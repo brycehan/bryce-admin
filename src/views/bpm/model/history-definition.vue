@@ -12,9 +12,16 @@
         <el-button type="primary" link @click="handleBpmnDetail(scope.row)">{{ scope.row.name }}</el-button>
       </template>
     </el-table-column>
-    <el-table-column label="流程KEY" prop="key" header-align="center" align="center" min-width="100"/>
-    <el-table-column label="流程分类" prop="category" header-align="center" align="center" min-width="120"/>
-    <el-table-column label="定义描述" prop="description" header-align="center" align="center" show-overflow-tooltip min-width="200"/>
+    <el-table-column label="流程KEY" prop="key" header-align="center" align="center" min-width="100" />
+    <el-table-column label="流程分类" prop="category" header-align="center" align="center" min-width="120" />
+    <el-table-column
+      label="定义描述"
+      prop="description"
+      header-align="center"
+      align="center"
+      show-overflow-tooltip
+      min-width="200"
+    />
     <el-table-column label="表单信息" header-align="center" align="center" min-width="120">
       <template #default="scope">
         <el-button
@@ -47,7 +54,7 @@
         <el-tag type="warning" v-else>挂起</el-tag>
       </template>
     </el-table-column>
-    <el-table-column label="部署时间" prop="deploymentTime" header-align="center" align="center" min-width="170"/>
+    <el-table-column label="部署时间" prop="deploymentTime" header-align="center" align="center" min-width="170" />
   </el-table>
   <el-pagination
     :current-page="state.current"
@@ -70,7 +77,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import processDefinitionApi from '@/api/bpm/processDefinition.ts'
 import * as FormApi from '@/api/bpm/form'
 import { crud, type StateOptions } from '@/utils/state'
@@ -82,18 +88,18 @@ import { setPreviewConfAndFields } from '@/utils/formCreate'
 const props = defineProps({
   row: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const state: StateOptions = reactive({
   api: {
-    postPageApi: processDefinitionApi.postPageApi
+    postPageApi: processDefinitionApi.postPageApi,
   },
   queryForm: {
     key: props.row.key,
-    status: 1
-  }
+    status: 1,
+  },
 })
 
 // 流程图预览
@@ -117,13 +123,13 @@ const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange } 
  * @param row 当前行数据
  */
 const handleBpmnDetail = (row: any) => {
-    // 详情弹窗显示
-    bpmnDetailPreview.value.visible = true
-    // 获取流程图
-    bpmnDetailPreview.value.bpmnXml = ''
-    processDefinitionApi.getById(row.id).then((res) => {
-      bpmnDetailPreview.value.bpmnXml = res.data.bpmnXml
-    })
+  // 详情弹窗显示
+  bpmnDetailPreview.value.visible = true
+  // 获取流程图
+  bpmnDetailPreview.value.bpmnXml = ''
+  processDefinitionApi.getById(row.id).then((res) => {
+    bpmnDetailPreview.value.bpmnXml = res.data.bpmnXml
+  })
 }
 
 /**

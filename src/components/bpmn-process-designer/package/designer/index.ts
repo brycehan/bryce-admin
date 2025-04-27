@@ -10,5 +10,5 @@ export {
   // 流程图的设计器，可编辑
   MyProcessDesigner,
   // 流程图的查看器，不可编辑
-  MyProcessViewer
+  MyProcessViewer,
 }

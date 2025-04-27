@@ -4,13 +4,7 @@
     :title="!state.dataForm.id ? '新增流程监听器' : '修改流程监听器'"
     :close-on-click-modal="false"
   >
-    <el-form
-      ref="dataFormRef"
-      :model="state.dataForm"
-      :rules="dataRules"
-      label-width="100"
-      class="mr-4"
-    >
+    <el-form ref="dataFormRef" :model="state.dataForm" :rules="dataRules" label-width="100" class="mr-4">
       <el-form-item label="名称" prop="name">
         <el-input v-model="state.dataForm.name" placeholder="请输入名称" />
       </el-form-item>
@@ -49,7 +43,7 @@
             content="例如：com.brycehan.boot.bpm.common.listener.BpmTriggerTaskDelegate"
             placement="top"
           >
-            <icon icon="ep:question-filled"/>
+            <icon icon="ep:question-filled" />
           </el-tooltip>
           <span>类路径</span>
         </template>
@@ -58,7 +52,7 @@
       <el-form-item prop="value" v-else>
         <template #label>
           <el-tooltip effect="dark" content="例如：${ days > 3 }" placement="top">
-            <icon icon="ep:question-filled"/>
+            <icon icon="ep:question-filled" />
           </el-tooltip>
           <span>表达式</span>
         </template>
@@ -76,7 +70,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import { getByIdApi, saveOrUpdateApi } from '@/api/bpm/processListener'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -88,7 +81,7 @@ const state: StateOptions = reactive({
   api: {
     saveOrUpdateApi,
     getByIdApi,
-    emit
+    emit,
   },
   dataForm: {
     id: '',
@@ -97,8 +90,8 @@ const state: StateOptions = reactive({
     type: '',
     event: '',
     valueType: '',
-    value: ''
-  }
+    value: '',
+  },
 })
 
 const dataFormRef = ref()
@@ -106,24 +99,24 @@ const dataFormRef = ref()
 const dataRules = reactive<FormRules>({
   name: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 255, message: '长度为2~255个字符', trigger: 'blur' }
+    { min: 2, max: 255, message: '长度为2~255个字符', trigger: 'blur' },
   ],
   type: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 255, message: '长度不能超过255个字符', trigger: 'blur' }
+    { min: 0, max: 255, message: '长度不能超过255个字符', trigger: 'blur' },
   ],
   event: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 255, message: '长度不能超过255个字符', trigger: 'blur' }
+    { min: 0, max: 255, message: '长度不能超过255个字符', trigger: 'blur' },
   ],
   valueType: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 255, message: '长度不能超过255个字符', trigger: 'blur' }
+    { min: 0, max: 255, message: '长度不能超过255个字符', trigger: 'blur' },
   ],
   value: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 255, message: '长度不能超过255个字符', trigger: 'blur' }
-  ]
+    { min: 0, max: 255, message: '长度不能超过255个字符', trigger: 'blur' },
+  ],
 })
 
 const { getData, handleSaveOrUpdate } = crud(state)
@@ -162,6 +155,6 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-  init
+  init,
 })
 </script>

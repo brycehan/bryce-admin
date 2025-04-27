@@ -1,4 +1,4 @@
-export interface Theme {
+export interface ThemeConfig {
   /**
    * 侧边栏风格 [light、dark]
    */

@@ -6,36 +6,19 @@
       <el-table-column label="属性值" prop="value" min-width="100px" show-overflow-tooltip />
       <el-table-column label="操作" width="110px">
         <template #default="scope">
-          <el-button link @click="openAttributesForm(scope.row, scope.$index)" size="small">
-            编辑
-          </el-button>
+          <el-button link @click="openAttributesForm(scope.row, scope.$index)" size="small"> 编辑 </el-button>
           <el-divider direction="vertical" />
-          <el-button
-            link
-            size="small"
-            style="color: #ff4d4f"
-            @click="removeAttributes(scope.row, scope.$index)"
-          >
+          <el-button link size="small" style="color: #ff4d4f" @click="removeAttributes(scope.row, scope.$index)">
             移除
           </el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="element-drawer__button">
-      <el-button
-        type="primary"
-        icon="plus"
-        @click="openAttributesForm(null, -1)"
-      >添加属性</el-button>
+      <el-button type="primary" icon="plus" @click="openAttributesForm(null, -1)">添加属性</el-button>
     </div>
 
-    <el-dialog
-      v-model="propertyFormModelVisible"
-      title="属性配置"
-      width="600px"
-      append-to-body
-      destroy-on-close
-    >
+    <el-dialog v-model="propertyFormModelVisible" title="属性配置" width="600px" append-to-body destroy-on-close>
       <el-form :model="propertyForm" label-width="80px" ref="attributeFormRef">
         <el-form-item label="属性名：" prop="name">
           <el-input v-model="propertyForm.name" clearable />
@@ -55,10 +38,11 @@
 <script lang="ts" setup>
 import { ref, inject, nextTick, toRaw, watch } from 'vue'
 import { ElMessageBox } from 'element-plus'
+import _ from 'lodash'
 defineOptions({ name: 'ElementProperties' })
 const props = defineProps({
   id: String,
-  type: String
+  type: String,
 })
 const prefix = inject('prefix')
 // const width = inject('width')
@@ -84,12 +68,12 @@ const resetAttributesList = () => {
         otherExtensionList.value.push(ex)
       }
       return ex.$type === `${prefix}:Properties`
-    }) ?? [];
+    }) ?? []
 
   // 保存所有的 扩展属性字段
   bpmnElementPropertyList.value = bpmnElementProperties.value.reduce(
     (pre: any, current: any) => pre.concat(current.values),
-    []
+    [],
   )
   // 复制 显示
   elementPropertyList.value = JSON.parse(JSON.stringify(bpmnElementPropertyList.value ?? []))
@@ -106,14 +90,14 @@ const removeAttributes = (attr: any, index: any) => {
   console.log(attr, 'attr')
   ElMessageBox.confirm('确认移除该属性吗？', '提示', {
     confirmButtonText: '确 认',
-    cancelButtonText: '取 消'
+    cancelButtonText: '取 消',
   })
     .then(() => {
       elementPropertyList.value.splice(index, 1)
       bpmnElementPropertyList.value.splice(index, 1)
       // 新建一个属性字段的保存列表
       const propertiesObject = bpmnInstances().moddle.create(`${prefix}:Properties`, {
-        values: bpmnElementPropertyList.value
+        values: bpmnElementPropertyList.value,
       })
       updateElementExtensions(propertiesObject)
       resetAttributesList()
@@ -129,18 +113,18 @@ const saveAttribute = () => {
       toRaw(bpmnElementPropertyList.value)[toRaw(editingPropertyIndex.value)],
       {
         name,
-        value
-      }
+        value,
+      },
     )
   } else {
     // 新建属性字段
     const newPropertyObject = bpmnInstances().moddle.create(`${prefix}:Property`, {
       name,
-      value
+      value,
     })
     // 新建一个属性字段的保存列表
     const propertiesObject = bpmnInstances().moddle.create(`${prefix}:Properties`, {
-      values: bpmnElementPropertyList.value.concat([newPropertyObject])
+      values: bpmnElementPropertyList.value.concat([newPropertyObject]),
     })
     updateElementExtensions(propertiesObject)
   }
@@ -149,20 +133,20 @@ const saveAttribute = () => {
 }
 const updateElementExtensions = (properties: any) => {
   const extensions = bpmnInstances().moddle.create('bpmn:ExtensionElements', {
-    values: otherExtensionList.value.concat([properties])
+    values: otherExtensionList.value.concat([properties]),
   })
   bpmnInstances().modeling.updateProperties(toRaw(bpmnElement.value), {
-    extensionElements: extensions
+    extensionElements: extensions,
   })
 }
 
 watch(
   () => props.id,
   (val) => {
-    if (val) {
-      val && val.length && resetAttributesList()
+    if (_.isString(val) && val.length > 0) {
+      resetAttributesList()
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>

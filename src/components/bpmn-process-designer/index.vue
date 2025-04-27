@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full border border-gray-200 h-min-[500px]">
+  <div class="h-min-[500px] w-full border border-gray-200">
     <!-- 流程设计器，负责绘制流程等 -->
     <MyProcessDesigner
       key="designer"
@@ -64,7 +64,7 @@ const controlForm = ref({
   labelVisible: false,
   prefix: 'flowable',
   headerButtonSize: 'mini',
-  additionalModel: [CustomContentPadProvider, CustomPaletteProvider]
+  additionalModel: [CustomContentPadProvider, CustomPaletteProvider],
 })
 const model = ref<any>() // 流程模型的信息
 

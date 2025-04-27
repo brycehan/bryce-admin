@@ -1,6 +1,6 @@
 <template>
   <div class="process-viewer">
-    <div style="height: 100%" ref="processCanvas" v-show="!isLoading"> </div>
+    <div style="height: 100%" ref="processCanvas" v-show="!isLoading"></div>
     <!-- 自定义箭头样式，用于已完成状态下流程连线箭头 -->
     <defs ref="customDefs">
       <marker
@@ -38,36 +38,14 @@
     <!-- 审批记录 -->
     <el-dialog :title="dialogTitle || '审批记录'" v-model="dialogVisible" width="1000px">
       <el-row>
-        <el-table
-          :data="selectTasks"
-          size="small"
-          border
-          header-cell-class-name="table-header-gray"
-        >
-          <el-table-column
-            label="序号"
-            header-align="center"
-            align="center"
-            type="index"
-            width="50"
-          />
-          <el-table-column
-            label="审批人"
-            min-width="100"
-            align="center"
-            v-if="selectActivityType === 'bpmn:UserTask'"
-          >
+        <el-table :data="selectTasks" size="small" border header-cell-class-name="table-header-gray">
+          <el-table-column label="序号" header-align="center" align="center" type="index" width="50" />
+          <el-table-column label="审批人" min-width="100" align="center" v-if="selectActivityType === 'bpmn:UserTask'">
             <template #default="scope">
               {{ scope.row.assigneeUser?.nickname || scope.row.ownerUser?.nickname }}
             </template>
           </el-table-column>
-          <el-table-column
-            label="发起人"
-            prop="assigneeUser.nickname"
-            min-width="100"
-            align="center"
-            v-else
-          />
+          <el-table-column label="发起人" prop="assigneeUser.nickname" min-width="100" align="center" v-else />
           <el-table-column label="部门" min-width="100" align="center">
             <template #default="scope">
               {{ scope.row.assigneeUser?.deptName || scope.row.ownerUser?.deptName }}
@@ -80,16 +58,12 @@
             prop="createTime"
             min-width="140"
           />
-          <el-table-column
-            :formatter="dateFormatter"
-            align="center"
-            label="结束时间"
-            prop="endTime"
-            min-width="140"
-          />
+          <el-table-column :formatter="dateFormatter" align="center" label="结束时间" prop="endTime" min-width="140" />
           <el-table-column align="center" label="审批状态" prop="status" min-width="90">
             <template #default="scope">
-              <el-tag :type="BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.type">{{ BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.label }}</el-tag>
+              <el-tag :type="BpmTaskStatusOptions.find((item) => item.value === scope.row.status)?.type">{{
+                BpmTaskStatusOptions.find((item) => item.value === scope.row.status)?.label
+              }}</el-tag>
             </template>
           </el-table-column>
           <el-table-column
@@ -151,12 +125,12 @@ defineOptions({ name: 'MyProcessViewer' })
 const props = defineProps({
   xml: {
     type: String,
-    required: true
+    required: true,
   },
   view: {
     type: Object,
-    require: true
-  }
+    require: true,
+  },
 })
 
 const processCanvas = ref()
@@ -245,8 +219,8 @@ const onSelectElement = (element: any) => {
         createTime: processInstance.value.startTime,
         endTime: processInstance.value.endTime,
         status: processInstance.value.status,
-        durationInMillis: processInstance.value.durationInMillis
-      }
+        durationInMillis: processInstance.value.durationInMillis,
+      },
     ]
     dialogVisible.value = true
   }
@@ -262,10 +236,10 @@ const importXML = async (xml: string) => {
     try {
       bpmnViewer.value = new BpmnViewer({
         additionalModules: [MoveCanvasModule],
-        container: processCanvas.value
+        container: processCanvas.value,
       })
       // 增加点击事件
-      bpmnViewer.value.on('element.click', ({ element }: {element: any}) => {
+      bpmnViewer.value.on('element.click', ({ element }: { element: any }) => {
         onSelectElement(element)
       })
 
@@ -299,7 +273,7 @@ const setProcessStatus = (view: any) => {
     unfinishedTaskActivityIds,
     finishedTaskActivityIds,
     finishedSequenceFlowActivityIds,
-    rejectedTaskActivityIds
+    rejectedTaskActivityIds,
   } = view
   const canvas = bpmnViewer.value.get('canvas')
   const elementRegistry = bpmnViewer.value.get('elementRegistry')
@@ -336,11 +310,7 @@ const setProcessStatus = (view: any) => {
   }
 
   // 特殊：处理 end 节点的高亮。因为 end 在拒绝、取消时，被后端计算成了 finishedTaskActivityIds 里
-  if (
-    [BpmProcessInstanceStatus.CANCEL, BpmProcessInstanceStatus.REJECT].includes(
-      processInstance.value.status
-    )
-  ) {
+  if ([BpmProcessInstanceStatus.CANCEL, BpmProcessInstanceStatus.REJECT].includes(processInstance.value.status)) {
     const endNodes = elementRegistry.filter((element: any) => element.type === 'bpmn:EndEvent')
     endNodes.forEach((item: any) => {
       canvas.removeMarker(item.id, 'success')
@@ -358,7 +328,7 @@ watch(
   (newXml) => {
     importXML(newXml)
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 watch(
@@ -366,7 +336,7 @@ watch(
   (newView) => {
     setProcessStatus(newView)
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 /** mounted：初始化 */

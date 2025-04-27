@@ -7,11 +7,11 @@ import type { CategoryVo } from '@/types/modules/bpm'
  * @param data 参数
  */
 export const saveOrUpdateApi = (data: CategoryVo) => {
-    if (data.id) {
-        return request.put('/bpm/category', data)
-    } else {
-        return request.post('/bpm/category', data)
-    }
+  if (data.id) {
+    return request.put('/bpm/category', data)
+  } else {
+    return request.post('/bpm/category', data)
+  }
 }
 
 /**
@@ -20,7 +20,7 @@ export const saveOrUpdateApi = (data: CategoryVo) => {
  * @param ids ID数组
  */
 export const deleteByIdsApi = (ids: string[]) => {
-    return request.delete('/bpm/category', { data: { ids } })
+  return request.delete('/bpm/category', { data: { ids } })
 }
 
 /**
@@ -29,7 +29,7 @@ export const deleteByIdsApi = (ids: string[]) => {
  * @param id ID
  */
 export const getByIdApi = (id: string) => {
-    return request.get(`/bpm/category/${id}`)
+  return request.get(`/bpm/category/${id}`)
 }
 
 /**
@@ -38,7 +38,7 @@ export const getByIdApi = (id: string) => {
  * @param data 分页参数
  */
 export const postPageApi = (data: any) => {
-    return request.post('/bpm/category/page', data)
+  return request.post('/bpm/category/page', data)
 }
 
 /**
@@ -47,5 +47,5 @@ export const postPageApi = (data: any) => {
  * @param data 列表参数
  */
 export const postListApi = async (data: any) => {
-    return await request.post('/bpm/category/list', data)
+  return await request.post('/bpm/category/list', data)
 }

@@ -1,9 +1,9 @@
 <template>
-  <div class="header-right-container">
+  <div class="flex items-center">
     <appearance />
     <languages />
     <component-size />
-    <a href="https://github.com/brycehan/bryce-admin" target="_blank">
+    <a href="https://github.com/brycehan/bryce-admin" class="github-link" target="_blank">
       <icon icon="ion:logo-github" />
     </a>
     <search />
@@ -24,25 +24,19 @@ import Languages from '@/components/layout/header/header-right/Languages.vue'
 </script>
 
 <style scoped lang="scss">
-.header-right-container {
+a.github-link {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
+  width: 40px;
+  height: var(--theme-header-height);
+  font-size: 16px;
+  line-height: var(--theme-header-height);
+  color: var(--theme-header-text-color);
+  cursor: pointer;
 
-  a {
-    width: 40px;
-    height: var(--theme-header-height);
-    line-height: var(--theme-header-height);
-    display: flex;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    color: var(--theme-header-text-color);
-    font-size: 16px;
-
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
+  &:hover {
+    background-color: rgb(0 0 0 / 10%);
   }
 }
 </style>

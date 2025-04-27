@@ -4,7 +4,7 @@ const bpmnInstances = () => (window as any)?.bpmnInstances
 export function createListenerObject(options: any, isTask: any, prefix: any) {
   const listenerObj = Object.create(null)
   listenerObj.event = options.event
-  isTask && (listenerObj.id = options.id) // 任务监听器特有的 id 字段
+  if (isTask) listenerObj.id = options.id // 任务监听器特有的 id 字段
   switch (options.listenerType) {
     case 'scriptListener':
       listenerObj.script = createScriptObject(options, prefix)
@@ -27,18 +27,15 @@ export function createListenerObject(options: any, isTask: any, prefix: any) {
   // 任务监听器的 定时器 设置
   if (isTask && options.event === 'timeout' && !!options.eventDefinitionType) {
     const timeDefinition = bpmnInstances().moddle.create('bpmn:FormalExpression', {
-      body: options.eventTimeDefinitions
+      body: options.eventTimeDefinitions,
     })
     const TimerEventDefinition = bpmnInstances().moddle.create('bpmn:TimerEventDefinition', {
       id: `TimerEventDefinition_${uuid(8)}`,
-      [`time${options.eventDefinitionType.replace(/^\S/, (s: any) => s.toUpperCase())}`]: timeDefinition
+      [`time${options.eventDefinitionType.replace(/^\S/, (s: any) => s.toUpperCase())}`]: timeDefinition,
     })
     listenerObj.eventDefinitions = [TimerEventDefinition]
   }
-  return bpmnInstances().moddle.create(
-    `${prefix}:${isTask ? 'TaskListener' : 'ExecutionListener'}`,
-    listenerObj
-  )
+  return bpmnInstances().moddle.create(`${prefix}:${isTask ? 'TaskListener' : 'ExecutionListener'}`, listenerObj)
 }
 
 // 创建 监听器的注入字段 实例
@@ -51,18 +48,17 @@ export function createFieldObject(option: any, prefix: any) {
 // 创建脚本实例
 export function createScriptObject(options: any, prefix: any) {
   const { scriptType, scriptFormat, value, resource } = options
-  const scriptConfig =
-    scriptType === 'inlineScript' ? { scriptFormat, value } : { scriptFormat, resource }
+  const scriptConfig = scriptType === 'inlineScript' ? { scriptFormat, value } : { scriptFormat, resource }
   return bpmnInstances().moddle.create(`${prefix}:Script`, scriptConfig)
 }
 
 // 更新元素扩展属性
 export function updateElementExtensions(element: any, extensionList: any) {
   const extensions = bpmnInstances().moddle.create('bpmn:ExtensionElements', {
-    values: extensionList
+    values: extensionList,
   })
   bpmnInstances().modeling.updateProperties(toRaw(element), {
-    extensionElements: extensions
+    extensionElements: extensions,
   })
 }
 

@@ -11,8 +11,8 @@
 
 <style scoped lang="scss">
 .layout-home {
-  line-height: 2;
   font-size: 1rem;
+  line-height: 2;
 
   h2 {
     margin: 6px 0;

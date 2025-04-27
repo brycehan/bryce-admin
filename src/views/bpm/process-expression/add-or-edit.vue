@@ -4,14 +4,7 @@
     :title="!state.dataForm.id ? '新增流程表达式' : '修改流程表达式'"
     :close-on-click-modal="false"
   >
-    <el-form
-      ref="dataFormRef"
-      :model="state.dataForm"
-      :rules="dataRules"
-      label-width="100"
-      class="mr-4"
-    >
-
+    <el-form ref="dataFormRef" :model="state.dataForm" :rules="dataRules" label-width="100" class="mr-4">
       <el-form-item label="名称" prop="name">
         <el-input v-model="state.dataForm.name" placeholder="请输入名称" />
       </el-form-item>
@@ -30,7 +23,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import { getByIdApi, saveOrUpdateApi } from '@/api/bpm/processExpression'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -42,14 +34,14 @@ const state: StateOptions = reactive({
   api: {
     saveOrUpdateApi,
     getByIdApi,
-    emit
+    emit,
   },
   dataForm: {
     id: '',
     name: '',
     status: 1,
-    expression: ''
-  }
+    expression: '',
+  },
 })
 
 const dataFormRef = ref()
@@ -57,12 +49,12 @@ const dataFormRef = ref()
 const dataRules = reactive<FormRules>({
   name: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 64, message: '长度为2~64个字符', trigger: 'blur' }
+    { min: 2, max: 64, message: '长度为2~64个字符', trigger: 'blur' },
   ],
   expression: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 0, max: 5000, message: '长度不能超过5000个字符', trigger: 'blur' }
-  ]
+    { min: 0, max: 5000, message: '长度不能超过5000个字符', trigger: 'blur' },
+  ],
 })
 
 const { getData, handleSaveOrUpdate } = crud(state)
@@ -101,6 +93,6 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-  init
+  init,
 })
 </script>

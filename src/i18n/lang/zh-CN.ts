@@ -13,7 +13,7 @@ export default {
     },
     header: {
       light: '亮色顶栏',
-      primary: '主题色顶栏'
+      primary: '主题色顶栏',
     },
     layout: {
       title: '布局切换',
@@ -34,7 +34,7 @@ export default {
       copyConfig: '复制配置',
       reset: '恢复默认',
     },
-    copySuccess: '复制成功'
+    copySuccess: '复制成功',
   },
   header: {
     size: {
@@ -100,6 +100,6 @@ export default {
     decimal: '请输入正确的小数',
     idCard: '请输入正确的身份证号',
     ip: '请输入正确的IP地址',
-    equalToPassword: "两次输入的密码不一致",
-  }
+    equalToPassword: '两次输入的密码不一致',
+  },
 }

@@ -6,32 +6,32 @@ defineOptions({ name: 'ImageViewer' })
 const props = defineProps({
   urlList: {
     type: Array as PropType<string[]>,
-    default: (): string[] => []
+    default: (): string[] => [],
   },
   zIndex: {
     type: Number,
-    default: 200
+    default: 200,
   },
   initialIndex: {
     type: Number,
-    default: 0
+    default: 0,
   },
   infinite: {
     type: Boolean,
-    default: true
+    default: true,
   },
   hideOnClickModal: {
     type: Boolean,
-    default: false
+    default: false,
   },
   teleported: {
     type: Boolean,
-    default: false
+    default: false,
   },
   show: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 
 const getBindValue = computed(() => {

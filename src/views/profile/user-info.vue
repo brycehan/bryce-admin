@@ -20,19 +20,17 @@
       <dict-radio-group v-model="dataForm.gender" dict-type="sys_gender" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="handleSubmit()">{{ t('button.confirm')}}</el-button>
+      <el-button type="primary" @click="handleSubmit()">{{ t('button.confirm') }}</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import { putUserInfoApi } from '@/api/system/profile'
 import { ElMessage, type FormRules } from 'element-plus'
 import { useAuthStore } from '@/stores/modules/auth'
 import { getCheckPhoneUniqueApi } from '@/api/system/user'
 import { phoneRegExp } from '@/utils/tool'
-import { useI18n } from 'vue-i18n'
 
 const authStore = useAuthStore()
 const { t } = useI18n()
@@ -41,7 +39,7 @@ const dataForm = reactive({
   nickname: authStore.user.nickname,
   phone: authStore.user.phone,
   email: authStore.user.email,
-  gender: authStore.user.gender
+  gender: authStore.user.gender,
 })
 
 const dataFormRef = ref()
@@ -72,16 +70,14 @@ const checkPhoneUnique = (_rule: any, value: any, callback: any) => {
 const dataRules = reactive<FormRules>({
   nickname: [
     { required: true, message: () => t('rules.required'), trigger: 'blur' },
-    { min: 2, max: 50, message: () => t('rules.length', { min: 2, max: 50}), trigger: 'blur' }
+    { min: 2, max: 50, message: () => t('rules.length', { min: 2, max: 50 }), trigger: 'blur' },
   ],
   phone: [
     { required: true, message: () => t('rules.required'), trigger: 'blur' },
-    { min: 7, max: 20, message: () => t('rules.length', { min: 7, max: 20}), trigger: 'blur' },
-    { validator: checkPhoneUnique, trigger: 'blur' }
+    { min: 7, max: 20, message: () => t('rules.length', { min: 7, max: 20 }), trigger: 'blur' },
+    { validator: checkPhoneUnique, trigger: 'blur' },
   ],
-  email: [
-    { type: 'email', message: () => t('rules.email'), trigger: 'blur' }
-  ]
+  email: [{ type: 'email', message: () => t('rules.email'), trigger: 'blur' }],
 })
 
 /**

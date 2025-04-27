@@ -5,25 +5,25 @@
 html,
 body,
 #app {
+  position: relative;
   width: 100%;
   height: 100%;
-  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
-    '微软雅黑', Arial, sans-serif;
+  overflow: hidden;
+  font-family:
+    'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+  font-size: var(--el-font-size-base);
   font-weight: 400;
   -webkit-font-smoothing: antialiased; /* chrome、safari */
   -moz-osx-font-smoothing: grayscale; /* firefox */
   -webkit-tap-highlight-color: transparent;
-  font-size: var(--el-font-size-base);
-  overflow: hidden;
-  position: relative;
 }
 
 a,
 a:focus,
 a:hover {
-  cursor: pointer;
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
 }
 
 #nprogress {

@@ -1,7 +1,7 @@
 <template>
   <div class="switch-container">
     <span>{{ title }}</span>
-    <el-switch v-model="model" :disabled="disabled" @change="handleChange($event)"/>
+    <el-switch v-model="model" :disabled="disabled" @change="handleChange($event)" />
   </div>
 </template>
 
@@ -9,11 +9,11 @@
 defineProps({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   disabled: {
     type: Boolean,
-  }
+  },
 })
 
 const model = defineModel()

@@ -12,13 +12,12 @@ defineOptions({ name: 'BpmProcessInstanceBpmnViewer' })
 const props = defineProps({
   loading: Boolean, // 是否加载中
   bpmnXml: String, // BPMN XML
-  modelView: Object
+  modelView: Object,
 })
 
 const view = ref({
-  bpmnXml: '' as any
+  bpmnXml: '' as any,
 }) // BPMN 流程图数据
-
 
 /** 只有 loading 完成时，才去加载流程列表 */
 watch(
@@ -29,7 +28,7 @@ watch(
       //@ts-ignore
       view.value = newModelView
     }
-  }
+  },
 )
 
 /** 监听 bpmnXml */
@@ -37,13 +36,13 @@ watch(
   () => props.bpmnXml,
   (value) => {
     view.value.bpmnXml = value
-  }
+  },
 )
 </script>
 <style lang="scss" scoped>
 .box-card {
-  height: 100%;
   width: 100%;
+  height: 100%;
   margin-bottom: 0;
 
   :deep(.el-card__body) {
@@ -52,9 +51,9 @@ watch(
   }
 
   :deep(.process-viewer) {
+    width: 100%;
     height: 100% !important;
     min-height: 100%;
-    width: 100%;
     overflow: auto;
   }
 }

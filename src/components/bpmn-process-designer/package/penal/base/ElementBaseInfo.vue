@@ -4,21 +4,10 @@
       <div v-if="needProps.type == 'bpmn:Process'">
         <!-- 如果是 Process 信息的时候，使用自定义表单 -->
         <el-form-item label="流程标识" prop="key">
-          <el-input
-            v-model="model.key"
-            placeholder="请输入流标标识"
-            readonly
-            @change="handleKeyUpdate"
-          />
+          <el-input v-model="model.key" placeholder="请输入流标标识" readonly @change="handleKeyUpdate" />
         </el-form-item>
         <el-form-item label="流程名称" prop="name">
-          <el-input
-            v-model="model.name"
-            placeholder="请输入流程名称"
-            clearable
-            @change="handleNameUpdate"
-            readonly
-          />
+          <el-input v-model="model.name" placeholder="请输入流程名称" clearable @change="handleNameUpdate" readonly />
         </el-form-item>
       </div>
       <div v-else>
@@ -41,8 +30,8 @@ const model = defineModel<any>()
 const props = defineProps({
   businessObject: {
     type: Object,
-    default: () => {}
-  }
+    default: () => {},
+  },
 })
 const needProps = ref<any>({})
 const bpmnElement = ref()
@@ -116,7 +105,7 @@ const updateBaseInfo = (key: any) => {
     console.log(toRaw(bpmnElement.value), 'bpmnElement')
     bpmnInstances().modeling.updateProperties(toRaw(bpmnElement.value), {
       id: elementBaseInfo.value[key],
-      di: { id: `${elementBaseInfo.value[key]}_di` }
+      di: { id: `${elementBaseInfo.value[key]}_di` },
     })
   } else {
     console.log(attrObj, 'attrObj')
@@ -133,7 +122,7 @@ watch(
       resetBaseInfo()
       // })
     }
-  }
+  },
 )
 
 watch(
@@ -146,8 +135,8 @@ watch(
     }
   },
   {
-    immediate: true
-  }
+    immediate: true,
+  },
 )
 
 onBeforeUnmount(() => {

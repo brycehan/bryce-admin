@@ -1,10 +1,5 @@
 <template>
-  <el-form
-    ref="dataFormRef"
-    :model="state.dataForm"
-    label-width="60"
-    class="mr-4"
-  >
+  <el-form ref="dataFormRef" :model="state.dataForm" label-width="60" class="mr-4">
     <el-form-item label="标题" prop="title">
       <el-text> {{ state.dataForm.title }}</el-text>
     </el-form-item>
@@ -27,7 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import { getByIdApi, saveOrUpdateApi } from '@/api/system/notice'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -37,23 +31,23 @@ const emit = defineEmits(['refreshPage'])
 
 const props = defineProps({
   noticeId: {
-    type: String
-  }
+    type: String,
+  },
 })
 
 const state: StateOptions = reactive({
   api: {
     saveOrUpdateApi,
     getByIdApi,
-    emit
+    emit,
   },
   dataForm: {
     id: '',
     title: '',
     content: '',
     type: 0,
-    status: 1
-  }
+    status: 1,
+  },
 })
 
 const dataFormRef = ref()

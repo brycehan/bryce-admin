@@ -33,11 +33,9 @@
             :collapse="!appStore.sidebarOpened"
             :unique-opened="appStore.theme.uniqueOpened"
             :collapse-transition="false"
-            mode="vertical">
-            <menu-item
-              v-for="menu in subMenus"
-              :key="menu.path"
-              :menu="menu"></menu-item>
+            mode="vertical"
+          >
+            <menu-item v-for="menu in subMenus" :key="menu.path" :menu="menu"></menu-item>
           </el-menu>
         </div>
         <Main />
@@ -49,9 +47,8 @@
 import { useAppStore } from '@/stores/modules/app'
 import Header from '@/components/layout/header/index.vue'
 import Main from '@/components/layout/main/index.vue'
-import { computed, onMounted, ref, watch } from 'vue'
 import { useRouterStore } from '@/stores/modules/router'
-import { type RouteRecordRaw, useRoute, useRouter } from 'vue-router'
+import { type RouteRecordRaw } from 'vue-router'
 import MenuItem from '@/components/layout/menu-item/index.vue'
 
 const appStore = useAppStore()
@@ -63,7 +60,7 @@ const defaultActive = computed(() => route.path)
 const subMenus = ref<any[]>([])
 const menuPath = ref<string>('')
 
-watch(route, ()=> {
+watch(route, () => {
   subMenus.value = []
   initSubMenu()
 })
@@ -92,7 +89,7 @@ const findRoute = (menus: RouteRecordRaw[]): boolean => {
       if (findRoute(menu.children)) {
         return true
       }
-    }else if (menu.path === defaultActive.value) {
+    } else if (menu.path === defaultActive.value) {
       return true
     }
   }
@@ -150,8 +147,9 @@ const layoutHeaderHeight = computed(() => {
 .sidebar-logo {
   height: var(--theme-header-height);
   line-height: var(--theme-header-height);
-  border-bottom: 1px solid var(--theme-border-color-light) !important;
   text-align: center;
+  border-bottom: 1px solid var(--theme-border-color-light) !important;
+
   .el-avatar {
     width: 30px;
     height: 30px;
@@ -162,6 +160,7 @@ const layoutHeaderHeight = computed(() => {
 // 侧边栏菜单样式
 .column-menu {
   flex: 1;
+
   // 主菜单样式
   .column-menu-item {
     display: flex;
@@ -169,20 +168,26 @@ const layoutHeaderHeight = computed(() => {
     align-items: center;
     justify-content: center;
     height: 70px;
+    color: var(--el-menu-text-color);
     cursor: pointer;
     transition: all 0.3s ease;
-    color: var(--el-menu-text-color);
+
     ::v-deep(.svg-icon) > svg {
       font-size: 21px;
     }
+
     .title {
       margin-top: 6px;
       font-size: 12px;
     }
+
     // 选中、hover主菜单样式
-    &:hover, &.active {
+    &:hover,
+    &.active {
       background: var(--el-color-primary);
-      ::v-deep(.svg-icon) > svg, .title {
+
+      ::v-deep(.svg-icon) > svg,
+      .title {
         color: white;
       }
     }
@@ -191,13 +196,14 @@ const layoutHeaderHeight = computed(() => {
 
 // 中间栏菜单样式
 .column-sub-menu {
+  float: left;
+  display: block;
   width: 120px;
   height: 100%;
-  display: block;
-  float: left;
-  border-right: 1px solid var(--theme-border-color-light);
-  background: white;
   overflow: hidden;
+  background: white;
+  border-right: 1px solid var(--theme-border-color-light);
+
   ::v-deep(.el-menu) {
     border-right: none !important;
   }
@@ -207,16 +213,19 @@ const layoutHeaderHeight = computed(() => {
     font-size: 14px !important;
     color: var(--el-menu-text-color);
     background-color: transparent;
+
     .el-sub-menu__title {
       height: 40px !important;
-      line-height: 40px !important;
       font-size: 14px !important;
+      line-height: 40px !important;
       color: var(--el-menu-text-color);
       background-color: transparent;
+
       &:hover {
         color: var(--el-color-primary);
       }
     }
+
     &.is-active > .el-sub-menu__title {
       color: var(--el-menu-active-color);
     }
@@ -225,13 +234,15 @@ const layoutHeaderHeight = computed(() => {
   // 菜单项样式
   ::v-deep(.el-menu-item) {
     height: 40px !important;
-    line-height: 40px !important;
     font-size: 14px !important;
+    line-height: 40px !important;
     color: var(--el-menu-text-color);
     background-color: transparent;
+
     &:hover {
       color: var(--el-color-primary);
     }
+
     &.is-active {
       color: var(--el-menu-active-color);
       background-color: var(--theme-menu-active-bg-color);
@@ -246,13 +257,14 @@ const layoutHeaderHeight = computed(() => {
 
   // 侧边栏
   .layout-sidebar {
-    background: var(--theme-menu-bg-color);
-    border-right: 1px solid var(--theme-border-color-light);
-    height: inherit;
     position: relative;
     display: flex;
     flex-direction: column;
+    height: inherit;
     overflow-x: hidden !important;
+    background: var(--theme-menu-bg-color);
+    border-right: 1px solid var(--theme-border-color-light);
+
     &.aside-expend {
       width: 75px !important;
     }
@@ -261,6 +273,7 @@ const layoutHeaderHeight = computed(() => {
   // 顶部区域
   .layout-header {
     --el-header-padding: 0;
+
     display: flex;
     flex-direction: column;
     height: var(--theme-header-height);
@@ -269,9 +282,9 @@ const layoutHeaderHeight = computed(() => {
   // 内容区域
   .layout-main {
     width: 100%;
+    padding: 0 !important;
     overflow: hidden;
     background-color: var(--theme-main-bg-color);
-    padding: 0 !important;
     transition: all 0.3s;
   }
 }

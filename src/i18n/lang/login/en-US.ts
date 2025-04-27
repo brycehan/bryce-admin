@@ -18,5 +18,5 @@ export default {
     signOut: 'Sign out',
     register: 'Register',
     forgetPassword: 'Forget Password',
-  }
+  },
 }

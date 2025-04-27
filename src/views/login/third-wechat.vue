@@ -1,7 +1,7 @@
 <template>
   <div class="third-wechat">
     <el-divider>微信登录</el-divider>
-    <div id="login_container"></div>
+    <div id="login-container"></div>
   </div>
 </template>
 
@@ -13,14 +13,13 @@ import { onMounted } from 'vue'
 onMounted(() => {
   new WxLogin({
     self_redirect: true,
-    id: 'login_container',
+    id: 'login-container',
     appid: 'wx264fcac63168e5bb',
     scope: 'snsapi_login',
-    redirect_uri:
-      'https%3A%2F%2F6245-111-17-77-162.ngrok-free.app%2Fthird%2Flogin%2Fwechat%2Fmp%2Fauth',
+    redirect_uri: 'https%3A%2F%2F6245-111-17-77-162.ngrok-free.app%2Fthird%2Flogin%2Fwechat%2Fmp%2Fauth',
     state: 'STATE',
     style: '',
-    href: ''
+    href: '',
   })
 })
 </script>
@@ -30,7 +29,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
 
-  #login_container {
+  #login-container {
     width: 150px;
     height: 150px;
     padding: 0;

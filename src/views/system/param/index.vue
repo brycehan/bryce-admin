@@ -15,12 +15,7 @@
         <el-input v-model="state.queryForm.paramKey" placeholder="请输入参数键名" clearable />
       </el-form-item>
       <el-form-item label="参数类型" prop="paramType">
-        <dict-select
-          v-model="state.queryForm.paramType"
-          dict-type="sys_param_type"
-          placeholder="参数类型"
-          clearable
-        />
+        <dict-select v-model="state.queryForm.paramType" dict-type="sys_param_type" placeholder="参数类型" clearable />
       </el-form-item>
       <el-form-item label="创建时间" prop="createdTime">
         <el-date-picker
@@ -97,13 +92,8 @@
         min-width="90"
       />
       <dict-table-column label="参数类型" prop="paramType" dict-type="sys_param_type" min-width="100" />
-      <el-table-column
-        label="备注"
-        prop="remark"
-        show-overflow-tooltip
-        min-width="200"
-      />
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="185"/>
+      <el-table-column label="备注" prop="remark" show-overflow-tooltip min-width="200" />
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="185" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="180">
         <template #default="scope">
           <el-button
@@ -136,12 +126,11 @@
     />
 
     <!-- 弹窗，新增 / 修改 -->
-    <AddOrEdit ref="addOrEditRef" @refresh-page="getPage" />
+    <add-or-edit ref="addOrEditRef" @refresh-page="getPage" />
   </el-card>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import { postPageApi, deleteByIdsApi, postExportExcelApi } from '@/api/system/param'
 import type { StateOptions } from '@/utils/state'
@@ -151,27 +140,27 @@ const state: StateOptions = reactive({
   api: {
     postPageApi,
     deleteByIdsApi,
-    postExportExcelApi
+    postExportExcelApi,
   },
   queryForm: {
     paramName: '',
     paramKey: '',
     paramType: '',
-    createdTime: ''
+    createdTime: '',
   },
   orderItems: [
     {
       column: 'updatedTime',
-      asc: false
+      asc: false,
     },
     {
       column: 'paramType',
-      asc: true
-    }
+      asc: true,
+    },
   ],
   range: {
-    createdTime: ''
-  }
+    createdTime: '',
+  },
 })
 
 const queryFormRef = ref()
@@ -183,8 +172,14 @@ onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange, handleDownloadExcel } =
-  crud(state)
+const {
+  getPage,
+  handleSizeChange,
+  handleCurrentChange,
+  handleDeleteBatch,
+  handleSelectionChange,
+  handleDownloadExcel,
+} = crud(state)
 
 /**
  * 重置按钮操作

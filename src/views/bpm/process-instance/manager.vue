@@ -1,18 +1,16 @@
 <template>
   <el-card shadow="never">
-    <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" v-show="showSearch" @keyup.enter="getPage()" @submit.prevent>
+    <el-form
+      ref="queryFormRef"
+      :model="state.queryForm"
+      :inline="true"
+      v-show="showSearch"
+      @keyup.enter="getPage()"
+      @submit.prevent
+    >
       <el-form-item label="发起人" prop="startUserId">
-        <el-select
-          v-model="state.queryForm.startUserId"
-          placeholder="请选择发起人"
-          clearable
-        >
-          <el-option
-            v-for="user in userList"
-            :key="user.id"
-            :label="user.nickname"
-            :value="user.id"
-          />
+        <el-select v-model="state.queryForm.startUserId" placeholder="请选择发起人" clearable>
+          <el-option v-for="user in userList" :key="user.id" :label="user.nickname" :value="user.id" />
         </el-select>
       </el-form-item>
 
@@ -20,33 +18,15 @@
         <el-input v-model="state.queryForm.name" placeholder="请输入流程名称" clearable />
       </el-form-item>
       <el-form-item label="流程编号" prop="id">
-        <el-input
-          v-model="state.queryForm.id"
-          placeholder="请输入流程编号"
-          clearable
-          class="!w-[304px]"
-        />
+        <el-input v-model="state.queryForm.id" placeholder="请输入流程编号" clearable class="!w-[304px]" />
       </el-form-item>
       <el-form-item label="流程分类" prop="category">
-        <el-select
-          v-model="state.queryForm.category"
-          placeholder="请选择流程分类"
-          clearable
-        >
-          <el-option
-            v-for="category in categoryList"
-            :key="category.id"
-            :label="category.name"
-            :value="category.id"
-          />
+        <el-select v-model="state.queryForm.category" placeholder="请选择流程分类" clearable>
+          <el-option v-for="category in categoryList" :key="category.id" :label="category.name" :value="category.id" />
         </el-select>
       </el-form-item>
       <el-form-item label="流程状态" prop="status">
-        <el-select
-          v-model="state.queryForm.status"
-          placeholder="请选择流程状态"
-          clearable
-        >
+        <el-select v-model="state.queryForm.status" placeholder="请选择流程状态" clearable>
           <el-option
             v-for="dict in BpmProcessInstanceStatusOptions"
             :key="dict.value"
@@ -71,7 +51,7 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-			<right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -81,7 +61,14 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="流程名称" prop="name" header-align="center" align="center" show-overflow-tooltip min-width="120" />
+      <el-table-column
+        label="流程名称"
+        prop="name"
+        header-align="center"
+        align="center"
+        show-overflow-tooltip
+        min-width="120"
+      />
       <el-table-column label="流程分类" prop="categoryName" header-align="center" align="center" min-width="100" />
       <el-table-column label="流程发起人" align="center" prop="startUser.nickname" width="120" />
       <el-table-column label="发起部门" align="center" prop="startUser.deptName" width="120" />
@@ -94,18 +81,8 @@
           <el-tag v-else type="info">未开始</el-tag>
         </template>
       </el-table-column>
-      <el-table-column
-        label="发起时间"
-        align="center"
-        prop="startTime"
-        width="180"
-      />
-      <el-table-column
-        label="结束时间"
-        align="center"
-        prop="endTime"
-        width="180"
-      />
+      <el-table-column label="发起时间" align="center" prop="startTime" width="180" />
+      <el-table-column label="结束时间" align="center" prop="endTime" width="180" />
       <el-table-column align="center" label="耗时" prop="durationInMillis" width="169">
         <template #default="scope">
           {{ scope.row.durationInMillis > 0 ? formatPast2(scope.row.durationInMillis) : '-' }}
@@ -150,18 +127,22 @@
       <form-create :rule="formDetailPreview.rule" :option="formDetailPreview.rule" />
     </el-dialog>
     <!-- 弹窗，历史流程 -->
-    <el-drawer v-if="historyDefinitionVisible" v-model="historyDefinitionVisible" :title="historyDefinitionTitle" :size="1000">
+    <el-drawer
+      v-if="historyDefinitionVisible"
+      v-model="historyDefinitionVisible"
+      :title="historyDefinitionTitle"
+      :size="1000"
+    >
       <HistoryDefinition :row="historyDefinitionRow" />
     </el-drawer>
   </el-card>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import * as CategoryApi from '@/api/bpm/category.ts'
 import processInstanceApi from '@/api/bpm/processInstance'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 import { BpmProcessInstanceStatus, BpmProcessInstanceStatusOptions } from '@/api/bpm/constant'
 import FormCreate from '@form-create/element-ui'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -202,12 +183,7 @@ const historyDefinitionVisible = ref(false)
 const historyDefinitionTitle = ref('')
 const historyDefinitionRow = ref()
 
-const {
-  getPage,
-  handleSizeChange,
-  handleCurrentChange,
-  handleSelectionChange,
-} = crud(state)
+const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange } = crud(state)
 
 /**
  * 重置按钮操作
@@ -217,7 +193,7 @@ const handleResetQuery = () => {
     state.range[key] = []
   }
 
-  if(queryFormRef.value) {
+  if (queryFormRef.value) {
     queryFormRef.value.resetFields()
   }
 
@@ -248,7 +224,7 @@ const handleCancel = async (row: any) => {
   // 二次确认
   const { value } = await ElMessageBox.prompt('请输入取消原因', '取消流程', {
     inputPattern: /^[\s\S]*.*\S[\s\S]*$/, // 判断非空，且非空格
-    inputErrorMessage: '取消原因不能为空'
+    inputErrorMessage: '取消原因不能为空',
   })
   // 发起取消
   await processInstanceApi.cancelProcessInstanceByAdmin(row.id, value)

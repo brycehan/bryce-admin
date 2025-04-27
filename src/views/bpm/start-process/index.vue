@@ -12,12 +12,23 @@
         <div v-if="processDefinitionVisible">
           <el-row v-for="(process, key) in processCategoryList" :key="key">
             <el-divider content-position="left">{{ key }}</el-divider>
-            <div class="w-1/3 flex items-center justify-items-stretch gap-2 pt-2" v-for="item in process" :key="item.id">
-              <el-avatar shape="circle" :size="30" :src="item.icon || emptyImg"/>
+            <div
+              class="flex w-1/3 items-center justify-items-stretch gap-2 pt-2"
+              v-for="item in process"
+              :key="item.id"
+            >
+              <el-avatar shape="circle" :size="30" :src="item.icon || emptyImg" />
               <el-tooltip effect="dark" content="流程图预览" placement="top">
-                <icon icon="ion:ios-git-network" class="text-sky-700 cursor-pointer" size="16" @click="handleBpmnDetail(item)" />
+                <icon
+                  icon="ion:ios-git-network"
+                  class="cursor-pointer text-sky-700"
+                  size="16"
+                  @click="handleBpmnDetail(item)"
+                />
               </el-tooltip>
-              <span class="cursor-pointer" style="color: #1890ff" @click="handleAddOrEdit(item)"> {{ item.name }} </span>
+              <span class="cursor-pointer" style="color: #1890ff" @click="handleAddOrEdit(item)">
+                {{ item.name }}
+              </span>
             </div>
           </el-row>
         </div>
@@ -25,8 +36,6 @@
           <el-empty description="暂无数据" />
         </div>
 
-        <!-- 弹窗，新增 / 修改 -->
-        <AddOrEdit ref="addOrEditRef" v-if="selectProcessDefinition" :process-definition="selectProcessDefinition"/>
         <!-- 弹窗，流程图 -->
         <el-dialog title="流程图" v-model="bpmnDetailPreview.visible" width="60%">
           <my-process-viewer style="height: 600px" key="designer" :xml="bpmnDetailPreview.bpmnXml" />
@@ -37,8 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
-import AddOrEdit from './add-or-edit.vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import CategoryTree from '@/views/bpm/start-process/category-tree.vue'
 import processDefinitionApi from '@/api/bpm/processDefinition.ts'
 import emptyImg from '@/assets/images/empty.png'
@@ -46,13 +54,11 @@ import _ from 'lodash'
 import { MyProcessViewer } from '@/components/bpmn-process-designer/package'
 import { SysShowHide } from '@/enums/system.ts'
 
-const addOrEditRef = ref()
+const router = useRouter()
 const queryForm = ref({
   categoryId: '',
 })
 const processCategoryList = ref<any>()
-// 选择的流程定义
-const selectProcessDefinition = ref()
 // 流程图预览
 const bpmnDetailPreview = ref({
   visible: false,
@@ -63,15 +69,19 @@ const handleCategoryClick = (categoryId: any) => {
   queryForm.value.categoryId = categoryId
 }
 
-
 /**
  * 获取分类列表
  */
 const getProcessDefinitionList = () => {
-  processDefinitionApi.postListApi({ category: queryForm.value.categoryId, visible: SysShowHide.SHOW }).then((response) => {
-    processCategoryList.value = _.groupBy(response.data || [], 'category')
-    console.log(_.groupBy(response.data || [], 'category'))
-  })
+  processDefinitionApi
+    .postListApi({
+      category: queryForm.value.categoryId,
+      visible: SysShowHide.SHOW,
+    })
+    .then((response) => {
+      processCategoryList.value = _.groupBy(response.data || [], 'category')
+      console.log(_.groupBy(response.data || [], 'category'))
+    })
 }
 
 /**
@@ -82,13 +92,10 @@ const processDefinitionVisible = computed(() => {
 })
 
 /**
- * 新增/修改 弹窗
+ * 流程申请弹窗
  */
 const handleAddOrEdit = async (row: any) => {
-  selectProcessDefinition.value = row
-  // 初始化流程定义详情
-  await nextTick()
-  addOrEditRef.value?.init(row)
+  await router.push({ name: 'BpmStartProcessApply', params: { id: row.id } })
 }
 
 /**
@@ -107,10 +114,10 @@ const handleBpmnDetail = (row: any) => {
 }
 
 watch(queryForm.value, () => {
-  getProcessDefinitionList();
+  getProcessDefinitionList()
 })
 
 onMounted(() => {
-  getProcessDefinitionList();
+  getProcessDefinitionList()
 })
 </script>

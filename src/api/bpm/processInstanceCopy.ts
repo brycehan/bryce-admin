@@ -6,11 +6,11 @@ import request from '@/utils/request'
  * @param data 参数
  */
 export const saveOrUpdateApi = (data: any) => {
-    if (data.id) {
-        return request.put('/bpm/processInstanceCopy', data)
-    } else {
-        return request.post('/bpm/processInstanceCopy', data)
-    }
+  if (data.id) {
+    return request.put('/bpm/processInstanceCopy', data)
+  } else {
+    return request.post('/bpm/processInstanceCopy', data)
+  }
 }
 
 /**
@@ -19,7 +19,7 @@ export const saveOrUpdateApi = (data: any) => {
  * @param ids ID数组
  */
 export const deleteByIdsApi = (ids: string[]) => {
-    return request.delete('/bpm/processInstanceCopy', { data: { ids } })
+  return request.delete('/bpm/processInstanceCopy', { data: { ids } })
 }
 
 /**
@@ -28,7 +28,7 @@ export const deleteByIdsApi = (ids: string[]) => {
  * @param id ID
  */
 export const getByIdApi = (id: string) => {
-    return request.get(`/bpm/processInstanceCopy/${id}`)
+  return request.get(`/bpm/processInstanceCopy/${id}`)
 }
 
 /**
@@ -37,12 +37,12 @@ export const getByIdApi = (id: string) => {
  * @param data 分页参数
  */
 export const postPageApi = (data: any) => {
-    return request.get('/bpm/process-instance/copy/page', { params: data})
+  return request.get('/bpm/process-instance/copy/page', { params: data })
 }
 
 export default {
-    saveOrUpdateApi,
-    deleteByIdsApi,
-    getByIdApi,
-    postPageApi
+  saveOrUpdateApi,
+  deleteByIdsApi,
+  getByIdApi,
+  postPageApi,
 }

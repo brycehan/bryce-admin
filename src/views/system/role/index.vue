@@ -35,11 +35,25 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <el-button v-auth:has-authority="'system:role:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()">新增</el-button>
-      <el-button v-auth:has-authority="'system:role:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch('code', '角色编码')"
+      <el-button v-auth:has-authority="'system:role:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
+        >新增</el-button
+      >
+      <el-button
+        v-auth:has-authority="'system:role:delete'"
+        type="danger"
+        plain
+        icon="Delete"
+        @click="handleDeleteBatch('code', '角色编码')"
         >删除
       </el-button>
-      <el-button v-auth:has-authority="'system:role:export'" type="success" plain icon="Download" @click="handleDownloadExcel()">导出</el-button>
+      <el-button
+        v-auth:has-authority="'system:role:export'"
+        type="success"
+        plain
+        icon="Download"
+        @click="handleDownloadExcel()"
+        >导出</el-button
+      >
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
@@ -51,17 +65,32 @@
       @sort-change="handleSortChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="角色名称" prop="name" header-align="center" align="center" show-overflow-tooltip min-width="120"/>
-      <el-table-column label="角色编码" prop="code" sortable="custom" header-align="center" align="center" show-overflow-tooltip min-width="120" />
-      <el-table-column label="显示顺序" prop="sort" sortable="custom" header-align="center" align="center" min-width="110"/>
       <el-table-column
-        label="状态"
-        prop="status"
+        label="角色名称"
+        prop="name"
+        header-align="center"
+        align="center"
+        show-overflow-tooltip
+        min-width="120"
+      />
+      <el-table-column
+        label="角色编码"
+        prop="code"
         sortable="custom"
         header-align="center"
         align="center"
-        min-width="90"
-      >
+        show-overflow-tooltip
+        min-width="120"
+      />
+      <el-table-column
+        label="显示顺序"
+        prop="sort"
+        sortable="custom"
+        header-align="center"
+        align="center"
+        min-width="110"
+      />
+      <el-table-column label="状态" prop="status" sortable="custom" header-align="center" align="center" min-width="90">
         <template #default="scope">
           <el-switch
             v-model="scope.row.status"
@@ -73,17 +102,30 @@
           />
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165"/>
+      <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="220">
         <template #default="scope">
           <div v-if="scope.row.id != 1">
-            <el-button v-auth:has-authority="'system:role:update'" type="primary" icon="edit" text @click="handleAddOrEdit(scope.row.id)"
-            >修改
+            <el-button
+              v-auth:has-authority="'system:role:update'"
+              type="primary"
+              icon="edit"
+              text
+              @click="handleAddOrEdit(scope.row.id)"
+              >修改
             </el-button>
-            <el-button v-auth:has-authority="'system:role:delete'" type="danger" icon="delete" text @click="handleDeleteBatch('code', '角色编码', scope.row)"
-            >删除
+            <el-button
+              v-auth:has-authority="'system:role:delete'"
+              type="danger"
+              icon="delete"
+              text
+              @click="handleDeleteBatch('code', '角色编码', scope.row)"
+              >删除
             </el-button>
-            <el-dropdown v-auth:has-authority="'system:role:update'" @command="(command: string) => handleCommand(command, scope.row)">
+            <el-dropdown
+              v-auth:has-authority="'system:role:update'"
+              @command="(command: string) => handleCommand(command, scope.row)"
+            >
               <el-button type="success" icon="d-arrow-right" class="btn-more-link" text>更多</el-button>
               <template #dropdown>
                 <el-dropdown-menu>
@@ -107,7 +149,7 @@
     />
 
     <!-- 弹窗，新增 / 修改 -->
-    <AddOrEdit ref="addOrEditRef" @refresh-page="getPage" />
+    <add-or-edit ref="addOrEditRef" @refresh-page="getPage" />
     <!-- 数据权限 -->
     <DataScope ref="dataScopeRef" />
     <!-- 弹窗，分配用户 -->
@@ -118,7 +160,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './add-or-edit.vue'
 import { postPageApi, deleteByIdsApi, postExportExcelApi, patchStatusApi } from '@/api/system/role'
 import type { StateOptions } from '@/utils/state'
@@ -132,18 +173,18 @@ const state: StateOptions = reactive({
   api: {
     postPageApi,
     deleteByIdsApi,
-    postExportExcelApi
+    postExportExcelApi,
   },
   queryForm: {
     name: '',
     code: '',
     status: '',
     deptId: '',
-    createdTime: ''
+    createdTime: '',
   },
   range: {
-    createdTime: ''
-  }
+    createdTime: '',
+  },
 })
 
 const queryFormRef = ref()
@@ -163,8 +204,15 @@ onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange, handleSortChange, handleDeleteBatch, handleDownloadExcel } =
-  crud(state)
+const {
+  getPage,
+  handleSizeChange,
+  handleCurrentChange,
+  handleSelectionChange,
+  handleSortChange,
+  handleDeleteBatch,
+  handleDownloadExcel,
+} = crud(state)
 
 /**
  * 重置按钮操作
@@ -196,7 +244,7 @@ const handleAddOrEdit = (id?: string) => {
  * @param row 当前行数据
  */
 const handleStatusChange = (row: any) => {
-  let text = row.status === 1 ? '启用' : '停用'
+  const text = row.status === 1 ? '启用' : '停用'
   modal
     .confirm(`确定要${text}“${row.username}”用户吗？`)
     .then(() => {

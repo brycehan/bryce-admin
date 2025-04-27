@@ -1,7 +1,14 @@
 <template>
   <el-row class="mb-2">
-    <el-button v-auth:has-authority="'system:dictData:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()">新增 </el-button>
-    <el-button v-auth:has-authority="'system:dictData:delete'" type="danger" plain icon="Delete" @click="handleDeleteBatch('dictLabel', '字典标签')"
+    <el-button v-auth:has-authority="'system:dictData:save'" type="primary" plain icon="Plus" @click="handleAddOrEdit()"
+      >新增
+    </el-button>
+    <el-button
+      v-auth:has-authority="'system:dictData:delete'"
+      type="danger"
+      plain
+      icon="Delete"
+      @click="handleDeleteBatch('dictLabel', '字典标签')"
       >删除
     </el-button>
   </el-row>
@@ -57,11 +64,10 @@
   />
 
   <!-- 弹窗，新增 / 修改 -->
-  <AddOrEdit ref="addOrEditRef" @refresh-page="getPage" />
+  <add-or-edit ref="addOrEditRef" @refresh-page="getPage" />
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import AddOrEdit from './data-add-or-edit.vue'
 import { postPageApi, deleteByIdsApi } from '@/api/system/dictData'
 import type { StateOptions } from '@/utils/state'
@@ -70,23 +76,23 @@ import { crud } from '@/utils/state'
 const props = defineProps({
   dictTypeId: {
     type: Number,
-    required: true
-  }
+    required: true,
+  },
 })
 const state: StateOptions = reactive({
   api: {
     postPageApi,
-    deleteByIdsApi
+    deleteByIdsApi,
   },
   queryForm: {
-    dictTypeId: props.dictTypeId
+    dictTypeId: props.dictTypeId,
   },
   orderItems: [
     {
       column: 'sort',
-      asc: true
-    }
-  ]
+      asc: true,
+    },
+  ],
 })
 
 const addOrEditRef = ref()

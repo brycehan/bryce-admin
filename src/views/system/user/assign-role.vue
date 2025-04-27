@@ -42,19 +42,19 @@ import modal from '@/utils/modal'
 const props = defineProps({
   row: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const state: StateOptions = reactive({
   api: {
-    postPageApi
+    postPageApi,
   },
   queryForm: {
     userId: props.row.id,
     assigned: 'Y',
-    status: 1
-  }
+    status: 1,
+  },
 })
 
 onMounted(() => {
@@ -99,7 +99,7 @@ const handleDeleteBatch = (row?: any) => {
     .then(() => {
       deleteAssignRoleApi(
         state.queryForm.userId,
-        data.map((item) => item.id)
+        data.map((item) => item.id),
       ).then(() => {
         ElMessage.success('移除授权成功')
         getPage()

@@ -10,5 +10,5 @@ export default {
   '503': '系统不可用',
   '504': '网关请求超时',
   '505': 'HTTP版本不受支持',
-  'default': '系统未知错误，请反馈给管理员'
-} as { [key: string]: string}
+  default: '系统未知错误，请反馈给管理员',
+} as { [key: string]: string }

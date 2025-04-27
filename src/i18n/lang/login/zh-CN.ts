@@ -18,5 +18,5 @@ export default {
     signOut: '退出',
     register: '注册',
     forgetPassword: '忘记密码',
-  }
+  },
 }

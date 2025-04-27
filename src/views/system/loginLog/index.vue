@@ -43,10 +43,20 @@
         @click="handleDeleteBatch('id', '日志编号')"
         >删除</el-button
       >
-      <el-button v-auth:has-authority="'system:loginLog:delete'" type="danger" plain icon="Delete" @click="handleCleanLog"
+      <el-button
+        v-auth:has-authority="'system:loginLog:delete'"
+        type="danger"
+        plain
+        icon="Delete"
+        @click="handleCleanLog"
         >清空</el-button
       >
-      <el-button v-auth:has-authority="'system:loginLog:export'" type="success" plain icon="Download" @click="handleDownloadExcel()"
+      <el-button
+        v-auth:has-authority="'system:loginLog:export'"
+        type="success"
+        plain
+        icon="Download"
+        @click="handleDownloadExcel()"
         >导出</el-button
       >
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
@@ -59,14 +69,36 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="日志编号" prop="id" header-align="center" align="center" fixed="left" show-overflow-tooltip min-width="150"/>
-      <el-table-column label="账号" prop="username" header-align="center" align="center" fixed="left" min-width="100"/>
-      <el-table-column label="登录IP" prop="ip" header-align="center" align="center" min-width="130"/>
-      <el-table-column label="登录地点" prop="location" header-align="center" align="center" min-width="120"/>
-      <el-table-column label="User Agent" prop="userAgent" show-overflow-tooltip header-align="center" align="center" min-width="180"/>
-      <dict-table-column label="状态" prop="status" dict-type="sys_operate_status" min-width="75"/>
-      <dict-table-column label="操作信息" prop="info" dict-type="sys_login_status" min-width="100"/>
-      <el-table-column label="访问时间" prop="accessTime" header-align="center" align="center" fixed="right" min-width="185" />
+      <el-table-column
+        label="日志编号"
+        prop="id"
+        header-align="center"
+        align="center"
+        fixed="left"
+        show-overflow-tooltip
+        min-width="150"
+      />
+      <el-table-column label="账号" prop="username" header-align="center" align="center" fixed="left" min-width="100" />
+      <el-table-column label="登录IP" prop="ip" header-align="center" align="center" min-width="130" />
+      <el-table-column label="登录地点" prop="location" header-align="center" align="center" min-width="120" />
+      <el-table-column
+        label="User Agent"
+        prop="userAgent"
+        show-overflow-tooltip
+        header-align="center"
+        align="center"
+        min-width="180"
+      />
+      <dict-table-column label="状态" prop="status" dict-type="sys_operate_status" min-width="75" />
+      <dict-table-column label="操作信息" prop="info" dict-type="sys_login_status" min-width="100" />
+      <el-table-column
+        label="访问时间"
+        prop="accessTime"
+        header-align="center"
+        align="center"
+        fixed="right"
+        min-width="185"
+      />
     </el-table>
     <el-pagination
       :current-page="state.current"
@@ -81,7 +113,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import { deleteByIdsApi, deleteCleanApi, postExportExcelApi, postPageApi } from '@/api/system/loginLog'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -92,16 +123,16 @@ const state: StateOptions = reactive({
   api: {
     postPageApi,
     deleteByIdsApi,
-    postExportExcelApi
+    postExportExcelApi,
   },
   queryForm: {
     username: '',
     ip: '',
-    status: ''
+    status: '',
   },
   range: {
-    accessTime: ''
-  }
+    accessTime: '',
+  },
 })
 
 const queryFormRef = ref()
@@ -118,7 +149,7 @@ const {
   handleCurrentChange,
   handleDeleteBatch,
   handleSelectionChange,
-  handleDownloadExcel
+  handleDownloadExcel,
 } = crud(state)
 
 /**

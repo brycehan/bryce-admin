@@ -47,18 +47,18 @@ const componentSizeChange = (componentSize: 'default' | 'small' | 'large') => {
 
 <style lang="scss" scoped>
 .el-dropdown-text {
-  width: 40px;
-  height: var(--theme-header-height);
-  line-height: var(--theme-header-height);
   display: flex;
-  cursor: pointer;
   align-items: center;
   justify-content: center;
-  color: var(--theme-header-text-color);
+  width: 40px;
+  height: var(--theme-header-height);
   font-size: 16px;
+  line-height: var(--theme-header-height);
+  color: var(--theme-header-text-color);
+  cursor: pointer;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgb(0 0 0 / 10%);
   }
 }
 </style>

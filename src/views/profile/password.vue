@@ -8,13 +8,25 @@
     class="mr-4"
   >
     <el-form-item :label="t('profile.basic.password.password')" prop="password">
-      <el-input v-model="dataForm.password" show-password :placeholder="t('profile.basic.password.passwordPlaceholder')" />
+      <el-input
+        v-model="dataForm.password"
+        show-password
+        :placeholder="t('profile.basic.password.passwordPlaceholder')"
+      />
     </el-form-item>
     <el-form-item :label="t('profile.basic.password.newPassword')" prop="newPassword">
-      <el-input v-model="dataForm.newPassword" show-password :placeholder="t('profile.basic.password.newPasswordPlaceholder')" />
+      <el-input
+        v-model="dataForm.newPassword"
+        show-password
+        :placeholder="t('profile.basic.password.newPasswordPlaceholder')"
+      />
     </el-form-item>
     <el-form-item :label="t('profile.basic.password.confirmPassword')" prop="confirmPassword">
-      <el-input v-model="dataForm.confirmPassword" show-password :placeholder="t('profile.basic.password.confirmPasswordPlaceholder')" />
+      <el-input
+        v-model="dataForm.confirmPassword"
+        show-password
+        :placeholder="t('profile.basic.password.confirmPasswordPlaceholder')"
+      />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="handleSubmit()">{{ t('button.confirm') }}</el-button>
@@ -23,15 +35,13 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import { putPasswordApi } from '@/api/system/profile'
 import { ElMessage, type FormRules } from 'element-plus'
-import { useI18n } from 'vue-i18n'
 
 const dataForm = reactive({
   password: '',
   newPassword: '',
-  confirmPassword: ''
+  confirmPassword: '',
 })
 
 const dataFormRef = ref()
@@ -56,13 +66,13 @@ const dataRules = reactive<FormRules>({
   password: [{ required: true, message: () => t('rules.required'), trigger: 'blur' }],
   newPassword: [
     { required: true, message: () => t('rules.required'), trigger: 'blur' },
-    { min: 6, max: 20, message: () => t('rules.length', { min: 6, max: 20}), trigger: 'blur' },
-    { pattern: /^[^\s\u4e00-\u9fa5]*$/, message: () => t('rules.nonSpaceAndChinese'), trigger: 'change'},
+    { min: 6, max: 20, message: () => t('rules.length', { min: 6, max: 20 }), trigger: 'blur' },
+    { pattern: /^[^\s\u4e00-\u9fa5]*$/, message: () => t('rules.nonSpaceAndChinese'), trigger: 'change' },
   ],
   confirmPassword: [
     { required: true, message: () => t('rules.required'), trigger: 'blur' },
-    { required: true, validator: equalToPassword, trigger: 'blur' }
-  ]
+    { required: true, validator: equalToPassword, trigger: 'blur' },
+  ],
 })
 
 /**

@@ -1,4 +1,4 @@
-import type { Theme } from '@/stores/theme/typings'
+import type { ThemeConfig } from '@/stores/theme/typings'
 import { themeConfig } from '@/stores/theme/config'
 
 const Cache = {
@@ -17,11 +17,11 @@ class Storage {
     return Tool.getItem(Cache.userKey)
   }
 
-  getTheme = (): Theme => {
-    return Tool.getItem(Cache.themeKey) as Theme || themeConfig
+  getTheme = (): ThemeConfig => {
+    return (Tool.getItem(Cache.themeKey) as ThemeConfig) || themeConfig
   }
 
-  setTheme(theme: Theme) {
+  setTheme(theme: ThemeConfig) {
     Tool.setItem(Cache.themeKey, theme)
   }
 
@@ -46,7 +46,7 @@ const Tool = {
   },
   clear() {
     localStorage.clear()
-  }
+  },
 }
 
 export default new Storage()

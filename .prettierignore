@@ -1,0 +1,13 @@
+dist
+docker
+images
+public
+vite.config.ts
+src/types/auto-imports.d.ts
+src/types/components.d.ts
+.gitlab-ci.yml
+eslint.config.ts
+index.html
+README.md
+tsconfig.app.json
+vite.config.ts

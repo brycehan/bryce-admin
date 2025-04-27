@@ -4,13 +4,7 @@
     :title="!state.dataForm.id ? '新增用户' : '修改用户'"
     :close-on-click-modal="false"
   >
-    <el-form
-      ref="dataFormRef"
-      :model="state.dataForm"
-      :rules="dataRules"
-      label-width="100"
-      class="mr-4"
-    >
+    <el-form ref="dataFormRef" :model="state.dataForm" :rules="dataRules" label-width="100" class="mr-4">
       <el-row v-if="!state.dataForm.id">
         <el-col :span="12">
           <el-form-item label="账号" prop="username">
@@ -19,12 +13,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="密码" prop="password">
-            <el-input
-              v-model="state.dataForm.password"
-              placeholder="请输入密码"
-              show-password
-              clearable
-            />
+            <el-input v-model="state.dataForm.password" placeholder="请输入密码" show-password clearable />
           </el-form-item>
         </el-col>
       </el-row>
@@ -68,18 +57,8 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="岗位" prop="postIds">
-            <el-select
-              v-model="state.dataForm.postIds"
-              multiple
-              placeholder="请选择岗位"
-              clearable
-            >
-              <el-option
-                v-for="post in postList"
-                :key="post.id"
-                :label="post.name"
-                :value="post.id"
-              />
+            <el-select v-model="state.dataForm.postIds" multiple placeholder="请选择岗位" clearable>
+              <el-option v-for="post in postList" :key="post.id" :label="post.name" :value="post.id" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -87,19 +66,8 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="角色" prop="roleIds">
-            <el-select
-              v-model="state.dataForm.roleIds"
-              multiple
-              placeholder="请选择角色"
-              class="w-full"
-              clearable
-            >
-              <el-option
-                v-for="role in roleList"
-                :key="role.id"
-                :label="role.name"
-                :value="role.id"
-              />
+            <el-select v-model="state.dataForm.roleIds" multiple placeholder="请选择角色" class="w-full" clearable>
+              <el-option v-for="role in roleList" :key="role.id" :label="role.name" :value="role.id" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -123,13 +91,12 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import {
   getByIdApi,
   saveOrUpdateApi,
   checkUsernameUnique,
   getCheckPhoneUniqueApi,
-  getCheckEmailUniqueApi
+  getCheckEmailUniqueApi,
 } from '@/api/system/user'
 import deptApi from '@/api/system/dept'
 import roleApi from '@/api/system/role'
@@ -148,7 +115,7 @@ const state: StateOptions = reactive({
   api: {
     saveOrUpdateApi,
     getByIdApi,
-    emit
+    emit,
   },
   dataForm: {
     id: '',
@@ -163,8 +130,8 @@ const state: StateOptions = reactive({
     status: 1,
     remark: '',
     roleIds: [],
-    postIds: []
-  }
+    postIds: [],
+  },
 })
 
 const dataFormRef = ref()
@@ -226,28 +193,28 @@ const dataRules = reactive<FormRules>({
   username: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
     { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' },
-    { pattern: /^[^\s\u4e00-\u9fa5]*$/, message: '不允许有空格、中文', trigger: 'change'},
-    { validator: checkUsernameUnique, trigger: 'blur' }
+    { pattern: /^[^\s\u4e00-\u9fa5]*$/, message: '不允许有空格、中文', trigger: 'change' },
+    { validator: checkUsernameUnique, trigger: 'blur' },
   ],
   password: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
     { min: 6, max: 20, message: '长度为6~20个字符', trigger: 'blur' },
-    { pattern: /^[^\s\u4e00-\u9fa5]*$/, message: '不允许有空格、中文', trigger: 'change'},
+    { pattern: /^[^\s\u4e00-\u9fa5]*$/, message: '不允许有空格、中文', trigger: 'change' },
   ],
   nickname: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' }
+    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' },
   ],
   phone: [
     { required: true, message: '必填项不能为空', trigger: 'blur' },
     { min: 7, max: 20, message: '长度为7~20个字符', trigger: 'blur' },
-    { validator: checkPhoneUnique, trigger: 'blur' }
+    { validator: checkPhoneUnique, trigger: 'blur' },
   ],
   email: [
     { min: 0, max: 50, message: '长度不能超过50个字符', trigger: 'blur' },
-    { validator: checkEmail, trigger: 'blur' }
+    { validator: checkEmail, trigger: 'blur' },
   ],
-  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }]
+  remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }],
 })
 
 const { getData, handleSaveOrUpdate } = crud(state)
@@ -286,7 +253,7 @@ const init = (id?: string) => {
 
 /**
  * 获取部门列表
-  */
+ */
 const getDeptList = () => {
   deptApi.postListApi({}).then((response) => {
     deptList.value = response.data
@@ -297,7 +264,7 @@ const getDeptList = () => {
  * 获取角色列表
  */
 const getRoleList = () => {
-  roleApi.getSimpleList({ status: StatusEnum.ENABLE}).then((response: any) => {
+  roleApi.getSimpleList({ status: StatusEnum.ENABLE }).then((response: any) => {
     roleList.value = response.data
   })
 }
@@ -325,6 +292,6 @@ const handleSubmit = () => {
 }
 
 defineExpose({
-  init
+  init,
 })
 </script>

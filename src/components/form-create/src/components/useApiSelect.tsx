@@ -9,53 +9,53 @@ export const useApiSelect = (option: ApiSelectProps) => {
       // 选项标签
       labelField: {
         type: String,
-        default: () => option.labelField ?? 'label'
+        default: () => option.labelField ?? 'label',
       },
       // 选项的值
       valueField: {
         type: String,
-        default: () => option.valueField ?? 'value'
+        default: () => option.valueField ?? 'value',
       },
       // api 接口
       url: {
         type: String,
-        default: () => option.url ?? ''
+        default: () => option.url ?? '',
       },
       // 请求类型
       method: {
         type: String,
-        default: 'GET'
+        default: 'GET',
       },
       // 选项解析函数
       parseFunc: {
         type: String,
-        default: ''
+        default: '',
       },
       // 请求参数
       data: {
         type: String,
-        default: ''
+        default: '',
       },
       // 选择器类型，下拉框 select、多选框 checkbox、单选框 radio
       selectType: {
         type: String,
-        default: 'select'
+        default: 'select',
       },
       // 是否多选
       multiple: {
         type: Boolean,
-        default: false
+        default: false,
       },
       // 是否远程搜索
       remote: {
         type: Boolean,
-        default: false
+        default: false,
       },
       // 远程搜索时携带的参数
       remoteField: {
         type: String,
-        default: 'label'
-      }
+        default: 'label',
+      },
     },
     setup(props) {
       const attrs = useAttrs()
@@ -78,14 +78,14 @@ export const useApiSelect = (option: ApiSelectProps) => {
             if (props.remote) {
               url = `${url}?${props.remoteField}=${queryParam.value}`
             }
-            parseOptions(await request.get(url).then(res => res.data))
+            parseOptions(await request.get(url).then((res) => res.data))
             break
           case 'POST':
             const data = jsonParse(props.data)
             if (props.remote) {
               data[props.remoteField] = queryParam.value
             }
-            parseOptions(await request.post(props.url, data).then(res => res.data))
+            parseOptions(await request.post(props.url, data).then((res) => res.data))
             break
         }
       }
@@ -138,7 +138,7 @@ export const useApiSelect = (option: ApiSelectProps) => {
       function doParseOptions(data: any[]) {
         options.value = data.map((item: any) => ({
           label: parseExpression(item, props.labelField),
-          value: parseExpression(item, props.valueField)
+          value: parseExpression(item, props.valueField),
         }))
       }
 
@@ -172,7 +172,9 @@ export const useApiSelect = (option: ApiSelectProps) => {
           // expr 是匹配到的 ${} 内的表达式（这里是属性名），从 data 中获取对应的值
           const result = data[expr.trim()] // 去除前后空白，以防用户输入带空格的属性名
           if (!result) {
-            console.warn(`接口选择器选项模版[${template}][${expr.trim()}] 解析值失败结果为[${result}], 请检查属性名称是否存在于接口返回值中,存在则忽略此条！`)
+            console.warn(
+              `接口选择器选项模版[${template}][${expr.trim()}] 解析值失败结果为[${result}], 请检查属性名称是否存在于接口返回值中,存在则忽略此条！`,
+            )
           }
           return result
         })
@@ -243,7 +245,7 @@ export const useApiSelect = (option: ApiSelectProps) => {
         if (isEmpty(options.value)) {
           options.value = [
             { label: '选项1', value: '选项1' },
-            { label: '选项2', value: '选项2' }
+            { label: '选项2', value: '选项2' },
           ]
         }
         return (
@@ -262,7 +264,7 @@ export const useApiSelect = (option: ApiSelectProps) => {
         if (isEmpty(options.value)) {
           options.value = [
             { label: '选项1', value: '选项1' },
-            { label: '选项2', value: '选项2' }
+            { label: '选项2', value: '选项2' },
           ]
         }
         return (
@@ -287,6 +289,6 @@ export const useApiSelect = (option: ApiSelectProps) => {
                 : buildSelect()}
         </>
       )
-    }
+    },
   })
 }

@@ -7,24 +7,24 @@ import CallActivity from './task-components/CallActivity.vue'
 export const installedComponent = {
   UserTask: {
     name: '用户任务',
-    component: UserTask
+    component: UserTask,
   },
   ServiceTask: {
     name: '服务任务',
-    component: ServiceTask
+    component: ServiceTask,
   },
   ScriptTask: {
     name: '脚本任务',
-    component: ScriptTask
+    component: ScriptTask,
   },
   ReceiveTask: {
     name: '接收任务',
-    component: ReceiveTask
+    component: ReceiveTask,
   },
   CallActivity: {
     name: '调用活动',
-    component: CallActivity
-  }
+    component: CallActivity,
+  },
 } as any
 
 export const getTaskCollapseItemName = (elementType: any) => {

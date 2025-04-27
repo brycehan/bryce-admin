@@ -5,10 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 import { replaceLinkParam } from '@/utils/tool'
-import { useRoute } from 'vue-router'
 
 const loading = ref(false)
 const url = ref('')
@@ -25,7 +23,7 @@ watch(
       initUrl(value)
     }
   },
-  { deep: true }
+  { deep: true },
 )
 
 /**
@@ -51,8 +49,8 @@ const load = () => {
 
 <style scoped lang="scss">
 .iframe {
-  min-height: calc(100vh - 70px - 50px - var(--theme-header-height));
   width: 100%;
+  min-height: calc(100vh - 70px - 50px - var(--theme-header-height));
   border: 0;
 }
 </style>

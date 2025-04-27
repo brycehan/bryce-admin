@@ -58,7 +58,7 @@ export const isClient = !isServer
 export const isUrl = (path: string): boolean => {
   // fix:修复hash路由无法跳转的问题
   const reg =
-  /(((^https?:(?:\/\/)?)(?:[-:&=+$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%#/.\w-_]*)?\??(?:[-+=&%@.\w_]*)#?(?:[\w]*))?)$/
+    /(((^https?:(?:\/\/)?)(?:[-:&=+$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%#/.\w-_]*)?\??(?:[-+=&%@.\w_]*)#?(?:[\w]*))?)$/
   return reg.test(path)
 }
 
@@ -69,8 +69,4 @@ export const isDark = (): boolean => {
 // 是否是图片链接
 export const isImgPath = (path: string): boolean => {
   return /(https?:\/\/|data:image\/).*?\.(png|jpg|jpeg|gif|svg|webp|ico)/gi.test(path)
-}
-
-export const isEmptyVal = (val: any): boolean => {
-  return val === '' || val === null || val === undefined
 }

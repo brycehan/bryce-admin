@@ -7,11 +7,11 @@ import type { FormDto } from '@/types/modules/bpm'
  * @param data 参数
  */
 export const saveOrUpdateApi = (data: FormDto) => {
-    if (data.id) {
-        return request.put('/bpm/form', data)
-    } else {
-        return request.post('/bpm/form', data)
-    }
+  if (data.id) {
+    return request.put('/bpm/form', data)
+  } else {
+    return request.post('/bpm/form', data)
+  }
 }
 
 /**
@@ -20,7 +20,7 @@ export const saveOrUpdateApi = (data: FormDto) => {
  * @param ids ID数组
  */
 export const deleteByIdsApi = (ids: string[]) => {
-    return request.delete('/bpm/form', { data: { ids } })
+  return request.delete('/bpm/form', { data: { ids } })
 }
 
 /**
@@ -29,7 +29,7 @@ export const deleteByIdsApi = (ids: string[]) => {
  * @param id ID
  */
 export const getByIdApi = (id: string) => {
-    return request.get(`/bpm/form/${id}`)
+  return request.get(`/bpm/form/${id}`)
 }
 
 /**
@@ -38,7 +38,7 @@ export const getByIdApi = (id: string) => {
  * @param data 分页参数
  */
 export const postPageApi = (data: any) => {
-    return request.post('/bpm/form/page', data)
+  return request.post('/bpm/form/page', data)
 }
 
 /**
@@ -47,13 +47,13 @@ export const postPageApi = (data: any) => {
  * @param data 列表参数
  */
 export const postListApi = async (data: any) => {
-    return await request.post('/bpm/form/list', data)
+  return await request.post('/bpm/form/list', data)
 }
 
 export default {
-    saveOrUpdateApi,
-    deleteByIdsApi,
-    getByIdApi,
-    postPageApi,
-    postListApi
+  saveOrUpdateApi,
+  deleteByIdsApi,
+  getByIdApi,
+  postPageApi,
+  postListApi,
 }

@@ -2,10 +2,10 @@
   <el-container class="layout-container">
     <!-- 左侧菜单 -->
     <el-aside class="layout-sidebar" :class="sidebarClass">
-      <Logo v-if="appStore.theme.showLogo"/>
+      <Logo v-if="appStore.theme.showLogo" />
       <el-scrollbar>
         <el-menu
-          :default-active="activeMenu"
+          :default-active="activeMenu as any"
           :collapse="!appStore.sidebarOpened"
           :unique-opened="appStore.theme.uniqueOpened"
           :collapse-transition="false"
@@ -16,9 +16,10 @@
         </el-menu>
       </el-scrollbar>
     </el-aside>
-    <el-container>
+    <!-- 右侧区域 -->
+    <el-container class="w-full overflow-hidden">
       <!-- 顶部导航 -->
-      <el-header class="layout-header" >
+      <el-header class="layout-header justify-between">
         <Header />
       </el-header>
       <!-- 内容区域 -->
@@ -32,10 +33,7 @@
 import { useAppStore } from '@/stores/modules/app'
 import Logo from '@/components/layout/logo/index.vue'
 import MenuItem from '@/components/layout/menu-item/index.vue'
-import Header from '@/components/layout/header/index.vue'
 import Main from '@/components/layout/main/index.vue'
-import { useRouter } from 'vue-router'
-import { computed, unref } from 'vue'
 import { useRouterStore } from '@/stores/modules/router'
 
 const appStore = useAppStore()
@@ -59,7 +57,6 @@ const activeMenu = computed(() => {
   }
   return path
 })
-
 </script>
 
 <style lang="scss" scoped>
@@ -70,13 +67,14 @@ const activeMenu = computed(() => {
 
   // 侧边栏
   .layout-sidebar {
-    background: var(--theme-menu-bg-color);
-    border-right: 1px solid var(--theme-border-color-light);
-    height: inherit;
     position: relative;
     display: flex;
     flex-direction: column;
+    height: inherit;
     overflow-x: hidden !important;
+    background: var(--theme-menu-bg-color);
+    border-right: 1px solid var(--theme-border-color-light);
+
     .el-scrollbar__view {
       overflow: hidden;
     }
@@ -96,11 +94,13 @@ const activeMenu = computed(() => {
     // 菜单样式
     ::v-deep(.el-menu) {
       border-right: none !important;
+
       // 子菜单样式
       .el-sub-menu {
         .el-sub-menu__title:hover {
           color: var(--el-menu-hover-text-color);
         }
+
         &.is-active > .el-sub-menu__title {
           color: var(--el-menu-active-color);
         }
@@ -110,9 +110,11 @@ const activeMenu = computed(() => {
       .el-menu-item {
         height: 44px;
         line-height: 44px;
+
         &:hover {
           color: var(--el-menu-hover-text-color) !important;
         }
+
         &.is-active {
           background-color: var(--theme-menu-active-bg-color);
           border-right: 2px solid var(--theme-menu-border-color);
@@ -124,19 +126,19 @@ const activeMenu = computed(() => {
   // 顶部区域
   .layout-header {
     --el-header-padding: 0;
+
     display: flex;
-    flex-direction: column;
     height: var(--theme-header-height);
   }
 
   // 内容区域
   .layout-main {
     width: 100%;
+    padding: 0 !important;
     overflow: hidden;
     background-color: var(--theme-main-bg-color);
-    padding: 0 !important;
-    transition: all 0.3s;
     border-top: 1px solid var(--theme-border-color-light);
+    transition: all 0.3s;
   }
 }
 </style>

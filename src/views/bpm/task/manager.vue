@@ -1,6 +1,13 @@
 <template>
   <el-card shadow="never">
-    <el-form ref="queryFormRef" :model="state.queryForm" :inline="true" v-show="showSearch" @keyup.enter="getPage()" @submit.prevent>
+    <el-form
+      ref="queryFormRef"
+      :model="state.queryForm"
+      :inline="true"
+      v-show="showSearch"
+      @keyup.enter="getPage()"
+      @submit.prevent
+    >
       <el-form-item label="任务名称" prop="name">
         <el-input v-model="state.queryForm.name" placeholder="请输入任务名称" clearable />
       </el-form-item>
@@ -20,7 +27,7 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-			<right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -30,31 +37,25 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50" />
-      <el-table-column label="流程名称" prop="processInstance.name" header-align="center" align="center" show-overflow-tooltip min-width="120" />
+      <el-table-column
+        label="流程名称"
+        prop="processInstance.name"
+        header-align="center"
+        align="center"
+        show-overflow-tooltip
+        min-width="120"
+      />
       <el-table-column label="发起人" align="center" prop="processInstance.startUser.nickname" width="120" />
-      <el-table-column
-        label="发起时间"
-        align="center"
-        prop="createTime"
-        width="180"
-      />
+      <el-table-column label="发起时间" align="center" prop="createTime" width="180" />
       <el-table-column align="center" label="当前任务" prop="name" width="180" />
-      <el-table-column
-        label="任务开始时间"
-        prop="createTime"
-        align="center"
-        width="180"
-      />
-      <el-table-column
-        align="center"
-        label="任务结束时间"
-        prop="endTime"
-        width="180"
-      />
+      <el-table-column label="任务开始时间" prop="createTime" align="center" width="180" />
+      <el-table-column align="center" label="任务结束时间" prop="endTime" width="180" />
       <el-table-column align="center" label="审批人" prop="assigneeUser.nickname" width="100" />
       <el-table-column align="center" label="审批状态" prop="status" min-width="120">
         <template #default="scope">
-          <el-tag :type="BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.type as any">{{ BpmTaskStatusOptions.find(item => item.value === scope.row.status)?.label }}</el-tag>
+          <el-tag :type="BpmTaskStatusOptions.find((item) => item.value === scope.row.status)?.type as any">{{
+            BpmTaskStatusOptions.find((item) => item.value === scope.row.status)?.label
+          }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" label="审批建议" prop="reason" min-width="180" />
@@ -64,7 +65,7 @@
         </template>
       </el-table-column>
       <el-table-column label="流程编号" align="center" prop="processInstanceId" min-width="120" show-overflow-tooltip />
-      <el-table-column label="任务编号" align="center" prop="id" min-width="120" show-overflow-tooltip/>
+      <el-table-column label="任务编号" align="center" prop="id" min-width="120" show-overflow-tooltip />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="220">
         <template #default="scope">
           <el-button type="primary" icon="View" link @click="handleDetail(scope.row)">详情</el-button>
@@ -86,18 +87,22 @@
       <form-create :rule="formDetailPreview.rule" :option="formDetailPreview.rule" />
     </el-dialog>
     <!-- 弹窗，历史流程 -->
-    <el-drawer v-if="historyDefinitionVisible" v-model="historyDefinitionVisible" :title="historyDefinitionTitle" :size="1000">
+    <el-drawer
+      v-if="historyDefinitionVisible"
+      v-model="historyDefinitionVisible"
+      :title="historyDefinitionTitle"
+      :size="1000"
+    >
       <HistoryDefinition :row="historyDefinitionRow" />
     </el-drawer>
   </el-card>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import * as CategoryApi from '@/api/bpm/category.ts'
 import taskApi, { BpmTaskStatusOptions } from '@/api/bpm/task.ts'
-import type { StateOptions } from "@/utils/state";
-import { crud } from "@/utils/state";
+import type { StateOptions } from '@/utils/state'
+import { crud } from '@/utils/state'
 import FormCreate from '@form-create/element-ui'
 import HistoryDefinition from '@/views/bpm/model/history-definition.vue'
 import * as UserApi from '@/api/system/user'
@@ -136,12 +141,7 @@ const historyDefinitionVisible = ref(false)
 const historyDefinitionTitle = ref('')
 const historyDefinitionRow = ref()
 
-const {
-  getPage,
-  handleSizeChange,
-  handleCurrentChange,
-  handleSelectionChange,
-} = crud(state)
+const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange } = crud(state)
 
 /**
  * 重置按钮操作
@@ -151,7 +151,7 @@ const handleResetQuery = () => {
     state.range[key] = []
   }
 
-  if(queryFormRef.value) {
+  if (queryFormRef.value) {
     queryFormRef.value.resetFields()
   }
 
@@ -181,7 +181,7 @@ const handleDetail = (row: any) => {
  * 流程分类列表
  */
 const handleCategoryList = () => {
-  CategoryApi.postListApi({status: StatusEnum.ENABLE}).then((res: any) => {
+  CategoryApi.postListApi({ status: StatusEnum.ENABLE }).then((res: any) => {
     categoryList.value = res.data
   })
 }

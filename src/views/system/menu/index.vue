@@ -12,12 +12,7 @@
         <el-input v-model="state.queryForm.name" placeholder="请输入菜单名称" clearable />
       </el-form-item>
       <el-form-item label="状态" prop="status">
-        <dict-select
-          v-model="state.queryForm.status"
-          dict-type="sys_status"
-          placeholder="菜单状态"
-          clearable
-        />
+        <dict-select v-model="state.queryForm.status" dict-type="sys_status" placeholder="菜单状态" clearable />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="getList()">搜索</el-button>
@@ -29,12 +24,8 @@
         >新增</el-button
       >
       <el-button plain @click="toggleExpandAll()">
-        <template v-if="!isExpandAll">
-          全部展开 <icon class="ml-1" icon="ep:arrow-down"/>
-        </template>
-        <template v-else>
-          全部收起 <icon class="ml-1" icon="ep:arrow-up"/>
-        </template>
+        <template v-if="!isExpandAll"> 全部展开 <icon class="ml-1" icon="ep:arrow-down" /> </template>
+        <template v-else> 全部收起 <icon class="ml-1" icon="ep:arrow-up" /> </template>
       </el-button>
       <right-toolbar v-model:showSearch="showSearch" @refresh-page="getList" />
     </el-row>
@@ -112,7 +103,7 @@
             icon="edit"
             text
             @click="handleAdd(scope.row)"
-          >新增</el-button
+            >新增</el-button
           >
           <el-button
             v-auth:has-authority="'system:menu:delete'"
@@ -127,7 +118,7 @@
     </el-table>
 
     <!-- 弹窗，新增 / 修改 -->
-    <AddOrEdit ref="addOrEditRef" @refresh-page="getList" />
+    <add-or-edit ref="addOrEditRef" @refresh-page="getList" />
   </el-card>
 </template>
 
@@ -141,13 +132,13 @@ import { crud } from '@/utils/state'
 const state: StateOptions = reactive({
   api: {
     postListApi,
-    deleteByIdsApi
+    deleteByIdsApi,
   },
   queryForm: {
     name: '',
     type: '',
-    status: ''
-  }
+    status: '',
+  },
 })
 
 const queryFormRef = ref()

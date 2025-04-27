@@ -21,7 +21,7 @@
     </el-form>
     <el-row class="mb-2">
       <el-button v-auth:has-authority="'system:attachment:save'" type="info" plain icon="Upload" @click="handleUpload()"
-      >上传</el-button
+        >上传</el-button
       >
       <el-button
         v-auth:has-authority="'system:attachment:delete'"
@@ -50,21 +50,21 @@
         min-width="180"
         fixed="left"
       />
-<!--      <el-table-column-->
-<!--        label="附件地址"-->
-<!--        show-overflow-tooltip-->
-<!--        header-align="center"-->
-<!--        align="center"-->
-<!--        min-width="250"-->
-<!--      ><template #default="scope">-->
-<!--        <el-button v-if="scope.row.accessType === 0" @click="handleCopy(scope)" text>-->
-<!--          <el-text :style="{'width': (scope.column.realWidth - 20) + 'px'}" truncated>-->
-<!--            {{ scope.row.url }}-->
-<!--          </el-text></el-button>-->
-<!--      </template>-->
-<!--      </el-table-column>-->
-      <el-table-column label="附件名后缀" prop="suffix" header-align="center" align="center" min-width="115"/>
-      <dict-table-column label="访问类型" prop="accessType" dict-type="sys_access_type" min-width="100"/>
+      <!--      <el-table-column-->
+      <!--        label="附件地址"-->
+      <!--        show-overflow-tooltip-->
+      <!--        header-align="center"-->
+      <!--        align="center"-->
+      <!--        min-width="250"-->
+      <!--      ><template #default="scope">-->
+      <!--        <el-button v-if="scope.row.accessType === 0" @click="handleCopy(scope)" text>-->
+      <!--          <el-text :style="{'width': (scope.column.realWidth - 20) + 'px'}" truncated>-->
+      <!--            {{ scope.row.url }}-->
+      <!--          </el-text></el-button>-->
+      <!--      </template>-->
+      <!--      </el-table-column>-->
+      <el-table-column label="附件名后缀" prop="suffix" header-align="center" align="center" min-width="115" />
+      <dict-table-column label="访问类型" prop="accessType" dict-type="sys_access_type" min-width="100" />
       <el-table-column label="附件大小" prop="size" header-align="center" align="center" min-width="110">
         <template #default="scope">
           {{ convertSizeFormat(scope.row.size) }}
@@ -78,7 +78,7 @@
         align="center"
         min-width="250"
       />
-      <el-table-column label="存储平台" prop="platform" header-align="center" align="center" min-width="100"/>
+      <el-table-column label="存储平台" prop="platform" header-align="center" align="center" min-width="100" />
       <el-table-column
         label="创建时间"
         prop="createdTime"
@@ -89,17 +89,11 @@
       />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="180">
         <template #default="scope">
-<!--          &lt;!&ndash; 公共访问权限，浏览器有下载进度条 &ndash;&gt;-->
-<!--          <a :href="scope.row.url" download v-if="scope.row.accessType === 0" class="download-a">-->
-<!--            <el-button type="primary"  icon="download" text>下载</el-button>-->
-<!--          </a>-->
-          <el-button
-            type="primary"
-            icon="download"
-            text
-            @click="handleDownload(scope.row)"
-            >下载</el-button
-          >
+          <!--          &lt;!&ndash; 公共访问权限，浏览器有下载进度条 &ndash;&gt;-->
+          <!--          <a :href="scope.row.url" download v-if="scope.row.accessType === 0" class="download-a">-->
+          <!--            <el-button type="primary"  icon="download" text>下载</el-button>-->
+          <!--          </a>-->
+          <el-button type="primary" icon="download" text @click="handleDownload(scope.row)">下载</el-button>
           <el-button
             v-auth:has-authority="'system:attachment:delete'"
             type="danger"
@@ -126,7 +120,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
 import { deleteByIdsApi, downloadByIdApi, postPageApi } from '@/api/system/attachment'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
@@ -139,12 +132,12 @@ import { ElMessage } from 'element-plus'
 const state: StateOptions = reactive({
   api: {
     postPageApi,
-    deleteByIdsApi
+    deleteByIdsApi,
   },
   queryForm: {
     name: '',
-    platform: ''
-  }
+    platform: '',
+  },
 })
 
 const queryFormRef = ref()
@@ -157,8 +150,7 @@ onMounted(() => {
   getPage()
 })
 
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } =
-  crud(state)
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } = crud(state)
 
 /**
  * 重置按钮操作
@@ -205,7 +197,7 @@ const handleDownload = (row: any) => {
 
 <style lang="scss" scoped>
 .download-a + .el-button {
-  border-left: 1px solid #e4e7ec;
   padding-left: 10px !important;
+  border-left: 1px solid #e4e7ec;
 }
 </style>

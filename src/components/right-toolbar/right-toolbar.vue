@@ -38,23 +38,23 @@ const props = defineProps({
   // 是否显示搜索条件
   showSearch: {
     type: Boolean,
-    default: () => true
+    default: () => true,
   },
   // 是否显示搜索图标
   search: {
     type: Boolean,
-    default: () => true
+    default: () => true,
   },
   // 显隐列信息
   columns: {
     type: Array as PropType<any[]>,
-    default: () => []
+    default: () => [],
   },
   // 显隐列类型（checkbox：复选框，transfer：穿梭框）
   showColumnType: {
     type: String,
-    default: () => 'checkbox'
-  }
+    default: () => 'checkbox',
+  },
 })
 
 const emit = defineEmits(['update:showSearch', 'refreshPage'])
@@ -124,8 +124,8 @@ const handleCheckboxChange = (event: any, label: string) => {
 <style lang="scss" scoped>
 .right-toolbar {
   display: flex;
-  justify-content: flex-end;
   flex-grow: 1;
+  justify-content: flex-end;
 
   .el-button {
     margin-left: 10px;
@@ -136,6 +136,6 @@ const handleCheckboxChange = (event: any, label: string) => {
  * 显隐列样式，调小上下间间距
  */
 ::v-deep(.el-dropdown-menu__item) {
-    padding: 0 16px;
+  padding: 0 16px;
 }
 </style>

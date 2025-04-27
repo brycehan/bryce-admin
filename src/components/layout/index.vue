@@ -11,10 +11,10 @@ import Column from '@/components/layout/theme/Column.vue'
 import Horizontal from '@/components/layout/theme/Horizontal.vue'
 
 const appStore = useAppStore()
-const LayoutComponents: { [key: string]: any} = {
+const LayoutComponents: { [key: string]: any } = {
   vertical: Vertical,
   column: Column,
-  horizontal: Horizontal
+  horizontal: Horizontal,
 }
 
 const layout = computed(() => appStore.theme.layout)

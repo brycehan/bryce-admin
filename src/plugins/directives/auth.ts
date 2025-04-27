@@ -39,5 +39,5 @@ export default {
       el.parentNode?.removeChild(el)
       throw new Error('请设置操作权限指令值')
     }
-  }
+  },
 }

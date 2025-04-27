@@ -19,7 +19,6 @@
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/modules/auth'
-import { onMounted, reactive, ref } from 'vue'
 import { router } from '@/router'
 import { getEnabledApi } from '@/api/auth/captcha'
 import { getSendLoginCodeApi } from '@/api/auth/sms'
@@ -34,7 +33,7 @@ const loading = ref(false)
 const loginForm = reactive({
   phone: '15853155402',
   code: '',
-  rememberMe: true
+  rememberMe: true,
 })
 
 /**
@@ -43,7 +42,7 @@ const loginForm = reactive({
 const sms = reactive({
   disabled: false,
   total: 60,
-  count: 0
+  count: 0,
 })
 
 /**
@@ -117,7 +116,7 @@ const loginByPhone = async () => {
 
 const loginRules = {
   phone: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  code: [{ required: true, message: '必填项不能为空', trigger: 'blur' }]
+  code: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
 }
 </script>
 
@@ -136,9 +135,9 @@ const loginRules = {
 
 .login-btn {
   :deep(.el-button--primary) {
-    margin-top: 10px;
     width: 100%;
     height: 40px;
+    margin-top: 10px;
     font-size: 18px;
     letter-spacing: 8px;
   }

@@ -65,14 +65,13 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import { getByIdApi } from '@/api/quartz/jobLog'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 
 const state: StateOptions = reactive({
   api: {
-    getByIdApi
+    getByIdApi,
   },
   dataForm: {
     id: '',
@@ -84,8 +83,8 @@ const state: StateOptions = reactive({
     params: '',
     errorInfo: '',
     duration: '',
-    createdTime: ''
-  }
+    createdTime: '',
+  },
 })
 
 const dataFormRef = ref()
@@ -103,6 +102,6 @@ const init = (id: string) => {
 }
 
 defineExpose({
-  init
+  init,
 })
 </script>

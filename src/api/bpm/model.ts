@@ -7,11 +7,11 @@ import type { ModelDto } from '@/types/modules/bpm'
  * @param data 参数
  */
 export const saveOrUpdateApi = (data: ModelDto) => {
-    if (data.id) {
-        return request.put('/bpm/model', data)
-    } else {
-        return request.post('/bpm/model', data)
-    }
+  if (data.id) {
+    return request.put('/bpm/model', data)
+  } else {
+    return request.post('/bpm/model', data)
+  }
 }
 
 /**
@@ -20,7 +20,7 @@ export const saveOrUpdateApi = (data: ModelDto) => {
  * @param ids ID数组
  */
 export const deleteByIdsApi = (ids: string[]) => {
-    return request.delete('/bpm/model', { data: ids })
+  return request.delete('/bpm/model', { data: ids })
 }
 
 /**
@@ -29,7 +29,7 @@ export const deleteByIdsApi = (ids: string[]) => {
  * @param id ID
  */
 export const getByIdApi = (id: string) => {
-    return request.get(`/bpm/model/${id}`)
+  return request.get(`/bpm/model/${id}`)
 }
 
 /**
@@ -38,7 +38,7 @@ export const getByIdApi = (id: string) => {
  * @param data 分页参数
  */
 export const postPageApi = (data: any) => {
-    return request.post('/bpm/model/page', data)
+  return request.post('/bpm/model/page', data)
 }
 
 /**
@@ -47,7 +47,7 @@ export const postPageApi = (data: any) => {
  * @param id 流程id
  */
 export const deployModelApi = (id: string) => {
-    return request.post(`/bpm/model/deploy?id=${id}`)
+  return request.post(`/bpm/model/deploy?id=${id}`)
 }
 
 /**
@@ -57,7 +57,7 @@ export const deployModelApi = (id: string) => {
  * @param state 状态（1：启用，0：停用）
  */
 export const patchState = (id: string, state: number) => {
-    return request.patch(`/bpm/model/${id}/${state}`)
+  return request.patch(`/bpm/model/${id}/${state}`)
 }
 
 /**
@@ -87,5 +87,5 @@ export default {
   deployModelApi,
   patchState,
   deleteByIdsApi,
-  getCheckKeyUniqueApi
+  getCheckKeyUniqueApi,
 }

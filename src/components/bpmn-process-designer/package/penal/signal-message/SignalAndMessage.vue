@@ -2,19 +2,16 @@
   <div class="panel-tab__content">
     <div class="panel-tab__content--title">
       <span><icon icon="ep:menu" style="margin-right: 8px; color: #555" />消息列表</span>
-      <el-button type="primary" icon="plus" @click="openModel('message')" >创建新消息</el-button>
+      <el-button type="primary" icon="plus" @click="openModel('message')">创建新消息</el-button>
     </div>
     <el-table :data="messageList" border>
       <el-table-column type="index" label="序号" width="60px" />
       <el-table-column label="消息ID" prop="id" max-width="300px" show-overflow-tooltip />
       <el-table-column label="消息名称" prop="name" max-width="300px" show-overflow-tooltip />
     </el-table>
-    <div
-      class="panel-tab__content--title"
-      style="padding-top: 8px; margin-top: 8px; border-top: 1px solid #eee"
-    >
+    <div class="panel-tab__content--title" style="padding-top: 8px; margin-top: 8px; border-top: 1px solid #eee">
       <span><icon icon="ep:menu" style="margin-right: 8px; color: #555" />信号列表</span>
-      <el-button type="primary" icon="plus" @click="openModel('signal')" >创建新信号</el-button>
+      <el-button type="primary" icon="plus" @click="openModel('signal')">创建新信号</el-button>
     </div>
     <el-table :data="signalList" border>
       <el-table-column type="index" label="序号" width="60px" />

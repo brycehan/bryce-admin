@@ -8,11 +8,11 @@
           <el-tooltip effect="light" placement="bottom">
             <template #content>
               <div>
-                 <el-button link type="primary" @click="downloadProcessAsXml()">下载为XML文件</el-button>
+                <el-button link type="primary" @click="downloadProcessAsXml()">下载为XML文件</el-button>
                 <br />
-                 <el-button link type="primary" @click="downloadProcessAsSvg()">下载为SVG文件</el-button>
+                <el-button link type="primary" @click="downloadProcessAsSvg()">下载为SVG文件</el-button>
                 <br />
-                 <el-button link type="primary" @click="downloadProcessAsBpmn()">下载为BPMN文件</el-button>
+                <el-button link type="primary" @click="downloadProcessAsBpmn()">下载为BPMN文件</el-button>
               </div>
             </template>
             <el-button icon="download">下载文件</el-button>
@@ -20,16 +20,12 @@
           <el-tooltip effect="light">
             <el-button icon="view">浏览</el-button>
             <template #content>
-               <el-button type="primary" link @click="previewProcessXML">预览XML</el-button>
+              <el-button type="primary" link @click="previewProcessXML">预览XML</el-button>
               <br />
-               <el-button type="primary" link @click="previewProcessJson">预览JSON</el-button>
+              <el-button type="primary" link @click="previewProcessJson">预览JSON</el-button>
             </template>
           </el-tooltip>
-          <el-tooltip
-            v-if="props.simulation"
-            effect="light"
-            :content="simulationStatus ? '退出模拟' : '开启模拟'"
-          >
+          <el-tooltip v-if="props.simulation" effect="light" :content="simulationStatus ? '退出模拟' : '开启模拟'">
             <el-button icon="cpu" @click="processSimulation">模拟</el-button>
           </el-tooltip>
         </ElButtonGroup>
@@ -42,10 +38,9 @@
             /> -->
             <el-button class="align align-bottom" @click="elementsAlign('left')">
               <template #icon>
-                <icon icon="brc:icon-align-left"/>
+                <icon icon="brc:icon-align-left" />
               </template>
             </el-button>
-
           </el-tooltip>
           <el-tooltip effect="light" content="向右对齐">
             <!-- <el-button
@@ -67,7 +62,7 @@
             /> -->
             <el-button class="align align-left" @click="elementsAlign('top')">
               <template #icon>
-                <icon icon="brc:icon-align-left"/>
+                <icon icon="brc:icon-align-left" />
               </template>
             </el-button>
           </el-tooltip>
@@ -79,7 +74,7 @@
             /> -->
             <el-button class="align align-right" @click="elementsAlign('bottom')">
               <template #icon>
-                <icon icon="brc:icon-align-left"/>
+                <icon icon="brc:icon-align-left" />
               </template>
             </el-button>
           </el-tooltip>
@@ -92,7 +87,7 @@
             <!-- class="align align-center" -->
             <el-button class="align align-center" @click="elementsAlign('center')">
               <template #icon>
-                <icon icon="brc:icon-align-center"/>
+                <icon icon="brc:icon-align-center" />
               </template>
             </el-button>
           </el-tooltip>
@@ -104,7 +99,7 @@
             /> -->
             <el-button class="align align-middle" @click="elementsAlign('middle')">
               <template #icon>
-                <icon icon="brc:icon-align-center"/>
+                <icon icon="brc:icon-align-center" />
               </template>
             </el-button>
           </el-tooltip>
@@ -118,7 +113,7 @@
             /> -->
             <el-button :disabled="defaultZoom < 0.2" @click="processZoomOut()">
               <template #icon>
-                <icon icon="brc:icon-zoomout"/>
+                <icon icon="brc:icon-zoomout" />
               </template>
             </el-button>
           </el-tooltip>
@@ -131,24 +126,20 @@
             /> -->
             <el-button :disabled="defaultZoom > 4" @click="processZoomIn()">
               <template #icon>
-                <icon icon="brc:icon-zoomin"/>
+                <icon icon="brc:icon-zoomin" />
               </template>
             </el-button>
           </el-tooltip>
           <el-tooltip effect="light" content="重置视图并居中">
-             <el-button icon="scale-to-original" @click="processReZoom()" />
+            <el-button icon="scale-to-original" @click="processReZoom()" />
           </el-tooltip>
         </ElButtonGroup>
         <ElButtonGroup key="stack-control">
           <el-tooltip effect="light" content="撤销">
-             <el-button :disabled="!revocable" icon="refresh-left" @click="processUndo()" />
+            <el-button :disabled="!revocable" icon="refresh-left" @click="processUndo()" />
           </el-tooltip>
           <el-tooltip effect="light" content="恢复">
-            <el-button
-              :disabled="!recoverable"
-              icon="refresh-right"
-              @click="processRedo()"
-            />
+            <el-button :disabled="!recoverable" icon="refresh-right" @click="processRedo()" />
           </el-tooltip>
           <el-tooltip effect="light" content="重新绘制">
             <el-button icon="refresh" @click="processRestart()" />
@@ -175,14 +166,10 @@
       <!-- <div id="js-properties-panel" class="panel"></div> -->
       <!-- <div class="my-process-designer__canvas" ref="bpmn-canvas"></div> -->
     </div>
-    <el-dialog
-      title="预览"
-      v-model="previewModelVisible"
-      width="80%"
-    >
-    <el-scrollbar height="70vh">
-      <pre class="!h-[unset] !max-h-[unset]"><code class="hljs" v-html="previewResult"></code></pre>
-    </el-scrollbar>
+    <el-dialog title="预览" v-model="previewModelVisible" width="80%">
+      <el-scrollbar height="70vh">
+        <pre class="!h-[unset] !max-h-[unset]"><code class="hljs" v-html="previewResult"></code></pre>
+      </el-scrollbar>
     </el-dialog>
   </div>
 </template>
@@ -244,13 +231,13 @@ const emit = defineEmits([
   'change',
   'canvas-viewbox-changed',
   // eventName.name
-  'element-click'
+  'element-click',
 ])
 
 const props = defineProps({
   modelValue: {
     type: String,
-    default: () => ''
+    default: () => '',
   },
   // valueWatch: true, // xml 字符串的 watch 状态
   processId: String, // 流程 key 标识
@@ -259,45 +246,44 @@ const props = defineProps({
   translations: {
     // 自定义的翻译文件
     type: Object,
-    default: () => {}
+    default: () => {},
   },
   additionalModel: [Object, Array], // 自定义model
   moddleExtension: {
     // 自定义moddle
     type: Object,
-    default: () => {}
+    default: () => {},
   },
   onlyCustomizeAddi: {
     type: Boolean,
-    default: () => false
+    default: () => false,
   },
   onlyCustomizeModdle: {
     type: Boolean,
-    default: () => false
+    default: () => false,
   },
   simulation: {
     type: Boolean,
-    default: () => true
+    default: () => true,
   },
   prefix: {
     type: String,
-    default: () => 'camunda'
+    default: () => 'camunda',
   },
   events: {
     type: Array,
-    default: () => ['element.click']
+    default: () => ['element.click'],
   },
   headerButtonSize: {
     type: String,
     default: () => 'small',
-    validator: (value: string) => ['default', 'medium', 'small', 'mini'].indexOf(value) !== -1
+    validator: (value: string) => ['default', 'medium', 'small', 'mini'].indexOf(value) !== -1,
   },
   headerButtonType: {
     type: String,
     default: () => 'primary',
-    validator: (value: string) =>
-      ['default', 'primary', 'success', 'warning', 'danger', 'info'].indexOf(value) !== -1
-  }
+    validator: (value: string) => ['default', 'primary', 'success', 'warning', 'danger', 'info'].indexOf(value) !== -1,
+  },
 })
 
 provide('configGlobal', props)
@@ -330,7 +316,7 @@ const additionalModules = computed(() => {
 
   // 翻译模块
   const TranslateModule = {
-    translate: ['value', customTranslate(props.translations || translationsCN)]
+    translate: ['value', customTranslate(props.translations || translationsCN)],
   }
   Modules.push(TranslateModule)
 
@@ -407,7 +393,7 @@ const initBpmnModeler = () => {
     // },
     // additionalModules: additionalModules.value,
     additionalModules: additionalModules.value as any[],
-    moddleExtensions: moddleExtensions.value
+    moddleExtensions: moddleExtensions.value,
 
     // additionalModules: [
     // additionalModules.value
@@ -455,7 +441,7 @@ const initModelListeners = () => {
     }
   })
   // 监听视图缩放变化
-  bpmnModeler.on('canvas.viewbox.changed', ({ viewbox } : { viewbox: any }) => {
+  bpmnModeler.on('canvas.viewbox.changed', ({ viewbox }: { viewbox: any }) => {
     emit('canvas-viewbox-changed', { viewbox })
     const { scale } = viewbox
     defaultZoom.value = Math.floor(scale * 100) / 100
@@ -523,10 +509,8 @@ const setEncoded = (type: any, data: any) => {
   const encodedData = encodeURIComponent(data)
   return {
     filename: `${filename}.${type}`,
-    href: `data:application/${
-      type === 'svg' ? 'text/xml' : 'bpmn20-xml'
-    };charset=UTF-8,${encodedData}`,
-    data: data
+    href: `data:application/${type === 'svg' ? 'text/xml' : 'bpmn20-xml'};charset=UTF-8,${encodedData}`,
+    data: data,
   }
 }
 
@@ -599,7 +583,7 @@ const elementsAlign = (align: any) => {
   ElMessageBox.confirm('自动对齐可能造成图形变形，是否继续？', '警告', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
-    type: 'warning'
+    type: 'warning',
   }).then(() => {
     Align.trigger(SelectedElements, align)
   })
@@ -607,14 +591,14 @@ const elementsAlign = (align: any) => {
 /* 方法结束 */
 const previewProcessXML = () => {
   console.log(bpmnModeler.saveXML, 'bpmnModeler')
-  bpmnModeler.saveXML({ format: true }).then(({ xml }: {xml: any}) => {
+  bpmnModeler.saveXML({ format: true }).then(({ xml }: { xml: any }) => {
     previewResult.value = hljs.highlight(xml, { language: 'xml', ignoreIllegals: true }).value
     previewType.value = 'xml'
     previewModelVisible.value = true
   })
 }
 const previewProcessJson = () => {
-  bpmnModeler.saveXML({ format: true }).then(({ xml }: {xml: any}) => {
+  bpmnModeler.saveXML({ format: true }).then(({ xml }: { xml: any }) => {
     const rootNodes = new XmlNode(XmlNodeType.Root, parseXmlString(xml))
     // 设置tab为两个空格
     const jsonStr = JSON.stringify(rootNodes.parent?.toJSON(), null, 2)

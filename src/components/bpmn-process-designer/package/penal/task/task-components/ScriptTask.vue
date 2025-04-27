@@ -49,13 +49,13 @@ import { nextTick, onBeforeUnmount, ref, toRaw, watch } from 'vue'
 defineOptions({ name: 'ScriptTask' })
 const props = defineProps({
   id: String,
-  type: String
+  type: String,
 })
 const defaultTaskForm = ref<any>({
   scriptFormat: '',
   script: '',
   resource: '',
-  resultVariable: ''
+  resultVariable: '',
 })
 const scriptTaskForm = ref<any>({})
 const bpmnElement = ref()
@@ -63,14 +63,14 @@ const bpmnElement = ref()
 const bpmnInstances = () => (window as any)?.bpmnInstances
 
 const resetTaskForm = () => {
-  for (let key in defaultTaskForm.value) {
-    let value = bpmnElement.value?.businessObject[key] || defaultTaskForm.value[key]
+  for (const key in defaultTaskForm.value) {
+    const value = bpmnElement.value?.businessObject[key] || defaultTaskForm.value[key]
     scriptTaskForm.value[key] = value
   }
   scriptTaskForm.value.scriptType = scriptTaskForm.value.script ? 'inline' : 'external'
 }
 const updateElementTask = () => {
-  let taskAttr = Object.create(null)
+  const taskAttr = Object.create(null)
   taskAttr.scriptFormat = scriptTaskForm.value.scriptFormat || null
   taskAttr.resultVariable = scriptTaskForm.value.resultVariable || null
   if (scriptTaskForm.value.scriptType === 'inline') {
@@ -95,6 +95,6 @@ watch(
       resetTaskForm()
     })
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>

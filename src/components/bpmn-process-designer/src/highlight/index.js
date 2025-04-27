@@ -1,5 +1,13 @@
-const hljs = require('highlight.js/lib/core')
-hljs.registerLanguage('xml', require('highlight.js/lib/languages/xml'))
-hljs.registerLanguage('json', require('highlight.js/lib/languages/json'))
+// 导入 highlight.js 核心库
+import hljs from 'highlight.js/lib/core'
 
-module.exports = hljs
+// 导入需要的语言模块
+import xmlLanguage from 'highlight.js/lib/languages/xml'
+import jsonLanguage from 'highlight.js/lib/languages/json'
+
+// 注册语言
+hljs.registerLanguage('xml', xmlLanguage)
+hljs.registerLanguage('json', jsonLanguage)
+
+// 导出配置好的 hljs 实例
+export default hljs

@@ -45,10 +45,10 @@ const DeptSelect = useApiSelect({
   name: 'DeptSelect',
   labelField: 'name',
   valueField: 'id',
-  url: '/system/dept/simple-list'
+  url: '/system/dept/simple-list',
 })
 const ApiSelect = useApiSelect({
-  name: 'ApiSelect'
+  name: 'ApiSelect',
 })
 
 const components: any[] = [

@@ -14,7 +14,7 @@ export const useEditorRule = () => {
         field: uuidv4(),
         title: label,
         info: '',
-        $required: false
+        $required: false,
       }
     },
     props(_: any, { t }: { t: (key: string) => string }) {
@@ -23,10 +23,10 @@ export const useEditorRule = () => {
         {
           type: 'input',
           field: 'height',
-          title: '高度'
+          title: '高度',
         },
         { type: 'switch', field: 'disabled', title: '是否只读' },
       ])
-    }
+    },
   }
 }
