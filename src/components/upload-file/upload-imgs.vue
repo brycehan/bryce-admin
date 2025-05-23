@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="upload-box" v-if="!disabled">
+    <div v-if="!disabled" class="upload-box">
       <el-upload
         v-model:file-list="fileList"
         :accept="fileType.join(',')"
@@ -90,7 +90,6 @@ import { ElMessage, ElNotification, type UploadFile, type UploadProps, type Uplo
 import { createImageViewer } from '@/components/image-viewer/utils.ts'
 import fileExtension from 'file-extension'
 import constant from '@/utils/constant.ts'
-import { useAuthStore } from '@/stores/modules/auth.ts'
 
 defineOptions({ name: 'UploadImgs' })
 
@@ -247,7 +246,6 @@ const handleExceed = () => {
  * @param path 文件路径
  */
 const getFilename = (path: string) => {
-  debugger
   const fullFilename = path.substring(path.lastIndexOf('/') + 1)
   const extension = fileExtension(fullFilename)
   const filename = fullFilename.substring(0, fullFilename.lastIndexOf(extension) - 16)

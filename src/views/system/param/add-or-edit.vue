@@ -54,37 +54,16 @@ const state: StateOptions = reactive({
 
 const dataFormRef = ref()
 
-/**
- * 校验参数键名是否唯一
- *
- * @param _ 校验规则
- * @param value 校验值
- * @param callback 回调
- */
-const checkParamKeyUnique = (_: any, value: any, callback: any) => {
-  getCheckParamKeyUniqueApi(value, state.dataForm.id).then((res) => {
-    if (res.data) {
-      callback()
-    } else {
-      callback(new Error('参数键名已存在'))
-    }
-  })
-}
+const { required, remote } = useValidator()
 
 const dataRules = reactive<FormRules>({
-  paramName: [
-    { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 100, message: '长度为2~100个字符', trigger: 'blur' },
-  ],
+  paramName: [required(), { min: 2, max: 100, message: '长度为2~100个字符', trigger: 'blur' }],
   paramKey: [
-    { required: true, message: '必填项不能为空', trigger: 'blur' },
+    required(),
     { min: 2, max: 100, message: '长度为2~100个字符', trigger: 'blur' },
-    { validator: checkParamKeyUnique, trigger: 'blur' },
+    remote({ api: getCheckParamKeyUniqueApi, message: '参数键名已存在', params: toRef(state.dataForm, 'id') }),
   ],
-  paramValue: [
-    { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 1, max: 65535, message: '长度为1~65535个字符', trigger: 'blur' },
-  ],
+  paramValue: [required(), { min: 1, max: 65535, message: '长度为1~65535个字符', trigger: 'blur' }],
   remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }],
 })
 

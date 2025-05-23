@@ -1,10 +1,10 @@
 <template>
   <el-card shadow="never">
     <el-form
+      v-show="showSearch"
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
-      v-show="showSearch"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -59,7 +59,7 @@
         @click="handleDownloadExcel()"
         >导出</el-button
       >
-      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <right-toolbar v-model:show-search="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -138,10 +138,7 @@ const state: StateOptions = reactive({
 const queryFormRef = ref()
 // 显示搜索条件
 const showSearch = ref(true)
-
-onMounted(() => {
-  getPage()
-})
+const authStore = useAuthStore()
 
 const {
   getPage,
@@ -171,6 +168,7 @@ const handleResetQuery = () => {
  * 清空按钮操作
  */
 const handleCleanLog = () => {
+  if (!authStore.permitAccess()) return
   modal
     .confirm('是否确认清空所有登录日志数据？')
     .then(() => {
@@ -181,4 +179,8 @@ const handleCleanLog = () => {
     })
     .catch(() => {})
 }
+
+onMounted(() => {
+  getPage()
+})
 </script>

@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import type { RouteRecordRaw } from 'vue-router'
 import type { Ref } from 'vue'
-import { ref } from 'vue'
 import { getNavApi } from '@/api/system/menu'
 import { asyncRoute, constantRoutes, dashboardMenu, demoMenu, errorRoute, generateRoutes } from '@/router'
 
@@ -24,7 +23,7 @@ export const useRouterStore = defineStore(
       const menuRouteList = [] as RouteRecordRaw[]
       menuRouteList.push(...generateRoutes(dashboardMenu))
       menuRouteList.push(...generateRoutes(data))
-      menuRouteList.push(...generateRoutes(demoMenu))
+      // menuRouteList.push(...generateRoutes(demoMenu))
 
       menuRoutes.value = menuRouteList
 

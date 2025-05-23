@@ -18,7 +18,7 @@
     <el-table-column align="center" label="审批建议" prop="reason" min-width="200">
       <template #default="scope">
         {{ scope.row.reason }}
-        <el-button class="ml-[10px]" size="small" v-if="scope.row.formId > 0" @click="handleFormDetail(scope.row)">
+        <el-button v-if="scope.row.formId > 0" class="ml-[10px]" size="small" @click="handleFormDetail(scope.row)">
           <icon icon="ep:document" /> 查看表单
         </el-button>
       </template>
@@ -31,7 +31,7 @@
   </el-table>
 
   <!-- 弹窗：表单 -->
-  <el-dialog title="表单详情" v-model="taskFormVisible" width="600">
+  <el-dialog v-model="taskFormVisible" title="表单详情" width="600">
     <form-create ref="fApi" v-model="taskForm.value" :option="taskForm.option" :rule="taskForm.rule" />
   </el-dialog>
 </template>

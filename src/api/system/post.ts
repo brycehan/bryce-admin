@@ -61,10 +61,10 @@ export const getSimpleList = () => {
  * 校验岗位编码是否唯一
  *
  * @param code 岗位编码
- * @param id 岗位ID
+ * @param idRef 岗位ID
  */
-export const getCheckCodeUniqueApi = (code: string, id: number) => {
-  return request.get('/system/post/checkCodeUnique', { params: { id, code } })
+export const getCheckCodeUniqueApi = (code: string, idRef: Ref) => {
+  return request.get('/system/post/checkCodeUnique', { params: { id: idRef.value, code } })
 }
 
 export default {

@@ -16,11 +16,11 @@
           <div class="mb-4 flex h-[35px] items-center gap-5 text-[13px]">
             <div class="dark:color-gray-600 flex h-[35px] items-center gap-2 rounded-3xl bg-gray-100 p-[8px]">
               <el-avatar
-                :size="28"
                 v-if="processInstance?.startUser?.avatar"
+                :size="28"
                 :src="processInstance?.startUser?.avatar"
               />
-              <el-avatar :size="28" v-else-if="processInstance?.startUser?.nickname">
+              <el-avatar v-else-if="processInstance?.startUser?.nickname" :size="28">
                 {{ processInstance?.startUser?.nickname.substring(0, 1) }}
               </el-avatar>
               {{ processInstance?.startUser?.nickname }}
@@ -80,13 +80,13 @@
         <el-tab-pane label="流转记录" name="record">
           <div class="form-scroll-area">
             <el-scrollbar>
-              <ProcessInstanceTaskList :loading="processInstanceLoading" :id="route.params.id as string" />
+              <ProcessInstanceTaskList :id="route.params.id as string" :loading="processInstanceLoading" />
             </el-scrollbar>
           </div>
         </el-tab-pane>
 
         <!-- 流转评论 待开发 -->
-        <el-tab-pane label="流转评论" name="comment" v-if="false">
+        <el-tab-pane v-if="false" label="流转评论" name="comment">
           <div class="form-scroll-area">
             <el-scrollbar> 流转评论 </el-scrollbar>
           </div>
@@ -99,7 +99,7 @@
           ref="operationButtonRef"
           :process-instance="processInstance"
           :process-definition="processDefinition"
-          :userOptions="userOptions"
+          :user-options="userOptions"
           :normal-form="detailForm"
           :normal-form-api="fApi"
           :writable-fields="writableFields"
@@ -313,8 +313,8 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .processInstance-wrap-main {
-  height: calc(100vh - var(--theme-header-height) - var(--theme-main-tabs-height) - 65px);
-  max-height: calc(100vh - var(--theme-header-height) - var(--theme-main-tabs-height) - 65px);
+  height: calc(100vh - var(--app-header-height) - var(--app-main-tabs-height) - 65px);
+  max-height: calc(100vh - var(--app-header-height) - var(--app-main-tabs-height) - 65px);
   overflow: hidden;
 
   .form-scroll-area {
@@ -322,11 +322,9 @@ onMounted(() => {
 
     display: flex;
     flex-direction: column;
-    height: calc(
-      100vh - var(--theme-header-height) - var(--theme-main-tabs-height) - 65px - var(--process-header-height)
-    );
+    height: calc(100vh - var(--app-header-height) - var(--app-main-tabs-height) - 65px - var(--process-header-height));
     max-height: calc(
-      100vh - var(--theme-header-height) - var(--theme-main-tabs-height) - 65px - var(--process-header-height)
+      100vh - var(--app-header-height) - var(--app-main-tabs-height) - 65px - var(--process-header-height)
     );
     overflow: auto;
   }

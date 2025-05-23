@@ -20,7 +20,7 @@
       header-align="center"
       align="center"
       show-overflow-tooltip
-      min-width="200"
+      min-width="150"
     />
     <el-table-column label="表单信息" header-align="center" align="center" min-width="120">
       <template #default="scope">
@@ -50,8 +50,8 @@
     </el-table-column>
     <el-table-column label="状态" prop="suspensionState" header-align="center" align="center" min-width="90">
       <template #default="scope">
-        <el-tag type="success" v-if="scope.row.suspensionState === 1">激活</el-tag>
-        <el-tag type="warning" v-else>挂起</el-tag>
+        <el-tag v-if="scope.row.suspensionState === 1" type="success">激活</el-tag>
+        <el-tag v-else type="warning">挂起</el-tag>
       </template>
     </el-table-column>
     <el-table-column label="部署时间" prop="deploymentTime" header-align="center" align="center" min-width="170" />
@@ -67,11 +67,11 @@
   />
 
   <!-- 弹窗，流程图 -->
-  <el-dialog title="流程图" v-model="bpmnDetailPreview.visible" width="60%">
-    <my-process-viewer style="height: 600px" key="designer" :xml="bpmnDetailPreview.bpmnXml" />
+  <el-dialog v-model="bpmnDetailPreview.visible" title="流程图" width="60%">
+    <my-process-viewer key="designer" style="height: 600px" :xml="bpmnDetailPreview.bpmnXml" />
   </el-dialog>
   <!-- 弹窗，表单详情 -->
-  <el-dialog title="表单详情" v-model="formDetailPreview.visible" width="60%">
+  <el-dialog v-model="formDetailPreview.visible" title="表单详情" width="60%">
     <form-create :rule="formDetailPreview.rule" :option="formDetailPreview.rule" />
   </el-dialog>
 </template>
@@ -115,6 +115,8 @@ const formDetailPreview = ref({
   option: {},
 })
 
+const authStore = useAuthStore()
+
 const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange } = crud(state)
 
 /**
@@ -123,6 +125,7 @@ const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange } 
  * @param row 当前行数据
  */
 const handleBpmnDetail = (row: any) => {
+  if (!authStore.permitAccess()) return
   // 详情弹窗显示
   bpmnDetailPreview.value.visible = true
   // 获取流程图

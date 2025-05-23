@@ -21,11 +21,7 @@
 
 <script setup lang="ts">
 import { User, Lock, Key } from '@element-plus/icons-vue'
-import { router } from '@/router'
-import { useAuthStore } from '@/stores/modules/auth'
 import { getGenerateApi, getEnabledApi } from '@/api/auth/captcha'
-
-const authStore = useAuthStore()
 
 const loginFormRef = ref()
 const loading = ref(false)
@@ -39,12 +35,11 @@ const loginDto = reactive({
 })
 const captchaBase64 = ref()
 
+const authStore = useAuthStore()
+const router = useRouter()
+
 // 是否显示验证码
 const captchaEnabled = ref(false)
-
-onMounted(() => {
-  handleCaptchaEnabled()
-})
 
 /**
  * 获取验证码开关
@@ -81,7 +76,11 @@ const loginByAccount = async () => {
     authStore
       .loginByAccount(loginDto)
       .then(() => {
-        router.push({ path: '/dashboard' })
+        if (router.currentRoute.value.query?.redirect) {
+          router.push({ path: router.currentRoute.value.query.redirect as string })
+        } else {
+          router.push({ path: '/dashboard' })
+        }
       })
       .catch(() => {
         loading.value = false
@@ -97,6 +96,10 @@ const loginRules = {
   password: [{ required: true, min: 6, max: 20, message: '长度为6~20个字符', trigger: 'blur' }],
   code: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
 }
+
+onMounted(() => {
+  handleCaptchaEnabled()
+})
 </script>
 
 <style scoped lang="scss">

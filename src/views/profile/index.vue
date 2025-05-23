@@ -64,7 +64,6 @@
 
 <script setup lang="ts">
 import UserAvatar from '@/views/profile/user-avatar.vue'
-import { useAuthStore } from '@/stores/modules/auth'
 import UserInfo from '@/views/profile/user-info.vue'
 import Password from '@/views/profile/password.vue'
 import { getUserInfoApi } from '@/api/system/profile'

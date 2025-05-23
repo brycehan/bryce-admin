@@ -116,10 +116,10 @@ export const deleteAssignUserApi = (roleId: string, data: any) => {
  * 校验角色编码是否唯一
  *
  * @param code 角色编码
- * @param id 角色ID
+ * @param idRef 角色ID
  */
-export const getCheckCodeUniqueApi = (code: string, id: number) => {
-  return request.get('/system/role/checkCodeUnique', { params: { id, code } })
+export const getCheckCodeUniqueApi = (code: string, idRef: Ref) => {
+  return request.get('/system/role/checkCodeUnique', { params: { id: idRef.value, code } })
 }
 
 export default {

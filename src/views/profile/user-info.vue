@@ -4,8 +4,8 @@
     :model="dataForm"
     :rules="dataRules"
     label-width="120"
-    @keyup.enter="handleSubmit()"
     class="mr-4"
+    @keyup.enter="handleSubmit()"
   >
     <el-form-item :label="t('profile.basic.data.nickname')" prop="nickname">
       <el-input v-model="dataForm.nickname" :placeholder="t('profile.basic.data.nicknamePlaceholder')" />
@@ -28,7 +28,6 @@
 <script setup lang="ts">
 import { putUserInfoApi } from '@/api/system/profile'
 import { ElMessage, type FormRules } from 'element-plus'
-import { useAuthStore } from '@/stores/modules/auth'
 import { getCheckPhoneUniqueApi } from '@/api/system/user'
 import { phoneRegExp } from '@/utils/tool'
 
@@ -44,38 +43,19 @@ const dataForm = reactive({
 
 const dataFormRef = ref()
 
-/**
- * 校验手机号码是否唯一
- *
- * @param _rule 校验规则
- * @param value 校验值
- * @param callback 回调
- */
-const checkPhoneUnique = (_rule: any, value: any, callback: any) => {
-  // 校验手机号码格式
-  if (!phoneRegExp.test(value)) {
-    callback(new Error(t('profile.basic.data.phoneIncorrect')))
-    return
-  }
-  // 后端校验唯一
-  getCheckPhoneUniqueApi(value, authStore.user.id).then((res) => {
-    if (res.data) {
-      callback()
-    } else {
-      callback(new Error(t('profile.basic.data.phoneRegistered')))
-    }
-  })
-}
+const { required, remote } = useValidator()
 
 const dataRules = reactive<FormRules>({
-  nickname: [
-    { required: true, message: () => t('rules.required'), trigger: 'blur' },
-    { min: 2, max: 50, message: () => t('rules.length', { min: 2, max: 50 }), trigger: 'blur' },
-  ],
+  nickname: [required(), { min: 2, max: 50, message: () => t('rules.length', { min: 2, max: 50 }), trigger: 'blur' }],
   phone: [
-    { required: true, message: () => t('rules.required'), trigger: 'blur' },
+    required(),
     { min: 7, max: 20, message: () => t('rules.length', { min: 7, max: 20 }), trigger: 'blur' },
-    { validator: checkPhoneUnique, trigger: 'blur' },
+    { pattern: phoneRegExp, message: t('profile.basic.data.phoneIncorrect'), trigger: 'blur' },
+    remote({
+      api: getCheckPhoneUniqueApi,
+      message: t('profile.basic.data.phoneRegistered'),
+      params: authStore.user.id,
+    }),
   ],
   email: [{ type: 'email', message: () => t('rules.email'), trigger: 'blur' }],
 })

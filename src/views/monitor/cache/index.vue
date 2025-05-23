@@ -83,10 +83,6 @@ const usedMemoryRef = ref()
 let commandStats = null
 let usedMemory = null
 
-onMounted(() => {
-  getCacheInfo()
-})
-
 const getCacheInfo = () => {
   const loading = modal.loading('正在加载缓存监控数据，请稍候！')
   getInfoApi().then((res: any) => {
@@ -193,6 +189,10 @@ const getCacheInfo = () => {
     })
   })
 }
+
+onMounted(() => {
+  getCacheInfo()
+})
 </script>
 
 <style scoped lang="scss">

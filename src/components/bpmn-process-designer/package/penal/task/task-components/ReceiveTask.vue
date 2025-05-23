@@ -3,7 +3,7 @@
     <el-form-item label="消息实例">
       <div style="display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between">
         <el-select v-model="bindMessageId" @change="updateTaskMessage">
-          <el-option v-for="key in Object.keys(messageMap)" :value="key" :label="messageMap[key]" :key="key" />
+          <el-option v-for="key in Object.keys(messageMap)" :key="key" :value="key" :label="messageMap[key]" />
         </el-select>
         <el-button type="primary" icon="plus" style="margin-left: 8px" @click="openMessageModel" />
       </div>
@@ -81,6 +81,17 @@ const updateTaskMessage = (messageId: any) => {
   }
 }
 
+watch(
+  () => props.id,
+  () => {
+    // bpmnElement.value = bpmnInstances().bpmnElement
+    nextTick(() => {
+      getBindMessage()
+    })
+  },
+  { immediate: true },
+)
+
 onMounted(() => {
   bpmnMessageRefsMap.value = Object.create(null)
   bpmnRootElements.value = bpmnInstances().modeler.getDefinitions().rootElements
@@ -96,14 +107,4 @@ onMounted(() => {
 onBeforeUnmount(() => {
   bpmnElement.value = null
 })
-watch(
-  () => props.id,
-  () => {
-    // bpmnElement.value = bpmnInstances().bpmnElement
-    nextTick(() => {
-      getBindMessage()
-    })
-  },
-  { immediate: true },
-)
 </script>

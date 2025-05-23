@@ -97,36 +97,17 @@ const menuData = ref([] as any[])
 const menuExpandAll = ref(false)
 const menuCheckAll = ref(false)
 const menuCheckStrictly = ref(true)
-
-/**
- * 角色编码是否唯一
- *
- * @param _rule 校验规则
- * @param value 校验值
- * @param callback 回调
- */
-const checkCodeUnique = (_rule: any, value: any, callback: any) => {
-  getCheckCodeUniqueApi(value, state.dataForm.id).then((res) => {
-    if (res.data) {
-      callback()
-    } else {
-      callback(new Error('角色编码已存在'))
-    }
-  })
-}
+const { required, remote } = useValidator()
 
 const dataRules = reactive<FormRules>({
-  name: [
-    { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' },
-  ],
+  name: [required(), { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' }],
   code: [
-    { required: true, message: '必填项不能为空', trigger: 'blur' },
+    required(),
     { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' },
     { pattern: /^[A-Z_]+$/, message: '必须是大写字母或下划线', trigger: 'blur' },
-    { validator: checkCodeUnique, trigger: 'blur' },
+    remote({ api: getCheckCodeUniqueApi, message: '角色编码已存在', params: toRef(state.dataForm, 'id') }),
   ],
-  sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
+  sort: [required()],
   remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }],
 })
 

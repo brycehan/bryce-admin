@@ -1,58 +1,19 @@
-// 覆盖element-plus样式
-
-// 菜单图标
-.el-menu-item .svg-icon,
-.el-sub-menu .svg-icon {
-  display: inline-block;
-  width: 1.71rem;
-  margin-right: 0.28rem;
-  font-size: 1.14rem;
-  vertical-align: middle;
-  text-align: center;
-}
-
-// 菜单字体
-.el-menu-item,
-.el-sub-menu__title {
-  font-size: unset;
-}
-
-// 侧边栏弹出菜单
-.sidebar-menu-popper,
-.el-menu--horizontal.el-menu--popup-container {
-  .el-menu-item,
-  .el-sub-menu__title {
-    //  高度 和 顶栏弹出菜单 高度一致
-    height: var(--el-menu-horizontal-sub-item-height);
-    line-height: var(--el-menu-horizontal-sub-item-height);
-
-    &:hover {
-      color: var(--el-color-primary);
-    }
-  }
-
-  // 子菜单
-  .el-sub-menu.is-active > .el-sub-menu__title {
-    color: var(--el-menu-active-color);
-  }
-
-  // 菜单项
-  .el-menu-item.is-active {
-    background-color: var(--theme-menu-active-bg-color);
-  }
-}
+// 覆盖 element-plus 样式
 
 // 2.5.0之后， el-select 的默认宽度更改为 100% 当使用内联形式时，宽度将显示异常bug
-.el-form--inline {
-  .el-form-item {
-    & > .el-input,
-    .el-cascader,
-    .el-select,
-    .el-date-editor,
-    .el-autocomplete {
-      width: 240px;
-    }
+.el-form--inline .el-form-item {
+  & > .el-input,
+  .el-cascader,
+  .el-select,
+  .el-date-editor,
+  .el-autocomplete {
+    width: 220px;
   }
+}
+
+// 表单标签字体大小
+.el-form-item {
+  --font-size: var(--el-font-size-base) !important;
 }
 
 // input框、select框字体大小
@@ -61,9 +22,7 @@
   font-size: 1rem;
 }
 
-/*
- * 输入框右侧clearable图标 样式聚焦变宽问题修复
- */
+// 输入框右侧clearable图标 样式聚焦变宽问题修复
 .el-input__wrapper {
   position: relative;
 
@@ -79,19 +38,20 @@
   }
 }
 
-/**
- * icon 垂直居中
- */
+// icon 垂直居中
 .el-form-item__label {
   align-items: center !important;
 }
 
-/**
- * radio 垂直居中
- */
+// radio 垂直居中
 .el-radio__label {
   display: flex;
   align-items: center;
+}
+
+// 按钮去除外边框
+.el-button {
+  outline: none !important;
 }
 
 // 上传按钮间距
@@ -100,55 +60,7 @@
   margin-left: 12px;
 }
 
-/*
- * 表格操作中的按钮
- */
-.el-table td.el-table__cell div .el-button {
-  height: 12px;
-  padding: 0 10px;
-  line-height: 10px;
-  border-radius: 0;
-
-  &:nth-of-type(1) {
-    padding-left: 0;
-  }
-}
-
-/*
- * 表格操作中的相邻按钮（从第二个开始）
- */
-.el-table td.el-table__cell div .el-button + .el-button {
-  height: 12px;
-  margin-left: 0;
-  line-height: 10px;
-  border-left: 1px solid #e4e7ec;
-}
-
-/*
- * 表格操作 dropdown 更多和前面 button 的间距
- */
-.btn-more-link {
-  display: flex;
-  margin-left: 8px;
-  line-height: normal;
-}
-
-/*
- * 表格操作 dropdown 前的 ｜样式
- */
-.el-table td.el-table__cell div .el-dropdown {
-  top: 7px;
-  height: 12px;
-  padding-left: 0;
-  margin-left: 0;
-  line-height: 10px;
-  border-left: 1px solid #e4e7ec;
-  border-radius: 0;
-}
-
-/**
- * drawer 样式header添加分隔线
- */
+// drawer 样式 header 添加分隔线
 .el-drawer .el-drawer__header {
   padding: 15px;
   margin-bottom: 0 !important;
@@ -165,30 +77,4 @@
   font-size: 1rem;
 }
 
-// 表单标签字体大小
-.el-form-item {
-  --font-size: var(--el-font-size-base) !important;
-}
 
-// 弹窗 main 区域全屏样式
-.modal-dialog-full {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  margin: 10px;
-
-  & > .el-overlay-dialog {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-
-    & > .el-dialog {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-    }
-  }
-}

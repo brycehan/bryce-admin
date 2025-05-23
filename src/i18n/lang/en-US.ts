@@ -6,7 +6,7 @@ export default {
     miniLogoText: 'Bryce',
   },
   settings: {
-    title: 'Layout Settings',
+    title: 'Project Configuration',
     sidebar: {
       dark: 'Dark Sidebar',
       light: 'Light Sidebar',
@@ -16,18 +16,24 @@ export default {
       primary: 'Theme Header',
     },
     layout: {
+      appearance: 'Appearance',
       title: 'Layout Switch',
       vertical: 'Vertical',
       column: 'Columns',
-      horizontal: 'Horizontal',
+      horizontalOne: 'Horizontal One',
+      horizontalTwo: 'Horizontal Two',
+      setting: 'Layout Settings',
     },
     interface: {
       title: 'Interface Settings',
       uniqueOpened: 'Unique Opened',
       showLogo: 'Show LOGO',
       showBreadcrumb: 'Show Breadcrumb',
-      showTagsView: 'Enable Tags',
+      showTabsView: 'Enable Tags',
       showTagsViewCache: 'Enable Tags Cache',
+      footer: 'Footer',
+      greyMode: 'Grey mode',
+      watermark: 'Watermark',
     },
     tips: 'The setting is only temporary. To make it permanent, click the "Copy Configuration" button below to replace the configuration in /src/store/theme/config.ts.',
     button: {

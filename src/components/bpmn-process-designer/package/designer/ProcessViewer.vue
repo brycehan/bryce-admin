@@ -1,6 +1,6 @@
 <template>
   <div class="process-viewer">
-    <div style="height: 100%" ref="processCanvas" v-show="!isLoading"></div>
+    <div v-show="!isLoading" ref="processCanvas" style="height: 100%"></div>
     <!-- 自定义箭头样式，用于已完成状态下流程连线箭头 -->
     <defs ref="customDefs">
       <marker
@@ -36,16 +36,16 @@
     </defs>
 
     <!-- 审批记录 -->
-    <el-dialog :title="dialogTitle || '审批记录'" v-model="dialogVisible" width="1000px">
+    <el-dialog v-model="dialogVisible" :title="dialogTitle || '审批记录'" width="1000px">
       <el-row>
         <el-table :data="selectTasks" size="small" border header-cell-class-name="table-header-gray">
           <el-table-column label="序号" header-align="center" align="center" type="index" width="50" />
-          <el-table-column label="审批人" min-width="100" align="center" v-if="selectActivityType === 'bpmn:UserTask'">
+          <el-table-column v-if="selectActivityType === 'bpmn:UserTask'" label="审批人" min-width="100" align="center">
             <template #default="scope">
               {{ scope.row.assigneeUser?.nickname || scope.row.ownerUser?.nickname }}
             </template>
           </el-table-column>
-          <el-table-column label="发起人" prop="assigneeUser.nickname" min-width="100" align="center" v-else />
+          <el-table-column v-else label="发起人" prop="assigneeUser.nickname" min-width="100" align="center" />
           <el-table-column label="部门" min-width="100" align="center">
             <template #default="scope">
               {{ scope.row.assigneeUser?.deptName || scope.row.ownerUser?.deptName }}
@@ -67,11 +67,11 @@
             </template>
           </el-table-column>
           <el-table-column
+            v-if="selectActivityType === 'bpmn:UserTask'"
             align="center"
             label="审批建议"
             prop="reason"
             min-width="120"
-            v-if="selectActivityType === 'bpmn:UserTask'"
           />
           <el-table-column align="center" label="耗时" prop="durationInMillis" width="100">
             <template #default="scope">

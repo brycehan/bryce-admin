@@ -13,9 +13,9 @@
           <el-row v-for="(process, key) in processCategoryList" :key="key">
             <el-divider content-position="left">{{ key }}</el-divider>
             <div
-              class="flex w-1/3 items-center justify-items-stretch gap-2 pt-2"
               v-for="item in process"
               :key="item.id"
+              class="flex w-1/3 items-center justify-items-stretch gap-2 pt-2"
             >
               <el-avatar shape="circle" :size="30" :src="item.icon || emptyImg" />
               <el-tooltip effect="dark" content="流程图预览" placement="top">
@@ -37,8 +37,8 @@
         </div>
 
         <!-- 弹窗，流程图 -->
-        <el-dialog title="流程图" v-model="bpmnDetailPreview.visible" width="60%">
-          <my-process-viewer style="height: 600px" key="designer" :xml="bpmnDetailPreview.bpmnXml" />
+        <el-dialog v-model="bpmnDetailPreview.visible" title="流程图" width="60%">
+          <my-process-viewer key="designer" style="height: 600px" :xml="bpmnDetailPreview.bpmnXml" />
         </el-dialog>
       </el-card>
     </el-col>
@@ -55,6 +55,8 @@ import { MyProcessViewer } from '@/components/bpmn-process-designer/package'
 import { SysShowHide } from '@/enums/system.ts'
 
 const router = useRouter()
+const authStore = useAuthStore()
+
 const queryForm = ref({
   categoryId: '',
 })
@@ -95,6 +97,7 @@ const processDefinitionVisible = computed(() => {
  * 流程申请弹窗
  */
 const handleAddOrEdit = async (row: any) => {
+  if (!authStore.permitAccess()) return
   await router.push({ name: 'BpmStartProcessApply', params: { id: row.id } })
 }
 
@@ -104,6 +107,7 @@ const handleAddOrEdit = async (row: any) => {
  * @param row 当前行数据
  */
 const handleBpmnDetail = (row: any) => {
+  if (!authStore.permitAccess()) return
   // 详情弹窗显示
   bpmnDetailPreview.value.visible = true
   // 获取流程图

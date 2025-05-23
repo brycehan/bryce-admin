@@ -1,10 +1,10 @@
 <template>
   <div
-    class="h-[calc(100vh-var(--theme-header-height)-var(--theme-main-tabs-height)-var(--theme-main-content-padding)-var(--theme-main-content-padding))]"
+    class="h-[calc(100vh-var(--app-header-height)-var(--app-main-tabs-height)-var(--app-main-content-padding)-var(--app-main-content-padding))]"
   >
     <fc-designer
-      class="form-designer border-b border-(--el-border-color-light)"
       ref="designerRef"
+      class="form-designer border-b border-(--el-border-color-light)"
       :config="designerConfig"
     >
       <template #handle>
@@ -40,7 +40,6 @@ import { ElMessage, type FormRules } from 'element-plus'
 import { encodeConf, encodeFields, setConfAndFields } from '@/utils/formCreate'
 import type { FormDto } from '@/types/modules/bpm'
 import { useFormCreateDesigner } from '@/components/form-create'
-import { useTabsStore } from '@/stores/modules/tabs.ts'
 import { StatusEnum } from '@/enums/system.ts'
 
 defineOptions({

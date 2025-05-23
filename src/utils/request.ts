@@ -1,9 +1,7 @@
 import axios from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { useAuthStore } from '@/stores/modules/auth'
 import qs from 'qs'
 import errorMessage from '@/utils/errorMessage'
-import { useAppStore } from '@/stores/modules/app'
 import { ResponseType } from '@/enums/system.ts'
 
 // 是否显示重新登录
@@ -78,7 +76,7 @@ request.interceptors.response.use(
 
     // 没有权限，如：未登录、登录过期等，需要跳转到登录页
     if (code === 401) {
-      authStore?.removePermission()
+      authStore?.removeToken()
       handleAuthorized()
       return Promise.reject(new Error(message))
     }
@@ -112,17 +110,18 @@ request.interceptors.response.use(
 /**
  * 处理登录超时
  */
-const handleAuthorized = () => {
-  if (!ReLogin.show) {
+export const handleAuthorized = () => {
+  const pathname = window.location.pathname
+  if (!ReLogin.show && pathname !== '/login') {
     ReLogin.show = true
     ElMessageBox.confirm('登录状态已过期，您可以继续留在页面，或者重新登录', '系统提示', {
       type: 'warning',
       confirmButtonText: '重新登录',
     })
       .then(() => {
-        const authStore = useAuthStore()
-        authStore?.logout().then(() => location.reload())
-        return Promise.reject('登录状态已过期，请重新登录')
+        useAuthStore()?.removePermission()
+        location.reload()
+        return Promise.reject('登录状态已过期')
       })
       .finally(() => {
         ReLogin.show = false

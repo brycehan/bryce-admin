@@ -73,10 +73,10 @@ export const cleanById = (id: string) => {
  * 校验Key是否唯一
  *
  * @param key 流程标识
- * @param id 模型ID
+ * @param idRef 模型ID
  */
-export const getCheckKeyUniqueApi = (key: string, id: string) => {
-  return request.get('/bpm/model/checkKeyUnique', { params: { id, key } })
+export const getCheckKeyUniqueApi = (key: string, idRef: Ref) => {
+  return request.get('/bpm/model/checkKeyUnique', { params: { id: idRef.value, key } })
 }
 
 export default {

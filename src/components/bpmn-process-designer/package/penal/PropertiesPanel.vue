@@ -1,55 +1,55 @@
 <template>
   <div class="process-panel__container" :style="{ width: `${width}px`, maxHeight: '600px' }">
-    <el-collapse v-model="activeTab" v-if="isReady">
+    <el-collapse v-if="isReady" v-model="activeTab">
       <el-collapse-item name="base">
         <template #title>
           <icon icon="ep:info-filled" />
           常规</template
         >
         <ElementBaseInfo
+          v-model="model"
           :id-edit-disabled="idEditDisabled"
           :business-object="elementBusinessObject"
           :type="elementType"
-          v-model="model"
         />
       </el-collapse-item>
-      <el-collapse-item name="condition" v-if="elementType === 'Process'" key="message">
+      <el-collapse-item v-if="elementType === 'Process'" key="message" name="condition">
         <template #title><icon icon="ep:comment" />消息与信号</template>
         <signal-and-massage />
       </el-collapse-item>
-      <el-collapse-item name="condition" v-if="conditionFormVisible" key="condition">
+      <el-collapse-item v-if="conditionFormVisible" key="condition" name="condition">
         <template #title><icon icon="ep:promotion" />流转条件</template>
         <flow-condition :business-object="elementBusinessObject" :type="elementType" />
       </el-collapse-item>
-      <el-collapse-item name="condition" v-if="formVisible" key="form">
+      <el-collapse-item v-if="formVisible" key="form" name="condition">
         <template #title><icon icon="ep:list" />表单</template>
         <element-form :id="elementId" :type="elementType" />
       </el-collapse-item>
-      <el-collapse-item name="task" v-if="isTaskCollapseItemShow(elementType)" key="task">
+      <el-collapse-item v-if="isTaskCollapseItemShow(elementType)" key="task" name="task">
         <template #title><icon icon="ep:checked" />{{ getTaskCollapseItemName(elementType) }}</template>
         <element-task :id="elementId" :type="elementType" />
       </el-collapse-item>
-      <el-collapse-item name="multiInstance" v-if="elementType.indexOf('Task') !== -1" key="multiInstance">
+      <el-collapse-item v-if="elementType.indexOf('Task') !== -1" key="multiInstance" name="multiInstance">
         <template #title><icon icon="ep:help-filled" />多人审批方式</template>
         <element-multi-instance :id="elementId" :business-object="elementBusinessObject" :type="elementType" />
       </el-collapse-item>
-      <el-collapse-item name="listeners" key="listeners">
+      <el-collapse-item key="listeners" name="listeners">
         <template #title><icon icon="ep:bell-filled" />执行监听器</template>
         <element-listeners :id="elementId" :type="elementType" />
       </el-collapse-item>
-      <el-collapse-item name="taskListeners" v-if="elementType === 'UserTask'" key="taskListeners">
+      <el-collapse-item v-if="elementType === 'UserTask'" key="taskListeners" name="taskListeners">
         <template #title><icon icon="ep:bell-filled" />任务监听器</template>
         <user-task-listeners :id="elementId" :type="elementType" />
       </el-collapse-item>
-      <el-collapse-item name="extensions" key="extensions">
+      <el-collapse-item key="extensions" name="extensions">
         <template #title><icon icon="ep:circle-plus-filled" />扩展属性</template>
         <element-properties :id="elementId" :type="elementType" />
       </el-collapse-item>
-      <el-collapse-item name="other" key="other">
+      <el-collapse-item key="other" name="other">
         <template #title><icon icon="ep:promotion" />其他</template>
         <element-other-config :id="elementId" />
       </el-collapse-item>
-      <el-collapse-item name="customConfig" key="customConfig">
+      <el-collapse-item key="customConfig" name="customConfig">
         <template #title><icon icon="ep:tools" />自定义配置</template>
         <element-custom-config :id="elementId" :type="elementType" :business-object="elementBusinessObject" />
       </el-collapse-item>

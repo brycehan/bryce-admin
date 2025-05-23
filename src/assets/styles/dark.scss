@@ -1,7 +1,7 @@
-@forward 'element-plus/theme-chalk/dark/css-vars.css';
+@forward "element-plus/theme-chalk/dark/css-vars.css";
 
 html.dark {
-  --el-text-color-primary: #d0d0d0;
+  --el-bg-color: var(--el-bg-color-overlay);
   --el-color-primary-light-1: var(--el-color-primary-dark-1) !important;
   --el-color-primary-light-2: var(--el-color-primary-dark-2) !important;
   --el-color-primary-light-3: var(--el-color-primary-dark-3) !important;
@@ -15,30 +15,19 @@ html.dark {
   // 编辑器
   --w-e-textarea-bg-color: #333;
   --w-e-textarea-color: white;
-
-  * {
-    --theme-logo-text-color: var(--el-text-color-primary);
-    --el-menu-hover-text-color: #eee;
-    --el-menu-active-color: #eee;
-    --theme-menu-bg-color: var(--el-bg-color);
-    --theme-menu-active-bg-color: var(--el-color-primary);
-    --theme-header-text-color: #eee;
-    --theme-header-bg-color: var(--el-bg-color);
-    --theme-header-hover-color: var(--el-border-color-dark);
-    --theme-main-bg-color: var(--el-bg-color);
-    --theme-border-color-light: var(--el-border-color-dark);
-  }
+  --app-border-color: hsl(240deg 3.7% 22%);
+  --app-logo-text-color-light: var(--el-text-color-primary);
+  --app-logo-text-color-dark: var(--el-text-color-primary);
+  --app-aside-bg-dark: var(--el-bg-color-overlay);
+  --app-aside-bg-light: var(--el-bg-color-overlay);
+  --app-aside-active-bg-color: var(--el-color-primary);
+  --app-header-text-color: #eee;
+  --app-header-bg-color: var(--el-bg-color-overlay);
+  --app-header-hover-color: var(--el-border-color-dark);
+  --app-main-bg-color: #141414;
 
   .el-popover.el-popper {
     background-color: var(--el-bg-color-overlay);
-  }
-
-  .tabs-container {
-    background: none;
-  }
-
-  .column-sub-menu {
-    background: none;
   }
 
   // 编辑器
@@ -51,20 +40,11 @@ html.dark {
     background-color: #444;
   }
 
-  .el-menu-item.is-active {
-    right: 0 !important;
-    border-right: none !important;
-  }
-
-  .layout-sidebar {
-    border-right: 1px solid var(--theme-border-color-light) !important;
-  }
-
   .el-switch .el-switch__core {
     border: 1px solid #444 !important;
 
     &::before {
-      // switch主题色hover边框
+      // switch 主题色 hover 边框
       border: 1px solid var(--el-color-primary) !important;
     }
   }

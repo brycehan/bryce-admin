@@ -7,8 +7,8 @@
     <el-form ref="dataFormRef" :model="state.dataForm" :rules="dataRules" label-width="100" class="mr-4">
       <el-form-item label="上级菜单" prop="parentId">
         <el-tree-select
-          v-model="state.dataForm.parentId"
           ref="menuTreeRef"
+          v-model="state.dataForm.parentId"
           :data="menuList"
           :props="{ label: 'name', children: 'children' }"
           node-key="id"
@@ -81,7 +81,7 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item prop="status" v-if="state.dataForm.type === 'C' || state.dataForm.type === 'M'">
+          <el-form-item v-if="state.dataForm.type === 'C' || state.dataForm.type === 'M'" prop="status">
             <template #label>
               <el-tooltip effect="dark" content="选择隐藏则路由将不会出现在侧边栏，但仍然可以访问" placement="top">
                 <icon icon="ep:question-filled" />
@@ -90,7 +90,7 @@
             </template>
             <dict-radio-group v-model="state.dataForm.visible" dict-type="sys_show_hide" />
           </el-form-item>
-          <el-form-item prop="authority" v-if="state.dataForm.type === 'M' || state.dataForm.type === 'B'">
+          <el-form-item v-if="state.dataForm.type === 'M' || state.dataForm.type === 'B'" prop="authority">
             <template #label>
               <el-tooltip
                 effect="dark"
@@ -162,43 +162,19 @@ const menuList = ref([] as any[])
 const menuTreeRef = ref()
 const dataFormRef = ref()
 
-/**
- * 校验权限标识是否唯一
- *
- * @param _rule 校验规则
- * @param value 校验值
- * @param callback 回调
- */
-const checkAuthorityUnique = (_rule: any, value: any, callback: any) => {
-  // 值为空时，也校验通过
-  if (!value) {
-    callback()
-    return
-  }
-  // 后端校验唯一
-  getCheckAuthorityUniqueApi(value, state.dataForm.id).then((res) => {
-    if (res.data) {
-      callback()
-    } else {
-      callback(new Error('权限标识已存在'))
-    }
-  })
-}
+const { required, remote } = useValidator()
 
 const dataRules = reactive<FormRules>({
-  name: [
-    { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' },
-  ],
-  parentId: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
+  name: [required(), { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' }],
+  parentId: [required()],
   url: [{ min: 0, max: 255, message: '长度不能超过255个字符', trigger: 'blur' }],
   authority: [
     { min: 0, max: 100, message: '长度不能超过100个字符', trigger: 'blur' },
     { pattern: /^(?!ROLE_).*$/, message: '不能以 ROLE_ 开头', trigger: 'blur' },
-    { validator: checkAuthorityUnique, trigger: 'blur' },
+    remote({ api: getCheckAuthorityUniqueApi, message: '权限标识已存在', params: toRef(state.dataForm, 'id') }),
   ],
   icon: [{ min: 0, max: 100, message: '长度不能超过100个字符', trigger: 'blur' }],
-  sort: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
+  sort: [required()],
   remark: [{ min: 0, max: 500, message: '长度不能超过500个字符', trigger: 'blur' }],
 })
 

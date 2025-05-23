@@ -14,7 +14,7 @@
         <el-option label="外部资源" value="external" />
       </el-select>
     </el-form-item>
-    <el-form-item label="脚本" v-show="scriptTaskForm.scriptType === 'inline'">
+    <el-form-item v-show="scriptTaskForm.scriptType === 'inline'" label="脚本">
       <el-input
         v-model="scriptTaskForm.script"
         type="textarea"
@@ -25,7 +25,7 @@
         @change="updateElementTask()"
       />
     </el-form-item>
-    <el-form-item label="资源地址" v-show="scriptTaskForm.scriptType === 'external'">
+    <el-form-item v-show="scriptTaskForm.scriptType === 'external'" label="资源地址">
       <el-input
         v-model="scriptTaskForm.resource"
         clearable

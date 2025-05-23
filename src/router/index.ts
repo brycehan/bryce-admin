@@ -2,10 +2,6 @@ import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { isExternalLink } from '@/utils/tool'
-import { useAuthStore } from '@/stores/modules/auth'
-import { useAppStore } from '@/stores/modules/app'
-import { useRouterStore } from '@/stores/modules/router'
-import { useDictStore } from '@/stores/modules/dict.ts'
 
 NProgress.configure({ showSpinner: false })
 
@@ -64,7 +60,7 @@ export const asyncRoute: RouteRecordRaw = {
         i18n: false,
         cache: false,
         breadcrumb: ['流程管理', '流程模型', '创建流程'],
-        activeMenu: '/bpm/model/index',
+        activeMenu: '/bpm/model',
       },
     },
     {
@@ -76,7 +72,7 @@ export const asyncRoute: RouteRecordRaw = {
         i18n: false,
         cache: false,
         breadcrumb: ['流程管理', '流程模型', '修改流程'],
-        activeMenu: '/bpm/model/index',
+        activeMenu: '/bpm/model',
       },
     },
     {
@@ -160,11 +156,11 @@ export const asyncRoute: RouteRecordRaw = {
         i18n: false,
         cache: false,
         breadcrumb: ['流程管理', '流程表单', '设计流程表单'],
-        activeMenu: '/bpm/form/index',
+        activeMenu: '/bpm/form',
       },
     },
     {
-      path: '/bpm/start-process/apply/:id',
+      path: '/bpm/start-process/:id',
       component: () => import('@/views/bpm/start-process/apply.vue'),
       name: 'BpmStartProcessApply',
       meta: {
@@ -172,7 +168,7 @@ export const asyncRoute: RouteRecordRaw = {
         i18n: false,
         cache: false,
         breadcrumb: ['审批中心', '发起流程', '流程申请'],
-        activeMenu: '/bpm/start-process/index',
+        activeMenu: '/bpm/start-process',
       },
     },
   ],
@@ -330,7 +326,10 @@ router.beforeEach(async (to, _from, next) => {
     if (whiteList.indexOf(to.path) > -1) {
       next()
     } else {
-      next('/login')
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }, // 保存完整路径
+      })
     }
   }
 })
@@ -369,8 +368,7 @@ export const generateRoutes = (menuList: any): RouteRecordRaw[] => {
           path = '/iframe/' + menu.id
         } else {
           component = getDynamicComponent(menu.url)
-          path =
-            '/' + (menu.url.lastIndexOf('/index') < 0 ? menu.url : menu.url.substring(0, menu.url.lastIndexOf('/')))
+          path = '/' + (menu.url.endsWith('/index') ? menu.url.substring(0, menu.url.lastIndexOf('/')) : menu.url)
         }
       }
 

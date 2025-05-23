@@ -1,6 +1,6 @@
 <template>
   <el-row class="mb-2">
-    <select-user type="primary" icon="Plus" :row="row" @select="handleAssignUser" class="mr-3"></select-user>
+    <select-user type="primary" icon="Plus" :row="row" class="mr-3" @select="handleAssignUser" />
     <el-button type="danger" icon="Delete" @click="handleDeleteBatch()">取消授权</el-button>
   </el-row>
   <el-table
@@ -58,9 +58,7 @@ const state: StateOptions = reactive({
   },
 })
 
-onMounted(() => {
-  getPage()
-})
+const authStore = useAuthStore()
 
 const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange } = crud(state)
 
@@ -82,6 +80,7 @@ const handleAssignUser = (userIds: any[]) => {
  * @param row
  */
 const handleDeleteBatch = (row?: any) => {
+  if (!authStore.permitAccess()) return
   let data: any[] = []
   if (row) {
     data.push(row)
@@ -109,4 +108,8 @@ const handleDeleteBatch = (row?: any) => {
       console.error(error)
     })
 }
+
+onMounted(() => {
+  getPage()
+})
 </script>

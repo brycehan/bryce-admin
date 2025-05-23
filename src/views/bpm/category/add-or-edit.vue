@@ -12,7 +12,7 @@
         <el-input v-model="state.dataForm.code" placeholder="请输入分类标志" />
       </el-form-item>
       <el-form-item label="分类描述" prop="description">
-        <el-input type="textarea" v-model="state.dataForm.description" placeholder="请输入分类描述" />
+        <el-input v-model="state.dataForm.description" type="textarea" placeholder="请输入分类描述" />
       </el-form-item>
       <el-form-item label="显示顺序" prop="sort">
         <el-input-number v-model="state.dataForm.sort" :min="0" />

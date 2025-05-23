@@ -18,9 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/modules/auth'
-import { router } from '@/router'
-import { getEnabledApi } from '@/api/auth/captcha'
 import { getSendLoginCodeApi } from '@/api/auth/sms'
 import { phoneRegExp } from '@/utils/tool'
 import { ElMessage } from 'element-plus'
@@ -35,6 +32,8 @@ const loginForm = reactive({
   code: '',
   rememberMe: true,
 })
+
+const router = useRouter()
 
 /**
  * 短信计时器
@@ -74,24 +73,6 @@ const handleCounter = () => {
   }, 1000)
 }
 
-// 是否显示验证码
-const captchaEnabled = ref(false)
-
-onMounted(() => {
-  handleCaptchaEnabled()
-})
-
-/**
- * 获取验证码开关
- */
-const handleCaptchaEnabled = async () => {
-  const { data } = await getEnabledApi('login')
-  captchaEnabled.value = data
-  if (captchaEnabled.value) {
-    // await handleCaptcha()
-  }
-}
-
 /**
  * 登录
  */
@@ -106,7 +87,11 @@ const loginByPhone = async () => {
     authStore
       .loginByPhone(loginForm)
       .then(() => {
-        router.push({ path: '/' })
+        if (router.currentRoute.value.query?.redirect) {
+          router.push({ path: router.currentRoute.value.query.redirect as string })
+        } else {
+          router.push({ path: '/dashboard' })
+        }
       })
       .catch((e: any) => {
         console.error(e)

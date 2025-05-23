@@ -4,14 +4,14 @@
     <el-tabs v-model="activeTab">
       <!-- 表单信息 -->
       <el-tab-pane label="表单填写" name="form">
-        <div class="form-scroll-area" v-loading="processInstanceStartLoading">
+        <div v-loading="processInstanceStartLoading" class="form-scroll-area">
           <el-scrollbar>
             <el-row v-if="!state.dataForm.id">
               <el-col :span="17">
                 <form-create
-                  :rule="detailForm.rule"
                   v-model:api="fApi"
                   v-model="detailForm.value"
+                  :rule="detailForm.rule"
                   :option="detailForm.option"
                   @submit="handleSubmit"
                 />
@@ -33,7 +33,7 @@
       <el-tab-pane label="流程图" name="diagram">
         <div class="form-scroll-area">
           <!-- BPMN 流程图预览 -->
-          <ProcessInstanceBpmnViewer :bpmn-xml="bpmnDetailPreview.bpmnXml" v-if="BpmModelType.BPMN === modelType" />
+          <ProcessInstanceBpmnViewer v-if="BpmModelType.BPMN === modelType" :bpmn-xml="bpmnDetailPreview.bpmnXml" />
         </div>
       </el-tab-pane>
     </el-tabs>
@@ -41,8 +41,8 @@
     <!-- 底部操作栏 -->
     <div class="b-t-solid border-t-[1px] border-[var(--el-border-color)] pt-[10px]">
       <!-- 操作栏按钮 -->
-      <el-button type="primary" @click="handleSubmit" icon="select">发起</el-button>
-      <el-button @click="state.visible = false" icon="close">取消</el-button>
+      <el-button type="primary" icon="select" @click="handleSubmit">发起</el-button>
+      <el-button icon="close" @click="state.visible = false">取消</el-button>
     </div>
   </el-card>
 </template>
@@ -61,7 +61,6 @@ import type { ApprovalNodeInfo } from '@/types/modules/bpm'
 import { CandidateStrategy, FieldPermissionType, NodeId } from '@/api/bpm/consts.ts'
 import ProcessInstanceTimeline from '@/views/bpm/process-instance/detail/ProcessInstanceTimeline.vue'
 import { BpmModelType } from '@/api/bpm/constant.ts'
-import { useTabsStore } from '@/stores/modules/tabs.ts'
 
 const emit = defineEmits(['refreshPage'])
 
@@ -280,23 +279,15 @@ onMounted(() => {
   --process-footer-height: 64px;
 
   height: calc(
-    100vh - var(--theme-header-height) - var(--theme-main-tabs-height) - var(--process-header-height) - var(
+    100vh - var(--app-header-height) - var(--app-main-tabs-height) - var(--process-header-height) - var(
         --process-footer-height
       ) - var(--wrap-margin-height)
   );
   max-height: calc(
-    100vh - var(--theme-header-height) - var(--theme-main-tabs-height) - var(--process-header-height) - var(
+    100vh - var(--app-header-height) - var(--app-main-tabs-height) - var(--process-header-height) - var(
         --process-footer-height
       ) - var(--wrap-margin-height)
   );
   overflow: hidden;
-}
-
-::v-deep(.modal-dialog-full-margin) {
-  margin-top: 0 !important;
-}
-
-.modal-dialog-full-margin {
-  margin-top: 0 !important;
 }
 </style>

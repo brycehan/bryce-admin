@@ -29,10 +29,10 @@
       </el-col>
       <!-- 右侧按钮 -->
       <el-col :span="6" class="el-container">
-        <el-button type="success" v-auth:has-authority="'bpm:model:deploy'" v-if="route.params.id" @click="handleDeploy"
+        <el-button v-if="route.params.id" v-auth:has-authority="'bpm:model:deploy'" type="success" @click="handleDeploy"
           >发布</el-button
         >
-        <el-button type="primary" v-auth:has-any-authority="['bpm:model:save', 'bpm:model:update']" @click="handleSave"
+        <el-button v-auth:has-any-authority="['bpm:model:save', 'bpm:model:update']" type="primary" @click="handleSave"
           >保存</el-button
         >
         <el-button :type="active <= 0 ? '' : 'primary'" :disabled="active <= 0" @click="handlePrev()">上一步</el-button>
@@ -44,17 +44,17 @@
       <!-- 第一步：基本信息 -->
       <basic-info
         v-show="active === 0"
+        ref="basicInfoRef"
         v-model="dataForm"
         :category-list="categoryList"
         :user-list="userList"
-        ref="basicInfoRef"
       />
       <!-- 第二步：设计表单 -->
-      <form-design v-show="active === 1" v-model="dataForm" :form-list="formList" ref="formDesignRef" />
+      <form-design v-show="active === 1" ref="formDesignRef" v-model="dataForm" :form-list="formList" />
       <!-- 第三步：设计流程 -->
-      <process-design v-show="active === 2" v-model="dataForm" ref="processDesignRef" />
+      <process-design v-show="active === 2" ref="processDesignRef" v-model="dataForm" />
       <!-- 第四步：更多设置 -->
-      <extra-settings v-show="active === 3" v-model="dataForm" ref="extraSettingsRef" />
+      <extra-settings v-show="active === 3" ref="extraSettingsRef" v-model="dataForm" />
     </div>
   </el-card>
 </template>
@@ -75,9 +75,7 @@ import ExtraSettings from '@/views/bpm/model/form/extra-settings.vue'
 import { BpmAutoApproveType, BpmFormType, BpmModelType } from '@/api/bpm/constant'
 import modal from '@/utils/modal'
 import _ from 'lodash'
-import { useTabsStore } from '@/stores/modules/tabs.ts'
 import { StatusEnum, SysShowHide } from '@/enums/system.ts'
-import { useAuthStore } from '@/stores/modules/auth.ts'
 
 const emit = defineEmits(['refreshPage'])
 

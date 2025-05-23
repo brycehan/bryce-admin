@@ -7,7 +7,7 @@
           <el-input v-model="model.key" placeholder="请输入流标标识" readonly @change="handleKeyUpdate" />
         </el-form-item>
         <el-form-item label="流程名称" prop="name">
-          <el-input v-model="model.name" placeholder="请输入流程名称" clearable @change="handleNameUpdate" readonly />
+          <el-input v-model="model.name" placeholder="请输入流程名称" clearable readonly @change="handleNameUpdate" />
         </el-form-item>
       </div>
       <div v-else>

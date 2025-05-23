@@ -1,5 +1,5 @@
 <template>
-  <div class="select-role">
+  <div class="flex">
     <el-button type="primary" plain icon="Plus" @click="handleInit()">新增</el-button>
     <el-dialog
       v-if="state.visible"
@@ -65,10 +65,13 @@ const state: StateOptions = reactive({
   },
 })
 
+const authStore = useAuthStore()
+
 /**
- * 初始化选择角色弹窗
+ * 初始化选择用户弹窗
  */
 const handleInit = () => {
+  if (!authStore.permitAccess()) return
   state.visible = true
   getPage()
 }
@@ -94,9 +97,3 @@ const handleSubmit = () => {
   state.visible = false
 }
 </script>
-
-<style scoped lang="scss">
-.select-role {
-  display: flex;
-}
-</style>

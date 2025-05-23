@@ -84,7 +84,10 @@ export const getCheckUsernameUniqueApi = (username: string) => {
  * @param phone 手机号码
  * @param id 用户ID
  */
-export const getCheckPhoneUniqueApi = (phone: string, id: number) => {
+export const getCheckPhoneUniqueApi = (phone: string, id: any) => {
+  if (isRef(id)) {
+    id = id.value as string
+  }
   return request.get('/system/user/checkPhoneUnique', { params: { id, phone } })
 }
 
@@ -94,7 +97,10 @@ export const getCheckPhoneUniqueApi = (phone: string, id: number) => {
  * @param email 邮箱
  * @param id 用户ID
  */
-export const getCheckEmailUniqueApi = (email: string, id: number) => {
+export const getCheckEmailUniqueApi = (email: string, id: any) => {
+  if (isRef(id)) {
+    id = id.value as string
+  }
   return request.get('/system/user/checkEmailUnique', { params: { id, email } })
 }
 
@@ -157,27 +163,6 @@ export const deleteAssignRoleApi = (userId: string, data: any) => {
   return request.delete(`/system/user/assignRole/${userId}`, { data: data })
 }
 
-/**
- * 校验用户账号是否唯一
- *
- * @param _rule 校验规则
- * @param value 校验值
- * @param callback 回调
- */
-export const checkUsernameUnique = (_rule: any, value: any, callback: any) => {
-  getCheckUsernameUniqueApi(value)
-    .then((res) => {
-      if (res.data) {
-        callback()
-      } else {
-        callback(new Error('此用户名太受欢迎，请更换一个'))
-      }
-    })
-    .catch((error) => {
-      console.error(error)
-    })
-}
-
 export default {
   saveOrUpdateApi,
   deleteByIdsApi,
@@ -196,5 +181,4 @@ export default {
   postAssignRolePageApi,
   postAssignRoleSaveApi,
   deleteAssignRoleApi,
-  checkUsernameUnique,
 }

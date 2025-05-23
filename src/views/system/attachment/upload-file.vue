@@ -42,7 +42,6 @@
 
 <script setup lang="ts">
 import { ElMessage, type UploadProps } from 'element-plus'
-import { useAuthStore } from '@/stores/modules/auth'
 import { handleBeforeUpload } from '@/utils/tool'
 import { saveOrUpdateApi } from '@/api/system/attachment'
 import constant from '@/utils/constant'

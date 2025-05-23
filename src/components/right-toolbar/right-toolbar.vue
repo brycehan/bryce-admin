@@ -7,7 +7,7 @@
       <el-tooltip effect="dark" content="刷新" placement="top">
         <el-button icon="refresh" circle @click="handleRefresh" />
       </el-tooltip>
-      <el-tooltip effect="dark" content="显隐列" placement="top" v-if="columns.length > 0">
+      <el-tooltip v-if="columns.length > 0" effect="dark" content="显隐列" placement="top">
         <el-button v-if="showColumnType === 'transfer'" icon="menu" circle @click="showColumnDialog" />
         <el-dropdown v-else trigger="click" :hide-on-click="false" placement="bottom-end">
           <el-button icon="menu" circle />
@@ -16,8 +16,8 @@
               <el-dropdown-item v-for="item in columns" :key="item.key">
                 <el-checkbox
                   :checked="item.visible"
-                  @change="handleCheckboxChange($event, item.label)"
                   :label="item.label"
+                  @change="handleCheckboxChange($event, item.label)"
                 />
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -26,7 +26,7 @@
       </el-tooltip>
     </el-row>
     <el-dialog v-model="visible" :title="title" :close-on-click-modal="false" width="600">
-      <el-transfer :titles="['显示', '隐藏']" v-model="value" :data="columns" @change="handleTransferChange" />
+      <el-transfer v-model="value" :titles="['显示', '隐藏']" :data="columns" @change="handleTransferChange" />
     </el-dialog>
   </div>
 </template>
@@ -65,17 +65,6 @@ const visible = ref(false)
 const title = ref('显示/隐藏')
 // 穿梭框隐藏列数据
 const value = ref([] as any[])
-
-onMounted(() => {
-  if (props.showColumnType === 'transfer') {
-    // 显隐列初始默认隐藏列
-    for (const i in props.columns) {
-      if (props.columns[i].visible === false) {
-        value.value.push(parseInt(i))
-      }
-    }
-  }
-})
 
 /**
  * 显示/隐藏搜索操作
@@ -119,6 +108,17 @@ const showColumnDialog = () => {
 const handleCheckboxChange = (event: any, label: string) => {
   props.columns.filter((item) => item.label === label)[0].visible = event
 }
+
+onMounted(() => {
+  if (props.showColumnType === 'transfer') {
+    // 显隐列初始默认隐藏列
+    for (const i in props.columns) {
+      if (props.columns[i].visible === false) {
+        value.value.push(parseInt(i))
+      }
+    }
+  }
+})
 </script>
 
 <style lang="scss" scoped>

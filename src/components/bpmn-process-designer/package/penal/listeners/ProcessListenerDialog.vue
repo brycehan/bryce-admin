@@ -56,10 +56,9 @@ const queryParams = reactive({
 const open = async (type: string) => {
   queryParams.pageNo = 1
   queryParams.type = type
-  getList()
+  await getList()
   dialogVisible.value = true
 }
-defineExpose({ open }) // 提供 open 方法，用于打开弹窗
 
 /** 查询列表 */
 const getList = async () => {
@@ -82,4 +81,6 @@ const select = async (row: any) => {
   // 发送操作成功的事件
   emit('select', row)
 }
+
+defineExpose({ open }) // 提供 open 方法，用于打开弹窗
 </script>

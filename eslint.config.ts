@@ -1,11 +1,13 @@
 import pluginVue from 'eslint-plugin-vue'
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
+import { defineConfigWithVueTs, vueTsConfigs, configureVueProject } from '@vue/eslint-config-typescript'
 import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 
 // To allow more languages other than `ts` in `.vue` files, uncomment the following lines:
 // import { configureVueProject } from '@vue/eslint-config-typescript'
 // configureVueProject({ scriptLangs: ['ts', 'tsx'] })
 // More info at https://github.com/vuejs/eslint-config-typescript/#advanced-setup
+
+configureVueProject({scriptLangs: ['ts', 'tsx'] })
 
 export default defineConfigWithVueTs(
   {
@@ -20,12 +22,12 @@ export default defineConfigWithVueTs(
       '**/dist-ssr/**',
       '**/coverage/**',
       'src/assets/js/wxLogin.js',
-      'src/types/auto-imports.d.ts',
-      'src/types/components.d.ts',
+      'types/auto-imports.d.ts',
+      'types/components.d.ts',
     ]
   },
 
-  pluginVue.configs['flat/essential'],
+  pluginVue.configs['flat/recommended'],
   vueTsConfigs.recommended,
   skipFormatting,
 
@@ -38,9 +40,7 @@ export default defineConfigWithVueTs(
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-unsafe-function-type': 'off',
       'vue/multi-word-component-names': 'off',
-      'vue/no-mutating-props': ['error', {
-        'shallowOnly': true
-      }]
+      'vue/no-mutating-props': ['error', { 'shallowOnly': true }],
     }
   },
 )

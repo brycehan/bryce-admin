@@ -1,10 +1,10 @@
 <template>
   <el-card shadow="never">
     <el-form
+      v-show="showSearch"
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
-      v-show="showSearch"
       @keyup.enter="getList()"
       @submit.prevent
     >
@@ -27,7 +27,7 @@
         <template v-if="!isExpandAll"> 全部展开 <icon class="ml-1" icon="ep:arrow-down" /> </template>
         <template v-else> 全部收起 <icon class="ml-1" icon="ep:arrow-up" /> </template>
       </el-button>
-      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getList" />
+      <right-toolbar v-model:show-search="showSearch" @refresh-page="getList" />
     </el-row>
     <el-table
       v-if="refreshTable"
@@ -88,31 +88,36 @@
       />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="255">
         <template #default="scope">
-          <el-button
-            v-auth:has-authority="'system:menu:update'"
-            type="primary"
-            icon="edit"
-            text
-            @click="handleAddOrEdit(scope.row.id)"
-            >修改</el-button
-          >
-          <el-button
-            v-if="scope.row.type === 'C' || scope.row.type === 'M'"
-            v-auth:has-authority="'system:menu:update'"
-            type="primary"
-            icon="edit"
-            text
-            @click="handleAdd(scope.row)"
-            >新增</el-button
-          >
-          <el-button
-            v-auth:has-authority="'system:menu:delete'"
-            type="danger"
-            icon="delete"
-            text
-            @click="handleDeleteBatch('name', '菜单名称', scope.row, false)"
-            >删除</el-button
-          >
+          <el-space :spacer="spacer" class="!gap-0">
+            <el-button
+              v-auth:has-authority="'system:menu:update'"
+              type="primary"
+              class="!px-0"
+              icon="edit"
+              text
+              @click="handleAddOrEdit(scope.row.id)"
+              >修改</el-button
+            >
+            <el-button
+              v-if="scope.row.type === 'C' || scope.row.type === 'M'"
+              v-auth:has-authority="'system:menu:update'"
+              type="primary"
+              class="!px-0"
+              icon="edit"
+              text
+              @click="handleAdd(scope.row)"
+              >新增</el-button
+            >
+            <el-button
+              v-auth:has-authority="'system:menu:delete'"
+              type="danger"
+              class="!px-0"
+              icon="delete"
+              text
+              @click="handleDeleteBatch('name', '菜单名称', scope.row, false)"
+              >删除</el-button
+            >
+          </el-space>
         </template>
       </el-table-column>
     </el-table>
@@ -128,6 +133,7 @@ import AddOrEdit from './add-or-edit.vue'
 import { postListApi, deleteByIdsApi } from '@/api/system/menu'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
+import { ElDivider } from 'element-plus'
 
 const state: StateOptions = reactive({
   api: {
@@ -148,13 +154,11 @@ const addOrEditRef = ref()
 const isExpandAll = ref(false)
 // 是否重新渲染表格状态
 const refreshTable = ref(true)
-
 // 显示搜索条件
 const showSearch = ref(true)
 
-onMounted(() => {
-  getList()
-})
+const authStore = useAuthStore()
+const spacer = h(ElDivider, { direction: 'vertical' })
 
 const { getList, handleDeleteBatch } = crud(state)
 
@@ -179,6 +183,7 @@ const handleResetQuery = () => {
  * @param id 菜单ID
  */
 const handleAddOrEdit = (id?: string) => {
+  if (!authStore.permitAccess()) return
   addOrEditRef.value.init(id)
 }
 
@@ -188,6 +193,7 @@ const handleAddOrEdit = (id?: string) => {
  * @param row 当前行数据
  */
 const handleAdd = (row?: any) => {
+  if (!authStore.permitAccess()) return
   addOrEditRef.value.initAdd(row)
 }
 
@@ -201,4 +207,8 @@ const toggleExpandAll = () => {
     refreshTable.value = true
   })
 }
+
+onMounted(() => {
+  getList()
+})
 </script>

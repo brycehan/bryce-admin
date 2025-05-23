@@ -1,10 +1,10 @@
 <template>
   <el-card shadow="never">
     <el-form
+      v-show="showSearch"
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
-      v-show="showSearch"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -27,7 +27,7 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <right-toolbar v-model:show-search="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -47,7 +47,7 @@
       />
       <el-table-column label="发起人" align="center" prop="createUser.nickname" width="120" />
       <el-table-column label="发起时间" align="center" prop="processInstanceStartTime" width="180" />
-      <el-table-column align="center" label="抄送节点" prop="activityName" width="180" />
+      <el-table-column align="center" label="抄送节点" prop="activityName" width="180" show-overflow-tooltip />
       <el-table-column align="center" label="抄送人" min-width="100">
         <template #default="scope"> {{ scope.row.createUser?.nickname || '系统' }} </template>
       </el-table-column>
@@ -72,18 +72,9 @@
     />
 
     <!-- 弹窗，表单详情 -->
-    <el-dialog title="表单详情" v-model="formDetailPreview.visible" width="60%">
+    <el-dialog v-model="formDetailPreview.visible" title="表单详情" width="60%">
       <form-create :rule="formDetailPreview.rule" :option="formDetailPreview.rule" />
     </el-dialog>
-    <!-- 弹窗，历史流程 -->
-    <el-drawer
-      v-if="historyDefinitionVisible"
-      v-model="historyDefinitionVisible"
-      :title="historyDefinitionTitle"
-      :size="1000"
-    >
-      <HistoryDefinition :row="historyDefinitionRow" />
-    </el-drawer>
   </el-card>
 </template>
 
@@ -93,7 +84,6 @@ import processInstanceCopyApi from '@/api/bpm/processInstanceCopy'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import FormCreate from '@form-create/element-ui'
-import HistoryDefinition from '@/views/bpm/model/history-definition.vue'
 import * as UserApi from '@/api/system/user'
 import { StatusEnum } from '@/enums/system.ts'
 import { router } from '@/router'
@@ -115,7 +105,7 @@ const queryFormRef = ref()
 const userList = ref<any[]>([])
 // 显示搜索条件
 const showSearch = ref(true)
-
+const authStore = useAuthStore()
 // 表单详情预览
 const formDetailPreview = ref({
   visible: false,
@@ -124,10 +114,6 @@ const formDetailPreview = ref({
 })
 
 const categoryList = ref<any>([]) // 流程分类列表
-// 历史流程
-const historyDefinitionVisible = ref(false)
-const historyDefinitionTitle = ref('')
-const historyDefinitionRow = ref()
 
 const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange } = crud(state)
 
@@ -162,6 +148,7 @@ const handleUserList = () => {
  * @param row 当前行数据
  */
 const handleDetail = (row: any) => {
+  if (!authStore.permitAccess()) return
   router.push({ name: 'BpmTaskCopyDetail', params: { id: row.processInstanceId } })
 }
 

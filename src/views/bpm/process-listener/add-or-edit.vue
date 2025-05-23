@@ -22,9 +22,9 @@
             v-for="event in state.dataForm.type == 'execution'
               ? ['start', 'end']
               : ['create', 'assignment', 'complete', 'delete', 'update', 'timeout']"
+            :key="event"
             :label="event"
             :value="event"
-            :key="event"
           />
         </el-select>
       </el-form-item>
@@ -36,7 +36,7 @@
           clearable
         />
       </el-form-item>
-      <el-form-item prop="value" v-if="state.dataForm.valueType == 'class'">
+      <el-form-item v-if="state.dataForm.valueType == 'class'" prop="value">
         <template #label>
           <el-tooltip
             effect="dark"
@@ -49,7 +49,7 @@
         </template>
         <el-input v-model="state.dataForm.value" placeholder="请输入类路径" />
       </el-form-item>
-      <el-form-item prop="value" v-else>
+      <el-form-item v-else prop="value">
         <template #label>
           <el-tooltip effect="dark" content="例如：${ days > 3 }" placement="top">
             <icon icon="ep:question-filled" />

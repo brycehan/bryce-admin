@@ -2,12 +2,23 @@
   <el-table-column :label="label" :prop="prop" :header-align="headerAlign" :align="align" :min-width="minWidth">
     <template #default="scope">
       <el-tag
-        v-if="dictStore.getDictLabelClass(props.dictType, scope.row[props.prop])"
+        v-if="columnType === 'tag'"
         :type="dictStore.getDictLabelClass(props.dictType, scope.row[props.prop])"
         size="small"
       >
         {{ dictStore.getDictLabel(props.dictType, scope.row[props.prop]) }}
       </el-tag>
+      <el-switch
+        v-else-if="columnType === 'switch'"
+        v-model="scope.row[props.prop]"
+        :disabled="disabled"
+        :width="40"
+        :active-value="activeValue"
+        :inactive-value="inactiveValue"
+        :loading="loading"
+        :before-change="beforeChange"
+        @change="handleChangeStatus(scope.row)"
+      />
       <span v-else>
         {{ dictStore.getDictLabel(props.dictType, scope.row[props.prop]) }}
       </span>
@@ -16,14 +27,18 @@
 </template>
 
 <script setup lang="ts">
-import { useDictStore } from '@/stores/modules/dict.ts'
-
 const dictStore = useDictStore()
+
+const emit = defineEmits(['change'])
 
 const props = defineProps({
   dictType: {
     type: String,
     required: true,
+  },
+  columnType: {
+    type: String,
+    default: () => 'tag',
   },
   prop: {
     type: String,
@@ -35,18 +50,37 @@ const props = defineProps({
   },
   headerAlign: {
     type: String,
-    required: false,
     default: () => 'center',
   },
   align: {
     type: String,
-    required: false,
     default: () => 'center',
   },
   minWidth: {
     type: String,
-    required: false,
     default: () => '',
   },
+  disabled: {
+    type: Boolean,
+    default: () => false,
+  },
+  activeValue: {
+    type: [Number, String, Boolean],
+    default: 1,
+  },
+  inactiveValue: {
+    type: [Number, String, Boolean],
+    default: 0,
+  },
 })
+
+const loading = ref(false)
+
+const handleChangeStatus = (row: any) => {
+  emit('change', row)
+}
+
+const beforeChange = (): boolean => {
+  return useAuthStore().permitAccess()
+}
 </script>

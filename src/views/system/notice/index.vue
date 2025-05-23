@@ -1,10 +1,10 @@
 <template>
   <el-card shadow="never">
     <el-form
+      v-show="showSearch"
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
-      v-show="showSearch"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -37,7 +37,7 @@
         @click="handleDeleteBatch('title', '标题')"
         >删除</el-button
       >
-      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <right-toolbar v-model:show-search="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -61,23 +61,27 @@
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="185" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="180">
         <template #default="scope">
-          <el-button
-            v-auth:has-authority="'system:notice:update'"
-            type="primary"
-            icon="edit"
-            text
-            @click="handleAddOrEdit(scope.row)"
-            >修改</el-button
-          >
-          <el-button type="info" icon="view" text @click="handleView(scope.row)">详情</el-button>
-          <el-button
-            v-auth:has-authority="'system:notice:delete'"
-            type="danger"
-            icon="delete"
-            text
-            @click="handleDeleteBatch('title', '标题', scope.row)"
-            >删除</el-button
-          >
+          <el-space :spacer="spacer" class="!gap-0">
+            <el-button
+              v-auth:has-authority="'system:notice:update'"
+              type="primary"
+              class="!px-0"
+              icon="edit"
+              text
+              @click="handleAddOrEdit(scope.row)"
+              >修改</el-button
+            >
+            <el-button type="info" icon="view" text @click="handleView(scope.row)">详情</el-button>
+            <el-button
+              v-auth:has-authority="'system:notice:delete'"
+              type="danger"
+              icon="delete"
+              class="!px-0"
+              text
+              @click="handleDeleteBatch('title', '标题', scope.row)"
+              >删除</el-button
+            >
+          </el-space>
         </template>
       </el-table-column>
     </el-table>
@@ -92,12 +96,12 @@
     />
 
     <!-- 新增/修改 弹窗 -->
-    <el-drawer v-if="addOrEditVisible" v-model="addOrEditVisible" :title="addOrEditTitle" :size="1000">
+    <el-drawer v-if="addOrEditVisible" v-model="addOrEditVisible" :title="addOrEditTitle" size="80%">
       <AddOrEdit v-model="addOrEditVisible" :notice-id="noticeId" @refresh-page="getPage" />
     </el-drawer>
 
     <!-- 预览 弹窗 -->
-    <el-drawer v-if="viewVisible" v-model="viewVisible" :title="viewTitle" :size="1000">
+    <el-drawer v-if="viewVisible" v-model="viewVisible" :title="viewTitle" size="80%">
       <View v-model="viewVisible" :notice-id="viewNoticeId" @refresh-page="getPage" />
     </el-drawer>
   </el-card>
@@ -109,6 +113,7 @@ import View from './view.vue'
 import { postPageApi, deleteByIdsApi } from '@/api/system/notice'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
+import { ElDivider } from 'element-plus'
 
 const state: StateOptions = reactive({
   api: {
@@ -134,10 +139,8 @@ const viewNoticeId = ref()
 
 // 显示搜索条件
 const showSearch = ref(true)
-
-onMounted(() => {
-  getPage()
-})
+const authStore = useAuthStore()
+const spacer = h(ElDivider, { direction: 'vertical' })
 
 const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } = crud(state)
 
@@ -162,6 +165,7 @@ const handleResetQuery = () => {
  * @param row 当前行数据
  */
 const handleAddOrEdit = (row?: any) => {
+  if (!authStore.permitAccess()) return
   addOrEditVisible.value = true
   addOrEditTitle.value = !row?.id ? '新增通知公告' : '修改通知公告'
   noticeId.value = row?.id
@@ -173,8 +177,13 @@ const handleAddOrEdit = (row?: any) => {
  * @param row 当前行数据
  */
 const handleView = (row?: any) => {
+  if (!authStore.permitAccess()) return
   viewVisible.value = true
   viewTitle.value = '通知公告'
   viewNoticeId.value = row?.id
 }
+
+onMounted(() => {
+  getPage()
+})
 </script>

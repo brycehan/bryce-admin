@@ -2,6 +2,8 @@ import { addDateRange, mergeDefaultOptions } from '@/utils/tool'
 import { ElMessage } from 'element-plus'
 import modal from '@/utils/modal'
 
+const authStore = useAuthStore()
+
 export type StateOptions = {
   api: {
     saveOrUpdateApi?: Function
@@ -134,6 +136,8 @@ export const crud = (options: StateOptions) => {
    * @param isPage 是否分页
    */
   const handleDeleteBatch = (column: string, columnName: string, row?: any, isPage: boolean = true) => {
+    if (!authStore.permitAccess()) return
+
     let data: any[] = []
     if (row) {
       data.push(row)
@@ -202,6 +206,8 @@ export const crud = (options: StateOptions) => {
    * 导出
    */
   const handleDownloadExcel = () => {
+    if (!authStore.permitAccess()) return
+
     // 添加范围查询条件
     let queryParams = state.queryForm
     for (const key in state.range) {

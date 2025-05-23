@@ -62,8 +62,9 @@ export const putRunApi = (data: any) => {
 /**
  * 修改quartz定时任务状态
  *
- * @param data 参数
+ * @param id ID
+ * @param status 状态（0：停用，1：启用）
  */
-export const putStatusApi = (data: any) => {
-  return request.put('/quartz/job/status', data)
+export const patchStatusApi = (id: string, status: number) => {
+  return request.patch(`/quartz/job/${id}/${status}`)
 }

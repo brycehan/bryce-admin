@@ -1,10 +1,10 @@
 <template>
   <el-card shadow="never">
     <el-form
+      v-show="showSearch"
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
-      v-show="showSearch"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -51,7 +51,7 @@
       </el-form-item>
     </el-form>
     <el-row class="mb-2">
-      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <right-toolbar v-model:show-search="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -96,19 +96,22 @@
         </template>
       </el-table-column>
       <el-table-column label="流程编号" align="center" prop="id" min-width="320px" />
-      <el-table-column label="操作" fixed="right" header-align="center" align="left" min-width="220">
+      <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="220">
         <template #default="scope">
-          <el-button type="primary" icon="View" link @click="handleDetail(scope.row)">详情</el-button>
-          <el-button
-            type="primary"
-            icon="CloseBold"
-            v-if="scope.row.status === 1"
-            v-auth:has-authority="'bpm:process-instance:cancel'"
-            link
-            @click="handleCancel(scope.row)"
-          >
-            取消
-          </el-button>
+          <el-space :spacer="spacer" class="!gap-0">
+            <el-button type="primary" class="!px-0" icon="View" link @click="handleDetail(scope.row)">详情</el-button>
+            <el-button
+              v-if="scope.row.status === 1"
+              v-auth:has-authority="'bpm:process-instance:cancel'"
+              type="primary"
+              class="!px-0"
+              icon="CloseBold"
+              link
+              @click="handleCancel(scope.row)"
+            >
+              取消
+            </el-button>
+          </el-space>
         </template>
       </el-table-column>
     </el-table>
@@ -123,18 +126,9 @@
     />
 
     <!-- 弹窗，表单详情 -->
-    <el-dialog title="表单详情" v-model="formDetailPreview.visible" width="60%">
+    <el-dialog v-model="formDetailPreview.visible" title="表单详情" width="60%">
       <form-create :rule="formDetailPreview.rule" :option="formDetailPreview.rule" />
     </el-dialog>
-    <!-- 弹窗，历史流程 -->
-    <el-drawer
-      v-if="historyDefinitionVisible"
-      v-model="historyDefinitionVisible"
-      :title="historyDefinitionTitle"
-      :size="1000"
-    >
-      <HistoryDefinition :row="historyDefinitionRow" />
-    </el-drawer>
   </el-card>
 </template>
 
@@ -145,8 +139,7 @@ import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { BpmProcessInstanceStatus, BpmProcessInstanceStatusOptions } from '@/api/bpm/constant'
 import FormCreate from '@form-create/element-ui'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import HistoryDefinition from '@/views/bpm/model/history-definition.vue'
+import { ElDivider, ElMessage, ElMessageBox } from 'element-plus'
 import * as UserApi from '@/api/system/user'
 import { formatPast2 } from '@/utils/formatTime'
 import { StatusEnum } from '@/enums/system.ts'
@@ -169,6 +162,8 @@ const queryFormRef = ref()
 const userList = ref<any[]>([])
 // 显示搜索条件
 const showSearch = ref(true)
+const authStore = useAuthStore()
+const spacer = h(ElDivider, { direction: 'vertical' })
 
 // 表单详情预览
 const formDetailPreview = ref({
@@ -178,10 +173,6 @@ const formDetailPreview = ref({
 })
 
 const categoryList = ref<any>([]) // 流程分类列表
-// 历史流程
-const historyDefinitionVisible = ref(false)
-const historyDefinitionTitle = ref('')
-const historyDefinitionRow = ref()
 
 const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange } = crud(state)
 
@@ -216,11 +207,13 @@ const handleUserList = () => {
  * @param row 当前行数据
  */
 const handleDetail = (row: any) => {
+  if (!authStore.permitAccess()) return
   router.push({ name: 'BpmProcessInstanceManagerDetail', params: { id: row.id } })
 }
 
 /** 取消按钮操作 */
 const handleCancel = async (row: any) => {
+  if (!authStore.permitAccess()) return
   // 二次确认
   const { value } = await ElMessageBox.prompt('请输入取消原因', '取消流程', {
     inputPattern: /^[\s\S]*.*\S[\s\S]*$/, // 判断非空，且非空格

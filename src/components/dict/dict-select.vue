@@ -12,7 +12,6 @@
 <script setup lang="ts">
 import { convertInteger } from '@/utils/tool.ts'
 import { computed } from 'vue'
-import { useDictStore } from '@/stores/modules/dict.ts'
 
 const dictStore = useDictStore()
 const props = defineProps({

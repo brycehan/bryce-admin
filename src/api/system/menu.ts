@@ -67,8 +67,8 @@ export async function getNavApi() {
  * 校验权限标识是否唯一
  *
  * @param authority 权限标识
- * @param id 菜单ID
+ * @param idRef 菜单ID
  */
-export const getCheckAuthorityUniqueApi = (authority: string, id: number) => {
-  return request.get('/system/menu/checkAuthorityUnique', { params: { id, authority } })
+export const getCheckAuthorityUniqueApi = (authority: string, idRef: Ref) => {
+  return request.get('/system/menu/checkAuthorityUnique', { params: { id: idRef.value, authority } })
 }

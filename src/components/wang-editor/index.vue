@@ -8,7 +8,7 @@
       :default-config="editorConfig"
       :style="style"
       :mode="mode"
-      :readOnly="disabledValue"
+      :read-only="disabledValue"
       @on-created="handleCreated"
     />
   </div>
@@ -20,8 +20,6 @@ import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { onBeforeUnmount, shallowRef } from 'vue'
 import { i18nChangeLanguage, type IDomEditor, type IEditorConfig } from '@wangeditor/editor'
 import constant from '@/utils/constant'
-import { useAuthStore } from '@/stores/modules/auth'
-import { useAppStore } from '@/stores/modules/app.ts'
 
 defineOptions({ name: 'WangEditor' })
 

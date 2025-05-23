@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form ref="dataFormRef" :model="dataForm" :rules="dataRules" label-width="100" class="w-xl">
+    <el-form ref="dataFormRef" :model="dataForm" :rules="dataRules" class="w-xl" label-width="100">
       <el-form-item label="流程名称" prop="name">
         <el-input v-model="dataForm.name" :disabled="!!dataForm.id" clearable placeholder="请输入流程名称" />
       </el-form-item>
@@ -8,14 +8,14 @@
         <div class="flex w-full items-center">
           <el-input
             v-model="dataForm.key"
-            class="mr-2 shrink-0"
             :disabled="!!dataForm.id"
+            class="mr-2 shrink-0"
             clearable
             placeholder="请输入流程标识，以字母或下划线开头"
           />
           <el-tooltip
-            effect="dark"
             :content="dataForm.id ? '流程标识不可修改！' : '新建后，流程标识不可修改！'"
+            effect="dark"
             placement="top"
           >
             <icon icon="ep:question-filled" />
@@ -23,20 +23,20 @@
         </div>
       </el-form-item>
       <el-form-item label="流程分类" prop="category">
-        <el-select v-model="dataForm.category" placeholder="请选择岗位" class="w-full" clearable>
+        <el-select v-model="dataForm.category" class="w-full" clearable placeholder="请选择岗位">
           <el-option v-for="category in categoryList" :key="category.id" :label="category.name" :value="category.id" />
         </el-select>
       </el-form-item>
       <el-form-item label="流程描述" prop="description">
-        <el-input v-model="dataForm.description" type="textarea" clearable placeholder="请输入流程描述" />
+        <el-input v-model="dataForm.description" clearable placeholder="请输入流程描述" type="textarea" />
       </el-form-item>
       <el-form-item label="是否可见" prop="visible">
         <dict-radio-group v-model="dataForm.visible" dict-type="sys_show_hide" />
       </el-form-item>
-      <el-form-item label="谁可以发起" prop="startUserType" class="mb-20px">
+      <el-form-item class="mb-20px" label="谁可以发起" prop="startUserType">
         <el-select v-model="dataForm.startUserType" placeholder="请选择谁可以发起" @change="handleStartUserTypeChange">
-          <el-option label="全员" :value="0" />
-          <el-option label="指定人员" :value="1" />
+          <el-option :value="0" label="全员" />
+          <el-option :value="1" label="指定人员" />
         </el-select>
         <div v-if="dataForm.startUserType === 1" class="mt-2 flex flex-wrap gap-2">
           <div
@@ -44,35 +44,41 @@
             :key="user.id"
             class="dark:color-gray-600 position-relative flex h-[35px] items-center rounded-3xl bg-gray-100 pr-[8px]"
           >
-            <el-avatar class="!m-[5px]" :size="28" v-if="user.avatar" :src="user.avatar" />
-            <el-avatar class="!m-[5px]" :size="28" v-else>
+            <el-avatar v-if="user.avatar" :size="28" :src="user.avatar" class="!m-[5px]" />
+            <el-avatar v-else :size="28" class="!m-[5px]">
               {{ user.nickname.substring(0, 1) }}
             </el-avatar>
             {{ user.nickname }}
-            <icon icon="ep:close" class="ml-2 cursor-pointer hover:text-red-500" @click="handleRemoveStartUser(user)" />
+            <icon class="ml-2 cursor-pointer hover:text-red-500" icon="ep:close" @click="handleRemoveStartUser(user)" />
           </div>
-          <el-button type="primary" link @click="openStartUserSelect"> <icon icon="ep:plus" /> 选择人员 </el-button>
+          <el-button link type="primary" @click="openStartUserSelect">
+            <icon icon="ep:plus" />
+            选择人员
+          </el-button>
         </div>
       </el-form-item>
-      <el-form-item label="流程管理员" prop="managerUserIds" class="mb-20px">
+      <el-form-item class="mb-20px" label="流程管理员" prop="managerUserIds">
         <div class="flex flex-wrap gap-2">
           <div
             v-for="user in selectedManagerUsers"
             :key="user.id"
             class="dark:color-gray-600 position-relative flex h-[35px] items-center rounded-3xl bg-gray-100 pr-[8px]"
           >
-            <el-avatar class="!m-[5px]" :size="28" v-if="user.avatar" :src="user.avatar" />
-            <el-avatar class="!m-[5px]" :size="28" v-else>
+            <el-avatar v-if="user.avatar" :size="28" :src="user.avatar" class="!m-[5px]" />
+            <el-avatar v-else :size="28" class="!m-[5px]">
               {{ user.nickname.substring(0, 1) }}
             </el-avatar>
             {{ user.nickname }}
             <icon
-              icon="ep:close"
               class="ml-2 cursor-pointer hover:text-red-500"
+              icon="ep:close"
               @click="handleRemoveManagerUser(user)"
             />
           </div>
-          <el-button type="primary" link @click="openManagerUserSelect"> <icon icon="ep:plus" />选择人员 </el-button>
+          <el-button link type="primary" @click="openManagerUserSelect">
+            <icon icon="ep:plus" />
+            选择人员
+          </el-button>
         </div>
       </el-form-item>
     </el-form>
@@ -82,7 +88,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { type PropType, reactive, ref, watch } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { getCheckKeyUniqueApi } from '@/api/bpm/model.ts'
@@ -107,38 +113,19 @@ const selectedManagerUsers = ref<any[]>([])
 const userSelectFormRef = ref()
 const currentSelectType = ref<'start' | 'manager'>('start')
 
-/**
- * 校验手机号码是否唯一
- *
- * @param _rule 校验规则
- * @param value 校验值
- * @param callback 回调
- */
-const checkKeyUnique = (_rule: any, value: any, callback: any) => {
-  // 后端校验唯一
-  getCheckKeyUniqueApi(value, dataForm.value?.id).then((res) => {
-    if (res.data) {
-      callback()
-    } else {
-      callback(new Error('此流程标识已使用'))
-    }
-  })
-}
+const { required, remote } = useValidator()
 
 const dataRules = reactive<FormRules>({
-  name: [
-    { required: true, message: '必填项不能为空', trigger: 'blur' },
-    { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' },
-  ],
+  name: [required(), { min: 2, max: 50, message: '长度为2~50个字符', trigger: 'blur' }],
   key: [
-    { required: true, message: '必填项不能为空', trigger: 'blur' },
+    required(),
     { min: 2, max: 30, message: '长度为2~30个字符', trigger: 'blur' },
     { pattern: /^[a-zA-Z_][-_.0-9a-zA-Z]*$/, message: '有效英文字母或下划线' },
-    { validator: checkKeyUnique, trigger: 'blur' },
+    remote({ api: getCheckKeyUniqueApi, message: '此流程标识已使用', params: toRef(dataForm.value, 'id') }),
   ],
-  category: [{ required: true, message: '必填项不能为空', trigger: 'change' }],
-  type: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
-  managerUserIds: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
+  category: [required('change')],
+  type: [required()],
+  managerUserIds: [required()],
 })
 
 // 初始化选中的用户

@@ -10,9 +10,9 @@
       :highlight-current="true"
       node-key="id"
       :current-node-key="currentNodeKey"
-      @node-click="handleNodeClick"
       :default-expand-all="true"
       accordion
+      @node-click="handleNodeClick"
     />
   </el-container>
 </template>
@@ -26,10 +26,6 @@ const categoryName = ref()
 const categoryList = ref()
 const categoryListRef = ref()
 const currentNodeKey = ref()
-
-onMounted(() => {
-  getCategoryList()
-})
 
 watch(categoryName, (value) => {
   categoryListRef.value.filter(value)
@@ -63,12 +59,16 @@ const handleNodeClick = (row: any) => {
 
   emits('nodeClick', currentNodeKey.value)
 }
+
+onMounted(() => {
+  getCategoryList()
+})
 </script>
 
 <style scoped lang="scss">
 .category-container {
   flex-direction: column;
-  min-height: calc(100vh - 102px - var(--theme-header-height));
+  min-height: calc(100vh - 72px - var(--app-header-height) - var(--app-main-tabs-height) - var(--app-footer-height));
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

@@ -78,10 +78,6 @@ const state: StateOptions = reactive({
 
 const queryFormRef = ref()
 
-onMounted(() => {
-  getPage()
-})
-
 const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange } = crud(state)
 
 /** 重置按钮操作 */
@@ -109,6 +105,10 @@ const handleSubmit = () => {
 
   emit('select', dataSelected)
 }
+
+onMounted(() => {
+  getPage()
+})
 </script>
 
 <style scoped lang="scss">

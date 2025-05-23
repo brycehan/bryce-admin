@@ -9,7 +9,7 @@
       :icon="getApprovalNodeIcon(activity.status, activity.nodeType)"
       :color="getApprovalNodeColor(activity.status)"
     >
-      <div class="gap2 flex flex-col items-start" :id="`activity-task-${activity.id}-${index}`">
+      <div :id="`activity-task-${activity.id}-${index}`" class="gap2 flex flex-col items-start">
         <!-- 第一行：节点名称、时间 -->
         <div class="flex w-full">
           <div class="font-bold">{{ activity.name }}</div>
@@ -20,12 +20,12 @@
         </div>
         <!-- 需要自定义选择审批人 -->
         <div
-          class="gap2 flex flex-wrap items-center"
           v-if="
             isEmpty(activity.tasks) &&
             isEmpty(activity.candidateUsers) &&
             CandidateStrategy.START_USER_SELECT === activity.candidateStrategy
           "
+          class="gap2 flex flex-wrap items-center"
         >
           <!--  && activity.nodeType === NodeType.USER_TASK_NODE -->
 
@@ -39,8 +39,8 @@
             :key="idx1"
             class="dark:color-gray-600 position-relative flex h-[35px] items-center rounded-3xl bg-gray-100 pr-[8px]"
           >
-            <el-avatar class="!m-[5px]" :size="28" v-if="user.avatar" :src="user.avatar" />
-            <el-avatar class="!m-[5px]" :size="28" v-else>
+            <el-avatar v-if="user.avatar" class="!m-[5px]" :size="28" :src="user.avatar" />
+            <el-avatar v-else class="!m-[5px]" :size="28">
               {{ user.nickname.substring(0, 1) }}
             </el-avatar>
             {{ user.nickname }}
@@ -49,26 +49,26 @@
         <div v-else class="gap2 mt-1 flex flex-wrap items-center">
           <!-- 情况一：遍历每个审批节点下的【进行中】task 任务 -->
           <div v-for="(task, idx) in activity.tasks" :key="idx" class="gap2 flex flex-col pr-2">
-            <div class="position-relative gap2 flex flex-wrap" v-if="task.assigneeUser || task.ownerUser">
+            <div v-if="task.assigneeUser || task.ownerUser" class="position-relative gap2 flex flex-wrap">
               <!-- 信息：头像昵称 -->
               <div
                 class="dark:color-gray-600 position-relative flex h-[35px] items-center rounded-3xl bg-gray-100 pr-[8px]"
               >
                 <template v-if="task.assigneeUser?.avatar || task.assigneeUser?.nickname">
                   <el-avatar
+                    v-if="task.assigneeUser?.avatar"
                     class="!m-[5px]"
                     :size="28"
-                    v-if="task.assigneeUser?.avatar"
                     :src="task.assigneeUser?.avatar"
                   />
-                  <el-avatar class="!m-[5px]" :size="28" v-else>
+                  <el-avatar v-else class="!m-[5px]" :size="28">
                     {{ task.assigneeUser?.nickname.substring(0, 1) }}
                   </el-avatar>
                   {{ task.assigneeUser?.nickname }}
                 </template>
                 <template v-else-if="task.ownerUser?.avatar || task.ownerUser?.nickname">
-                  <el-avatar class="!m-[5px]" :size="28" v-if="task.ownerUser?.avatar" :src="task.ownerUser?.avatar" />
-                  <el-avatar class="!m-[5px]" :size="28" v-else>
+                  <el-avatar v-if="task.ownerUser?.avatar" class="!m-[5px]" :size="28" :src="task.ownerUser?.avatar" />
+                  <el-avatar v-else class="!m-[5px]" :size="28">
                     {{ task.ownerUser?.nickname.substring(0, 1) }}
                   </el-avatar>
                   {{ task.ownerUser?.nickname }}
@@ -109,8 +109,8 @@
             :key="idx1"
             class="dark:color-gray-600 position-relative flex h-[35px] items-center rounded-3xl bg-gray-100 pr-[8px]"
           >
-            <el-avatar class="!m-[5px]" :size="28" v-if="user.avatar" :src="user.avatar" />
-            <el-avatar class="!m-[5px]" :size="28" v-else>
+            <el-avatar v-if="user.avatar" class="!m-[5px]" :size="28" :src="user.avatar" />
+            <el-avatar v-else class="!m-[5px]" :size="28">
               {{ user.nickname.substring(0, 1) }}
             </el-avatar>
             {{ user.nickname }}

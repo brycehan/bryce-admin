@@ -1,10 +1,10 @@
 <template>
   <el-card shadow="never">
     <el-form
+      v-show="showSearch"
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
-      v-show="showSearch"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -31,7 +31,7 @@
         @click="handleDeleteBatch('key', '流程KEY')"
         >删除
       </el-button>
-      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <right-toolbar v-model:show-search="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -102,60 +102,68 @@
       </el-table-column>
       <el-table-column label="创建时间" prop="createTime" header-align="center" align="center" min-width="170" />
       <el-table-column
-        label="操作"
         v-auth:has-any-authority="['bpm:model:update', 'bpm:model:delete', 'bpm:model:deploy', 'bpm:model:history']"
+        label="操作"
         fixed="right"
         header-align="center"
         align="center"
         min-width="220"
       >
         <template #default="scope">
-          <el-button
-            v-auth:has-authority="'bpm:model:update'"
-            type="primary"
-            icon="Edit"
-            link
-            @click="handleAddOrEdit(scope.row)"
-          >
-            修改
-          </el-button>
-          <el-button
-            v-auth:has-authority="'bpm:model:deploy'"
-            type="success"
-            icon="Promotion"
-            link
-            @click="handleDeploy(scope.row)"
-          >
-            发布
-          </el-button>
-          <el-dropdown
-            v-auth:has-any-authority="['bpm:model:history', 'bpm:model:deploy', 'bpm:model:delete']"
-            @command="(command: string) => handleCommand(command, scope.row)"
-          >
-            <el-button type="info" class="btn-more-link" icon="d-arrow-right" text>更多</el-button>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item
-                  v-if="authHasAuthority('bpm:model:history')"
-                  command="handleHistoryDefinition"
-                  icon="Notebook"
-                  >历史
-                </el-dropdown-item>
-                <el-dropdown-item
-                  v-if="authHasAuthority('bpm:model:deploy') && scope.row.processDefinition"
-                  command="handleState"
-                  icon="SwitchButton"
-                  >{{ scope.row.processDefinition.suspensionState === 1 ? '启用' : '停用' }}
-                </el-dropdown-item>
-                <el-dropdown-item v-if="authHasRole('SUPER_ADMIN')" command="handleClean" icon="Delete">
-                  清理
-                </el-dropdown-item>
-                <el-dropdown-item v-if="authHasAuthority('bpm:model:delete')" command="handleDeleteBatch" icon="Delete">
-                  删除
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+          <el-space :spacer="spacer" class="!gap-0">
+            <el-button
+              v-auth:has-authority="'bpm:model:update'"
+              class="!px-0"
+              type="primary"
+              icon="Edit"
+              link
+              @click="handleAddOrEdit(scope.row)"
+            >
+              修改
+            </el-button>
+            <el-button
+              v-auth:has-authority="'bpm:model:deploy'"
+              type="success"
+              class="!px-0"
+              icon="Promotion"
+              link
+              @click="handleDeploy(scope.row)"
+            >
+              发布
+            </el-button>
+            <el-dropdown
+              v-auth:has-any-authority="['bpm:model:history', 'bpm:model:deploy', 'bpm:model:delete']"
+              @command="(command: string) => handleCommand(command, scope.row)"
+            >
+              <el-button type="info" class="flex !px-0 leading-normal" icon="d-arrow-right" text>更多</el-button>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item
+                    v-if="authHasAuthority('bpm:model:history')"
+                    command="handleHistoryDefinition"
+                    icon="Notebook"
+                    >历史
+                  </el-dropdown-item>
+                  <el-dropdown-item
+                    v-if="authHasAuthority('bpm:model:deploy') && scope.row.processDefinition"
+                    command="handleState"
+                    icon="SwitchButton"
+                    >{{ scope.row.processDefinition.suspensionState === 1 ? '启用' : '停用' }}
+                  </el-dropdown-item>
+                  <el-dropdown-item v-if="authHasRole('SUPER_ADMIN')" command="handleClean" icon="Delete">
+                    清理
+                  </el-dropdown-item>
+                  <el-dropdown-item
+                    v-if="authHasAuthority('bpm:model:delete')"
+                    command="handleDeleteBatch"
+                    icon="Delete"
+                  >
+                    删除
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </el-space>
         </template>
       </el-table-column>
     </el-table>
@@ -169,7 +177,7 @@
       @current-change="handleCurrentChange"
     />
     <!-- 弹窗，表单详情 -->
-    <el-dialog title="表单详情" v-model="formDetailPreview.visible" width="60%">
+    <el-dialog v-model="formDetailPreview.visible" title="表单详情" width="60%">
       <form-create :rule="formDetailPreview.rule" :option="formDetailPreview.rule" />
     </el-dialog>
     <!-- 弹窗，历史流程 -->
@@ -177,7 +185,7 @@
       v-if="historyDefinitionVisible"
       v-model="historyDefinitionVisible"
       :title="historyDefinitionTitle"
-      :size="1000"
+      size="80%"
     >
       <HistoryDefinition :row="historyDefinitionRow" />
     </el-drawer>
@@ -194,8 +202,9 @@ import { setPreviewConfAndFields } from '@/utils/formCreate'
 import FormCreate from '@form-create/element-ui'
 import { authHasAuthority, authHasRole } from '@/utils/tool'
 import modal from '@/utils/modal'
-import { ElMessage } from 'element-plus'
+import { ElDivider, ElMessage } from 'element-plus'
 import HistoryDefinition from '@/views/bpm/model/history-definition.vue'
+import { h } from 'vue'
 
 const state: StateOptions = reactive({
   api: {
@@ -208,6 +217,7 @@ const state: StateOptions = reactive({
 const queryFormRef = ref()
 // 显示搜索条件
 const showSearch = ref(true)
+const authStore = useAuthStore()
 
 // 表单详情预览
 const formDetailPreview = ref({
@@ -221,6 +231,7 @@ const historyDefinitionVisible = ref(false)
 const historyDefinitionTitle = ref('')
 const historyDefinitionRow = ref()
 const router = useRouter()
+const spacer = h(ElDivider, { direction: 'vertical' })
 
 const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } = crud(state)
 
@@ -245,6 +256,7 @@ const handleResetQuery = () => {
  * @param row 当前行数据
  */
 const handleAddOrEdit = (row?: any) => {
+  if (!authStore.permitAccess()) return
   if (row) {
     router.push({ name: 'BpmModelEdit', params: { id: row?.id } })
   } else {
@@ -258,6 +270,7 @@ const handleAddOrEdit = (row?: any) => {
  * @param row 当前行数据
  */
 const handleDeploy = (row: any) => {
+  if (!authStore.permitAccess()) return
   modal
     .confirm(`确定要发布“${row.name}”流程吗？`)
     .then(() => {
@@ -277,6 +290,7 @@ const handleDeploy = (row: any) => {
  * @param row 当前行数据
  */
 const handleClean = (row: any) => {
+  if (!authStore.permitAccess()) return
   modal
     .confirm(`确定要清理“${row.name}”流程数据吗，不可恢复？`)
     .then(() => {
@@ -339,6 +353,7 @@ const handleFormDetail = (row: any) => {
  * @param row 当前行数据
  */
 const handleHistoryDefinition = (row: any) => {
+  if (!authStore.permitAccess()) return
   historyDefinitionVisible.value = true
   historyDefinitionTitle.value = `历史流程 - 名称“${row.name}”`
   historyDefinitionRow.value = row
@@ -350,6 +365,7 @@ const handleHistoryDefinition = (row: any) => {
  * @param row 当前行数据
  */
 const handleState = (row: any) => {
+  if (!authStore.permitAccess()) return
   modal
     .confirm(`确定要${row.processDefinition.suspensionState === 1 ? '启用' : '停用'}“${row.name}”流程吗？`)
     .then(() => {

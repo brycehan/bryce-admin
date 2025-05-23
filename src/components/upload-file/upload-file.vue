@@ -67,7 +67,6 @@ import {
 } from 'element-plus'
 import { type UploadFile } from 'element-plus/es/components/upload/src/upload'
 import constant from '@/utils/constant.ts'
-import { useAuthStore } from '@/stores/modules/auth.ts'
 import fileExtension from 'file-extension'
 
 defineOptions({ name: 'UploadFile' })
@@ -165,7 +164,6 @@ const handleFileSuccess: UploadProps['onSuccess'] = (response, uploadFile): void
     model.value = fileList.value.map((file) => file.url!)
     return
   }
-  debugger
   ElMessage.success('上传成功')
   emitUpdateModelValue()
 }
@@ -217,7 +215,6 @@ const emitUpdateModelValue = () => {
  * @param path 文件路径
  */
 const getFilename = (path: string) => {
-  debugger
   const fullFilename = path.substring(path.lastIndexOf('/') + 1)
   const extension = fileExtension(fullFilename)
   const filename = fullFilename.substring(0, fullFilename.lastIndexOf(extension) - 16)

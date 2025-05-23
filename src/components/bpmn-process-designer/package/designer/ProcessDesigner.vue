@@ -148,9 +148,9 @@
       </template>
       <!-- 用于打开本地文件-->
       <input
-        type="file"
         id="files"
         ref="refFile"
+        type="file"
         style="display: none"
         accept=".xml, .bpmn"
         @change="importLocalFile"
@@ -158,15 +158,15 @@
     </div>
     <div class="my-process-designer__container">
       <div
-        class="my-process-designer__canvas"
-        ref="bpmnCanvas"
         id="bpmnCanvas"
+        ref="bpmnCanvas"
+        class="my-process-designer__canvas"
         style="width: 1680px; height: 800px"
       ></div>
       <!-- <div id="js-properties-panel" class="panel"></div> -->
       <!-- <div class="my-process-designer__canvas" ref="bpmn-canvas"></div> -->
     </div>
-    <el-dialog title="预览" v-model="previewModelVisible" width="80%">
+    <el-dialog v-model="previewModelVisible" title="预览" width="80%">
       <el-scrollbar height="70vh">
         <pre class="!h-[unset] !max-h-[unset]"><code class="hljs" v-html="previewResult"></code></pre>
       </el-scrollbar>

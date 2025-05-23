@@ -43,7 +43,6 @@
 import { ref } from 'vue'
 import { getImportTemplateApi, importUrl } from '@/api/system/user'
 import { ElMessageBox, type UploadProps } from 'element-plus'
-import { useAuthStore } from '@/stores/modules/auth'
 import { handleBeforeUpload } from '@/utils/tool'
 
 const emit = defineEmits(['refreshPage'])

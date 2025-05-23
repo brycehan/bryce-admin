@@ -16,7 +16,7 @@
       </el-col>
     </el-row>
     <el-form-item label="内容">
-      <div v-html="state.dataForm.content" class="mt-3"></div>
+      <div class="mt-3" v-html="state.dataForm.content"></div>
     </el-form-item>
   </el-form>
 </template>
@@ -25,7 +25,6 @@
 import { getByIdApi, saveOrUpdateApi } from '@/api/system/notice'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import { useDictStore } from '@/stores/modules/dict.ts'
 
 const emit = defineEmits(['refreshPage'])
 

@@ -1,25 +1,32 @@
 :root {
-  // logo区
-  --theme-logo-text-color: var(--el-color-primary);
+  // logo 区
+  --app-logo-text-color-light: var(--el-color-primary);
+  --app-logo-text-color-dark: #eee;
+
 
   // 侧边栏菜单
-  --theme-menu-width: 200px;
-  --theme-menu-min-width: 64px;
-  --theme-menu-bg-color: white;
-  --theme-menu-active-bg-color: var(--el-color-primary-light-9);
-  --theme-menu-border-color: var(--el-color-primary);
+  --app-aside-width: 18rem;
+  --app-aside-min-width: 64px;
+  --app-aside-bg-light: white;
+  --app-aside-bg-dark: #263544;
+  --app-aside-active-bg-color: var(--el-color-primary-light-9);
+  --app-aside-border-color: var(--el-color-primary);
 
   // 顶栏区域
-  --theme-header-height: 50px;
-  --theme-header-text-color: #444;
-  --theme-header-bg-color: white;
-  --theme-header-hover-color: rgb(0 0 0 / 10%);
+  --app-header-height: 3.5rem;
+  --app-header-text-color: #444;
+  --app-header-bg-color: white;
+  --app-header-hover-color: rgb(0 0 0 / 10%);
 
   // 主区域
-  --theme-main-bg-color: #f0f2f5;
-  --theme-main-tabs-height: 40px;
-  --theme-main-content-padding: 10px;
+  --app-main-bg-color: #f0f2f5;
+  --app-main-tabs-height: 2.75rem;
+  --app-main-content-padding: 1.5rem;
 
-  // 边框
-  --theme-border-color-light: #f1f2f3;
+  // 底部区域
+  --app-footer-height: 3.5rem;
+
+  // 边框 #f1f2f3
+  --app-border-color: var(--el-border-color-light);
+  --app-dark-text-color: rgb(255 255 255 / 66%);
 }

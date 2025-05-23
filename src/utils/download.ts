@@ -7,6 +7,7 @@ import { ElLoading, ElMessage } from 'element-plus'
  * @param config 请求配置
  */
 const download = (config?: any) => {
+  if (!useAuthStore().permitAccess()) return
   const downloadLoadingInstance = ElLoading.service({ text: '正在下载数据，请稍候', background: 'rgba(0, 0, 0, 0.7)' })
   // 设置responseType 响应类型为blob，响应的直接是个blob对象
   request

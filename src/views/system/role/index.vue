@@ -1,10 +1,10 @@
 <template>
   <el-card shadow="never">
     <el-form
+      v-show="showSearch"
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
-      v-show="showSearch"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -54,7 +54,7 @@
         @click="handleDownloadExcel()"
         >导出</el-button
       >
-      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <right-toolbar v-model:show-search="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -90,25 +90,25 @@
         align="center"
         min-width="110"
       />
-      <el-table-column label="状态" prop="status" sortable="custom" header-align="center" align="center" min-width="90">
-        <template #default="scope">
-          <el-switch
-            v-model="scope.row.status"
-            :disabled="scope.row.id == 1"
-            :width="40"
-            :active-value="1"
-            :inactive-value="0"
-            @change="handleStatusChange(scope.row)"
-          />
-        </template>
-      </el-table-column>
+      <dict-table-column
+        label="状态"
+        prop="status"
+        sortable="custom"
+        header-align="center"
+        align="center"
+        min-width="90"
+        dict-type="sys_status"
+        column-type="switch"
+        @change="handleChangeStatus"
+      />
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="220">
         <template #default="scope">
-          <div v-if="scope.row.id != 1">
+          <el-space v-if="scope.row.id != 1" :spacer="spacer" class="!gap-0">
             <el-button
               v-auth:has-authority="'system:role:update'"
               type="primary"
+              class="!px-0"
               icon="edit"
               text
               @click="handleAddOrEdit(scope.row.id)"
@@ -118,6 +118,7 @@
               v-auth:has-authority="'system:role:delete'"
               type="danger"
               icon="delete"
+              class="!px-0"
               text
               @click="handleDeleteBatch('code', '角色编码', scope.row)"
               >删除
@@ -126,7 +127,7 @@
               v-auth:has-authority="'system:role:update'"
               @command="(command: string) => handleCommand(command, scope.row)"
             >
-              <el-button type="success" icon="d-arrow-right" class="btn-more-link" text>更多</el-button>
+              <el-button type="success" icon="d-arrow-right" class="flex !px-0 leading-normal" text>更多</el-button>
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item command="handleDataScope" icon="CircleCheck">数据权限</el-dropdown-item>
@@ -134,7 +135,7 @@
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
-          </div>
+          </el-space>
         </template>
       </el-table-column>
     </el-table>
@@ -153,7 +154,7 @@
     <!-- 数据权限 -->
     <DataScope ref="dataScopeRef" />
     <!-- 弹窗，分配用户 -->
-    <el-drawer v-if="assignUserVisible" v-model="assignUserVisible" :title="assignUserTitle" :size="1000">
+    <el-drawer v-if="assignUserVisible" v-model="assignUserVisible" :title="assignUserTitle" size="80%">
       <AssignUser :row="assignUserRow" />
     </el-drawer>
   </el-card>
@@ -167,7 +168,8 @@ import { crud } from '@/utils/state'
 import DataScope from '@/views/system/role/data-scope.vue'
 import AssignUser from '@/views/system/role/assign-user.vue'
 import modal from '@/utils/modal'
-import { ElMessage } from 'element-plus'
+import { ElDivider, ElMessage } from 'element-plus'
+import { h } from 'vue'
 
 const state: StateOptions = reactive({
   api: {
@@ -198,11 +200,8 @@ const showSearch = ref(true)
 const assignUserVisible = ref(false)
 const assignUserTitle = ref('')
 const assignUserRow = ref()
-// const roleId = ref()
-
-onMounted(() => {
-  getPage()
-})
+const authStore = useAuthStore()
+const spacer = h(ElDivider, { direction: 'vertical' })
 
 const {
   getPage,
@@ -235,6 +234,7 @@ const handleResetQuery = () => {
  * @param id 数据ID
  */
 const handleAddOrEdit = (id?: string) => {
+  if (!authStore.permitAccess()) return
   addOrEditRef.value.init(id)
 }
 
@@ -243,17 +243,15 @@ const handleAddOrEdit = (id?: string) => {
  *
  * @param row 当前行数据
  */
-const handleStatusChange = (row: any) => {
+const handleChangeStatus = (row: any) => {
   const text = row.status === 1 ? '启用' : '停用'
+  row.status = row.status === 1 ? 0 : 1
   modal
-    .confirm(`确定要${text}“${row.username}”用户吗？`)
+    .confirm(`确定要${text}名称为“${row.name}”的角色吗？`)
+    .then(() => patchStatusApi(row.id, row.status === 1 ? 0 : 1))
     .then(() => {
-      patchStatusApi(row.id, row.status).then(() => {
-        ElMessage.success(`${text}成功`)
-      })
-    })
-    .catch(() => {
       row.status = row.status === 1 ? 0 : 1
+      ElMessage.success(`${text}成功`)
     })
 }
 
@@ -282,6 +280,7 @@ const handleCommand = (command: string, row: any) => {
  * @param row 当前行数据
  */
 const handleDataScope = (row: any) => {
+  if (!authStore.permitAccess()) return
   dataScopeRef.value.init(row.id)
 }
 
@@ -291,8 +290,14 @@ const handleDataScope = (row: any) => {
  * @param row 当前行数据
  */
 const handleAssignUser = (row: any) => {
+  if (!authStore.permitAccess()) return
+
   assignUserVisible.value = true
   assignUserTitle.value = `分配用户 - 角色“${row.name}”`
   assignUserRow.value = row
 }
+
+onMounted(() => {
+  getPage()
+})
 </script>

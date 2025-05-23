@@ -54,10 +54,10 @@ export const postExportExcelApi = (data: any) => {
  * 校验系统参数键名是否唯一
  *
  * @param paramKey 参数键名
- * @param id 系统参数ID
+ * @param idRef 系统参数ID
  */
-export const getCheckParamKeyUniqueApi = (paramKey: string, id: number) => {
-  return request.get('/system/param/checkParamKeyUnique', { params: { id, paramKey } })
+export const getCheckParamKeyUniqueApi = (paramKey: string, idRef: Ref) => {
+  return request.get('/system/param/checkParamKeyUnique', { params: { id: idRef.value, paramKey } })
 }
 
 /**

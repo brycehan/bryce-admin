@@ -1,6 +1,6 @@
 <template>
   <el-card>
-    <div ref="main" class="w-full" style="height: calc(100vh - 110px - var(--theme-header-height))"></div>
+    <div ref="main" class="w-full" style="height: calc(100vh - 110px - var(--app-header-height))"></div>
   </el-card>
 </template>
 
@@ -9,10 +9,6 @@ import * as echarts from 'echarts'
 import { onMounted, ref } from 'vue'
 
 const main = ref()
-
-onMounted(() => {
-  init()
-})
 
 const init = () => {
   const myChart = echarts.init(main.value)
@@ -116,4 +112,8 @@ const init = () => {
     ],
   })
 }
+
+onMounted(() => {
+  init()
+})
 </script>

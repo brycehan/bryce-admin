@@ -8,33 +8,33 @@
           <el-option label="条件流转路径" value="condition" />
         </el-select>
       </el-form-item>
-      <el-form-item label="条件格式" v-if="flowConditionForm.type === 'condition'" key="condition">
+      <el-form-item v-if="flowConditionForm.type === 'condition'" key="condition" label="条件格式">
         <el-select v-model="flowConditionForm.conditionType">
           <el-option label="表达式" value="expression" />
           <el-option label="脚本" value="script" />
         </el-select>
       </el-form-item>
       <el-form-item
-        label="表达式"
         v-if="flowConditionForm.conditionType && flowConditionForm.conditionType === 'expression'"
         key="express"
+        label="表达式"
       >
         <el-input v-model="flowConditionForm.body" style="width: 192px" clearable @change="updateFlowCondition" />
       </el-form-item>
       <template v-if="flowConditionForm.conditionType && flowConditionForm.conditionType === 'script'">
-        <el-form-item label="脚本语言" key="language">
+        <el-form-item key="language" label="脚本语言">
           <el-input v-model="flowConditionForm.language" clearable @change="updateFlowCondition" />
         </el-form-item>
-        <el-form-item label="脚本类型" key="scriptType">
+        <el-form-item key="scriptType" label="脚本类型">
           <el-select v-model="flowConditionForm.scriptType">
             <el-option label="内联脚本" value="inlineScript" />
             <el-option label="外部脚本" value="externalScript" />
           </el-select>
         </el-form-item>
-        <el-form-item label="脚本" v-if="flowConditionForm.scriptType === 'inlineScript'" key="body">
+        <el-form-item v-if="flowConditionForm.scriptType === 'inlineScript'" key="body" label="脚本">
           <el-input v-model="flowConditionForm.body" type="textarea" clearable @change="updateFlowCondition" />
         </el-form-item>
-        <el-form-item label="资源地址" v-if="flowConditionForm.scriptType === 'externalScript'" key="resource">
+        <el-form-item v-if="flowConditionForm.scriptType === 'externalScript'" key="resource" label="资源地址">
           <el-input v-model="flowConditionForm.resource" clearable @change="updateFlowCondition" />
         </el-form-item>
       </template>

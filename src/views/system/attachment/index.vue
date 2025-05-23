@@ -1,10 +1,10 @@
 <template>
   <el-card shadow="never">
     <el-form
+      v-show="showSearch"
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
-      v-show="showSearch"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -31,7 +31,7 @@
         @click="handleDeleteBatch('name', '附件名称')"
         >删除</el-button
       >
-      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <right-toolbar v-model:show-search="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -89,19 +89,24 @@
       />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="180">
         <template #default="scope">
-          <!--          &lt;!&ndash; 公共访问权限，浏览器有下载进度条 &ndash;&gt;-->
-          <!--          <a :href="scope.row.url" download v-if="scope.row.accessType === 0" class="download-a">-->
-          <!--            <el-button type="primary"  icon="download" text>下载</el-button>-->
-          <!--          </a>-->
-          <el-button type="primary" icon="download" text @click="handleDownload(scope.row)">下载</el-button>
-          <el-button
-            v-auth:has-authority="'system:attachment:delete'"
-            type="danger"
-            icon="delete"
-            text
-            @click="handleDeleteBatch('name', '附件名称', scope.row)"
-            >删除</el-button
-          >
+          <el-space :spacer="spacer" class="!gap-0">
+            <!-- 公共访问权限，浏览器有下载进度条 -->
+            <a v-if="scope.row.accessType === 0" :href="scope.row.url" download class="download-a">
+              <el-button type="primary" class="!px-0" icon="download" text>下载</el-button>
+            </a>
+            <el-button v-else type="primary" class="!px-0" icon="download" text @click="handleDownload(scope.row)">
+              下载
+            </el-button>
+            <el-button
+              v-auth:has-authority="'system:attachment:delete'"
+              type="danger"
+              class="!px-0"
+              icon="delete"
+              text
+              @click="handleDeleteBatch('name', '附件名称', scope.row)"
+              >删除</el-button
+            >
+          </el-space>
         </template>
       </el-table-column>
     </el-table>
@@ -126,8 +131,8 @@ import { crud } from '@/utils/state'
 import { convertSizeFormat } from '@/utils/tool'
 import download from '@/utils/download'
 import UploadFile from '@/views/system/attachment/upload-file.vue'
-import { useClipboard } from '@vueuse/core'
-import { ElMessage } from 'element-plus'
+import { ElDivider, ElMessage } from 'element-plus'
+import { h } from 'vue'
 
 const state: StateOptions = reactive({
   api: {
@@ -144,11 +149,9 @@ const queryFormRef = ref()
 // 显示搜索条件
 const showSearch = ref(true)
 const uploadFileRef = ref()
+const authStore = useAuthStore()
 const { copy } = useClipboard()
-
-onMounted(() => {
-  getPage()
-})
+const spacer = h(ElDivider, { direction: 'vertical' })
 
 const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } = crud(state)
 
@@ -171,6 +174,7 @@ const handleResetQuery = () => {
  * 上传按钮操作
  */
 const handleUpload = () => {
+  if (!authStore.permitAccess()) return
   uploadFileRef.value.init()
 }
 
@@ -193,6 +197,10 @@ const handleDownload = (row: any) => {
     download.get(row.url, { filename: row.name })
   }
 }
+
+onMounted(() => {
+  getPage()
+})
 </script>
 
 <style lang="scss" scoped>

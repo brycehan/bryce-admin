@@ -1,11 +1,11 @@
 <template>
   <el-card :header="`点击图标即可复制代码，已提供的图标：${iconLength}个`" shadow="hover">
-    <el-row class="iconfont-row border-t border-l border-solid border-(--theme-border-color-light)">
+    <el-row class="iconfont-row border-t border-l border-solid border-(--app-border-color)">
       <template v-for="(coll, k) in iconCollections">
         <el-col
           v-for="(icon, key) in Object.keys(coll.icons)"
           :key="`${k}-${key}`"
-          class="h-[100px] border-r border-b border-solid border-(--theme-border-color-light)"
+          class="h-[100px] border-r border-b border-solid border-(--app-border-color)"
           :xs="12"
           :sm="8"
           :md="6"
@@ -13,8 +13,8 @@
           :xl="2"
         >
           <div
-            @click="handleCopy(coll.prefix, icon)"
             class="flex h-full w-full cursor-pointer flex-col items-center justify-center overflow-hidden hover:bg-[var(--el-border-color-extra-light)]"
+            @click="handleCopy(coll.prefix, icon)"
           >
             <icon :icon="`${coll.prefix}:${icon}`" width="30" class="mb-[10px] flex" />
             <p>{{ coll.prefix }}:{{ icon }}</p>
@@ -26,9 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { useClipboard } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
-import { computed, onMounted, ref } from 'vue'
 import BrcIconsJSON from '@/assets/js/brc-icons.json'
 
 const { copy } = useClipboard()

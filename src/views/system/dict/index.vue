@@ -1,10 +1,10 @@
 <template>
   <el-card shadow="never">
     <el-form
+      v-show="showSearch"
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
-      v-show="showSearch"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -58,7 +58,7 @@
         @click="handleDownloadExcel()"
         >导出</el-button
       >
-      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <right-toolbar v-model:show-search="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -98,30 +98,35 @@
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="165" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="255">
         <template #default="scope">
-          <el-button
-            v-auth:has-authority="'system:dictData:page'"
-            type="primary"
-            icon="setting"
-            text
-            @click="handleShowDictData(scope.row)"
-            >字典配置</el-button
-          >
-          <el-button
-            v-auth:has-authority="'system:dict-type:update'"
-            type="primary"
-            icon="edit"
-            text
-            @click="handleAddOrEdit(scope.row.id)"
-            >修改</el-button
-          >
-          <el-button
-            v-auth:has-authority="'system:dict-type:delete'"
-            type="danger"
-            icon="delete"
-            text
-            @click="handleDeleteBatch('dictType', '字典类型', scope.row)"
-            >删除</el-button
-          >
+          <el-space :spacer="spacer" class="!gap-0">
+            <el-button
+              v-auth:has-authority="'system:dictData:page'"
+              type="primary"
+              class="!px-0"
+              icon="setting"
+              text
+              @click="handleShowDictData(scope.row)"
+              >字典配置</el-button
+            >
+            <el-button
+              v-auth:has-authority="'system:dict-type:update'"
+              type="primary"
+              class="!px-0"
+              icon="edit"
+              text
+              @click="handleAddOrEdit(scope.row.id)"
+              >修改</el-button
+            >
+            <el-button
+              v-auth:has-authority="'system:dict-type:delete'"
+              type="danger"
+              class="!px-0"
+              icon="delete"
+              text
+              @click="handleDeleteBatch('dictType', '字典类型', scope.row)"
+              >删除</el-button
+            >
+          </el-space>
         </template>
       </el-table-column>
     </el-table>
@@ -139,7 +144,7 @@
     <add-or-edit ref="addOrEditRef" @refresh-page="getPage" />
 
     <!-- 字典配置 -->
-    <el-drawer v-if="dataVisible" v-model="dataVisible" :title="dataTitle" :size="1000">
+    <el-drawer v-if="dataVisible" v-model="dataVisible" :title="dataTitle" size="80%">
       <Data :dict-type-id="dictTypeId" value="" />
     </el-drawer>
   </el-card>
@@ -151,6 +156,7 @@ import Data from '@/views/system/dict/data.vue'
 import { postPageApi, deleteByIdsApi, postExportExcelApi } from '@/api/system/dictType'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
+import { ElDivider } from 'element-plus'
 
 const state: StateOptions = reactive({
   api: {
@@ -177,10 +183,8 @@ const dictTypeId = ref()
 
 // 显示搜索条件
 const showSearch = ref(true)
-
-onMounted(() => {
-  getPage()
-})
+const authStore = useAuthStore()
+const spacer = h(ElDivider, { direction: 'vertical' })
 
 const {
   getPage,
@@ -209,6 +213,7 @@ const handleResetQuery = () => {
 
 /** 新增/修改 弹窗 */
 const handleAddOrEdit = (id?: string) => {
+  if (!authStore.permitAccess()) return
   addOrEditRef.value.init(id)
 }
 
@@ -218,8 +223,13 @@ const handleAddOrEdit = (id?: string) => {
  * @param row 当前数据行
  */
 const handleShowDictData = (row: any) => {
+  if (!authStore.permitAccess()) return
   dictTypeId.value = row.id
   dataVisible.value = true
   dataTitle.value = `字典配置 - 字典类型“${row.dictType}”`
 }
+
+onMounted(() => {
+  getPage()
+})
 </script>

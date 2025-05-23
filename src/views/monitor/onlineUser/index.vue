@@ -101,10 +101,7 @@ const state: StateOptions = reactive({
 })
 
 const queryFormRef = ref()
-
-onMounted(() => {
-  getPage()
-})
+const authStore = useAuthStore()
 
 const { getPage, handleSizeChange, handleCurrentChange, handleSelectionChange } = crud(state)
 
@@ -129,6 +126,7 @@ const handleResetQuery = () => {
  * @param row 当前行数据
  */
 const handleForceQuit = (row: any) => {
+  if (!authStore.permitAccess()) return
   modal
     .confirm(`是否确认强退账号为“${row.username}”的用户？`)
     .then(() => {
@@ -140,4 +138,8 @@ const handleForceQuit = (row: any) => {
     })
     .catch(() => {})
 }
+
+onMounted(() => {
+  getPage()
+})
 </script>

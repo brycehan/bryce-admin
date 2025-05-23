@@ -457,9 +457,6 @@ const updateElementExtensions = () => {
 }
 
 const formList = ref<any[]>([]) // 流程表单的下拉框的数据
-onMounted(async () => {
-  formList.value = await FormApi.postListApi({}).then((response) => response.data)
-})
 
 watch(
   () => props.id,
@@ -468,4 +465,8 @@ watch(
   },
   { immediate: true },
 )
+
+onMounted(async () => {
+  formList.value = await FormApi.postListApi({}).then((response) => response.data)
+})
 </script>

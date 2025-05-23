@@ -1,7 +1,7 @@
 <template>
   <el-dialog v-model="signDialogVisible" title="签名" width="935">
     <div class="position-relative">
-      <Vue3Signature class="b b-solid b-gray" ref="signature" w="900px" h="400px" />
+      <Vue3Signature ref="signature" class="b b-solid b-gray" w="900px" h="400px" />
       <el-button
         class="pos-absolute right-[10px] bottom-[20px]"
         type="primary"
@@ -35,9 +35,9 @@ const signature = ref()
 const open = async () => {
   signDialogVisible.value = true
 }
-defineExpose({ open })
 
 const emits = defineEmits(['success'])
+
 const submit = async () => {
   ElMessage.success('签名上传中请稍等。。。')
   const res = await uploadFileApi.uploadFile({
@@ -47,4 +47,6 @@ const submit = async () => {
   emits('success', res.data)
   signDialogVisible.value = false
 }
+
+defineExpose({ open })
 </script>

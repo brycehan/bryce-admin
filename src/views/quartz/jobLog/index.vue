@@ -1,10 +1,10 @@
 <template>
   <el-card shadow="never">
     <el-form
+      v-show="showSearch"
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
-      v-show="showSearch"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -44,7 +44,7 @@
         @click="handleDownloadExcel()"
         >导出</el-button
       >
-      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <right-toolbar v-model:show-search="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -137,13 +137,8 @@ const infoRef = ref()
 
 // 显示搜索条件
 const showSearch = ref(true)
-
+const authStore = useAuthStore()
 const route = useRoute()
-
-onMounted(() => {
-  state.queryForm.jobName = (route.query.jobName as string) || ''
-  getPage()
-})
 
 const {
   getPage,
@@ -182,6 +177,7 @@ const handleInfo = (id: string) => {
  * 清空按钮操作
  */
 const handleCleanJobLog = () => {
+  if (!authStore.permitAccess()) return
   modal
     .confirm('是否确认清空所有调度日志数据？')
     .then(() => {
@@ -192,4 +188,9 @@ const handleCleanJobLog = () => {
     })
     .catch(() => {})
 }
+
+onMounted(() => {
+  state.queryForm.jobName = (route.query.jobName as string) || ''
+  getPage()
+})
 </script>

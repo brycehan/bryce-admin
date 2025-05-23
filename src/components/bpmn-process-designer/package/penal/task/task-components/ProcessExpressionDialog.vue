@@ -6,9 +6,9 @@
       :data="state.data"
       :border="true"
       style="width: 100%"
+      show-overflow-tooltip
       @selection-change="handleSelectionChange"
       @sort-change="handleSortChange"
-      show-overflow-tooltip
     >
       <el-table-column label="名称" align="center" prop="name" />
       <el-table-column label="表达式" align="center" prop="expression" />

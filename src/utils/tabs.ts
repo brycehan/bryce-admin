@@ -1,5 +1,3 @@
-import { useTabsStore } from '@/stores/modules/tabs'
-
 /**
  * 关闭标签页
  *

@@ -5,8 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import { useDictStore } from '@/stores/modules/dict.ts'
-
 const props = defineProps({
   dictType: {
     type: String,

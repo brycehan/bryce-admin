@@ -8,15 +8,15 @@
           </el-radio>
           <el-form-item prop="approveRatio">
             <el-input-number
+              v-if="
+                item.value === ApproveMethodType.APPROVE_BY_RATIO &&
+                approveMethod === ApproveMethodType.APPROVE_BY_RATIO
+              "
               v-model="approveRatio"
               :min="10"
               :max="100"
               :step="10"
               size="small"
-              v-if="
-                item.value === ApproveMethodType.APPROVE_BY_RATIO &&
-                approveMethod === ApproveMethodType.APPROVE_BY_RATIO
-              "
               @change="onApproveRatioChange"
             />
           </el-form-item>
@@ -41,21 +41,21 @@
       <template
         v-if="loopCharacteristics === 'ParallelMultiInstance' || loopCharacteristics === 'SequentialMultiInstance'"
       >
-        <el-form-item label="循环数量" key="loopCardinality">
+        <el-form-item key="loopCardinality" label="循环数量">
           <el-input v-model="loopInstanceForm.loopCardinality" clearable @change="updateLoopCardinality" />
         </el-form-item>
-        <el-form-item label="集合" key="collection" v-show="false">
+        <el-form-item v-show="false" key="collection" label="集合">
           <el-input v-model="loopInstanceForm.collection" clearable @change="updateLoopBase" />
         </el-form-item>
         <!-- 由于「元素变量」暂时用不到，所以这里 display 为 none -->
-        <el-form-item label="元素变量" key="elementVariable" style="display: none">
+        <el-form-item key="elementVariable" label="元素变量" style="display: none">
           <el-input v-model="loopInstanceForm.elementVariable" clearable @change="updateLoopBase" />
         </el-form-item>
-        <el-form-item label="完成条件" key="completionCondition">
+        <el-form-item key="completionCondition" label="完成条件">
           <el-input v-model="loopInstanceForm.completionCondition" clearable @change="updateLoopCondition" />
         </el-form-item>
         <!-- 由于「异步状态」暂时用不到，所以这里 display 为 none -->
-        <el-form-item label="异步状态" key="async" style="display: none">
+        <el-form-item key="async" label="异步状态" style="display: none">
           <el-checkbox
             v-model="loopInstanceForm.asyncBefore"
             label="异步前"
@@ -69,18 +69,18 @@
             @change="updateLoopAsync('asyncAfter')"
           />
           <el-checkbox
-            v-model="loopInstanceForm.exclusive"
             v-if="loopInstanceForm.asyncAfter || loopInstanceForm.asyncBefore"
+            v-model="loopInstanceForm.exclusive"
             label="排除"
             value="排除"
             @change="updateLoopAsync('exclusive')"
           />
         </el-form-item>
         <el-form-item
-          label="重试周期"
-          prop="timeCycle"
           v-if="loopInstanceForm.asyncAfter || loopInstanceForm.asyncBefore"
           key="timeCycle"
+          label="重试周期"
+          prop="timeCycle"
         >
           <el-input v-model="loopInstanceForm.timeCycle" clearable @change="updateLoopTimeCycle" />
         </el-form-item>

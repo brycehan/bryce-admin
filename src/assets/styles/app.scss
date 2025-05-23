@@ -1,7 +1,3 @@
-* {
-  outline: none;
-}
-
 html,
 body,
 #app {
@@ -26,8 +22,14 @@ a:hover {
   cursor: pointer;
 }
 
-#nprogress {
-  .bar {
-    background-color: var(--el-color-primary) !important;
-  }
+* {
+  outline: none;
+}
+
+.grey-mode {
+  filter: grayscale(100%);
+}
+
+#nprogress .bar {
+  background-color: var(--el-color-primary) !important;
 }

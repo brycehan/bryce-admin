@@ -6,7 +6,7 @@
       <el-table-column label="属性值" prop="value" min-width="100px" show-overflow-tooltip />
       <el-table-column label="操作" width="110px">
         <template #default="scope">
-          <el-button link @click="openAttributesForm(scope.row, scope.$index)" size="small"> 编辑 </el-button>
+          <el-button link size="small" @click="openAttributesForm(scope.row, scope.$index)"> 编辑 </el-button>
           <el-divider direction="vertical" />
           <el-button link size="small" style="color: #ff4d4f" @click="removeAttributes(scope.row, scope.$index)">
             移除
@@ -19,7 +19,7 @@
     </div>
 
     <el-dialog v-model="propertyFormModelVisible" title="属性配置" width="600px" append-to-body destroy-on-close>
-      <el-form :model="propertyForm" label-width="80px" ref="attributeFormRef">
+      <el-form ref="attributeFormRef" :model="propertyForm" label-width="80px">
         <el-form-item label="属性名：" prop="name">
           <el-input v-model="propertyForm.name" clearable />
         </el-form-item>

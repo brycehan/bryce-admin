@@ -34,22 +34,26 @@
     <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" />
     <el-table-column label="操作" fixed="right" header-align="center" align="center" width="180">
       <template #default="scope">
-        <el-button
-          v-auth:has-authority="'system:dictData:update'"
-          type="primary"
-          icon="edit"
-          text
-          @click="handleAddOrEdit(scope.row.id)"
-          >修改
-        </el-button>
-        <el-button
-          v-auth:has-authority="'system:dictData:delete'"
-          type="danger"
-          icon="delete"
-          text
-          @click="handleDeleteBatch('dictLabel', '字典标签', scope.row)"
-          >删除
-        </el-button>
+        <el-space :spacer="spacer" class="!gap-0">
+          <el-button
+            v-auth:has-authority="'system:dictData:update'"
+            type="primary"
+            class="!px-0"
+            icon="edit"
+            text
+            @click="handleAddOrEdit(scope.row.id)"
+            >修改
+          </el-button>
+          <el-button
+            v-auth:has-authority="'system:dictData:delete'"
+            type="danger"
+            class="!px-0"
+            icon="delete"
+            text
+            @click="handleDeleteBatch('dictLabel', '字典标签', scope.row)"
+            >删除
+          </el-button>
+        </el-space>
       </template>
     </el-table-column>
   </el-table>
@@ -72,6 +76,7 @@ import AddOrEdit from './data-add-or-edit.vue'
 import { postPageApi, deleteByIdsApi } from '@/api/system/dictData'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
+import { ElDivider } from 'element-plus'
 
 const props = defineProps({
   dictTypeId: {
@@ -96,16 +101,23 @@ const state: StateOptions = reactive({
 })
 
 const addOrEditRef = ref()
+const authStore = useAuthStore()
+const spacer = h(ElDivider, { direction: 'vertical' })
+
+const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } = crud(state)
+
+/**
+ * 新增/修改 弹窗
+ *
+ * @param id 数据ID
+ */
+const handleAddOrEdit = (id?: string) => {
+  if (!authStore.permitAccess()) return
+  addOrEditRef.value.dataForm.dictTypeId = props.dictTypeId
+  addOrEditRef.value.init(id)
+}
 
 onMounted(() => {
   getPage()
 })
-
-const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } = crud(state)
-
-/** 新增/修改 弹窗 */
-const handleAddOrEdit = (id?: string) => {
-  addOrEditRef.value.dataForm.dictTypeId = props.dictTypeId
-  addOrEditRef.value.init(id)
-}
 </script>

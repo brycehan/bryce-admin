@@ -4,8 +4,8 @@
     :model="dataForm"
     :rules="dataRules"
     label-width="140"
-    @keyup.enter="handleSubmit()"
     class="mr-4"
+    @keyup.enter="handleSubmit()"
   >
     <el-form-item :label="t('profile.basic.password.password')" prop="password">
       <el-input

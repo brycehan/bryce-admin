@@ -125,10 +125,6 @@ const data = reactive({
   disks: [],
 })
 
-onMounted(() => {
-  getServerInfo()
-})
-
 const getServerInfo = () => {
   const loading = modal.loading('正在加载服务监控数据，请稍候！')
   getServerInfoApi().then((res: any) => {
@@ -136,6 +132,10 @@ const getServerInfo = () => {
     modal.closeLoading(loading)
   })
 }
+
+onMounted(() => {
+  getServerInfo()
+})
 </script>
 
 <style scoped lang="scss">

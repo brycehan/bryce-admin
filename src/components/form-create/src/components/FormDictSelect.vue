@@ -12,8 +12,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useDictStore } from '@/stores/modules/dict.ts'
-
 defineOptions({ name: 'FormDictSelect' })
 
 const attrs = useAttrs()

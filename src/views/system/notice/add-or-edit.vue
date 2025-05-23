@@ -87,12 +87,6 @@ const init = (id?: string) => {
   }
 }
 
-onMounted(() => {
-  if (props.noticeId) {
-    init(props.noticeId)
-  }
-})
-
 /**
  * 表单提交
  */
@@ -116,4 +110,10 @@ const handleSaveOrUpdate = () => {
     ElMessage.success('操作成功')
   })
 }
+
+onMounted(() => {
+  if (props.noticeId) {
+    init(props.noticeId)
+  }
+})
 </script>

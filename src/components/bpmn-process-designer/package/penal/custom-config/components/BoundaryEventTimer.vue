@@ -9,7 +9,7 @@
         @change="timeoutHandlerChange"
       />
     </el-form-item>
-    <el-form-item label="执行动作" prop="timeoutHandlerType" v-if="timeoutHandlerEnable">
+    <el-form-item v-if="timeoutHandlerEnable" label="执行动作" prop="timeoutHandlerType">
       <el-radio-group v-model="timeoutHandlerType.value" @change="onTimeoutHandlerTypeChanged">
         <el-radio-button
           v-for="item in TIMEOUT_HANDLER_TYPES"
@@ -19,13 +19,13 @@
         />
       </el-radio-group>
     </el-form-item>
-    <el-form-item label="超时时间设置" v-if="timeoutHandlerEnable">
+    <el-form-item v-if="timeoutHandlerEnable" label="超时时间设置">
       <span class="mr-2">当超过</span>
       <el-form-item prop="timeDuration">
         <el-input-number
+          v-model="timeDuration"
           class="mr-2"
           :style="{ width: '100px' }"
-          v-model="timeDuration"
           :min="1"
           controls-position="right"
           @change="() => updateTimeModdle()"
@@ -37,9 +37,9 @@
       未处理
     </el-form-item>
     <el-form-item
+      v-if="timeoutHandlerEnable && timeoutHandlerType.value === 1"
       label="最大提醒次数"
       prop="maxRemindCount"
-      v-if="timeoutHandlerEnable && timeoutHandlerType.value === 1"
     >
       <el-input-number v-model="maxRemindCount" :min="1" :max="10" @change="() => updateTimeModdle()" />
     </el-form-item>

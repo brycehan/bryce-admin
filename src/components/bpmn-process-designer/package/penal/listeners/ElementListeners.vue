@@ -30,7 +30,7 @@
       append-to-body
       destroy-on-close
     >
-      <el-form :model="listenerForm" label-width="96px" ref="listenerFormRef">
+      <el-form ref="listenerFormRef" :model="listenerForm" label-width="96px">
         <el-form-item label="事件类型" prop="event" :rules="{ required: true, trigger: ['blur', 'change'] }">
           <el-select v-model="listenerForm.event">
             <el-option label="start" value="start" />
@@ -49,44 +49,44 @@
         </el-form-item>
         <el-form-item
           v-if="listenerForm.listenerType === 'classListener'"
+          key="listener-class"
           label="Java类"
           prop="class"
-          key="listener-class"
           :rules="{ required: true, trigger: ['blur', 'change'] }"
         >
           <el-input v-model="listenerForm.class" clearable />
         </el-form-item>
         <el-form-item
           v-if="listenerForm.listenerType === 'expressionListener'"
+          key="listener-expression"
           label="表达式"
           prop="expression"
-          key="listener-expression"
           :rules="{ required: true, trigger: ['blur', 'change'] }"
         >
           <el-input v-model="listenerForm.expression" clearable />
         </el-form-item>
         <el-form-item
           v-if="listenerForm.listenerType === 'delegateExpressionListener'"
+          key="listener-delegate"
           label="代理表达式"
           prop="delegateExpression"
-          key="listener-delegate"
           :rules="{ required: true, trigger: ['blur', 'change'] }"
         >
           <el-input v-model="listenerForm.delegateExpression" clearable />
         </el-form-item>
         <template v-if="listenerForm.listenerType === 'scriptListener'">
           <el-form-item
+            key="listener-script-format"
             label="脚本格式"
             prop="scriptFormat"
-            key="listener-script-format"
             :rules="{ required: true, trigger: ['blur', 'change'], message: '请填写脚本格式' }"
           >
             <el-input v-model="listenerForm.scriptFormat" clearable />
           </el-form-item>
           <el-form-item
+            key="listener-script-type"
             label="脚本类型"
             prop="scriptType"
-            key="listener-script-type"
             :rules="{ required: true, trigger: ['blur', 'change'], message: '请选择脚本类型' }"
           >
             <el-select v-model="listenerForm.scriptType">
@@ -96,18 +96,18 @@
           </el-form-item>
           <el-form-item
             v-if="listenerForm.scriptType === 'inlineScript'"
+            key="listener-script"
             label="脚本内容"
             prop="value"
-            key="listener-script"
             :rules="{ required: true, trigger: ['blur', 'change'], message: '请填写脚本内容' }"
           >
             <el-input v-model="listenerForm.value" clearable />
           </el-form-item>
           <el-form-item
             v-if="listenerForm.scriptType === 'externalScript'"
+            key="listener-resource"
             label="资源地址"
             prop="resource"
-            key="listener-resource"
             :rules="{ required: true, trigger: ['blur', 'change'], message: '请填写资源地址' }"
           >
             <el-input v-model="listenerForm.resource" clearable />
@@ -152,8 +152,8 @@
     </el-drawer>
 
     <!-- 注入西段 编辑/创建 部分 -->
-    <el-dialog title="字段配置" v-model="listenerFieldFormModelVisible" width="600px" append-to-body destroy-on-close>
-      <el-form :model="listenerFieldForm" label-width="96spx" ref="listenerFieldFormRef" style="height: 136px">
+    <el-dialog v-model="listenerFieldFormModelVisible" title="字段配置" width="600px" append-to-body destroy-on-close>
+      <el-form ref="listenerFieldFormRef" :model="listenerFieldForm" label-width="96spx" style="height: 136px">
         <el-form-item label="字段名称：" prop="name" :rules="{ required: true, trigger: ['blur', 'change'] }">
           <el-input v-model="listenerFieldForm.name" clearable />
         </el-form-item>
@@ -164,18 +164,18 @@
         </el-form-item>
         <el-form-item
           v-if="listenerFieldForm.fieldType === 'string'"
+          key="field-string"
           label="字段值："
           prop="string"
-          key="field-string"
           :rules="{ required: true, trigger: ['blur', 'change'] }"
         >
           <el-input v-model="listenerFieldForm.string" clearable />
         </el-form-item>
         <el-form-item
           v-if="listenerFieldForm.fieldType === 'expression'"
+          key="field-expression"
           label="表达式："
           prop="expression"
-          key="field-expression"
           :rules="{ required: true, trigger: ['blur', 'change'] }"
         >
           <el-input v-model="listenerFieldForm.expression" clearable />

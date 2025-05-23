@@ -6,7 +6,7 @@ export default {
     miniLogoText: 'Bryce',
   },
   settings: {
-    title: '布局设置',
+    title: '项目配置',
     sidebar: {
       dark: '暗色侧边栏',
       light: '亮色侧边栏',
@@ -16,18 +16,24 @@ export default {
       primary: '主题色顶栏',
     },
     layout: {
+      appearance: '外观',
       title: '布局切换',
       vertical: '纵向',
       column: '分栏',
-      horizontal: '横向',
+      horizontalOne: '横向一',
+      horizontalTwo: '横向二',
+      setting: '布局设置',
     },
     interface: {
       title: '界面设置',
       uniqueOpened: '侧栏排他展开',
       showLogo: '开启LOGO',
       showBreadcrumb: '开启面包屑',
-      showTagsView: '开启标签页',
+      showTabsView: '开启标签页',
       showTagsViewCache: '开启标签页缓存',
+      footer: '页脚',
+      greyMode: '灰色模式',
+      watermark: '水印',
     },
     tips: '设置之后仅是临时生效，要想永久生效，需点击下方的 "复制配置" 按钮，将配置替换到 /src/store/theme/config.ts 中。',
     button: {
@@ -85,7 +91,7 @@ export default {
     errorExport: '导出失败',
   },
   rules: {
-    required: '必填项',
+    required: '必填项不能为空',
     length: '长度为{min}~{max}个字符',
     maxLength: '最多输入{0}个字符',
     minLength: '最少输入{0}个字符',

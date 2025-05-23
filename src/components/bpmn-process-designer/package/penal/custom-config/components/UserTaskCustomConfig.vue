@@ -75,17 +75,17 @@
         <div class="button-title-label pl-4">显示名称</div>
         <div class="button-title-label">启用</div>
       </div>
-      <div class="button-setting-item" v-for="(item, index) in buttonsSettingEl" :key="index">
+      <div v-for="(item, index) in buttonsSettingEl" :key="index" class="button-setting-item">
         <div class="button-setting-item-label">{{ OPERATION_BUTTON_NAME.get(item.id) }}</div>
         <div class="button-setting-item-label">
           <input
+            v-if="btnDisplayNameEdit[index]"
+            v-model="item.displayName"
+            v-mountedFocus
             type="text"
             class="editable-title-input"
-            @blur="btnDisplayNameBlurEvent(index)"
-            v-mountedFocus
-            v-model="item.displayName"
             :placeholder="item.displayName"
-            v-if="btnDisplayNameEdit[index]"
+            @blur="btnDisplayNameBlurEvent(index)"
           />
           <el-button v-else text @click="changeBtnDisplayName(index)"
             >{{ item.displayName }} &nbsp;<icon icon="ep:edit"
@@ -98,7 +98,7 @@
     </div>
 
     <el-divider content-position="left">字段权限</el-divider>
-    <div class="field-setting-pane" v-if="formType === 10">
+    <div v-if="formType === 10" class="field-setting-pane">
       <div class="field-permit-title">
         <div class="setting-title-label first-title">字段名称</div>
         <div class="other-titles">
@@ -107,9 +107,9 @@
           <span class="setting-title-label">隐藏</span>
         </div>
       </div>
-      <div class="field-setting-item" v-for="(item, index) in fieldsPermissionEl" :key="index">
+      <div v-for="(item, index) in fieldsPermissionEl" :key="index" class="field-setting-item">
         <div class="field-setting-item-label">{{ item.title }}</div>
-        <el-radio-group class="field-setting-item-group" v-model="item.permission">
+        <el-radio-group v-model="item.permission" class="field-setting-item-group">
           <div class="item-radio-wrap">
             <el-radio :value="FieldPermissionType.READ" size="large" :label="FieldPermissionType.READ"
               ><span></span
@@ -435,6 +435,7 @@ function useButtonsSetting() {
 }
 
 const userOptions = ref<any[]>([]) // 用户列表
+
 onMounted(async () => {
   // 获得用户列表
   userOptions.value = await UserApi.postListApi({}).then((res: any) => res.data)

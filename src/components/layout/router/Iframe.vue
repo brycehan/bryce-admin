@@ -1,5 +1,5 @@
 <template>
-  <el-card shadow="never" v-loading="loading">
+  <el-card v-loading="loading" shadow="never">
     <iframe :src="url" class="iframe" @load="load"></iframe>
   </el-card>
 </template>
@@ -11,10 +11,6 @@ import { replaceLinkParam } from '@/utils/tool'
 const loading = ref(false)
 const url = ref('')
 const route = useRoute()
-
-onMounted(() => {
-  initUrl(route)
-})
 
 watch(
   () => route,
@@ -45,12 +41,16 @@ const initUrl = (route: RouteLocationNormalizedLoaded): void => {
 const load = () => {
   loading.value = false
 }
+
+onMounted(() => {
+  initUrl(route)
+})
 </script>
 
 <style scoped lang="scss">
 .iframe {
   width: 100%;
-  min-height: calc(100vh - 70px - 50px - var(--theme-header-height));
+  min-height: calc(100vh - 70px - 50px - var(--app-header-height));
   border: 0;
 }
 </style>

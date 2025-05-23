@@ -1,7 +1,5 @@
 import constant from '@/utils/constant'
 import { ElMessage, type UploadProps, type UploadRawFile } from 'element-plus'
-import { useAuthStore } from '@/stores/modules/auth'
-import { useAppStore } from '@/stores/modules/app'
 import _ from 'lodash'
 
 /**
@@ -207,6 +205,17 @@ export const authHasAnyRole = (role: string | string[]) => {
 
   // 是数组时
   return authStore.roleSet.some((v: string) => v === roleSuperAdmin || role.includes(v))
+}
+
+/**
+ * 设置css变量
+ *
+ * @param prop css变量
+ * @param value 值
+ * @param dom 节点
+ */
+export const setCssVar = (prop: string, value: any, dom = document.documentElement) => {
+  dom.style.setProperty(prop, value)
 }
 
 /**

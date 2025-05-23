@@ -1,10 +1,10 @@
 <template>
-  <el-card shadow="never" ref="bpmFormCardRef">
+  <el-card ref="bpmFormCardRef" shadow="never">
     <el-form
+      v-show="showSearch"
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
-      v-show="showSearch"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -31,7 +31,7 @@
         @click="handleDeleteBatch('name', '表单名')"
         >删除</el-button
       >
-      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <right-toolbar v-model:show-search="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -47,23 +47,27 @@
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="170" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="240">
         <template #default="scope">
-          <el-button
-            v-auth:has-authority="'bpm:form:update'"
-            type="primary"
-            icon="Edit"
-            link
-            @click="openFormEditor(scope.row)"
-            >修改</el-button
-          >
-          <el-button type="info" icon="view" text @click="handleInfo(scope.row.id)">详情</el-button>
-          <el-button
-            v-auth:has-authority="'bpm:form:delete'"
-            type="danger"
-            icon="Delete"
-            link
-            @click="handleDeleteBatch('name', '表单名', scope.row)"
-            >删除</el-button
-          >
+          <el-space :spacer="spacer" class="!gap-0">
+            <el-button
+              v-auth:has-authority="'bpm:form:update'"
+              type="primary"
+              class="!px-0"
+              icon="Edit"
+              link
+              @click="openFormEditor(scope.row)"
+              >修改</el-button
+            >
+            <el-button type="info" class="!px-0" icon="view" text @click="handleInfo(scope.row.id)">详情</el-button>
+            <el-button
+              v-auth:has-authority="'bpm:form:delete'"
+              type="danger"
+              class="!px-0"
+              icon="Delete"
+              link
+              @click="handleDeleteBatch('name', '表单名', scope.row)"
+              >删除</el-button
+            >
+          </el-space>
         </template>
       </el-table-column>
     </el-table>
@@ -90,6 +94,7 @@ import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import { setPreviewConfAndFields } from '@/utils/formCreate'
 import FormCreate from '@form-create/element-ui'
+import { ElDivider } from 'element-plus'
 
 const state: StateOptions = reactive({
   api: {
@@ -107,10 +112,8 @@ const queryFormRef = ref()
 
 // 显示搜索条件
 const showSearch = ref(true)
-
-onMounted(() => {
-  getPage()
-})
+const authStore = useAuthStore()
+const spacer = h(ElDivider, { direction: 'vertical' })
 
 const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } = crud(state)
 
@@ -135,6 +138,7 @@ const handleResetQuery = () => {
  * @param row 当前行数据
  */
 const openFormEditor = (row?: any) => {
+  if (!authStore.permitAccess()) return
   const toRoute: { name: string; query?: any } = { name: 'BpmFormEditor' }
   if (row) toRoute.query = { id: row.id }
   router.push(toRoute)
@@ -152,6 +156,7 @@ const detailData = ref({
  * 详情弹窗
  */
 const handleInfo = (id: any) => {
+  if (!authStore.permitAccess()) return
   if (id) {
     getByIdApi(id).then((res: any) => {
       setPreviewConfAndFields(detailData, res.data.conf, res.data.fields)
@@ -160,4 +165,8 @@ const handleInfo = (id: any) => {
     })
   }
 }
+
+onMounted(() => {
+  getPage()
+})
 </script>

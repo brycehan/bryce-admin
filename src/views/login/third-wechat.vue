@@ -8,8 +8,6 @@
 <script setup lang="ts">
 import WxLogin from '@/assets/js/wxLogin'
 
-import { onMounted } from 'vue'
-
 onMounted(() => {
   new WxLogin({
     self_redirect: true,

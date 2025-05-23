@@ -50,7 +50,7 @@
           <el-table-column label="目标" prop="target" min-width="100px" show-overflow-tooltip />
           <el-table-column label="操作" width="110px">
             <template #default="scope">
-              <el-button link @click="openVariableForm('in', scope.row, scope.$index)" size="small"> 编辑 </el-button>
+              <el-button link size="small" @click="openVariableForm('in', scope.row, scope.$index)"> 编辑 </el-button>
               <el-divider direction="vertical" />
               <el-button link size="small" style="color: #ff4d4f" @click="removeVariable('in', scope.$index)">
                 移除
@@ -73,7 +73,7 @@
           <el-table-column label="目标" prop="target" min-width="100px" show-overflow-tooltip />
           <el-table-column label="操作" width="110px">
             <template #default="scope">
-              <el-button link @click="openVariableForm('out', scope.row, scope.$index)" size="small"> 编辑 </el-button>
+              <el-button link size="small" @click="openVariableForm('out', scope.row, scope.$index)"> 编辑 </el-button>
               <el-divider direction="vertical" />
               <el-button link size="small" style="color: #ff4d4f" @click="removeVariable('out', scope.$index)">
                 移除
@@ -86,7 +86,7 @@
 
     <!-- 添加或修改参数 -->
     <el-dialog v-model="variableDialogVisible" title="参数配置" width="600px" append-to-body destroy-on-close>
-      <el-form :model="variableFormData" label-width="80px" ref="variableFormRef">
+      <el-form ref="variableFormRef" :model="variableFormData" label-width="80px">
         <el-form-item label="源：" prop="source">
           <el-input v-model="variableFormData.source" clearable />
         </el-form-item>

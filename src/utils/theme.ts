@@ -20,6 +20,15 @@ export const handleThemePrimary = (theme: ThemeConfig) => {
 }
 
 /**
+ * Tabs 视图变更
+ *
+ * @param theme 主题
+ */
+export const handleTabsViewChange = (theme: ThemeConfig) => {
+  document.documentElement.style.setProperty('--app-main-tabs-height', theme.showTabsView ? '40px' : '0px')
+}
+
+/**
  * hex颜色转rgb颜色
  *
  * @param hex 颜色，如：#409eff

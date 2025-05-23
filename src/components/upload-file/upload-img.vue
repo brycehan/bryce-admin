@@ -51,7 +51,6 @@ import { ElMessage, ElNotification, type UploadProps } from 'element-plus'
 import { v4 as uuidv4 } from 'uuid'
 import { createImageViewer } from '@/components/image-viewer/utils.ts'
 import constant from '@/utils/constant.ts'
-import { useAuthStore } from '@/stores/modules/auth.ts'
 
 defineOptions({ name: 'UploadImg' })
 

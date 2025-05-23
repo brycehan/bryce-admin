@@ -1,10 +1,10 @@
 <template>
   <el-card shadow="never">
     <el-form
+      v-show="showSearch"
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
-      v-show="showSearch"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -62,7 +62,7 @@
         @click="handleDownloadExcel()"
         >导出</el-button
       >
-      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <right-toolbar v-model:show-search="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -181,10 +181,7 @@ const queryFormRef = ref()
 const infoRef = ref()
 // 显示搜索条件
 const showSearch = ref(true)
-
-onMounted(() => {
-  getPage()
-})
+const authStore = useAuthStore()
 
 const {
   getPage,
@@ -213,6 +210,7 @@ const handleResetQuery = () => {
  * 详情弹窗
  */
 const handleInfo = (id?: string) => {
+  if (!authStore.permitAccess()) return
   infoRef.value.init(id)
 }
 
@@ -220,6 +218,7 @@ const handleInfo = (id?: string) => {
  * 清空按钮操作
  */
 const handleCleanLog = () => {
+  if (!authStore.permitAccess()) return
   modal
     .confirm('是否确认清空所有操作日志数据？')
     .then(() => {
@@ -230,4 +229,8 @@ const handleCleanLog = () => {
     })
     .catch(() => {})
 }
+
+onMounted(() => {
+  getPage()
+})
 </script>

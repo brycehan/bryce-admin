@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
-import { postLoginByAccountApi, postLoginByPhoneApi, getCurrentUserApi, getLogoutApi } from '@/api/auth/auth'
+import { getCurrentUserApi, getLogoutApi, postLoginByAccountApi, postLoginByPhoneApi } from '@/api/auth/auth'
 import { getPermissionApi } from '@/api/system/menu'
 import storage from '@/utils/storage'
-import { ref } from 'vue'
 import type { LoginDto, LoginVo } from '@/types/modules/auth'
 import _ from 'lodash'
+import { handleAuthorized } from '@/utils/request.ts'
+import { jwtDecode } from 'jwt-decode'
 
 export const useAuthStore = defineStore(
   'authStore',
@@ -26,17 +27,32 @@ export const useAuthStore = defineStore(
     // 记住我
     const rememberMe = ref<boolean>(false)
     const rememberMeAccessToken = ref<string>()
+    // 过期时间
+    const exp = ref<number>()
+    const rememberMeExp = ref<number>()
+
     /**
      * 设置访问token
      *
      * @param token 访问token
      */
     const setToken = (token: string) => {
-      debugger
-      if (rememberMe.value) {
-        rememberMeAccessToken.value = token
-      } else {
-        accessToken.value = token
+      // 解析出过期时间
+      const decoded = jwtDecode(token)
+
+      if (_.isNumber(decoded.iat) && _.isNumber(decoded.exp)) {
+        // 设置过期时间
+        const now = Math.floor(Date.now() / 1000)
+        const duration = decoded.exp - decoded.iat
+
+        // 设置访问token
+        if (rememberMe.value) {
+          rememberMeAccessToken.value = token
+          rememberMeExp.value = now + duration - 10
+        } else {
+          accessToken.value = token
+          exp.value = now + duration - 10
+        }
       }
     }
 
@@ -86,10 +102,26 @@ export const useAuthStore = defineStore(
      */
     const isAuthenticated = (): boolean => {
       if (rememberMe.value) {
-        return !_.isEmpty(rememberMeAccessToken.value)
+        return (
+          !_.isEmpty(rememberMeAccessToken.value) &&
+          _.isNumber(rememberMeExp.value) &&
+          rememberMeExp.value > Math.floor(Date.now() / 1000)
+        )
       } else {
-        return !_.isEmpty(accessToken.value)
+        return !_.isEmpty(accessToken.value) && _.isNumber(exp.value) && exp.value > Math.floor(Date.now() / 1000)
       }
+    }
+
+    /**
+     * 判断允许访问
+     */
+    const permitAccess = () => {
+      const result = isAuthenticated()
+      if (!result) {
+        handleAuthorized()
+      }
+
+      return result
     }
 
     /**
@@ -132,6 +164,16 @@ export const useAuthStore = defineStore(
       rememberMeAccessToken.value = undefined
       roleSet.value = []
       authoritySet.value = []
+      exp.value = undefined
+      rememberMeExp.value = undefined
+    }
+
+    /**
+     * 移除访问token
+     */
+    const removeToken = () => {
+      accessToken.value = undefined
+      rememberMeAccessToken.value = undefined
     }
 
     /**
@@ -149,6 +191,8 @@ export const useAuthStore = defineStore(
       accessToken,
       rememberMe,
       rememberMeAccessToken,
+      exp,
+      rememberMeExp,
       user,
       roleSet,
       authoritySet,
@@ -159,18 +203,20 @@ export const useAuthStore = defineStore(
       getCurrentUser,
       getPermission,
       removePermission,
+      removeToken,
       isAuthenticated,
+      permitAccess,
       logout,
     }
   },
   {
     persist: [
       {
-        pick: ['accessToken', 'roleSet', 'authoritySet'],
+        pick: ['accessToken', 'roleSet', 'authoritySet', 'exp'],
         storage: sessionStorage,
       },
       {
-        pick: ['rememberMe', 'rememberMeAccessToken'],
+        pick: ['rememberMe', 'rememberMeAccessToken', 'rememberMeExp'],
         storage: localStorage,
       },
     ],

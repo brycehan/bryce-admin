@@ -2,11 +2,11 @@
   <div class="color-[#32373c] dark:color-#fff btn-container bottom-10 flex h-[50px] items-center text-[14px] font-bold">
     <!-- 【通过】按钮 -->
     <el-popover
+      v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.APPROVE)"
       :visible="popOverVisible.approve"
       placement="top-end"
       :width="420"
       trigger="click"
-      v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.APPROVE)"
     >
       <template #reference>
         <el-button plain type="success" icon="select" @click="openPopover('approve')">
@@ -14,11 +14,11 @@
         </el-button>
       </template>
       <!-- 审批表单 -->
-      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
+      <div v-loading="formLoading" class="flex flex-1 flex-col px-[20px] pt-[20px]">
         <el-form
+          ref="approveFormRef"
           label-position="top"
           class="mb-auto"
-          ref="approveFormRef"
           :model="approveReasonForm"
           :rules="approveReasonRule"
           label-width="100px"
@@ -37,11 +37,11 @@
           <el-form-item label="审批意见" prop="reason">
             <el-input v-model="approveReasonForm.reason" placeholder="请输入审批意见" type="textarea" :rows="4" />
           </el-form-item>
-          <el-form-item v-if="runningTask.signEnable" label="签名" prop="signPicUrl" ref="approveSignFormRef">
+          <el-form-item v-if="runningTask.signEnable" ref="approveSignFormRef" label="签名" prop="signPicUrl">
             <el-button @click="signRef.open()">点击签名</el-button>
             <el-image
-              class="ml-[5px] h-[40px] w-[90px]"
               v-if="approveReasonForm.signPicUrl"
+              class="ml-[5px] h-[40px] w-[90px]"
               :src="approveReasonForm.signPicUrl"
               :preview-src-list="[approveReasonForm.signPicUrl]"
             />
@@ -58,11 +58,11 @@
 
     <!-- 【拒绝】按钮 -->
     <el-popover
+      v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.REJECT)"
       :visible="popOverVisible.reject"
       placement="top-end"
       :width="420"
       trigger="click"
-      v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.REJECT)"
     >
       <template #reference>
         <el-button class="mr-[20px]" type="danger" icon="close" plain @click="openPopover('reject')">
@@ -70,11 +70,11 @@
         </el-button>
       </template>
       <!-- 审批表单 -->
-      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
+      <div v-loading="formLoading" class="flex flex-1 flex-col px-[20px] pt-[20px]">
         <el-form
+          ref="rejectFormRef"
           label-position="top"
           class="mb-auto"
-          ref="rejectFormRef"
           :model="rejectReasonForm"
           :rules="rejectReasonRule"
           label-width="100px"
@@ -94,23 +94,23 @@
 
     <!-- 【抄送】按钮 -->
     <el-popover
+      v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.COPY)"
       :visible="popOverVisible.copy"
       placement="top-start"
       :width="420"
       trigger="click"
-      v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.COPY)"
     >
       <template #reference>
-        <div @click="openPopover('copy')" class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]">
+        <div class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]" @click="openPopover('copy')">
           <icon icon="brc:icon-file-copy" />
           {{ getButtonDisplayName(OperationButtonType.COPY) }}
         </div>
       </template>
-      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
+      <div v-loading="formLoading" class="flex flex-1 flex-col px-[20px] pt-[20px]">
         <el-form
+          ref="copyFormRef"
           label-position="top"
           class="mb-auto"
-          ref="copyFormRef"
           :model="copyForm"
           :rules="copyFormRule"
           label-width="100px"
@@ -135,23 +135,23 @@
 
     <!-- 【转办】按钮 -->
     <el-popover
+      v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.TRANSFER)"
       :visible="popOverVisible.transfer"
       placement="top-start"
       :width="420"
       trigger="click"
-      v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.TRANSFER)"
     >
       <template #reference>
-        <div @click="openPopover('transfer')" class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]">
+        <div class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]" @click="openPopover('transfer')">
           <icon icon="ion:arrow-redo-circle-outline" />
           {{ getButtonDisplayName(OperationButtonType.TRANSFER) }}
         </div>
       </template>
-      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
+      <div v-loading="formLoading" class="flex flex-1 flex-col px-[20px] pt-[20px]">
         <el-form
+          ref="transferFormRef"
           label-position="top"
           class="mb-auto"
-          ref="transferFormRef"
           :model="transferForm"
           :rules="transferFormRule"
           label-width="100px"
@@ -176,23 +176,23 @@
 
     <!-- 【委派】按钮 -->
     <el-popover
+      v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.DELEGATE)"
       :visible="popOverVisible.delegate"
       placement="top-start"
       :width="420"
       trigger="click"
-      v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.DELEGATE)"
     >
       <template #reference>
-        <div @click="openPopover('delegate')" class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]">
+        <div class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]" @click="openPopover('delegate')">
           <icon icon="ion:navigate-outline" />
           {{ getButtonDisplayName(OperationButtonType.DELEGATE) }}
         </div>
       </template>
-      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
+      <div v-loading="formLoading" class="flex flex-1 flex-col px-[20px] pt-[20px]">
         <el-form
+          ref="delegateFormRef"
           label-position="top"
           class="mb-auto"
-          ref="delegateFormRef"
           :model="delegateForm"
           :rules="delegateFormRule"
           label-width="100px"
@@ -217,23 +217,23 @@
 
     <!-- 【加签】按钮 当前任务审批人为A，向前加签选了一个C，则需要C先审批，然后再是A审批，向后加签B，A审批完，需要B再审批完，才算完成这个任务节点 -->
     <el-popover
+      v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.ADD_SIGN)"
       :visible="popOverVisible.addSign"
       placement="top-start"
       :width="420"
       trigger="click"
-      v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.ADD_SIGN)"
     >
       <template #reference>
-        <div @click="openPopover('addSign')" class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]">
+        <div class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]" @click="openPopover('addSign')">
           <icon icon="ep:plus" />
           {{ getButtonDisplayName(OperationButtonType.ADD_SIGN) }}
         </div>
       </template>
-      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
+      <div v-loading="formLoading" class="flex flex-1 flex-col px-[20px] pt-[20px]">
         <el-form
+          ref="addSignFormRef"
           label-position="top"
           class="mb-auto"
-          ref="addSignFormRef"
           :model="addSignForm"
           :rules="addSignFormRule"
           label-width="100px"
@@ -261,22 +261,22 @@
 
     <!-- 【减签】按钮 -->
     <el-popover
+      v-if="runningTask?.children.length > 0"
       :visible="popOverVisible.deleteSign"
       placement="top-start"
       :width="420"
       trigger="click"
-      v-if="runningTask?.children.length > 0"
     >
       <template #reference>
-        <div @click="openPopover('deleteSign')" class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]">
+        <div class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]" @click="openPopover('deleteSign')">
           <icon icon="ep:semi-select" />减签
         </div>
       </template>
-      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
+      <div v-loading="formLoading" class="flex flex-1 flex-col px-[20px] pt-[20px]">
         <el-form
+          ref="deleteSignFormRef"
           label-position="top"
           class="mb-auto"
-          ref="deleteSignFormRef"
           :model="deleteSignForm"
           :rules="deleteSignFormRule"
           label-width="100px"
@@ -310,23 +310,23 @@
 
     <!-- 【退回】按钮 -->
     <el-popover
+      v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.RETURN)"
       :visible="popOverVisible.return"
       placement="top-start"
       :width="420"
       trigger="click"
-      v-if="runningTask && isHandleTaskStatus() && isShowButton(OperationButtonType.RETURN)"
     >
       <template #reference>
-        <div @click="openPopover('return')" class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]">
+        <div class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]" @click="openPopover('return')">
           <icon icon="ep:back" />
           {{ getButtonDisplayName(OperationButtonType.RETURN) }}
         </div>
       </template>
-      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
+      <div v-loading="formLoading" class="flex flex-1 flex-col px-[20px] pt-[20px]">
         <el-form
+          ref="returnFormRef"
           label-position="top"
           class="mb-auto"
-          ref="returnFormRef"
           :model="returnForm"
           :rules="returnFormRule"
           label-width="100px"
@@ -362,22 +362,22 @@
 
     <!--【取消】按钮 这个对应发起人的取消, 只有发起人可以取消 -->
     <el-popover
+      v-if="userId === processInstance?.startUser?.id && !isEndProcessStatus(processInstance?.status)"
       :visible="popOverVisible.cancel"
       placement="top-start"
       :width="420"
       trigger="click"
-      v-if="userId === processInstance?.startUser?.id && !isEndProcessStatus(processInstance?.status)"
     >
       <template #reference>
-        <div @click="openPopover('cancel')" class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]">
+        <div class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]" @click="openPopover('cancel')">
           <icon icon="ion:arrow-undo" />取消
         </div>
       </template>
-      <div class="flex flex-1 flex-col px-[20px] pt-[20px]" v-loading="formLoading">
+      <div v-loading="formLoading" class="flex flex-1 flex-col px-[20px] pt-[20px]">
         <el-form
+          ref="cancelFormRef"
           label-position="top"
           class="mb-auto"
-          ref="cancelFormRef"
           :model="cancelForm"
           :rules="cancelFormRule"
           label-width="100px"
@@ -401,13 +401,13 @@
     </el-popover>
     <!-- 【再次提交】 按钮-->
     <div
-      @click="handleReCreate()"
-      class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]"
       v-if="
         userId === processInstance?.startUser?.id &&
         isEndProcessStatus(processInstance?.status) &&
         processDefinition?.formType === 10
       "
+      class="hover-bg-gray-100 gap-1 rounded-xl p-[6px]"
+      @click="handleReCreate()"
     >
       <icon icon="ep:refresh" />再次提交
     </div>
@@ -427,7 +427,6 @@ import { OPERATION_BUTTON_NAME, OperationButtonType } from '@/api/bpm/consts'
 import { BpmFormType, BpmProcessInstanceStatus } from '@/api/bpm/constant'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import SignDialog from './SignDialog.vue'
-import { useAuthStore } from '@/stores/modules/auth'
 import FormCreate from '@form-create/element-ui'
 
 defineOptions({ name: 'ProcessInstanceBtnContainer' })

@@ -61,8 +61,8 @@ export const getSimpleListApi = () => {
  * 校验字典类型编码是否唯一
  *
  * @param dictType 字典类型编码
- * @param id 字典类型ID
+ * @param idRef 字典类型ID
  */
-export const getCheckDictTypeCodeUniqueApi = (dictType: string, id: number) => {
-  return request.get('/system/dict-type/checkDictTypeCodeUnique', { params: { id, dictType } })
+export const getCheckDictTypeCodeUniqueApi = (dictType: string, idRef: Ref) => {
+  return request.get('/system/dict-type/checkDictTypeCodeUnique', { params: { id: idRef.value, dictType } })
 }

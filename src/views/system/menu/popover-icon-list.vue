@@ -6,13 +6,13 @@
           v-for="(item, index) in appStore.icons"
           :key="index"
           class="!flex cursor-pointer items-center justify-center"
-          @click="handleIcon(item)"
           :xs="4"
           :sm="3"
           :md="3"
           :lg="2"
           :xl="2"
           :span="2"
+          @click="handleIcon(item)"
         >
           <el-button :type="model === item ? 'primary' : ''" class="my-1 h-[25px]">
             <icon :icon="item" />
@@ -23,8 +23,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useAppStore } from '@/stores/modules/app'
-
 const emit = defineEmits(['hide'])
 
 const appStore = useAppStore()

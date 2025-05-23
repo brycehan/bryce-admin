@@ -154,8 +154,8 @@
       prop="candidateParam"
     >
       <el-input
-        type="textarea"
         v-model="userTaskForm.candidateParam[0]"
+        type="textarea"
         clearable
         style="width: 100%"
         @change="updateElementTask"
@@ -169,8 +169,8 @@
 
     <el-form-item label="跳过表达式" prop="skipExpression">
       <el-input
-        type="textarea"
         v-model="userTaskForm.skipExpression"
+        type="textarea"
         clearable
         style="width: 100%"
         @change="updateSkipExpression"

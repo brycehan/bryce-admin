@@ -1,10 +1,10 @@
 <template>
   <el-card shadow="never">
     <el-form
+      v-show="showSearch"
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
-      v-show="showSearch"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -31,7 +31,7 @@
         @click="handleDeleteBatch('name', '分类名称')"
         >删除</el-button
       >
-      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <right-toolbar v-model:show-search="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -49,22 +49,26 @@
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" width="170" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="170">
         <template #default="scope">
-          <el-button
-            v-auth:has-authority="'bpm:category:update'"
-            type="primary"
-            icon="Edit"
-            link
-            @click="handleAddOrEdit(scope.row)"
-            >修改</el-button
-          >
-          <el-button
-            v-auth:has-authority="'bpm:category:delete'"
-            type="danger"
-            icon="Delete"
-            link
-            @click="handleDeleteBatch('name', '分类名称', scope.row)"
-            >删除</el-button
-          >
+          <el-space :spacer="spacer" class="!gap-0">
+            <el-button
+              v-auth:has-authority="'bpm:category:update'"
+              type="primary"
+              class="!px-0"
+              icon="Edit"
+              link
+              @click="handleAddOrEdit(scope.row)"
+              >修改</el-button
+            >
+            <el-button
+              v-auth:has-authority="'bpm:category:delete'"
+              class="!px-0"
+              type="danger"
+              icon="Delete"
+              link
+              @click="handleDeleteBatch('name', '分类名称', scope.row)"
+              >删除</el-button
+            >
+          </el-space>
         </template>
       </el-table-column>
     </el-table>
@@ -88,6 +92,7 @@ import AddOrEdit from './add-or-edit.vue'
 import { postPageApi, deleteByIdsApi } from '@/api/bpm/category'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
+import { ElDivider } from 'element-plus'
 
 const state: StateOptions = reactive({
   api: {
@@ -104,10 +109,8 @@ const queryFormRef = ref()
 const addOrEditRef = ref()
 // 显示搜索条件
 const showSearch = ref(true)
-
-onMounted(() => {
-  getPage()
-})
+const authStore = useAuthStore()
+const spacer = h(ElDivider, { direction: 'vertical' })
 
 const { getPage, handleSizeChange, handleCurrentChange, handleDeleteBatch, handleSelectionChange } = crud(state)
 
@@ -132,6 +135,11 @@ const handleResetQuery = () => {
  * @param row 当前行数据
  */
 const handleAddOrEdit = (row?: any) => {
+  if (!authStore.permitAccess()) return
   addOrEditRef.value.init(row?.id)
 }
+
+onMounted(() => {
+  getPage()
+})
 </script>

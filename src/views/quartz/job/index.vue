@@ -1,10 +1,10 @@
 <template>
   <el-card shadow="never">
     <el-form
+      v-show="showSearch"
       ref="queryFormRef"
       :model="state.queryForm"
       :inline="true"
-      v-show="showSearch"
       @keyup.enter="getPage()"
       @submit.prevent
     >
@@ -45,7 +45,7 @@
       <el-button v-auth:has-authority="'quartz:jobLog:page'" type="info" plain icon="operation" @click="handleJobLog()"
         >日志</el-button
       >
-      <right-toolbar v-model:showSearch="showSearch" @refresh-page="getPage" />
+      <right-toolbar v-model:show-search="showSearch" @refresh-page="getPage" />
     </el-row>
     <el-table
       v-loading="state.loading as boolean"
@@ -69,50 +69,54 @@
       <dict-table-column label="任务组名" prop="jobGroup" dict-type="quartz_job_group" min-width="100" />
       <el-table-column label="执行方法" prop="method" header-align="center" align="center" min-width="100" />
       <el-table-column label="cron 表达式" prop="cronExpression" header-align="center" align="center" min-width="125" />
-      <el-table-column label="状态" prop="status" sortable="custom" header-align="center" align="center" min-width="90">
-        <template #default="scope">
-          <el-switch
-            v-model="scope.row.status"
-            :width="40"
-            :active-value="1"
-            :inactive-value="0"
-            @change="handleChangeStatus(scope.row)"
-          />
-        </template>
-      </el-table-column>
+      <dict-table-column
+        label="状态"
+        prop="status"
+        sortable="custom"
+        header-align="center"
+        align="center"
+        min-width="90"
+        dict-type="sys_status"
+        column-type="switch"
+        @change="handleChangeStatus"
+      />
       <el-table-column label="创建时间" prop="createdTime" header-align="center" align="center" min-width="185" />
       <el-table-column label="操作" fixed="right" header-align="center" align="center" min-width="255">
         <template #default="scope">
-          <el-button
-            v-auth:has-authority="'quartz:job:update'"
-            type="primary"
-            icon="edit"
-            text
-            @click="handleAddOrEdit(scope.row.id)"
-            >修改</el-button
-          >
-          <el-button
-            v-auth:has-authority="'quartz:job:delete'"
-            type="danger"
-            icon="delete"
-            text
-            @click="handleDeleteBatch('jobName', '任务名称', scope.row)"
-            >删除</el-button
-          >
-          <el-dropdown @command="(command: string) => handleCommand(command, scope.row)">
-            <el-button type="success" class="btn-more-link" icon="d-arrow-right" text>更多</el-button>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item v-if="authHasAuthority('quartz:job:run')" command="runOnce" icon="caretRight"
-                  >执行一次</el-dropdown-item
-                >
-                <el-dropdown-item command="view" icon="view">任务详情</el-dropdown-item>
-                <el-dropdown-item v-if="authHasAuthority('quartz:jobLog:page')" command="jobLog" icon="operation"
-                  >调度日志</el-dropdown-item
-                >
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+          <el-space :spacer="spacer" class="!gap-0">
+            <el-button
+              v-auth:has-authority="'quartz:job:update'"
+              class="!px-0"
+              type="primary"
+              icon="edit"
+              text
+              @click="handleAddOrEdit(scope.row.id)"
+              >修改</el-button
+            >
+            <el-button
+              v-auth:has-authority="'quartz:job:delete'"
+              class="!px-0"
+              type="danger"
+              icon="delete"
+              text
+              @click="handleDeleteBatch('jobName', '任务名称', scope.row)"
+              >删除</el-button
+            >
+            <el-dropdown @command="(command: string) => handleCommand(command, scope.row)">
+              <el-button type="success" class="flex !px-0 leading-normal" icon="d-arrow-right" text>更多</el-button>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item v-if="authHasAuthority('quartz:job:run')" command="runOnce" icon="caretRight"
+                    >执行一次</el-dropdown-item
+                  >
+                  <el-dropdown-item command="view" icon="view">任务详情</el-dropdown-item>
+                  <el-dropdown-item v-if="authHasAuthority('quartz:jobLog:page')" command="jobLog" icon="operation"
+                    >调度日志</el-dropdown-item
+                  >
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </el-space>
         </template>
       </el-table-column>
     </el-table>
@@ -135,13 +139,14 @@
 
 <script setup lang="ts">
 import AddOrEdit from './add-or-edit.vue'
-import { postPageApi, deleteByIdsApi, putRunApi, putStatusApi, postExportExcelApi } from '@/api/quartz/job'
+import { postPageApi, deleteByIdsApi, putRunApi, patchStatusApi, postExportExcelApi } from '@/api/quartz/job'
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
-import { ElMessage } from 'element-plus'
+import { ElDivider, ElMessage } from 'element-plus'
 import { authHasAuthority } from '@/utils/tool'
 import Info from '@/views/quartz/job/info.vue'
 import modal from '@/utils/modal'
+import { h } from 'vue'
 
 const state: StateOptions = reactive({
   api: {
@@ -162,10 +167,9 @@ const infoRef = ref()
 
 // 显示搜索条件
 const showSearch = ref(true)
-
-onMounted(() => {
-  getPage()
-})
+const router = useRouter()
+const authStore = useAuthStore()
+const spacer = h(ElDivider, { direction: 'vertical' })
 
 const {
   getPage,
@@ -198,6 +202,7 @@ const handleResetQuery = () => {
  * @param id 任务ID
  */
 const handleAddOrEdit = (id?: string) => {
+  if (!authStore.permitAccess()) return
   addOrEditRef.value.init(id)
 }
 
@@ -207,14 +212,13 @@ const handleAddOrEdit = (id?: string) => {
  * @param row 任务数据行
  */
 const handleRunOnce = (row: any) => {
+  if (!authStore.permitAccess()) return
   modal
     .confirm(`确定要立即执行一次“${row.jobName}”任务吗？`)
+    .then(() => putRunApi(row))
     .then(() => {
-      putRunApi(row).then(() => {
-        ElMessage.success('执行成功')
-      })
+      ElMessage.success('执行成功')
     })
-    .catch(() => {})
 }
 
 /**
@@ -223,16 +227,14 @@ const handleRunOnce = (row: any) => {
  * @param row 任务数据行
  */
 const handleChangeStatus = (row: any) => {
-  const opt = row.status === 1 ? '启用' : '停用'
+  const text = row.status === 1 ? '启用' : '停用'
+  row.status = row.status === 1 ? 0 : 1
   modal
-    .confirm(`确定要${opt}“${row.jobName}”任务吗？`)
+    .confirm(`确定要${text}“${row.jobName}”任务吗？`)
+    .then(() => patchStatusApi(row.id, row.status === 1 ? 0 : 1))
     .then(() => {
-      putStatusApi(row).then(() => {
-        ElMessage.success(`${opt}成功`)
-      })
-    })
-    .catch(() => {
       row.status = row.status === 1 ? 0 : 1
+      ElMessage.success(`${text}成功`)
     })
 }
 
@@ -252,14 +254,13 @@ const handleCommand = (command: string, row: any) => {
   }
 }
 
-const router = useRouter()
-
 const handleJobLog = (row?: any) => {
+  if (!authStore.permitAccess()) return
   if (row) {
     const query = { jobName: row.jobName }
-    router.push({ path: '/quartz/jobLog/index', query })
+    router.push({ path: '/quartz/jobLog', query })
   } else {
-    router.push({ path: '/quartz/jobLog/index' })
+    router.push({ path: '/quartz/jobLog' })
   }
 }
 
@@ -269,6 +270,11 @@ const handleJobLog = (row?: any) => {
  * @param row 任务数据行
  */
 const handleView = (row: any) => {
+  if (!authStore.permitAccess()) return
   infoRef.value.init(row.id)
 }
+
+onMounted(() => {
+  getPage()
+})
 </script>

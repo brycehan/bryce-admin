@@ -1,10 +1,10 @@
 <template>
   <el-dialog v-model="visible" :title="!dataForm.id ? '新增部门' : '修改部门'" :close-on-click-modal="false">
     <el-form ref="dataFormRef" :model="dataForm" :rules="dataRules" label-width="100" class="mr-4">
-      <el-form-item label="上级部门" prop="parentId" v-if="dataForm.parentId != 0">
+      <el-form-item v-if="dataForm.parentId != 0" label="上级部门" prop="parentId">
         <el-tree-select
-          v-model="dataForm.parentId"
           ref="deptTreeRef"
+          v-model="dataForm.parentId"
           :data="deptList"
           :props="{ label: 'name', children: 'children' }"
           node-key="id"

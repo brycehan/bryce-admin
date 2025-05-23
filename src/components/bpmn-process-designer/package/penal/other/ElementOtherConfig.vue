@@ -4,8 +4,8 @@
       <div class="element-property__label">元素文档：</div>
       <div class="element-property__value">
         <el-input
-          type="textarea"
           v-model="documentation"
+          type="textarea"
           resize="vertical"
           :autosize="{ minRows: 2, maxRows: 4 }"
           @input="updateDocumentation"

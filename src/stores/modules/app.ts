@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
-import storage from '@/utils/storage'
-import { useI18n } from 'vue-i18n'
+import { ElMessage } from 'element-plus'
+import { themeConfig } from '@/stores/theme/config'
 
 export const useAppStore = defineStore(
   'appStore',
@@ -9,14 +8,14 @@ export const useAppStore = defineStore(
     // sidebar 是否展开
     const sidebarOpened = ref<boolean>(true)
     // 组件大小
-    const componentSize = ref<'default' | 'small' | 'large'>('default')
-
+    const componentSize = ref<'small' | 'default' | 'large' | 'xl' | '2xl'>('default')
+    const mobile = ref(false) // 是否是移动端
     // 国际化语言
     const language = ref<string>('')
     // 国际化
     const { locale } = useI18n()
     // 主题
-    const theme = storage.getTheme()
+    const theme = ref<ThemeConfig>({ ...themeConfig })
     // 图标json
     const icons = ref<string[]>([])
 
@@ -32,7 +31,7 @@ export const useAppStore = defineStore(
      *
      * @param size 组件大小
      */
-    const setComponentSize = (size: 'default' | 'small' | 'large') => {
+    const setComponentSize = (size: 'default' | 'small' | 'large' | 'xl' | '2xl') => {
       componentSize.value = size
     }
 
@@ -64,7 +63,33 @@ export const useAppStore = defineStore(
       }
     }
 
+    /**
+     * 切换布局
+     *
+     * @param layout 布局
+     */
+    const setLayout = (layout: string) => {
+      if (mobile.value && layout !== 'vertical') {
+        ElMessage.warning('移动端模式下不支持切换其他布局')
+        return
+      }
+      theme.value!.layout = layout
+    }
+
+    const setTheme = (themeConf: ThemeConfig) => {
+      theme.value = themeConf
+    }
+
+    /**
+     * 重置主题
+     */
+    const resetTheme = () => {
+      theme.value = themeConfig
+    }
+
     return {
+      title: import.meta.env.VITE_APP_TITLE,
+      mobile,
       sidebarOpened,
       componentSize,
       language,
@@ -74,6 +99,9 @@ export const useAppStore = defineStore(
       toggleSidebarOpened,
       setComponentSize,
       setLanguage,
+      setLayout,
+      setTheme,
+      resetTheme,
       initIcons,
     }
   },

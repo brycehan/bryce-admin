@@ -3,23 +3,23 @@
     <!-- 流程设计器，负责绘制流程等 -->
     <MyProcessDesigner
       key="designer"
-      v-model="modelData.bpmnXml"
       v-bind="controlForm"
       ref="processDesigner"
-      @init-finished="initModeler"
-      :additionalModel="controlForm.additionalModel"
-      @save="save"
+      v-model="modelData.bpmnXml"
+      :additional-model="controlForm.additionalModel"
       :process-id="modelKey"
       :process-name="modelName"
+      @init-finished="initModeler"
+      @save="save"
     />
     <!-- 流程属性器，负责编辑每个流程节点的属性 -->
     <MyProcessPenal
       v-if="modeler"
       key="penal"
-      :bpmnModeler="modeler"
+      v-model="modelData"
+      :bpmn-modeler="modeler"
       :prefix="controlForm.prefix"
       class="process-panel"
-      v-model="modelData"
     />
   </div>
 </template>

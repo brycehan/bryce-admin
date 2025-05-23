@@ -10,10 +10,10 @@
     <el-col :span="20" :xs="24">
       <el-card shadow="never">
         <el-form
+          v-show="showSearch"
           ref="queryFormRef"
           :model="state.queryForm"
           :inline="true"
-          v-show="showSearch"
           class="query-form"
           @keyup.enter="getPage()"
           @submit.prevent
@@ -76,7 +76,7 @@
             @click="handleDownloadExcel()"
             >导出</el-button
           >
-          <right-toolbar v-model:showSearch="showSearch" :columns="columns" @refresh-page="getPage" />
+          <right-toolbar v-model:show-search="showSearch" :columns="columns" @refresh-page="getPage" />
         </el-row>
         <el-table
           v-loading="state.loading as boolean"
@@ -88,6 +88,7 @@
         >
           <el-table-column type="selection" header-align="center" align="center" width="50" />
           <el-table-column
+            v-if="columns[0].visible"
             label="账号"
             prop="username"
             sortable="custom"
@@ -96,9 +97,9 @@
             show-overflow-tooltip
             min-width="100"
             fixed="left"
-            v-if="columns[0].visible"
           />
           <el-table-column
+            v-if="columns[1].visible"
             label="姓名"
             prop="nickname"
             sortable="custom"
@@ -106,70 +107,62 @@
             align="center"
             show-overflow-tooltip
             min-width="90"
-            v-if="columns[1].visible"
           />
           <el-table-column
+            v-if="columns[2].visible"
             label="所属部门"
             prop="deptName"
             header-align="center"
             align="center"
             show-overflow-tooltip
             min-width="110"
-            v-if="columns[2].visible"
           />
           <el-table-column
+            v-if="columns[3].visible"
             label="手机号码"
             prop="phone"
             sortable="custom"
             header-align="center"
             align="center"
-            v-if="columns[3].visible"
             show-overflow-tooltip
             min-width="125"
           />
-          <el-table-column
+          <dict-table-column
+            v-if="columns[4].visible"
             label="状态"
             prop="status"
             sortable="custom"
             header-align="center"
             align="center"
             min-width="90"
-            v-if="columns[4].visible"
-          >
-            <template #default="scope">
-              <el-switch
-                v-model="scope.row.status"
-                :disabled="scope.row.superAdmin"
-                :width="40"
-                :active-value="1"
-                :inactive-value="0"
-                @change="handleStatusChange(scope.row)"
-              />
-            </template>
-          </el-table-column>
+            dict-type="sys_status"
+            column-type="switch"
+            @change="handleChangeStatus"
+          />
           <el-table-column
+            v-if="columns[5].visible"
             label="创建时间"
             prop="createdTime"
             header-align="center"
             align="center"
             show-overflow-tooltip
             min-width="170"
-            v-if="columns[5].visible"
           />
           <el-table-column
+            v-if="columns[6].visible"
             label="操作"
             fixed="right"
             header-align="center"
             align="center"
             min-width="255"
-            v-if="columns[6].visible"
           >
             <template #default="scope">
-              <div v-if="!scope.row.superAdmin">
+              <el-space v-if="!scope.row.superAdmin" :spacer="spacer" class="!gap-0">
                 <el-button
                   v-auth:has-authority="'system:user:update'"
                   type="primary"
                   icon="edit"
+                  class="!px-0"
                   text
                   @click="handleAddOrEdit(scope.row.id)"
                   >修改
@@ -177,6 +170,7 @@
                 <el-button
                   v-auth:has-authority="'system:user:delete'"
                   type="danger"
+                  class="!px-0"
                   icon="delete"
                   text
                   @click="handleDeleteBatch('username', '账号', scope.row)"
@@ -186,7 +180,7 @@
                   v-auth:has-any-authority="['system:user:resetPassword', 'system:user:update']"
                   @command="(command: string) => handleCommand(command, scope.row)"
                 >
-                  <el-button type="success" class="btn-more-link" icon="d-arrow-right" text>更多</el-button>
+                  <el-button type="success" class="flex !px-0 leading-normal" icon="d-arrow-right" text>更多</el-button>
                   <template #dropdown>
                     <el-dropdown-menu>
                       <el-dropdown-item
@@ -204,7 +198,7 @@
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>
-              </div>
+              </el-space>
             </template>
           </el-table-column>
         </el-table>
@@ -225,7 +219,7 @@
         <!-- 弹窗，重置密码 -->
         <ResetPassword ref="resetPasswordRef" />
         <!-- 弹窗，分配角色 -->
-        <el-drawer v-if="assignRoleVisible" v-model="assignRoleVisible" :title="assignRoleTitle" :size="1000">
+        <el-drawer v-if="assignRoleVisible" v-model="assignRoleVisible" :title="assignRoleTitle" size="80%">
           <AssignRole :row="assignRoleRow" />
         </el-drawer>
       </el-card>
@@ -240,11 +234,12 @@ import { deleteByIdsApi, patchStatusApi, postExportExcelApi, postPageApi } from 
 import type { StateOptions } from '@/utils/state'
 import { crud } from '@/utils/state'
 import DeptTree from '@/views/system/user/dept-tree.vue'
-import { ElMessage } from 'element-plus'
+import { ElDivider, ElMessage } from 'element-plus'
 import ResetPassword from '@/views/system/user/reset-password.vue'
 import AssignRole from '@/views/system/user/assign-role.vue'
 import { authHasAuthority } from '@/utils/tool'
 import modal from '@/utils/modal'
+import { h } from 'vue'
 
 const state: StateOptions = reactive({
   api: {
@@ -269,6 +264,7 @@ const queryFormRef = ref()
 const addOrEditRef = ref()
 const importDataRef = ref()
 const resetPasswordRef = ref()
+const spacer = h(ElDivider, { direction: 'vertical' })
 
 // 表格列信息
 const columns = ref([
@@ -287,10 +283,7 @@ const showSearch = ref(true)
 const assignRoleVisible = ref(false)
 const assignRoleTitle = ref('')
 const assignRoleRow = ref()
-
-onMounted(() => {
-  getPage()
-})
+const authStore = useAuthStore()
 
 const {
   getPage,
@@ -326,6 +319,7 @@ const handleResetQuery = () => {
  * 新增/修改 弹窗
  */
 const handleAddOrEdit = (id?: string) => {
+  if (!authStore.permitAccess()) return
   addOrEditRef.value.init(id)
 }
 
@@ -333,6 +327,7 @@ const handleAddOrEdit = (id?: string) => {
  * 导入按钮操作
  */
 const handleXlsxUpload = () => {
+  if (!authStore.permitAccess()) return
   importDataRef.value.init()
 }
 
@@ -341,17 +336,15 @@ const handleXlsxUpload = () => {
  *
  * @param row 当前行数据
  */
-const handleStatusChange = (row: any) => {
+const handleChangeStatus = (row: any) => {
   const text = row.status === 1 ? '启用' : '停用'
+  row.status = row.status === 1 ? 0 : 1
   modal
     .confirm(`确定要${text}“${row.username}”用户吗？`)
+    .then(() => patchStatusApi(row.id, row.status === 1 ? 0 : 1))
     .then(() => {
-      patchStatusApi(row.id, row.status).then(() => {
-        ElMessage.success(`${text}成功`)
-      })
-    })
-    .catch(() => {
       row.status = row.status === 1 ? 0 : 1
+      ElMessage.success(`${text}成功`)
     })
 }
 
@@ -380,6 +373,7 @@ const handleCommand = (command: string, row: any) => {
  * @param row 当前行数据
  */
 const handleResetPassword = (row: any) => {
+  if (!authStore.permitAccess()) return
   resetPasswordRef.value.init(row)
 }
 
@@ -389,8 +383,14 @@ const handleResetPassword = (row: any) => {
  * @param row 当前行数据
  */
 const handleAssignRole = (row: any) => {
+  if (!authStore.permitAccess()) return
+
   assignRoleVisible.value = true
   assignRoleTitle.value = `分配角色 - 账号“${row.username}”`
   assignRoleRow.value = row
 }
+
+onMounted(() => {
+  getPage()
+})
 </script>

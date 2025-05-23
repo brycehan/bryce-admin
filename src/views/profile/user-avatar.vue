@@ -7,6 +7,7 @@
       <el-row>
         <el-col :xs="24" :md="12" :style="{ height: '350px' }">
           <vue-cropper
+            v-if="state.cropperVisible"
             ref="cropperRef"
             :img="state.options.img"
             :info="true"
@@ -14,9 +15,8 @@
             :auto-crop-width="state.options.autoCropWidth"
             :auto-crop-height="state.options.autoCropHeight"
             :fixed-box="state.options.fixedBox"
-            :outputType="state.options.outputType"
-            @realTime="realTime"
-            v-if="state.cropperVisible"
+            :output-type="state.options.outputType"
+            @real-time="realTime"
           />
         </el-col>
         <el-col :xs="24" :md="12" :style="{ height: '350px' }">
@@ -62,7 +62,6 @@
 import 'vue-cropper/dist/index.css'
 import { VueCropper } from 'vue-cropper'
 import { ElMessage } from 'element-plus'
-import { useAuthStore } from '@/stores/modules/auth'
 import avatarImg from '@/assets/images/user1-128x128.jpg'
 import { postAvatarApi } from '@/api/system/profile'
 
