@@ -56,7 +56,11 @@ export const useAppStore = defineStore(
         // 使用 Promise 加载图标数据
         const ionIcons = await Promise.resolve(import('@iconify-json/ion/icons.json'))
         // 将加载的图标数据添加到 icons
-        icons.value.push(...Object.keys(ionIcons.default.icons).map((icon) => ionIcons.default.prefix + ':' + icon))
+        icons.value.push(
+          ...Object.keys(ionIcons.default.icons)
+            .map((icon) => ionIcons.default.prefix + ':' + icon)
+            .filter((icon) => icon.includes('outline')),
+        )
       } catch (error) {
         icons.value = []
         console.error('加载图标数据失败:', error)

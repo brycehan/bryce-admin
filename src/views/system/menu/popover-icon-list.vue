@@ -27,7 +27,7 @@ const emit = defineEmits(['hide'])
 
 const appStore = useAppStore()
 
-const model = defineModel()
+const model = defineModel<string>()
 
 /**
  * 图标点击事件
