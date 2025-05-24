@@ -298,8 +298,6 @@ const handleSubmit = () => {
 const handleMenuTreeChange = (data: any) => {
   if (data.type === 'M') {
     state.dataForm.type = 'B'
-  } else {
-    state.dataForm.type = 'C'
   }
 }
 
