@@ -133,10 +133,10 @@ const renderMenu = () => {
       line-height: 40px !important;
       color: var(--el-menu-text-color);
       background-color: transparent;
+    }
 
-      &:hover {
-        color: var(--el-color-primary);
-      }
+    .el-sub-menu__title:hover {
+      color: var(--el-color-primary);
     }
 
     &.is-active > .el-sub-menu__title {

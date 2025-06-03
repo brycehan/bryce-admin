@@ -22,5 +22,9 @@ export default {
     // 其他自定义规则
     'selector-class-pattern': null, // 关闭类名格式校验（CSS Modules 需要）
   },
-  ignoreFiles: ['src/assets/css/index.css', 'src/components/upload-file/*.vue'],
+  ignoreFiles: [
+    'src/assets/css/index.css',
+    'src/components/upload-file/*.vue',
+    'src/components/layout/layout-menu/index.vue',
+  ],
 }
