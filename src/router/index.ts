@@ -238,12 +238,16 @@ export const generateRoutes = (menuList: any): RouteRecordRaw[] => {
     .filter((item: any) => item.visible === 1) // 隐藏不可见菜单
     .forEach((menu: any) => {
       let component, path
-      if (menu.children?.length > 0) {
+      if (menu.type === 'C') {
         component = () => import('@/components/layout/index.vue')
-        path = '/p/' + menu.id
+        path = '/__p__/' + menu.id
       } else {
-        // 判断是否iframe
-        if (isIframeUrl(menu)) {
+        // 是外链
+        if (menu.openStyle) {
+          component = getDynamicComponent(menu.url)
+          path = menu.url
+        } else if (isIframeUrl(menu)) {
+          // 判断是否iframe
           component = () => import('@/components/layout/router/Iframe.vue')
           path = '/iframe/' + menu.id
         } else {
